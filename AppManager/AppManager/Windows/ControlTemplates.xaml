@@ -1,0 +1,57 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<!-- Resource dictionary entries should be defined here. -->
+		<ControlTemplate x:Key="CloseButtonControlTemplate" TargetType="{x:Type Button}">
+			<ControlTemplate.Resources>
+				<Storyboard x:Key="CloseButtonAnimation">
+					<ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ellipse" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)">
+						<SplineColorKeyFrame KeyTime="00:00:00.5000000" Value="#FFFBB0B0"/>
+					</ColorAnimationUsingKeyFrames>
+				</Storyboard>
+			</ControlTemplate.Resources>
+    			<Grid x:Name="LayoutRoot">
+    				<Grid.RowDefinitions>
+    					<RowDefinition Height="0.199*"/>
+    					<RowDefinition Height="0.596*"/>
+    					<RowDefinition Height="0.205*"/>
+    				</Grid.RowDefinitions>
+    				<Grid.ColumnDefinitions>
+    					<ColumnDefinition Width="0.178*"/>
+    					<ColumnDefinition Width="0.625*"/>
+    					<ColumnDefinition Width="0.197*"/>
+    				</Grid.ColumnDefinitions>
+    				<Ellipse Stroke="#FF000000" x:Name="ellipse" Grid.ColumnSpan="3" Grid.RowSpan="3">
+    					<Ellipse.Fill>
+    						<RadialGradientBrush SpreadMethod="Pad">
+    							<GradientStop Color="#FFE12A2A" Offset="0"/>
+    							<GradientStop Color="#FFF91919" Offset="1"/>
+    							<GradientStop Color="#FFD62020" Offset="0.582"/>
+    						</RadialGradientBrush>
+    					</Ellipse.Fill>
+    				</Ellipse>
+    				<Path Fill="{x:Null}" Stretch="Fill" StrokeThickness="3" Data="M4,4 L46,46 M46,4 L4,46" Grid.Column="1" Grid.Row="1">
+    					<Path.Stroke>
+    						<LinearGradientBrush EndPoint="0.7,0.91" StartPoint="0.92,0.69">
+    							<GradientStop Color="#FFE8E8E8" Offset="0"/>
+    							<GradientStop Color="#FFD6CDCD" Offset="0.982"/>
+    							<GradientStop Color="#FFFBF2F2" Offset="0.56"/>
+    						</LinearGradientBrush>
+    					</Path.Stroke>
+    				</Path>
+    			</Grid>
+			<ControlTemplate.Triggers>
+				<EventTrigger RoutedEvent="Mouse.MouseEnter">
+					<BeginStoryboard Storyboard="{StaticResource CloseButtonAnimation}" x:Name="CloseButtonAnimation_BeginStoryboard"/>
+				</EventTrigger>
+				<EventTrigger RoutedEvent="Mouse.MouseLeave">
+					<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+					<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+				</EventTrigger>
+				<EventTrigger RoutedEvent="Mouse.PreviewMouseDown">
+					<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+					<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+				</EventTrigger>
+			</ControlTemplate.Triggers>
+    		</ControlTemplate>
+</ResourceDictionary>
