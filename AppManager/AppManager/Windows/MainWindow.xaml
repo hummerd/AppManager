@@ -1,0 +1,97 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:AppManager_Classes="clr-namespace:AppManager.Controls"
+	xmlns:am="clr-namespace:AppManager"
+	x:Class="AppManager.MainWindow"
+	x:Name="Window"
+	Width="430" Height="564" 
+	WindowStyle="None"
+	AllowsTransparency="True" 
+	Background="{x:Null}" 
+	WindowStartupLocation="CenterScreen"
+	mc:Ignorable="d" 
+	Title="Стартер" 
+	Closing="Window_Closing" Icon="/AppManager;component/Resources/Window.png" ShowInTaskbar="False">
+	
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ControlTemplates.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
+
+	<Window.InputBindings>
+		<KeyBinding Gesture="Esc" />
+	</Window.InputBindings>
+
+
+	<Border Width="Auto" Height="Auto" BorderThickness="4,4,4,4" CornerRadius="4,4,4,4">
+		<Border.BorderBrush>
+			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+				<GradientStop Color="#FFF7D17D" Offset="0"/>
+				<GradientStop Color="#FFB78519" Offset="1"/>
+				<GradientStop Color="#FFFFC33E" Offset="0.603"/>
+			</LinearGradientBrush>
+		</Border.BorderBrush>
+		<Canvas Width="Auto" Height="Auto">
+			<Grid x:Name="ContentPanel" HorizontalAlignment="Stretch" Width="422" Height="521" AllowDrop="True" VerticalAlignment="Bottom" Canvas.Top="35">
+				<Grid.Background>
+					<LinearGradientBrush EndPoint="0.761,0.963" StartPoint="0.239,0.037">
+						<GradientStop Color="#FF78B3F6" Offset="0"/>
+						<GradientStop Color="#FF4F9DF4" Offset="1"/>
+						<GradientStop Color="#83547EAE" Offset="0.665"/>
+					</LinearGradientBrush>
+				</Grid.Background>
+				<GroupBox Width="Auto" Height="228" Header="GroupBox" Margin="8,8,8,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" BorderBrush="#FFDFCB9A">
+					<AppManager_Classes:LayoutPanel>
+						<Button Width="88" Height="54">
+							<Button.Background>
+								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+									<GradientStop Color="#FFCEE7F9" Offset="0"/>
+									<GradientStop Color="#FFB2D8F5" Offset="0.9"/>
+									<GradientStop Color="#FF8EC7F1" Offset="0.714"/>
+								</LinearGradientBrush>
+							</Button.Background>
+							<Image Stretch="Uniform" Width="32" Height="32"/>
+						</Button>
+					</AppManager_Classes:LayoutPanel>
+				</GroupBox>
+
+
+				<GroupBox Width="Auto" Header="GroupBox" Margin="8,240,8,53">
+					<AppManager_Classes:LayoutPanel>
+						<Button Width="88" Height="54">
+							<Button.Background>
+								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+									<GradientStop Color="#FFCEE7F9" Offset="0"/>
+									<GradientStop Color="#FFB2D8F5" Offset="0.9"/>
+									<GradientStop Color="#FF8EC7F1" Offset="0.714"/>
+								</LinearGradientBrush>
+							</Button.Background>
+							<Image Stretch="Uniform" Width="32" Height="32"/>
+						</Button>
+					</AppManager_Classes:LayoutPanel>
+				</GroupBox>
+			</Grid>
+			<DockPanel Width="422" Height="35" LastChildFill="False" MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
+				<DockPanel.Background>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<GradientStop Color="#FF158EC1" Offset="0"/>
+						<GradientStop Color="#9A00587D" Offset="0.996"/>
+						<GradientStop Color="#FF0D6488" Offset="0.406"/>
+					</LinearGradientBrush>
+				</DockPanel.Background>
+				<am:SettingButton x:Name="BtnConfigure" Width="45" Height="28" ButtonImageSource="..\Resources\Symbol Configuration.png" Margin="4,0,0,0"/>
+				<am:SettingButton x:Name="BtnManageApps" Width="45" Height="28" HorizontalAlignment="Stretch" DockPanel.Dock="Left" ButtonImageSource="..\Resources\Symbol Add.png" />
+				<TextBlock Width="285" Height="23" FontSize="14" Foreground="#FFF7F7F7" TextAlignment="Center" TextWrapping="Wrap" d:IsStaticText="True"><TextBlock.Effect>
+						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
+					</TextBlock.Effect><Run FontWeight="Bold" Foreground="#FFFFDC8F" Text="Стартер"/></TextBlock>
+				<Button Name="ButtonExit" Width="24" Height="24" Content="Button" Template="{DynamicResource CloseButtonControlTemplate}" DockPanel.Dock="Right" Margin="0,0,7,0"/>
+			</DockPanel>
+		</Canvas>
+	</Border>
+</Window>

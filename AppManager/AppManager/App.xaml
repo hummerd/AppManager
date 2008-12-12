@@ -1,0 +1,14 @@
+﻿<Application x:Class="AppManager.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ContextMenu x:Key="TrayMenu">
+            <MenuItem Name="Show" Header="Показать Стартер"/>
+            <MenuItem Header="Скрыть Стартер"/>
+            <Separator/>
+            <MenuItem Header="Настройки"/>
+            <MenuItem Header="Управление приложениями"/>
+			   <MenuItem Header="Закрыть Стартер"/>
+        </ContextMenu>
+    </Application.Resources>
+</Application>
