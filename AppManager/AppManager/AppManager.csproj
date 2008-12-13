@@ -16,7 +16,7 @@
     <WarningLevel>4</WarningLevel>
     <StartupObject>AppManager.Classes.Program</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
-    <ApplicationIcon>Resources\Window.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\1leftarrow_1159.ico</ApplicationIcon>
     <TargetFrameworkSubset>
     </TargetFrameworkSubset>
     <SccProjectName>SAK</SccProjectName>
@@ -95,8 +95,6 @@
     <BlendEmbeddedFont Include="Fonts\tahomabd.ttf">
       <IsSystemFont>True</IsSystemFont>
     </BlendEmbeddedFont>
-    <Resource Include="Resources\Symbol Add.png" />
-    <Resource Include="Resources\Symbol Configuration.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -185,11 +183,16 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\desktopshare_1304_128.ico" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Resources\Window.ico" />
+    <Resource Include="Resources\1leftarrow_1159.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\gear_2526_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\edit_add_1184_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

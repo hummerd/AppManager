@@ -34,7 +34,7 @@ namespace AppManager.Commands
 			kbrdHook.KeyDown += KbrdHook_KeyDown;
 
 			WinForms.NotifyIcon tray = _WorkItem.TrayIcon;
-			tray.Icon = Resources.Window1;
+			tray.Icon = Resources.leftarrow;
 			tray.MouseUp += TrayIcon_MouseUp;
 			tray.Visible = true;
 
