@@ -65,11 +65,16 @@ namespace AppManager
 			
 			if (appType != null)
 			{
-				appType.AppInfos.Add(
-					new AppInfo() 
-					{ 
+				AppInfo newInfo = new AppInfo()
+					{
 						AppName = AppInfo.DefaultAppName,
-					});
+					};
+
+				appType.AppInfos.Add(newInfo);
+
+				AppList.Focus();
+				AppList.SelectedIndex = AppList.Items.Count - 1;
+				AppList.ScrollIntoView(newInfo);
 			}
 
 			//ListBoxItem lbi =
