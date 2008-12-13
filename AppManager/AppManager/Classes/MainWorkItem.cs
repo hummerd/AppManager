@@ -34,7 +34,7 @@ namespace AppManager
 		}
 
 
-		public AppCommands Commands 
+		public AppCommands Commands
 		{
 			get
 			{

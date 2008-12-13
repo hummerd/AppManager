@@ -220,8 +220,9 @@ namespace AppManager
 		{
 			if (_BlankImage == null)
 			{
-				_BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-					AppManager.Properties.Resources.Window1.Handle,
+				_BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+					AppManager.Properties.Resources.Window.GetHbitmap(),
+					IntPtr.Zero,
 					Int32Rect.Empty,
 					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
 

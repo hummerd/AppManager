@@ -60,17 +60,31 @@ namespace AppManager.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Window {
+        internal static System.Drawing.Bitmap edit_add_1184_16 {
             get {
-                object obj = ResourceManager.GetObject("Window", resourceCulture);
+                object obj = ResourceManager.GetObject("edit_add_1184_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Icon Window1 {
+        internal static System.Drawing.Bitmap gear_2526_16 {
             get {
-                object obj = ResourceManager.GetObject("Window1", resourceCulture);
+                object obj = ResourceManager.GetObject("gear_2526_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon leftarrow {
+            get {
+                object obj = ResourceManager.GetObject("leftarrow", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Window {
+            get {
+                object obj = ResourceManager.GetObject("Window", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -14,7 +14,7 @@
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d" 
 	Title="Стартер" 
-	Closing="Window_Closing" Icon="/AppManager;component/Resources/Window.png" ShowInTaskbar="False">
+	Closing="Window_Closing" ShowInTaskbar="False">
 	
 	<Window.Resources>
 		<ResourceDictionary>
@@ -85,8 +85,8 @@
 						<GradientStop Color="#FF0D6488" Offset="0.406"/>
 					</LinearGradientBrush>
 				</DockPanel.Background>
-				<am:SettingButton x:Name="BtnConfigure" Width="45" Height="28" ButtonImageSource="..\Resources\Symbol Configuration.png" Margin="4,0,0,0"/>
-				<am:SettingButton x:Name="BtnManageApps" Width="45" Height="28" HorizontalAlignment="Stretch" DockPanel.Dock="Left" ButtonImageSource="..\Resources\Symbol Add.png" />
+				<am:SettingButton x:Name="BtnConfigure" Width="45" Height="28" ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png" Margin="4,0,0,0"/>
+				<am:SettingButton x:Name="BtnManageApps" Width="45" Height="28" HorizontalAlignment="Stretch" DockPanel.Dock="Left" ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png" />
 				<TextBlock Width="285" Height="23" FontSize="14" Foreground="#FFF7F7F7" TextAlignment="Center" TextWrapping="Wrap" d:IsStaticText="True"><TextBlock.Effect>
 						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
 					</TextBlock.Effect><Run FontWeight="Bold" Foreground="#FFFFDC8F" Text="Стартер"/></TextBlock>
