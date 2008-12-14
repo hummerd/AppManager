@@ -89,7 +89,7 @@
 				<am:SettingButton x:Name="BtnManageApps" Width="45" Height="28" HorizontalAlignment="Stretch" DockPanel.Dock="Left" ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png" />
 				<TextBlock Width="285" Height="23" FontSize="14" Foreground="#FFF7F7F7" TextAlignment="Center" TextWrapping="Wrap" d:IsStaticText="True"><TextBlock.Effect>
 						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
-					</TextBlock.Effect><Run FontWeight="Bold" Foreground="#FFFFDC8F" Text="Стартер"/></TextBlock>
+					</TextBlock.Effect><Run FontWeight="Bold" Foreground="#FFFFDC8F" Text="{Binding Source={x:Static am:Strings.ADD_TO_TYPE}}"/></TextBlock>
 				<Button Name="ButtonExit" Width="24" Height="24" Content="Button" Template="{DynamicResource CloseButtonControlTemplate}" DockPanel.Dock="Right" Margin="0,0,7,0"/>
 			</DockPanel>
 		</Canvas>
