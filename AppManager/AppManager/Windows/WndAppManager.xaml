@@ -3,9 +3,10 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:am="clr-namespace:AppManager"
 	x:Class="AppManager.WndAppManager"
 	x:Name="AppsManagerWindow"
-	Title="Manger"
+	Title="{Binding Source={x:Static am:Strings.APP_MANAGER}}"
 	Width= "375" Height="480"  mc:Ignorable="d" WindowStartupLocation="CenterOwner" Icon="/AppManager;component/Resources/Window.png" ShowInTaskbar="False" MinWidth="250" MinHeight="300">
 	<Window.Resources>
 		<Style x:Key="AppItemStyle" TargetType="ListViewItem">
@@ -155,7 +156,7 @@
 			<RowDefinition Height="44"/>
 		</Grid.RowDefinitions>
 		<TabControl IsSynchronizedWithCurrentItem="True">
-			<TabItem Header="Типы приложений">
+			<TabItem Header="{Binding Source={x:Static am:Strings.APP_TYPES}}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="44" />
@@ -166,21 +167,40 @@
 						ItemTemplate="{StaticResource AppTypeInfo}"
 						ItemContainerStyle="{StaticResource AppTypeItemStyle}"
 						IsSynchronizedWithCurrentItem="True" 
-						x:Name="AppTypes" Margin="8,0,6,0" Grid.Row="1" />
-					<TextBox Margin="86,13,74,10" Text="{Binding ElementName=AppTypes, Path=SelectedItem.AppTypeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" x:Name="AppTypeName"/>
-					<Label HorizontalAlignment="Left" Margin="8,12,0,9" Width="78" Content="Имя группы" x:Name="AppTypeLabel"/>
-					<Button HorizontalAlignment="Right" Margin="0,11.723,39,12" Width="29" Content="+" Name="BtnAddAppType" Click="BtnAddAppType_Click" />
-					<Button HorizontalAlignment="Right" Margin="0,12,6,12" Width="29" Content="-" Name="BtnRemoveAppType" Click="BtnRemoveAppType_Click" />
+						x:Name="AppTypes" Margin="8,0,8,0" Grid.Row="1" />
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="100*" />
+							<ColumnDefinition Width="Auto" MinWidth="20" />
+							<ColumnDefinition Width="Auto" MinWidth="24" />
+						</Grid.ColumnDefinitions>
+						<Label 
+							Margin="8,9,0,6" Content="{Binding Source={x:Static am:Strings.APP_TYPE_NAME}}" 
+							x:Name="AppTypeLabel" HorizontalAlignment="Left"/>
+						<TextBox
+							Text="{Binding Path=SelectedItem.AppTypeName, ElementName=AppTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+							TextWrapping="Wrap" 
+							x:Name="AppTypeName" 
+							Grid.Column="1" 
+							Margin="4,12" />
+						
+						<Button Width="24" Content="-" x:Name="BtnRemoveAppType" Click="BtnRemoveAppType_Click" Grid.Column="3" HorizontalAlignment="Left" Margin="0,12,8,12" />
+						<Button Width="24" Content="+" x:Name="BtnAddAppType" Click="BtnAddAppType_Click" Margin="4,12,4,12" Grid.Column="2" />
+					</Grid>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Приложения">
+			<TabItem Header="{Binding Source={x:Static am:Strings.APPLICATIONS}}">
 				<Grid Height="Auto" Width="Auto" Name="AppTypesApp">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="350.723*" />
-						<RowDefinition Height="8" />
+						<RowDefinition Height="44" />
+						<RowDefinition Height="306.723*" />
+						<RowDefinition Height="8"/>
 					</Grid.RowDefinitions>
 					<ListBox
-						Margin="8,37,8,0" Name="AppList" 
+						Grid.Row="1"
+						Margin="8,0"
+						Name="AppList" 
 						ItemsSource="{Binding ElementName=AppTypeSelector, Path=SelectedItem.AppInfos}"
 						HorizontalContentAlignment="Stretch"
 						IsSynchronizedWithCurrentItem="True"
@@ -198,20 +218,68 @@
 							</ItemsPanelTemplate>
 						</ListBox.ItemsPanel>
 					</ListBox>
-					<ComboBox DisplayMemberPath="AppTypeName" Height="21" Margin="8,10,74,0" Name="AppTypeSelector" VerticalAlignment="Top" SelectedIndex="0" />
-					<Button Height="21" HorizontalAlignment="Right" Margin="0,10,39,0" Name="BtnAddApp" VerticalAlignment="Top" Width="29" Click="BtnAddApp_Click">+</Button>
-					<Button Height="21" HorizontalAlignment="Right" Margin="0,10,8,0" Name="BtnRemoveApp" VerticalAlignment="Top" Width="29" Click="BtnRemoveApp_Click">-</Button>
+					<ComboBox 
+						DisplayMemberPath="AppTypeName" 
+						Margin="8,12,70,12" 
+						Name="AppTypeSelector" 
+						VerticalAlignment="Top" 
+						SelectedIndex="0" />
+					<Button HorizontalAlignment="Right" Margin="0,12,36,12" Name="BtnAddApp" VerticalAlignment="Top" Width="24" Click="BtnAddApp_Click">+</Button>
+					<Button HorizontalAlignment="Right" Margin="0,12,8,12" Name="BtnRemoveApp" VerticalAlignment="Top" Width="24" Click="BtnRemoveApp_Click">-</Button>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Поиск">
+			<TabItem Header="{Binding Source={x:Static am:Strings.SEARCH}}">
 				<Grid Height="Auto" Width="Auto">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="65" />
+						<RowDefinition Height="76" />
 						<RowDefinition Height="293.723*" />
 						<RowDefinition Height="8" />
 					</Grid.RowDefinitions>
-					<TextBox Margin="8,0,156,9" Name="TxtFolder" Height="23" VerticalAlignment="Bottom" />
-					<Button Margin="0,0,112.221,8.991" Name="BtnFolder" HorizontalAlignment="Right" Width="37" Click="BtnFolder_Click" Height="23" VerticalAlignment="Bottom">...</Button>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="38" />
+							<RowDefinition Height="38" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="100*" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Label 
+							Margin="8,6,0,1.7" 
+							Name="label1" 
+							VerticalContentAlignment="Center" 
+							Content="{Binding Source={x:Static am:Strings.ADD_TO_TYPE}}" />
+						<ComboBox 
+							DisplayMemberPath="AppTypeName" 
+							Margin="4,12,8,6" 
+							Name="AppScanType" 
+							SelectedIndex="0" 
+							Grid.Column="1" 
+							Grid.ColumnSpan="4" />
+						
+						<TextBox 
+							Grid.Row="1"
+							Margin="8,6,4,12" 
+							Name="TxtFolder" Grid.ColumnSpan="2" />
+						<Button 
+							Grid.Row="1"
+							MinWidth="24"
+							Margin="0,6,4,12" Name="BtnFolder" Click="BtnFolder_Click" Grid.Column="2">...</Button>
+						<Button 
+							Grid.Row="1" 
+							Margin="0,6,4,12" 
+							Name="_BtnSearch" Click="BtnSearch_Click" Content="{Binding Source={x:Static am:Strings.SCAN}}" Grid.Column="3" />
+						<Button 
+							Grid.Row="1" 
+							Width="24"
+							Margin="0,6,8,12" 
+							Name="BtnAddScan" 
+							Click="BtnAddScan_Click" 
+							Grid.Column="4">+</Button>
+					</Grid>
 					<ListView 
 						Margin="8,0" Name="AppScanList" Grid.Row="1" 
 						HorizontalContentAlignment="Stretch"
@@ -219,18 +287,23 @@
 						<ListView.View>
 							<GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Employee Information">
 								<GridViewColumn CellTemplate="{StaticResource CheckCell}" Width="26"/>
-								<GridViewColumn CellTemplate="{StaticResource SemiEditableAppInfo}" Header="Путь" Width="300"/>
+								<GridViewColumn CellTemplate="{StaticResource SemiEditableAppInfo}" Header="{Binding Source={x:Static am:Strings.APPLICATION}}" Width="300"/>
 							</GridView>
 						</ListView.View>
 					</ListView>
-					<Button HorizontalAlignment="Right" Margin="0,0,50.949,8.991" Name="_BtnSearch" Width="55.476" Click="BtnSearch_Click" Height="23" VerticalAlignment="Bottom">Искать</Button>
-					<Button HorizontalAlignment="Right" Margin="0,0,8,8.991" Name="BtnAddScan" Width="37" Click="BtnAddScan_Click" Height="23.021" VerticalAlignment="Bottom">+</Button>
-					<ComboBox DisplayMemberPath="AppTypeName" Height="21" Margin="114.534,6,8,0" Name="AppScanType" SelectedIndex="0" VerticalAlignment="Top" />
-					<Label HorizontalAlignment="Left" Margin="8,6,0,0" Name="label1" Width="100.4" Height="24.8" VerticalAlignment="Top" VerticalContentAlignment="Center">Добавлять к типу</Label>
 				</Grid>
 			</TabItem>
 		</TabControl>
-		<Button Margin="0,8,94,8" Content="OK" Grid.Row="1" Width="80" HorizontalAlignment="Right" x:Name="BtnOK" Click="BtnOK_Click" />
-		<Button HorizontalAlignment="Right" Margin="0,8,8,8" Width="80" Content="Отмена" Grid.Row="1" Name="BtnCancel" Click="BtnCancel_Click" />
+		<Button 
+			Content="{Binding Source={x:Static am:Strings.OK}}"
+			Margin="0,8,94,8" 
+			Grid.Row="1" 
+			Width="80" 
+			HorizontalAlignment="Right" 
+			x:Name="BtnOK" 
+			Click="BtnOK_Click" />
+		<Button 
+			Content="{Binding Source={x:Static am:Strings.CANCEL}}"
+			HorizontalAlignment="Right" Margin="0,8,8,8" Width="80" Grid.Row="1" Name="BtnCancel" Click="BtnCancel_Click" />
 	</Grid>
 </Window>

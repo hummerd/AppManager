@@ -1,10 +1,37 @@
 ﻿<Window x:Class="AppManager.Windows.Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Настройки" Height="262.798" Width="316.158" Icon="/AppManager;component/Resources/Window.png" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" MinWidth="295" MinHeight="130">
+	 xmlns:am="clr-namespace:AppManager"
+    Title="{Binding Source={x:Static am:Strings.SETTINGS}}" 
+	 Height="268" Width="310" 
+	 Icon="/AppManager;component/Resources/Window.png" 
+	 WindowStartupLocation="CenterScreen" 
+	 ShowInTaskbar="False" MinWidth="295" MinHeight="130">
     <Grid>
-        <CheckBox Name="ChkAutoStart" Height="16" Margin="12,12,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120.071">Автостарт</CheckBox>
-        <Button Height="Auto" HorizontalAlignment="Right" Margin="0,0,12,12" Name="BtnCancel" VerticalAlignment="Bottom" Width="80" Click="BtnCancel_Click">Отмена</Button>
-        <Button Height="21.277" Margin="0,0,98.049,12" Name="BtnOk" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80.051" Click="BtnOk_Click">OK</Button>
+        <CheckBox 
+			  Content="{Binding Source={x:Static am:Strings.AUTO_START}}"
+			  Name="ChkAutoStart" 
+			  Height="16" 
+			  Margin="12,12,0,0" 
+			  VerticalAlignment="Top" 
+			  HorizontalAlignment="Left" 
+			  Width="120.071" />
+        <Button 
+			  Content="{Binding Source={x:Static am:Strings.CANCEL}}"
+			  Height="31" HorizontalAlignment="Right" 
+			  Margin="0,0,12,12" 
+			  Name="BtnCancel" 
+			  VerticalAlignment="Bottom" 
+			  Width="80" 
+			  Click="BtnCancel_Click" />
+        <Button 
+			  Content="{Binding Source={x:Static am:Strings.OK}}"
+			  Height="31" 
+			  Margin="0,0,98.049,12" 
+			  Name="BtnOk" 
+			  VerticalAlignment="Bottom" 
+			  Click="BtnOk_Click" 
+			  HorizontalAlignment="Right" 
+			  Width="80.051" />
     </Grid>
 </Window>

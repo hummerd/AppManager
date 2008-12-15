@@ -147,6 +147,21 @@
   <data name="CANCEL" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="MNU_CLOSE" xml:space="preserve">
+    <value>Close StartUp</value>
+  </data>
+  <data name="MNU_HIDE" xml:space="preserve">
+    <value>Hide StartUp</value>
+  </data>
+  <data name="MNU_MANAGEAPP" xml:space="preserve">
+    <value>Applications manager</value>
+  </data>
+  <data name="MNU_SETTINGS" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="MNU_SHOW" xml:space="preserve">
+    <value>Show StartUp</value>
+  </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
