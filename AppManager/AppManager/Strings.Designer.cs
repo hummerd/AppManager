@@ -22,7 +22,7 @@ namespace AppManager {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace AppManager {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AppManager.Strings", typeof(Strings).Assembly);
@@ -51,7 +51,7 @@ namespace AppManager {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Add to group.
         /// </summary>
-        internal static string ADD_TO_TYPE {
+        public static string ADD_TO_TYPE {
             get {
                 return ResourceManager.GetString("ADD_TO_TYPE", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Application manager.
         /// </summary>
-        internal static string APP_MANAGER {
+        public static string APP_MANAGER {
             get {
                 return ResourceManager.GetString("APP_MANAGER", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to StartUp.
         /// </summary>
-        internal static string APP_TITLE {
+        public static string APP_TITLE {
             get {
                 return ResourceManager.GetString("APP_TITLE", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to App group name.
         /// </summary>
-        internal static string APP_TYPE_NAME {
+        public static string APP_TYPE_NAME {
             get {
                 return ResourceManager.GetString("APP_TYPE_NAME", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Application groups.
         /// </summary>
-        internal static string APP_TYPES {
+        public static string APP_TYPES {
             get {
                 return ResourceManager.GetString("APP_TYPES", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Application.
         /// </summary>
-        internal static string APPLICATION {
+        public static string APPLICATION {
             get {
                 return ResourceManager.GetString("APPLICATION", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Applications.
         /// </summary>
-        internal static string APPLICATIONS {
+        public static string APPLICATIONS {
             get {
                 return ResourceManager.GetString("APPLICATIONS", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Applications in group:.
         /// </summary>
-        internal static string APPS_IN_TYPE {
+        public static string APPS_IN_TYPE {
             get {
                 return ResourceManager.GetString("APPS_IN_TYPE", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Autostart.
         /// </summary>
-        internal static string AUTO_START {
+        public static string AUTO_START {
             get {
                 return ResourceManager.GetString("AUTO_START", resourceCulture);
             }
@@ -144,16 +144,61 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string CANCEL {
+        public static string CANCEL {
             get {
                 return ResourceManager.GetString("CANCEL", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close StartUp.
+        /// </summary>
+        public static string MNU_CLOSE {
+            get {
+                return ResourceManager.GetString("MNU_CLOSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide StartUp.
+        /// </summary>
+        public static string MNU_HIDE {
+            get {
+                return ResourceManager.GetString("MNU_HIDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Applications manager.
+        /// </summary>
+        public static string MNU_MANAGEAPP {
+            get {
+                return ResourceManager.GetString("MNU_MANAGEAPP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string MNU_SETTINGS {
+            get {
+                return ResourceManager.GetString("MNU_SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show StartUp.
+        /// </summary>
+        public static string MNU_SHOW {
+            get {
+                return ResourceManager.GetString("MNU_SHOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        internal static string OK {
+        public static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
             }
@@ -162,7 +207,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Scan.
         /// </summary>
-        internal static string SCAN {
+        public static string SCAN {
             get {
                 return ResourceManager.GetString("SCAN", resourceCulture);
             }
@@ -171,7 +216,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
-        internal static string SEARCH {
+        public static string SEARCH {
             get {
                 return ResourceManager.GetString("SEARCH", resourceCulture);
             }
@@ -180,7 +225,7 @@ namespace AppManager {
         /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
-        internal static string SETTINGS {
+        public static string SETTINGS {
             get {
                 return ResourceManager.GetString("SETTINGS", resourceCulture);
             }

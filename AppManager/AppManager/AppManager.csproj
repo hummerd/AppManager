@@ -169,7 +169,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.ru-ru.resx" />
@@ -213,4 +213,7 @@
   </Target>
   -->
   <Import Project="SubsetFont.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy $(TargetPath) C:\Common\AppManager\ /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

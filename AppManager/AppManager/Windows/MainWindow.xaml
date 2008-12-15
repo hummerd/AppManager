@@ -87,9 +87,19 @@
 				</DockPanel.Background>
 				<am:SettingButton x:Name="BtnConfigure" Width="45" Height="28" ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png" Margin="4,0,0,0"/>
 				<am:SettingButton x:Name="BtnManageApps" Width="45" Height="28" HorizontalAlignment="Stretch" DockPanel.Dock="Left" ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png" />
-				<TextBlock Width="285" Height="23" FontSize="14" Foreground="#FFF7F7F7" TextAlignment="Center" TextWrapping="Wrap" d:IsStaticText="True"><TextBlock.Effect>
+				<TextBlock 
+					Width="285" Height="23" 
+					FontSize="14" 
+					Foreground="#FFFBD888" 
+					TextAlignment="Center" 
+					TextWrapping="Wrap"
+					Text="{Binding Source={x:Static am:Strings.APP_TITLE}}"
+					d:IsStaticText="True">
+					<TextBlock.Effect>
 						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
-					</TextBlock.Effect><Run FontWeight="Bold" Foreground="#FFFFDC8F" Text="{Binding Source={x:Static am:Strings.ADD_TO_TYPE}}"/></TextBlock>
+					</TextBlock.Effect>
+					<Run FontWeight="Bold" Foreground="#FFFFDC8F"/>
+				</TextBlock>
 				<Button Name="ButtonExit" Width="24" Height="24" Content="Button" Template="{DynamicResource CloseButtonControlTemplate}" DockPanel.Dock="Right" Margin="0,0,7,0"/>
 			</DockPanel>
 		</Canvas>
