@@ -38,8 +38,9 @@ namespace AppManager.Commands
 			tray.MouseUp += TrayIcon_MouseUp;
 			tray.Visible = true;
 
-			_WorkItem.MainWindow.Show();
-			app.Run();
+			//app.Startup += delegate(object sender, StartupEventArgs e)
+			//   { _WorkItem.MainWindow.Show(); };
+			app.Run(_WorkItem.MainWindow);
 		}
 		
 

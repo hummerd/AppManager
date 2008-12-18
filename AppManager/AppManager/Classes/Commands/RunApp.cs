@@ -29,6 +29,7 @@ namespace AppManager.Commands
 				Process.Start(app.AppPath, app.AppArgs);
 			}
 
+			_WorkItem.MainWindow.InvalidateVisual();
 			_WorkItem.Commands.Deactivate.Execute(null);
 		}
 	}
