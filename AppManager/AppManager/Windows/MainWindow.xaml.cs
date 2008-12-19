@@ -55,7 +55,7 @@ namespace AppManager
 
 				ButtonList groupContent = new ButtonList();
 				groupContent.AllowDrop = true;
-				groupContent.Drop += new DragEventHandler(groupContent_Drop);
+				groupContent.Drop += new DragEventHandler(GroupContent_Drop);
 				groupContent.ButtonClicked += delegate (object sender, ObjEventArgs e) 
 					{ workItem.Commands.RunApp.Execute(e.Obj); };
 				groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
@@ -73,13 +73,70 @@ namespace AppManager
 					split.HorizontalAlignment = HorizontalAlignment.Stretch;
 					split.ShowsPreview = true;
 					split.Background = Brushes.Transparent;
+					split.DragCompleted += new System.Windows.Controls.Primitives.DragCompletedEventHandler(Split_DragCompleted);
 					Grid.SetRow(split, rowi - 1);
 					ContentPanel.Children.Add(split);
 				}
 			}
 		}
 
-		private void groupContent_Drop(object sender, DragEventArgs e)
+		public void SaveState()
+		{
+			SaveRowHeight();
+		}
+
+		public void LoadState()
+		{
+			LoadRowHeight();
+		}
+
+
+		protected void SaveRowHeight()
+		{
+			string wl = String.Empty;
+			foreach (var item in ContentPanel.RowDefinitions)
+			{
+				wl = wl + item.Height.Value + ";";
+			}
+
+			AppManager.Properties.Settings.Default.MainRowWidth = wl.Trim(';');
+			AppManager.Properties.Settings.Default.Save();
+		}
+
+		protected void LoadRowHeight()
+		{
+			string[] w = AppManager.Properties.Settings.Default.MainRowWidth.Split(';');
+
+			int i = 0;
+			foreach (var item in w)
+			{
+				if (i >= ContentPanel.RowDefinitions.Count)
+					break;
+
+				ContentPanel.RowDefinitions[i].Height = new GridLength(
+					double.Parse(item), GridUnitType.Star);
+
+				i++;
+			}
+		}
+
+		protected string[] GetFilesFromDrop(IDataObject data)
+		{
+			if (data.GetDataPresent(DataFormats.FileDrop, true))
+			{
+				return data.GetData(DataFormats.FileDrop, true) as string[];
+			}
+
+			return null;
+		}
+
+
+		private void Split_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+		{
+			SaveRowHeight();
+		}
+
+		private void GroupContent_Drop(object sender, DragEventArgs e)
 		{
 			ButtonList bl = sender as ButtonList;
 			e.Handled = true;
@@ -87,39 +144,6 @@ namespace AppManager
 
 			_Controller.AddFiles(bl.DataContext as AppType, files);
 		}
-
-		//private void ehDrop(object sender, DragEventArgs args)
-		//{
-		//   // Mark the event as handled, so TextBox's native Drop handler is not called.
-		//   args.Handled = true;
-
-		//   string fileName = IsSingleFile(args);
-		//   if (fileName == null) return;
-
-		//   StreamReader fileToLoad = new StreamReader(fileName);
-		//   tbDisplayFileContents.Text = fileToLoad.ReadToEnd();
-		//   fileToLoad.Close();
-
-		//   // Set the window title to the loaded file.
-		//   this.Title = "File Loaded: " + fileName;
-
-		//}
-
-		private string[] GetFilesFromDrop(IDataObject data)
-		{
-			//List<string> result = new List<string>();
-
-			if (data.GetDataPresent(DataFormats.FileDrop, true))
-			{
-				return data.GetData(DataFormats.FileDrop, true) as string[];
-				//result.Capacity = fileNames.Length;
-				// Check fo a single file or folder.
-			}
-
-			return null;
-		}
-
-
 
 		private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
