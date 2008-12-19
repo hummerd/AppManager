@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("AppManager")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SITRONICS")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AppManager")]
-[assembly: AssemblyCopyright("Copyright © SITRONICS 2008")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
