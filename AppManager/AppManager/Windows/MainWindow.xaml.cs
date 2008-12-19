@@ -113,6 +113,9 @@ namespace AppManager
 				if (i >= ContentPanel.RowDefinitions.Count)
 					break;
 
+				if (String.IsNullOrEmpty(item))
+					break;
+
 				ContentPanel.RowDefinitions[i].Height = new GridLength(
 					double.Parse(item), GridUnitType.Star);
 
