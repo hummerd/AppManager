@@ -1,14 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using WinForms = System.Windows.Forms;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using AppManager.Properties;
 using AppManager.Commands;
+using AppManager.Common;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager

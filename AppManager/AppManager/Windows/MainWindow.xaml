@@ -7,14 +7,17 @@
 	xmlns:am="clr-namespace:AppManager"
 	x:Class="AppManager.MainWindow"
 	x:Name="Window"
-	Width="430" Height="564" 
+	Width="430" 
+    Height="564" 
+	MinWidth="200" 
+    MinHeight="150"
 	WindowStyle="None"
-	AllowsTransparency="True" 
+	AllowsTransparency="False" 
 	Background="{x:Null}" 
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d" 
 	Title="Стартер" 
-	Closing="Window_Closing" ShowInTaskbar="False" >
+	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize">
 	
 	<Window.Resources>
 		<ResourceDictionary>
@@ -29,7 +32,8 @@
 	</Window.InputBindings>
 
 
-	<Border Width="Auto" Height="Auto" BorderThickness="4,4,4,4" CornerRadius="4,4,4,4">
+	<Border Name="MainContentBorder"
+        Width="Auto" Height="Auto" BorderThickness="4,4,4,4" CornerRadius="4,4,4,4">
 		<Border.BorderBrush>
 			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
 				<GradientStop Color="#FFF7D17D" Offset="0"/>
@@ -37,13 +41,73 @@
 				<GradientStop Color="#FFFFC33E" Offset="0.603"/>
 			</LinearGradientBrush>
 		</Border.BorderBrush>
-		<Canvas Width="Auto" Height="Auto">
-			<Grid x:Name="ContentPanel" HorizontalAlignment="Stretch" Width="422" Height="521" AllowDrop="True" VerticalAlignment="Bottom" Canvas.Top="35">
+		<Grid Width="Auto" Height="Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--Window caption-->
+            <Grid 
+                MouseLeftButtonDown="DockPanel_MouseLeftButtonDown" 
+                Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF158EC1" Offset="0"/>
+                        <GradientStop Color="#9A00587D" Offset="0.996"/>
+                        <GradientStop Color="#FF0D6488" Offset="0.406"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <am:SettingButton 
+                    x:Name="BtnConfigure" 
+                    Width="45" 
+                    Height="30"
+                    Margin="4,0,0,0"
+                    ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png" 
+                    Grid.Column="0" 
+                    />
+                <am:SettingButton 
+                    x:Name="BtnManageApps" 
+                    Width="45" 
+                    Height="30"
+                    HorizontalAlignment="Left" 
+                    ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png" 
+                    Grid.Column="1" />
+                <TextBlock FontSize="14" 
+					Foreground="#FFFBD888" 
+					TextAlignment="Center" 
+					TextWrapping="Wrap"
+                    Height="24"
+					Text="{Binding Source={x:Static am:Strings.APP_TITLE}}"
+					d:IsStaticText="True" 
+                    Grid.Column="2">
+					<TextBlock.Effect>
+						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
+					</TextBlock.Effect>
+					<Run FontWeight="Bold" Foreground="#FFFFDC8F"/>
+                </TextBlock>
+                <Button 
+                    Name="ButtonExit" 
+                    Width="24"
+                    Height="24"
+                    Margin="0,0,4,0"
+                    Content="Button" 
+                    Template="{DynamicResource CloseButtonControlTemplate}" 
+                    Grid.Column="3" 
+                    />
+            </Grid>
+            <!--Window content-->
+            <Grid x:Name="ContentPanel" AllowDrop="True" Canvas.Top="35" Grid.Row="1" Opacity="1">
 				<Grid.Background>
 					<LinearGradientBrush EndPoint="0.761,0.963" StartPoint="0.239,0.037">
 						<GradientStop Color="#FF78B3F6" Offset="0"/>
 						<GradientStop Color="#FF4F9DF4" Offset="1"/>
-						<GradientStop Color="#83547EAE" Offset="0.665"/>
+						<GradientStop Color="#FF547EAE" Offset="0.665"/>
 					</LinearGradientBrush>
 				</Grid.Background>
 				<GroupBox Width="Auto" Height="228" Header="GroupBox" Margin="8,8,8,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" BorderBrush="#FFDFCB9A">
@@ -77,31 +141,14 @@
 					</AppManager_Classes:LayoutPanel>
 				</GroupBox>
 			</Grid>
-			<DockPanel Width="422" Height="35" LastChildFill="False" MouseLeftButtonDown="DockPanel_MouseLeftButtonDown">
-				<DockPanel.Background>
-					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-						<GradientStop Color="#FF158EC1" Offset="0"/>
-						<GradientStop Color="#9A00587D" Offset="0.996"/>
-						<GradientStop Color="#FF0D6488" Offset="0.406"/>
-					</LinearGradientBrush>
-				</DockPanel.Background>
-				<am:SettingButton x:Name="BtnConfigure" Width="45" Height="28" ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png" Margin="4,0,0,0"/>
-				<am:SettingButton x:Name="BtnManageApps" Width="45" Height="28" HorizontalAlignment="Stretch" DockPanel.Dock="Left" ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png" />
-				<TextBlock 
-					Width="285" Height="23" 
-					FontSize="14" 
-					Foreground="#FFFBD888" 
-					TextAlignment="Center" 
-					TextWrapping="Wrap"
-					Text="{Binding Source={x:Static am:Strings.APP_TITLE}}"
-					d:IsStaticText="True">
-					<TextBlock.Effect>
-						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
-					</TextBlock.Effect>
-					<Run FontWeight="Bold" Foreground="#FFFFDC8F"/>
-				</TextBlock>
-				<Button Name="ButtonExit" Width="24" Height="24" Content="Button" Template="{DynamicResource CloseButtonControlTemplate}" DockPanel.Dock="Right" Margin="0,0,7,0"/>
-			</DockPanel>
-		</Canvas>
+            <ResizeGrip 
+                Grid.Row="1" 
+                Cursor="SizeNWSE" 
+                Width="12"
+                Height="12" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom"
+                Name="Resizer" OverridesDefaultStyle="False" MinWidth="12" MinHeight="12" Opacity="0.75" MouseLeftButtonDown="Resizer_MouseLeftButtonDown" />
+        </Grid>
 	</Border>
 </Window>

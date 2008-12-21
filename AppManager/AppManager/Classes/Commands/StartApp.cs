@@ -2,8 +2,9 @@
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
-using WinForms = System.Windows.Forms;
+using AppManager.Common;
 using AppManager.Properties;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager.Commands
