@@ -25,6 +25,7 @@ namespace AppManager.Commands
 		{
 			SaveData();
 
+			_WorkItem.MainWindow.SaveState();
 			_WorkItem.TrayIcon.Dispose();
 			_WorkItem.KbrdHook.Dispose();
 
