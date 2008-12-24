@@ -34,5 +34,29 @@ namespace AppManager.Properties {
                 this["MainRowWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("430")]
+        public double MWindowWidth {
+            get {
+                return ((double)(this["MWindowWidth"]));
+            }
+            set {
+                this["MWindowWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("564")]
+        public double MWindowHeight {
+            get {
+                return ((double)(this["MWindowHeight"]));
+            }
+            set {
+                this["MWindowHeight"] = value;
+            }
+        }
     }
 }

@@ -5,5 +5,11 @@
     <Setting Name="MainRowWidth" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MWindowWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">430</Value>
+    </Setting>
+    <Setting Name="MWindowHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">564</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
