@@ -83,12 +83,19 @@ namespace AppManager
 
 		public void SaveState()
 		{
+			AppManager.Properties.Settings.Default.MWindowWidth = ActualWidth;
+			AppManager.Properties.Settings.Default.MWindowHeight = ActualHeight;
 			SaveRowHeight();
+			AppManager.Properties.Settings.Default.Save();
 		}
 
 		public void LoadState()
 		{
+			Width = AppManager.Properties.Settings.Default.MWindowWidth ;
+			Height = AppManager.Properties.Settings.Default.MWindowHeight;
+
 			LoadRowHeight();
+			UpdateLayout();
 		}
 
 
@@ -101,7 +108,6 @@ namespace AppManager
 			}
 
 			AppManager.Properties.Settings.Default.MainRowWidth = wl.Trim(';');
-			AppManager.Properties.Settings.Default.Save();
 		}
 
 		protected void LoadRowHeight()
