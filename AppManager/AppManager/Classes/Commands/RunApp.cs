@@ -26,7 +26,12 @@ namespace AppManager.Commands
 
 			if (File.Exists(app.AppPath))
 			{
-				Process.Start(app.AppPath, app.AppArgs);
+				Process p = new Process();
+
+				p.StartInfo.FileName = app.AppPath;
+				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
+				p.StartInfo.Arguments = app.AppArgs;
+				p.Start();
 			}
 
 			_WorkItem.MainWindow.InvalidateVisual();
