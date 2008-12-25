@@ -25,6 +25,7 @@ namespace AppManager
 	{
 		protected MainWindowController _Controller = new MainWindowController();
 
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -95,7 +96,7 @@ namespace AppManager
 			Height = AppManager.Properties.Settings.Default.MWindowHeight;
 
 			LoadRowHeight();
-			UpdateLayout();
+			//UpdateLayout();
 		}
 
 
@@ -229,6 +230,11 @@ namespace AppManager
 					(IntPtr)((int)(User32.SysCommand.SC_SIZE) + (int)User32.SCSizingAction.SouthEast), 
 					IntPtr.Zero);
 			}
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			InvalidateVisual();
 		}
 	}
 }
