@@ -112,7 +112,10 @@ namespace AppManager.Commands
 		{
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{
-				_WorkItem.Commands.Activate.Execute(null);
+				if (_WorkItem.MainWindow.IsActive)
+					_WorkItem.Commands.Deactivate.Execute(null);
+				else
+					_WorkItem.Commands.Activate.Execute(null);
 			}
 		}
 	}

@@ -37,6 +37,19 @@ namespace AppManager
 			if (ButtonClicked != null)
 				ButtonClicked(this, new ObjEventArgs() { Obj = ib.DataContext });
 		}
+
+		private void ButtonList_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (ButtonClicked != null &&
+				 (e.Key == Key.Enter ||
+				  e.Key == Key.Space)
+				)
+			{
+				var lbi = Keyboard.FocusedElement as ListBoxItem;
+				if (lbi != null && lbi.DataContext != null)
+					ButtonClicked(this, new ObjEventArgs() { Obj = lbi.DataContext });
+			}	
+		}
 	}
 
 

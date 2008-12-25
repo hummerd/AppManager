@@ -9,10 +9,10 @@
 	x:Name="ButtonList1"
 	Background="{x:Null}"
 	BorderBrush="{x:Null}"
-	d:DesignHeight="75" d:DesignWidth="105">
+	d:DesignHeight="75" d:DesignWidth="105" PreviewKeyDown="ButtonList_PreviewKeyDown">
 	<ListBox.ItemTemplate>
 		<DataTemplate>
-			<am:ImageButton Click="ImageButton_Click" Margin="4,4,4,4" ButtonImageSource="{Binding Path=AppImage}" ButtonText="{Binding Path=AppName}" />
+			<am:ImageButton IsTabStop="False" Click="ImageButton_Click" Margin="4,4,4,4" ButtonImageSource="{Binding Path=AppImage}" ButtonText="{Binding Path=AppName}" />
 		</DataTemplate>
 	</ListBox.ItemTemplate>
 	<ListBox.ItemsPanel>
