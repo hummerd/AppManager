@@ -17,7 +17,7 @@
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d" 
 	Title="Стартер" 
-	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize">
+	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize" Loaded="Window_Loaded">
 	
 	<Window.Resources>
 		<ResourceDictionary>
