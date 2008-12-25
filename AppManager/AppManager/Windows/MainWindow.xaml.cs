@@ -81,6 +81,8 @@ namespace AppManager
 					ContentPanel.Children.Add(split);
 				}
 			}
+
+			UpdateLayout();
 		}
 
 		public void SaveState()
@@ -97,7 +99,7 @@ namespace AppManager
 			Height = AppManager.Properties.Settings.Default.MWindowHeight;
 
 			LoadRowHeight();
-			//UpdateLayout();
+			UpdateLayout();
 		}
 
 
@@ -235,6 +237,7 @@ namespace AppManager
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			UpdateLayout();
 			InvalidateVisual();
 		}
 	}
