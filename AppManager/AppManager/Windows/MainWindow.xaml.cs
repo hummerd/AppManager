@@ -56,6 +56,7 @@ namespace AppManager
 				group.DataContext = appType;
 
 				ButtonList groupContent = new ButtonList();
+				groupContent.TabIndex = rowi;
 				groupContent.AllowDrop = true;
 				groupContent.Drop += new DragEventHandler(GroupContent_Drop);
 				groupContent.ButtonClicked += delegate (object sender, ObjEventArgs e) 

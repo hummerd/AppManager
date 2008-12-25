@@ -19,10 +19,13 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			MainWindow wnd = _WorkItem.MainWindow;
+
 			wnd.Show();
 			wnd.Topmost = true;
 			wnd.Focus();
 			wnd.Topmost = false;
+			wnd.Activate();
+			wnd.InvalidateVisual();
 		}
 	}
 }

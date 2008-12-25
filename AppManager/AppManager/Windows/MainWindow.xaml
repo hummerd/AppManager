@@ -148,7 +148,7 @@
                 Height="12" 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Bottom"
-                Name="Resizer" OverridesDefaultStyle="False" MinWidth="12" MinHeight="12" Opacity="0.75" MouseLeftButtonDown="Resizer_MouseLeftButtonDown" />
+                Name="Resizer" OverridesDefaultStyle="False" MinWidth="12" MinHeight="12" Opacity="0.75" MouseLeftButtonDown="Resizer_MouseLeftButtonDown" IsTabStop="False" />
         </Grid>
 	</Border>
 </Window>
