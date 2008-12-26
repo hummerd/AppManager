@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using AppManager.Controls;
-using System.ComponentModel;
-using System.IO;
 using AppManager.Common;
 
 
@@ -82,7 +74,7 @@ namespace AppManager
 				}
 			}
 
-			UpdateLayout();
+			//UpdateLayout();
 		}
 
 		public void SaveState()
@@ -99,7 +91,7 @@ namespace AppManager
 			Height = AppManager.Properties.Settings.Default.MWindowHeight;
 
 			LoadRowHeight();
-			UpdateLayout();
+			//UpdateLayout();
 		}
 
 
@@ -108,7 +100,7 @@ namespace AppManager
 			string wl = String.Empty;
 			foreach (var item in ContentPanel.RowDefinitions)
 			{
-				wl = wl + item.Height.Value + ";";
+				wl = wl + item.Height.Value.ToString(CultureInfo.InvariantCulture) + ";";
 			}
 
 			AppManager.Properties.Settings.Default.MainRowWidth = wl.Trim(';');
@@ -128,7 +120,7 @@ namespace AppManager
 					break;
 
 				ContentPanel.RowDefinitions[i].Height = new GridLength(
-					double.Parse(item), GridUnitType.Star);
+					double.Parse(item, CultureInfo.InvariantCulture), GridUnitType.Star);
 
 				i++;
 			}

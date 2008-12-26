@@ -161,10 +161,7 @@
     <Compile Include="Classes\EntityCollection\IClonableEntity.cs" />
     <Compile Include="Classes\EntityCollection\EntityCollection.cs" />
     <Compile Include="Classes\MainWindowController.cs" />
-    <Compile Include="Controls\GroupLayout.cs" />
     <Compile Include="Classes\Common\KeyHook.cs" />
-    <Compile Include="Controls\LayoutPanel.cs">
-    </Compile>
     <Compile Include="Classes\MainWorkItem.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -218,7 +215,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="AppManager_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\1leftarrow_1159.ico" />
