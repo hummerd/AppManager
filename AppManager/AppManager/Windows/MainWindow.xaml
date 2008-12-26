@@ -3,7 +3,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:AppManager_Classes="clr-namespace:AppManager.Controls"
 	xmlns:am="clr-namespace:AppManager"
 	x:Class="AppManager.MainWindow"
 	x:Name="Window"
@@ -111,34 +110,9 @@
 					</LinearGradientBrush>
 				</Grid.Background>
 				<GroupBox Width="Auto" Height="228" Header="GroupBox" Margin="8,8,8,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" BorderBrush="#FFDFCB9A">
-					<AppManager_Classes:LayoutPanel>
-						<Button Width="88" Height="54">
-							<Button.Background>
-								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-									<GradientStop Color="#FFCEE7F9" Offset="0"/>
-									<GradientStop Color="#FFB2D8F5" Offset="0.9"/>
-									<GradientStop Color="#FF8EC7F1" Offset="0.714"/>
-								</LinearGradientBrush>
-							</Button.Background>
-							<Image Stretch="Uniform" Width="32" Height="32"/>
-						</Button>
-					</AppManager_Classes:LayoutPanel>
 				</GroupBox>
 
-
 				<GroupBox Width="Auto" Header="GroupBox" Margin="8,240,8,53">
-					<AppManager_Classes:LayoutPanel>
-						<Button Width="88" Height="54">
-							<Button.Background>
-								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-									<GradientStop Color="#FFCEE7F9" Offset="0"/>
-									<GradientStop Color="#FFB2D8F5" Offset="0.9"/>
-									<GradientStop Color="#FF8EC7F1" Offset="0.714"/>
-								</LinearGradientBrush>
-							</Button.Background>
-							<Image Stretch="Uniform" Width="32" Height="32"/>
-						</Button>
-					</AppManager_Classes:LayoutPanel>
 				</GroupBox>
 			</Grid>
             <ResizeGrip 
