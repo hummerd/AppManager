@@ -16,15 +16,18 @@ namespace DragDropLib
 			System.Windows.Point startPoint)
 		{
 			RenderTargetBitmap rbmp = new RenderTargetBitmap(
-				(int)element.ActualWidth,
-				(int)element.ActualHeight,
+				(int)element.ActualWidth + 8,
+				(int)element.ActualHeight + 8,
 				96.0,
 				96.0,
 				PixelFormats.Default);
 
 			rbmp.Render(element);
 
-			Bitmap bmp = new Bitmap(100, 100, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+			Bitmap bmp = new Bitmap(
+				(int)element.ActualWidth + 8,
+				(int)element.ActualHeight + 8,
+				System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
 			BitmapData bdata = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 			rbmp.CopyPixels(new Int32Rect(0, 0, bmp.Width, bmp.Height), bdata.Scan0, bdata.Stride * bmp.Height, bdata.Stride);
