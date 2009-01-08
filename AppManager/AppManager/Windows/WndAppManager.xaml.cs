@@ -20,7 +20,6 @@ namespace AppManager
 	public partial class WndAppManager : Window
 	{
 		protected AppManagerController _Controller;
-		protected AppGroup _Data;
 
 
 		public WndAppManager()
@@ -31,11 +30,10 @@ namespace AppManager
 
 		public void Init(AppGroup appGroup)
 		{
-			_Data = appGroup;
-			_Controller = new AppManagerController(_Data);
-			AppTypes.ItemsSource = _Data.AppTypes;
-			AppTypeSelector.ItemsSource = _Data.AppTypes;
-			AppScanType.ItemsSource = _Data.AppTypes;
+			_Controller = new AppManagerController(appGroup);
+			AppTypes.ItemsSource = appGroup.AppTypes;
+			AppTypeSelector.ItemsSource = appGroup.AppTypes;
+			AppScanType.ItemsSource = appGroup.AppTypes;
 		}
 
 
