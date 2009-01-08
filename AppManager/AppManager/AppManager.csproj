@@ -164,6 +164,7 @@
     <Compile Include="Classes\Common\KeyHook.cs" />
     <Compile Include="Classes\MainWorkItem.cs" />
     <Compile Include="Classes\Program.cs" />
+    <Compile Include="Classes\SettingsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -257,6 +258,10 @@
       <Project>{44298D97-06A4-47CF-B59C-AE731BD52684}</Project>
       <Name>DragDropLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\down_16.png" />
+    <Resource Include="Resources\up_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

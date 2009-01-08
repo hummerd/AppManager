@@ -9,6 +9,66 @@ namespace AppManager
 {
 	public class AppManagerController
 	{
+		protected AppGroup _Data;
+
+
+		public AppManagerController(AppGroup data)
+		{
+			_Data = data;
+		}
+		
+
+		public void AddType()
+		{
+			_Data.AppTypes.Add(new AppType());
+		}
+
+		public void MoveType(AppType appType, bool up)
+		{
+			if (appType != null)
+			{
+				int ix = _Data.AppTypes.IndexOf(appType);
+				int ix2 = up ? ix - 1 : ix + 1;
+
+				if (ix2 >= 0 && ix2 < _Data.AppTypes.Count)
+					_Data.AppTypes.Move(ix, ix2);
+			}
+		}
+
+		public void RemoveType(AppType appType)
+		{
+			if (appType != null)
+				_Data.AppTypes.Remove(appType);
+		}
+
+		public void AddApp(AppType appType)
+		{
+			if (appType != null)
+			{
+				_Data.CreateNewAppInfo(appType);
+			}
+		}
+
+		public void MoveApp(AppType appType, AppInfo appInfo, bool up)
+		{
+			if (appType != null && appInfo != null)
+			{
+				int ix = appType.AppInfos.IndexOf(appInfo);
+				int ix2 = up ? ix - 1 : ix + 1;
+
+				if (ix2 >= 0 && ix2 < appType.AppInfos.Count)
+					appType.AppInfos.Move(ix, ix2);
+			}			
+		}
+
+		public void RemoveApp(AppType appType, AppInfo appInfo)
+		{
+			if (appType != null && appInfo != null)
+			{
+				appType.AppInfos.Remove(appInfo);
+			}
+		}
+
 		public void SelectAppPath(AppInfo appInfo)
 		{
 			if (appInfo == null)

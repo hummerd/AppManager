@@ -19,18 +19,20 @@ namespace AppManager
 	/// </summary>
 	public partial class WndAppManager : Window
 	{
-		protected AppManagerController _Controller = new AppManagerController();
+		protected AppManagerController _Controller;
 		protected AppGroup _Data;
 
 
 		public WndAppManager()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
+			
 		}
 
 		public void Init(AppGroup appGroup)
 		{
 			_Data = appGroup;
+			_Controller = new AppManagerController(_Data);
 			AppTypes.ItemsSource = _Data.AppTypes;
 			AppTypeSelector.ItemsSource = _Data.AppTypes;
 			AppScanType.ItemsSource = _Data.AppTypes;
@@ -49,14 +51,14 @@ namespace AppManager
 
 		private void BtnAddAppType_Click(object sender, RoutedEventArgs e)
 		{
-			_Data.AppTypes.Add(new AppType());
+			_Controller.AddType();
 			AppTypes.SelectedIndex = AppTypes.Items.Count - 1;
 		}
 
 		private void BtnRemoveAppType_Click(object sender, RoutedEventArgs e)
 		{
 			if (AppTypes.SelectedItem != null)
-				_Data.AppTypes.Remove(AppTypes.SelectedItem as AppType);
+				_Controller.RemoveType(AppTypes.SelectedItem as AppType);
 		}
 
 		private void BtnAddApp_Click(object sender, RoutedEventArgs e)
@@ -65,16 +67,11 @@ namespace AppManager
 			
 			if (appType != null)
 			{
-				AppInfo newInfo = new AppInfo()
-					{
-						AppName = AppInfo.DefaultAppName,
-					};
-
-				appType.AppInfos.Add(newInfo);
+				_Controller.AddApp(appType);
 
 				AppList.Focus();
 				AppList.SelectedIndex = AppList.Items.Count - 1;
-				AppList.ScrollIntoView(newInfo);
+				AppList.ScrollIntoView(AppList.Items[AppList.Items.Count - 1]);
 			}
 
 			//ListBoxItem lbi =
@@ -108,13 +105,9 @@ namespace AppManager
 
 		private void BtnRemoveApp_Click(object sender, RoutedEventArgs e)
 		{
-			AppType appType = AppTypeSelector.SelectedItem as AppType;
-			AppInfo appInfo = AppList.SelectedItem as AppInfo;
-
-			if (appType != null && appInfo != null)
-			{
-				appType.AppInfos.Remove(appInfo);
-			}
+			_Controller.RemoveApp(
+				AppTypeSelector.SelectedItem as AppType,
+				AppList.SelectedItem as AppInfo);
 		}
 
 		private void AppPathSelect_Click(object sender, RoutedEventArgs e)
@@ -155,6 +148,36 @@ namespace AppManager
 
 			DependencyObject dobj = AppScanList.ContainerFromElement(tb);
 			AppScanList.SelectedIndex = AppScanList.ItemContainerGenerator.IndexFromContainer(dobj);
+		}
+
+		private void BtnAppDown_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveApp(
+				AppTypeSelector.SelectedItem as AppType,
+				AppList.SelectedItem as AppInfo,
+				false);
+		}
+
+		private void BtnAppUp_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveApp(
+				AppTypeSelector.SelectedItem as AppType,
+				AppList.SelectedItem as AppInfo,
+				true);
+		}
+
+		private void BtnAppTypeUp_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveType(
+				AppTypes.SelectedItem as AppType,
+				true);
+		}
+
+		private void BtnAppTypeDown_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveType(
+				AppTypes.SelectedItem as AppType,
+				false);
 		}
 	}
 }

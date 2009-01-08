@@ -53,16 +53,23 @@ namespace AppManager.EntityCollection
 				else
 				{
 					TEntity soureItem = null;
-					foreach (var item in this)
-						if (object.ReferenceEquals(sourceCollection[i].CloneSource, item))
-							soureItem = item;
-
-					//TEntity soureItem = this.First(
-					//   srch => object.ReferenceEquals(sourceCollection[i].CloneSource, srch));
+					int ix = 0;
+					//foreach (var item in this)
+					for (int j = 0; j < this.Count; j++)
+						if (object.ReferenceEquals(sourceCollection[i].CloneSource, this[j]))
+						{
+							soureItem = this[j];
+							ix = j;
+						}
 
 					if (soureItem != null)
+					{
+						if (i != ix)
+							Move(i, ix);
+
 						soureItem.MergeEntity(sourceCollection[i]);
-				}	
+					}
+				}
 			}
 
 			for (int i = 0; i < sourceCollection.DeletedItems.Count; i++)
@@ -75,9 +82,11 @@ namespace AppManager.EntityCollection
 			if (e.Action == NotifyCollectionChangedAction.Reset)
 				_Deleted.AddRange(this);
 
-			if (e.OldItems != null && e.OldItems.Count > 0)
-				foreach (object item in e.OldItems)
-					_Deleted.Add(item as TEntity);
+			if (e.Action == NotifyCollectionChangedAction.Remove || 
+				 e.Action == NotifyCollectionChangedAction.Replace)
+				if (e.OldItems != null && e.OldItems.Count > 0)
+					foreach (object item in e.OldItems)
+						_Deleted.Add(item as TEntity);
 
 			base.OnCollectionChanged(e);
 		}

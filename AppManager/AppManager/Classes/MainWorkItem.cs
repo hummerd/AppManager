@@ -74,19 +74,27 @@ namespace AppManager
 			}
 		}
 
-		public string DataPath
+		public string DataDir
 		{
 			get
-			{ 
+			{
 				string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 				path = Path.Combine(path, "AppManager");
 				if (!Directory.Exists(path))
 					Directory.CreateDirectory(path);
 
+				return path;
+			}
+		}
+
+		public string DataPath
+		{
+			get
+			{ 
 #if DEBUG
-				return Path.Combine(path, "appdata.xml");
+				return Path.Combine(DataDir, "appdata.xml");
 #else
-				return Path.Combine(path, "appdata.xml");
+				return Path.Combine(DataDir, "appdata.xml");
 #endif
 			}
 		}

@@ -81,7 +81,10 @@ namespace AppManager.Commands
 			{ ; }
 
 			if (apps != null)
+			{
 				_WorkItem.AppData = apps;
+				_WorkItem.AppData.CorrectAppInfoID();
+			}
 			else
 			{
 				_WorkItem.AppData = new AppGroup();
