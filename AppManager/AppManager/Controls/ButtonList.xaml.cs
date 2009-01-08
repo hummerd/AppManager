@@ -3,12 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using DragDropLib;
-using DataObject = System.Windows.DataObject;
-using System.Xml.Serialization;
-using System.IO;
-using System.Collections;
 
 
 namespace AppManager

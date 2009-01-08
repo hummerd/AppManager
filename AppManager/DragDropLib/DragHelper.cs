@@ -296,7 +296,7 @@ namespace DragDropLib
 			var item = _ItemsControl.InputHitTest(e.GetPosition(element)) as FrameworkElement;
 			item = _ItemsControl.ContainerFromElement(item) as FrameworkElement;
 			int ix;
-			object dropObj = GetItemFromElement(element, out ix);
+			object dropObj = GetItemFromElement(item, out ix);
 			IList coll = _ItemsControl.ItemsSource as IList;
 			int dropIx = coll.IndexOf(dropObj);
 
