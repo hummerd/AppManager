@@ -129,14 +129,15 @@ namespace AppManager
 			}
 		}
 
-		protected string[] GetFilesFromDrop(IDataObject data)
-		{
-			if (data.GetDataPresent(DataFormats.FileDrop, true))
+		protected void OnDropFiles(ButtonList buttonList, DragEventArgs e)
+		{ 
+			if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
 			{
-				return data.GetData(DataFormats.FileDrop, true) as string[];
-			}
+				string[] files = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+				_Controller.AddFiles(buttonList.DataContext as AppType, files);
 
-			return null;
+				e.Handled = true;
+			}			
 		}
 
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -196,11 +197,7 @@ namespace AppManager
 
 		private void GroupContent_Drop(object sender, DragEventArgs e)
 		{
-			ButtonList bl = sender as ButtonList;
-			e.Handled = true;
-			string[] files = GetFilesFromDrop(e.Data);
-
-			_Controller.AddFiles(bl.DataContext as AppType, files);
+			OnDropFiles(sender as ButtonList, e);
 		}
 
 		private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
