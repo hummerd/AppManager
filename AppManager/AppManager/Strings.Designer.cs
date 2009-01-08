@@ -151,6 +151,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open app data file.
+        /// </summary>
+        public static string EDIT_APP_DATA {
+            get {
+                return ResourceManager.GetString("EDIT_APP_DATA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close StartUp.
         /// </summary>
         public static string MNU_CLOSE {
@@ -196,11 +205,29 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New application.
+        /// </summary>
+        public static string NEW_APP {
+            get {
+                return ResourceManager.GetString("NEW_APP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show app data folder.
+        /// </summary>
+        public static string OPEN_APP_DATA {
+            get {
+                return ResourceManager.GetString("OPEN_APP_DATA", resourceCulture);
             }
         }
         

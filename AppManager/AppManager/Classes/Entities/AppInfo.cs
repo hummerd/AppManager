@@ -28,53 +28,15 @@ namespace AppManager
 	[Serializable]
 	public class AppInfo : IClonableEntity<AppInfo>, INotifyPropertyChanged
 	{
-		public static string DefaultAppName = "Новое приложение";
-
-		//public static string GetNameFromPath(string path)
-		//{
-		//   string name = Path.GetFileNameWithoutExtension(path).ToLower();
-		//   return name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
-		//}
-
-		//public static string GetFilePathFromExecPath(string path)
-		//{
-		//   string args;
-		//   return GetFilePathFromExecPath(path, out args);
-		//}
-
-		//public static string GetFilePathFromExecPath(string path, out string args)
-		//{
-		//   args = String.Empty;
-
-		//   if (path != null)
-		//      path = path.Trim();
-
-		//   if (String.IsNullOrEmpty(path))
-		//      return String.Empty;
-
-		//   int lix = path.LastIndexOf('"');
-		//   string filePath = path.Substring(0, lix);
-		//   filePath = filePath.Trim();
-		//   filePath = filePath.Trim('\"');
-		//   filePath = filePath.Trim();
-						
-		//   if (path.Length > lix + 1)
-		//   {
-		//      args = path.Substring(lix + 1, path.Length - lix - 1);
-		//      args = args.Trim();
-		//   }
-
-		//   return filePath;
-		//}
-
-
 		public event PropertyChangedEventHandler PropertyChanged;
+
 
 		[XmlIgnore]
 		protected BitmapSource _BlankImage;
 		[XmlIgnore]
 		protected BitmapSource _AppImage;
 
+		protected int _AppInfoID;
 		protected string _ExecPath;
 		protected string _AppName;
 
@@ -84,6 +46,18 @@ namespace AppManager
 		
 		}
 
+
+		public int AppInfoID
+		{
+			get
+			{
+				return _AppInfoID;
+			}
+			set
+			{
+				_AppInfoID = value;
+			}
+		}
 
 		public string AppName
 		{
@@ -131,7 +105,7 @@ namespace AppManager
 				GetFilePathFromExecPath(out args);
 				return args;
 			}
-			set 
+			set
 			{
 				SetExecPath(AppPath, value);
 			}
@@ -161,7 +135,7 @@ namespace AppManager
 			if (String.IsNullOrEmpty(AppPath))
 				return false;
 
-			if (AppName != DefaultAppName)
+			if (AppName != Strings.NEW_APP)
 			{
 				string name = Path.GetFileNameWithoutExtension(AppPath).ToLower();
 				AppName = name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
@@ -281,6 +255,7 @@ namespace AppManager
 		public AppInfo CloneEntity()
 		{
 			AppInfo clone = new AppInfo();
+			clone.AppInfoID = AppInfoID;
 			clone.AppName = AppName;
 			clone.ExecPath = ExecPath;
 			clone.CloneSource = this;
@@ -312,7 +287,12 @@ namespace AppManager
 
 		public override bool Equals(object obj)
 		{
-			return ExecPath == ((AppInfo)obj).ExecPath;
+			return AppInfoID == ((AppInfo)obj).AppInfoID;
+		}
+
+		public override int GetHashCode()
+		{
+			return AppInfoID;
 		}
 
 		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)

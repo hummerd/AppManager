@@ -10,6 +10,7 @@ namespace AppManager
 	public class AppGroup : IClonableEntity<AppGroup>
 	{
 		protected AppTypeCollection _AppTypes;
+		protected int _LastAppInfoID = 1;
 
 
 		public AppGroup()
@@ -30,6 +31,32 @@ namespace AppManager
 		{ get { return _AppTypes; } }
 
 
+		public AppInfo CreateNewAppInfo(AppType appType)
+		{
+			AppInfo newInfo = new AppInfo()
+			{
+				AppName = Strings.NEW_APP,
+				AppInfoID = _LastAppInfoID++
+			};
+
+			if (appType != null)
+				appType.AppInfos.Add(newInfo);
+
+			return newInfo;
+		}
+
+		public void CorrectAppInfoID()
+		{
+			foreach (var at in AppTypes)
+			{
+				foreach (var ai in at.AppInfos)
+				{
+					if (ai.AppInfoID <= 0)
+						ai.AppInfoID = _LastAppInfoID++;
+				}
+			}
+		}
+
 		#region IClonableEntity<AppGroup> Members
 
 		public AppGroup CloneSource
@@ -42,6 +69,7 @@ namespace AppManager
 		{
 			AppGroup clone = new AppGroup(AppTypes.Copy());
 			clone.AppGroupName = AppGroupName;
+			clone._LastAppInfoID = _LastAppInfoID;
 			clone.CloneSource = this;
 			return clone;
 		}
@@ -50,6 +78,8 @@ namespace AppManager
 		{
 			if (AppGroupName != source.AppGroupName)
 				AppGroupName = source.AppGroupName;
+
+			_LastAppInfoID = source._LastAppInfoID;
 
 			AppTypes.MergeCollection(source.AppTypes);
 		}
