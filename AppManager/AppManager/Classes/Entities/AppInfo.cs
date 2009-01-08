@@ -310,6 +310,10 @@ namespace AppManager
 
 		#endregion
 
+		public override bool Equals(object obj)
+		{
+			return ExecPath == ((AppInfo)obj).ExecPath;
+		}
 
 		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
 		{

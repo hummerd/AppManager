@@ -42,11 +42,6 @@ namespace AppManager
 				row.Height = new GridLength(100.0, GridUnitType.Star);
 				ContentPanel.RowDefinitions.Add(row);
 				
-				GroupBox group = new GroupBox();
-				group.Margin = new Thickness(7.0);
-				group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
-				group.DataContext = appType;
-
 				ButtonList groupContent = new ButtonList();
 				groupContent.TabIndex = rowi;
 				groupContent.AllowDrop = true;
@@ -55,7 +50,15 @@ namespace AppManager
 					{ workItem.Commands.RunApp.Execute(e.Obj); };
 				groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
 				groupContent.DataContext = appType;
+				groupContent.SnapsToDevicePixels = true;
+				
+				GroupBox group = new GroupBox();
+				group.Margin = new Thickness(7.0);
+				group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
+				group.DataContext = appType;
+				group.SnapsToDevicePixels = true; 
 				group.Content = groupContent;
+
 				ContentPanel.Children.Add(group);
 				Grid.SetRow(group, rowi++);
 

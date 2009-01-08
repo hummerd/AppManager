@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="DataObject.cs" />
     <Compile Include="DragDropHelper.cs" />
-    <Compile Include="DragSourceHelper.cs" />
+    <Compile Include="DragHelper.cs" />
     <Compile Include="IDragSourceHelper.cs" />
     <Compile Include="IDropTargetHelper.cs" />
     <Compile Include="NativeStructures.cs" />

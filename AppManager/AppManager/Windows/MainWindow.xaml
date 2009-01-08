@@ -16,7 +16,7 @@
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d" 
 	Title="Стартер" 
-	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize" Loaded="Window_Loaded">
+	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize" Loaded="Window_Loaded" SnapsToDevicePixels="True">
 	
 	<Window.Resources>
 		<ResourceDictionary>
@@ -101,7 +101,7 @@
                     />
             </Grid>
             <!--Window content-->
-            <Grid x:Name="ContentPanel" AllowDrop="True" Canvas.Top="35" Grid.Row="1" Opacity="1">
+            <Grid x:Name="ContentPanel" Canvas.Top="35" Grid.Row="1" Opacity="1" SnapsToDevicePixels="True">
 				<Grid.Background>
 					<LinearGradientBrush EndPoint="0.761,0.963" StartPoint="0.239,0.037">
 						<GradientStop Color="#FF78B3F6" Offset="0"/>
