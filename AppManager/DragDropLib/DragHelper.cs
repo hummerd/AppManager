@@ -9,23 +9,23 @@ using System.Windows.Media.Imaging;
 using Drawing = System.Drawing;
 using Imaging = System.Drawing.Imaging;
 using System.Collections;
-using ComIDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
+
 using System.Windows.Interop;
 
 
 namespace DragDropLib
 {
-	public class DragHelper
+	public class DragHelper : DropTargetHelper
 	{
 		protected bool						_IsDown = false;
 		protected Point					_DragStartPoint;
 		protected string					_DataFormat;
 		protected Type						_DataType;
 		protected ItemsControl			_ItemsControl;
-		protected IDropTargetHelper	_DropTargetHelper;
 
 
 		public DragHelper(ItemsControl control, string dataFormat, Type dataType)
+			: base (control)
 		{
 			_ItemsControl = control;
 			_DataFormat = dataFormat;
@@ -36,6 +36,7 @@ namespace DragDropLib
 			_ItemsControl.PreviewMouseMove += PreviewMouseMove;
 			_ItemsControl.PreviewMouseLeftButtonUp += PreviewMouseLeftButtonUp;
 
+			
 			_ItemsControl.DragEnter += DragEnter;
 			_ItemsControl.DragOver += DragOver;
 			_ItemsControl.DragLeave += DragLeave;
@@ -235,77 +236,52 @@ namespace DragDropLib
 
 		protected void OnDragEnter(DragEventArgs e, FrameworkElement element)
 		{
-			if (_DropTargetHelper == null)
-				return;
-
-			Win32Point wp;
-			e.Handled = true;
-			System.Windows.Point p = e.GetPosition(element);
-			wp.x = (int)p.X;
-			wp.y = (int)p.Y;
-			WindowInteropHelper wndHelper = new WindowInteropHelper(FindAncestorOrSelf<Window>(element));
-			_DropTargetHelper.DragEnter(wndHelper.Handle, (ComIDataObject)e.Data, ref wp, (int)e.Effects);
 		}
 
 		protected void OnDragLeave(DragEventArgs e)
 		{
-			if (_DropTargetHelper == null)
-				return;
-
-			_DropTargetHelper.DragLeave();
-			e.Handled = true;
 		}
 
 		protected void OnDragOver(DragEventArgs e, FrameworkElement element)
 		{
-			if (_DropTargetHelper == null)
-				return;
+			if (e.Data.GetDataPresent(_DataFormat))
+			{
+				if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
+					e.Effects = DragDropEffects.Copy;
+				else
+					e.Effects = DragDropEffects.Move;
 
-			if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
-				e.Effects = DragDropEffects.Copy;
-			else
-				e.Effects = DragDropEffects.Move;
-
-			Win32Point wp;
-			e.Handled = true;
-			System.Windows.Point p = e.GetPosition(element);
-			wp.x = (int)p.X;
-			wp.y = (int)p.Y;
-			_DropTargetHelper.DragOver(ref wp, (int)e.Effects);
+				e.Handled = true;
+			}
 		}
 
 		protected void OnDrop(DragEventArgs e, FrameworkElement element)
 		{
-			if (_DropTargetHelper == null)
-				return;
+			if (e.Data.GetDataPresent(_DataFormat))
+			{
+				if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
+					e.Effects = DragDropEffects.Copy;
+				else
+					e.Effects = DragDropEffects.Move;
 
-			if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
-				e.Effects = DragDropEffects.Copy;
-			else
-				e.Effects = DragDropEffects.Move;
+				ResetDrag();
 
-			Win32Point wp;
-			e.Handled = true;
-			System.Windows.Point p = e.GetPosition(element);
-			wp.x = (int)p.X;
-			wp.y = (int)p.Y;
-			_DropTargetHelper.Drop((ComIDataObject)e.Data, ref wp, (int)e.Effects);
+				var item = _ItemsControl.InputHitTest(e.GetPosition(element)) as FrameworkElement;
+				item = _ItemsControl.ContainerFromElement(item) as FrameworkElement;
+				int ix;
+				object dropObj = GetItemFromElement(item, out ix);
+				IList coll = _ItemsControl.ItemsSource as IList;
+				int dropIx = coll.IndexOf(dropObj);
 
-			ResetDrag();
+				object objAdd = DataObject.ReadFromStream(e.Data.GetData(_DataFormat) as MemoryStream);
+				objAdd = DeserializeItem(objAdd.ToString());
 
-			var item = _ItemsControl.InputHitTest(e.GetPosition(element)) as FrameworkElement;
-			item = _ItemsControl.ContainerFromElement(item) as FrameworkElement;
-			int ix;
-			object dropObj = GetItemFromElement(item, out ix);
-			IList coll = _ItemsControl.ItemsSource as IList;
-			int dropIx = coll.IndexOf(dropObj);
+				if (dropIx < 0)
+					dropIx = coll.Count;
+				coll.Insert(dropIx, objAdd);
 
-			object objAdd = DragDropLib.DataObject.ReadFromStream(e.Data.GetData(_DataFormat) as MemoryStream);
-			objAdd = DeserializeItem(objAdd.ToString());
-
-			if (dropIx < 0)
-				dropIx = coll.Count;
-			coll.Insert(dropIx, objAdd);
+				e.Handled = true;
+			}
 		}
 
 
