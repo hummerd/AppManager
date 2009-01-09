@@ -4,9 +4,9 @@ using System.Text;
 using System.Security.Policy;
 
 
-namespace UpdateLib
+namespace UpdateLib.FileDownloader
 {
-    public class FileDownloader
+    public class WebFileDownloader : IFileDownloader
     {
         public event EventHandler DownloadFileStarted;
         public event EventHandler DownloadFileCompleted;
