@@ -30,6 +30,7 @@ namespace AppManager.Commands
 
 			LoadData();
 			ConfigureMenu();
+            _WorkItem.MainWindow.Init(_WorkItem);
 
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
 			kbrdHook.KeyDown += KbrdHook_KeyDown;

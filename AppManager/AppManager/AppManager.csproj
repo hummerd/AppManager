@@ -27,7 +27,7 @@
     <ManifestCertificateThumbprint>AB07D45FEE153F604A01B3D733212DD2AAECEE00</ManifestCertificateThumbprint>
     <ManifestKeyFile>AppManager_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <PublishUrl>http://localhost/AppManager/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
