@@ -70,7 +70,6 @@ namespace AppManager
 			set
 			{
 				_AppData = value;
-				_MainWindow.Init(this);
 			}
 		}
 
