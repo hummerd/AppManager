@@ -149,8 +149,10 @@
     <Compile Include="Classes\Commands\RunApp.cs" />
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
+    <Compile Include="Classes\Common\DictionarySerializer.cs" />
     <Compile Include="Classes\Common\GDI32.cs" />
     <Compile Include="Classes\Common\ScaleUI.cs" />
+    <Compile Include="Classes\Common\UIHelper.cs" />
     <Compile Include="Classes\Common\User32.cs" />
     <Compile Include="Classes\Entities\AppGroup.cs" />
     <Compile Include="Classes\Entities\AppInfo.cs" />
@@ -165,6 +167,13 @@
     <Compile Include="Classes\MainWorkItem.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Classes\SettingsController.cs" />
+    <Compile Include="Classes\Settings\ControlAdapterBase.cs" />
+    <Compile Include="Classes\Settings\WndSettingsAdapter.cs" />
+    <Compile Include="Classes\Settings\ISettingProvider.cs" />
+    <Compile Include="Classes\Settings\AMSetttingsFactory.cs" />
+    <Compile Include="Classes\Settings\AMSettingLoader.cs" />
+    <Compile Include="Classes\Settings\SettingsBag.cs" />
+    <Compile Include="Classes\Settings\XMLSettingsLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -172,11 +181,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -195,10 +199,6 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.ru-ru.resx" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

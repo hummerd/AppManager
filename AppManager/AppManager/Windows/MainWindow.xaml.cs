@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using AppManager.Common;
+using AppManager.Settings;
 
 
 namespace AppManager
@@ -82,16 +83,19 @@ namespace AppManager
 
 		public void SaveState()
 		{
-			AppManager.Properties.Settings.Default.MWindowWidth = ActualWidth;
-			AppManager.Properties.Settings.Default.MWindowHeight = ActualHeight;
+			//AppManager.Properties.Settings.Default.MWindowWidth = ActualWidth;
+			//AppManager.Properties.Settings.Default.MWindowHeight = ActualHeight;
 			SaveRowHeight();
-			AppManager.Properties.Settings.Default.Save();
+			//AppManager.Properties.Settings.Default.Save();
 		}
 
 		public void LoadState()
 		{
-			Width = AppManager.Properties.Settings.Default.MWindowWidth ;
-			Height = AppManager.Properties.Settings.Default.MWindowHeight;
+			WndSettingsAdapter.Instance.SetControlSettings(
+				this,
+				"MainWndPos",
+				AMSetttingsFactory.DefaultSettingsBag
+				);
 
 			LoadRowHeight();
 			//UpdateLayout();
@@ -100,30 +104,44 @@ namespace AppManager
 
 		protected void SaveRowHeight()
 		{
-			string wl = String.Empty;
+			double[] h = new double[ContentPanel.RowDefinitions.Count];
+			int i = 0;
 			foreach (var item in ContentPanel.RowDefinitions)
-			{
-				wl = wl + item.Height.Value.ToString(CultureInfo.InvariantCulture) + ";";
-			}
+				h[i++] = item.Height.Value;
 
-			AppManager.Properties.Settings.Default.MainRowWidth = wl.Trim(';');
+			AMSetttingsFactory.DefaultSettingsBag.SetSetting(
+				"MainWndAppTypeHeight", h);
+
+			//string wl = String.Empty;
+			//foreach (var item in ContentPanel.RowDefinitions)
+			//{
+			//   wl = wl + item.Height.Value.ToString(CultureInfo.InvariantCulture) + ";";
+			//}
+
+			//AppManager.Properties.Settings.Default.MainRowWidth = wl.Trim(';');
 		}
 
 		protected void LoadRowHeight()
 		{
-			string[] w = AppManager.Properties.Settings.Default.MainRowWidth.Split(';');
+			double[] h = AMSetttingsFactory.DefaultSettingsBag.GetSettingCmplx<double[]>(
+				"MainWndAppTypeHeight", null);
+			//string[] w = AppManager.Properties.Settings.Default.MainRowWidth.Split(';');
+
+			if (h == null)
+				return;
 
 			int i = 0;
-			foreach (var item in w)
+			foreach (var item in h)
 			{
 				if (i >= ContentPanel.RowDefinitions.Count)
 					break;
 
-				if (String.IsNullOrEmpty(item))
-					break;
+				//if (String.IsNullOrEmpty(item))
+				//   break;
 
 				ContentPanel.RowDefinitions[i].Height = new GridLength(
-					double.Parse(item, CultureInfo.InvariantCulture), GridUnitType.Star);
+					item, GridUnitType.Star);
+					//double.Parse(item, CultureInfo.InvariantCulture), GridUnitType.Star);
 
 				i++;
 			}
