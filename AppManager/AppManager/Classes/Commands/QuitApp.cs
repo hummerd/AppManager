@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
+using AppManager.Settings;
 
 
 namespace AppManager.Commands
@@ -29,6 +30,7 @@ namespace AppManager.Commands
 			_WorkItem.TrayIcon.Dispose();
 			_WorkItem.KbrdHook.Dispose();
 
+			AMSetttingsFactory.DefaultSettingsBag.SaveSettings("appsettings.xml");
 			App.Current.Shutdown();
 		}
 

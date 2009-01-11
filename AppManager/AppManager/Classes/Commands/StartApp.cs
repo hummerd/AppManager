@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
 using AppManager.Common;
 using AppManager.Properties;
+using AppManager.Settings;
 using WinForms = System.Windows.Forms;
 
 
@@ -23,6 +25,8 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
+			AMSetttingsFactory.WorkItem = _WorkItem;
+
 			App app = new App();
 			app.InitializeComponent();
 			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -30,7 +34,7 @@ namespace AppManager.Commands
 
 			LoadData();
 			ConfigureMenu();
-            _WorkItem.MainWindow.Init(_WorkItem);
+			_WorkItem.MainWindow.Init(_WorkItem);
 
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
 			kbrdHook.KeyDown += KbrdHook_KeyDown;
@@ -39,6 +43,8 @@ namespace AppManager.Commands
 			tray.Icon = Resources.leftarrow;
 			tray.MouseUp += TrayIcon_MouseUp;
 			tray.Visible = true;
+
+			Assembly.Load("DragDropLib");
 
 			app.Startup += delegate(object sender, StartupEventArgs e)
 			   { _WorkItem.MainWindow.LoadState(); };
