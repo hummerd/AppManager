@@ -40,13 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileDownloader\FileDownloadHelper.cs" />
     <Compile Include="FileDownloader\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
+    <Compile Include="InstallHelper.cs" />
+    <Compile Include="UI\IUIAskDownload.cs" />
+    <Compile Include="UI\IUIDownloadProgress.cs" />
+    <Compile Include="VersionNumberProvider\IVersionNumberProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelfUpdate.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IVersionNumberProvider\" />
+    <Compile Include="VersionNumberProvider\VersionInfo.cs" />
+    <Compile Include="VersionNumberProvider\VersionItem.cs" />
+    <Compile Include="VersionNumberProvider\VersionManifest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
