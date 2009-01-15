@@ -16,7 +16,7 @@ namespace AppManager
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		protected MainWindowController _Controller = new MainWindowController();
+		protected MainWindowController _Controller;
 
 
 		public MainWindow()
@@ -27,6 +27,8 @@ namespace AppManager
 
 		public void Init(MainWorkItem workItem)
 		{
+			_Controller = new MainWindowController(workItem);
+
 			ButtonExit.Command = workItem.Commands.Deactivate;
 			BtnManageApps.Command = workItem.Commands.ManageApps;
 			BtnConfigure.Command = workItem.Commands.Settings;

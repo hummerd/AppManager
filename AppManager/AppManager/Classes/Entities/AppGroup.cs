@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AppManager.EntityCollection;
+using System.Xml.Serialization;
 
 
 namespace AppManager
@@ -30,14 +31,31 @@ namespace AppManager
 		public AppTypeCollection AppTypes
 		{ get { return _AppTypes; } }
 
+		public int LastAppInfoID
+		{
+			get { return _LastAppInfoID; }
+			set { _LastAppInfoID = value; }
+		}
+
 
 		public AppInfo CreateNewAppInfo(AppType appType)
 		{
+			return CreateNewAppInfo(appType, String.Empty); ;
+		}
+
+		public AppInfo CreateNewAppInfo(AppType appType, string execPath)
+		{
+			if (execPath == null)
+				execPath = String.Empty;
+			
 			AppInfo newInfo = new AppInfo()
 			{
 				AppName = Strings.NEW_APP,
+				ExecPath = execPath,
 				AppInfoID = _LastAppInfoID++
 			};
+
+			newInfo.SetAutoAppName();
 
 			if (appType != null)
 				appType.AppInfos.Add(newInfo);
@@ -53,6 +71,8 @@ namespace AppManager
 				{
 					if (ai.AppInfoID <= 0)
 						ai.AppInfoID = _LastAppInfoID++;
+					else if (ai.AppInfoID > _LastAppInfoID)
+						_LastAppInfoID = ai.AppInfoID + 1;
 				}
 			}
 		}

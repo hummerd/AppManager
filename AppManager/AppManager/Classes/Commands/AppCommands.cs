@@ -22,6 +22,7 @@ namespace AppManager.Commands
 			Deactivate = new Deactivate(_WorkItem);
 			ManageApps = new ManageApps(_WorkItem);
 			Settings = new Settings(_WorkItem);
+			Save = new Save(_WorkItem);
 		}
 
 
@@ -32,5 +33,6 @@ namespace AppManager.Commands
 		public ICommand RunApp { get; set; }
 		public ICommand ManageApps { get; set; }
 		public ICommand Settings { get; set; }
+		public ICommand Save { get; set; }
 	}
 }

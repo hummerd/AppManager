@@ -9,6 +9,15 @@ namespace AppManager
 {
 	public class MainWindowController
 	{
+		protected MainWorkItem _WorkItem;
+
+
+		public MainWindowController(MainWorkItem workItem)
+		{
+			_WorkItem = workItem;
+		}
+
+
 		public void AddFiles(AppType type, IEnumerable<string> files)
 		{
 			if (files == null)
@@ -37,14 +46,12 @@ namespace AppManager
 
 					if (!String.IsNullOrEmpty(fullPath))
 					{
-						AppInfo app = new AppInfo()
-						{ ExecPath = fullPath };
-						app.SetAutoAppName();
-
-						type.AppInfos.Add(app);
+						AppInfo app = _WorkItem.AppData.CreateNewAppInfo(type, fullPath);
 					}
 			   }
 			}
+
+			_WorkItem.Commands.Save.Execute(null);
 		}
 	}
 }

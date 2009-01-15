@@ -27,6 +27,7 @@ namespace AppManager.Commands
 			{
 				_WorkItem.AppData.MergeEntity(mangerData);
 				_WorkItem.MainWindow.Init(_WorkItem);
+				_WorkItem.Commands.Save.Execute(null);
 			}
 		}
 	}
