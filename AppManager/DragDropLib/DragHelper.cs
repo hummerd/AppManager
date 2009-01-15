@@ -46,6 +46,10 @@ namespace DragDropLib
 		
 		protected void PrepareDrag(MouseButtonEventArgs e, FrameworkElement element)
 		{
+			var item = _ItemsControl.InputHitTest(_DragStartPoint) as FrameworkElement;
+			if (item == null)
+				return;
+
 			_IsDown = true;
 			_DragStartPoint = e.GetPosition(element);
 		}
@@ -76,6 +80,12 @@ namespace DragDropLib
 		{
 			var item = _ItemsControl.InputHitTest(_DragStartPoint) as FrameworkElement;
 			item = _ItemsControl.ContainerFromElement(item) as FrameworkElement;
+
+			dragItemPos = -1;
+			dragItem = null;
+
+			if (item == null)
+				return DragDropEffects.None;
 
 			dragItem = GetItemFromElement(item, out dragItemPos);
 			DataObject dataObject = new DataObject();
