@@ -113,10 +113,7 @@ namespace AppManager
 
 			foreach (var file in files)
 			{
-				AppInfo appi = new AppInfo();
-				appi.ExecPath = file;
-				appi.SetAutoAppName();
-
+				AppInfo appi = _Data.CreateNewAppInfo(null, file);
 				result.Add(new AppInfoAdapter(appi));
 			}
 

@@ -147,6 +147,7 @@
     <Compile Include="Classes\Commands\ManageApps.cs" />
     <Compile Include="Classes\Commands\QuitApp.cs" />
     <Compile Include="Classes\Commands\RunApp.cs" />
+    <Compile Include="Classes\Commands\Save.cs" />
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
     <Compile Include="Classes\Common\DictionarySerializer.cs" />

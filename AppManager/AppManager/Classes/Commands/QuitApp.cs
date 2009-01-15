@@ -24,29 +24,11 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			SaveData();
-
-			_WorkItem.MainWindow.SaveState();
 			_WorkItem.TrayIcon.Dispose();
 			_WorkItem.KbrdHook.Dispose();
 
-			AMSetttingsFactory.DefaultSettingsBag.SaveSettings("appsettings.xml");
+			_WorkItem.Commands.Save.Execute(null);
 			App.Current.Shutdown();
-		}
-
-
-		protected void SaveData()
-		{
-			XmlDocument xmlDoc = new XmlDocument();
-			XmlSerializer xser = new XmlSerializer(_WorkItem.AppData.GetType());
-
-			using (StringWriter sr = new StringWriter())
-			{
-				xser.Serialize(sr, _WorkItem.AppData);
-				xmlDoc.LoadXml(sr.ToString());
-			}
-
-			xmlDoc.Save(_WorkItem.DataPath);
 		}
 	}
 }
