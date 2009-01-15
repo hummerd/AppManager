@@ -46,12 +46,13 @@ namespace DragDropLib
 		
 		protected void PrepareDrag(MouseButtonEventArgs e, FrameworkElement element)
 		{
-			var item = _ItemsControl.InputHitTest(_DragStartPoint) as FrameworkElement;
+			Point pt = e.GetPosition(element);
+			var item = _ItemsControl.InputHitTest(pt) as FrameworkElement;
 			if (item == null)
 				return;
 
 			_IsDown = true;
-			_DragStartPoint = e.GetPosition(element);
+			_DragStartPoint = pt;
 		}
 
 		protected void CheckAndStartDrag(MouseEventArgs e, FrameworkElement element)
