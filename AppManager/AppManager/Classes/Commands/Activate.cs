@@ -26,6 +26,7 @@ namespace AppManager.Commands
 			wnd.Topmost = false;
 			wnd.Activate();
 			wnd.InvalidateVisual();
+			wnd.SetFocus();
 		}
 	}
 }
