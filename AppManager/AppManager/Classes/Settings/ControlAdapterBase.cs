@@ -6,18 +6,18 @@ using AppManager.Common;
 
 namespace AppManager.Settings
 {
-	public abstract class ControlAdapterBase<T>
-		where T : DependencyObject
+	public abstract class ControlAdapterBase<TControl, TSettings>
+		where TControl : DependencyObject
 	{
-		private Dictionary<Window, WndSettingsParams<T>> _Context = new Dictionary<Window, WndSettingsParams<T>>();
+		private Dictionary<Window, WndSettingsParams<TControl>> _Context = new Dictionary<Window, WndSettingsParams<TControl>>();
 
 
-		public void SetControlSettings(T control, string settingName, SettingsBag settings)
+		public void SetControlSettings(TControl control, string settingName, SettingsBag<TSettings> settings)
 		{
 			SetControlSettings(control, settingName, settings, true);
 		}
 
-		public void SetControlSettings(T control, string settingName, SettingsBag settings, bool saveOnClose)
+		public void SetControlSettings(TControl control, string settingName, SettingsBag<TSettings> settings, bool saveOnClose)
 		{
 			LoadControlSettings(control, settingName, settings);
 
@@ -27,7 +27,7 @@ namespace AppManager.Settings
 				wnd.Closing -= WndClosing;
 				wnd.Closing += WndClosing;
 
-				var fs = new WndSettingsParams<T>()
+				var fs = new WndSettingsParams<TControl>()
 				{
 					Settings = settings,
 					SettingName = settingName,
@@ -38,10 +38,10 @@ namespace AppManager.Settings
 			}
 		}
 
-		public abstract void SaveControlSettings(T control, string settingName, SettingsBag settings);
+		public abstract void SaveControlSettings(TControl control, string settingName, SettingsBag<TSettings> settings);
 
 
-		protected abstract void LoadControlSettings(T control, string settingName, SettingsBag settings);
+		protected abstract void LoadControlSettings(TControl control, string settingName, SettingsBag<TSettings> settings);
 
 
 		protected void WndClosing(object sender, CancelEventArgs e)
@@ -49,7 +49,7 @@ namespace AppManager.Settings
 			Window wnd = sender as Window;
 			wnd.Closing -= WndClosing;
 
-			WndSettingsParams<T> fs = _Context[wnd];
+			WndSettingsParams<TControl> fs = _Context[wnd];
 			_Context.Remove(wnd);
 			SaveControlSettings(fs.Control, fs.SettingName, fs.Settings);
 		}
@@ -58,7 +58,7 @@ namespace AppManager.Settings
 		protected class WndSettingsParams<TControl>
 			where TControl : DependencyObject
 		{
-			public SettingsBag Settings { get; set; }
+			public SettingsBag<TSettings> Settings { get; set; }
 			public string SettingName { get; set; }
 			public TControl Control { get; set; }
 		}

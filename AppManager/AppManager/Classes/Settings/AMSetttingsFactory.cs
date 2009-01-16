@@ -6,9 +6,9 @@ namespace AppManager.Settings
 		public static MainWorkItem WorkItem;
 
 
-		private static SettingsBag _DefaultSettingsBag = null;
+		private static SettingsBag<AppManagerSettings> _DefaultSettingsBag = null;
 
-		public static SettingsBag DefaultSettingsBag
+		public static SettingsBag<AppManagerSettings> DefaultSettingsBag
 		{
 			get
 			{
@@ -16,7 +16,7 @@ namespace AppManager.Settings
 				{
 					AMSettingLoader settLoader = new AMSettingLoader();
 					settLoader.WorkItem = WorkItem;
-					_DefaultSettingsBag = new SettingsBag(settLoader);
+					_DefaultSettingsBag = new SettingsBag<AppManagerSettings>(settLoader);
 					_DefaultSettingsBag.LoadSettings("appsettings.xml");
 				}
 

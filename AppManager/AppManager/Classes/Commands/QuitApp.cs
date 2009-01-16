@@ -28,6 +28,7 @@ namespace AppManager.Commands
 			_WorkItem.KbrdHook.Dispose();
 
 			_WorkItem.Commands.Save.Execute(null);
+
 			App.Current.Shutdown();
 		}
 	}
