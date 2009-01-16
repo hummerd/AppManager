@@ -17,6 +17,7 @@ namespace AppManager
 	public partial class MainWindow : Window
 	{
 		protected MainWindowController _Controller;
+		protected ItemsControl _FocusElement;
 
 
 		public MainWindow()
@@ -27,6 +28,7 @@ namespace AppManager
 
 		public void Init(MainWorkItem workItem)
 		{
+			_FocusElement = null;
 			_Controller = new MainWindowController(workItem);
 
 			ButtonExit.Command = workItem.Commands.Deactivate;
@@ -47,6 +49,9 @@ namespace AppManager
 				
 				ButtonList groupContent = CreateButtonList(workItem, rowi, appType);
 				GroupBox group = CreateGroupBox(groupContent, appType);
+
+				if (_FocusElement == null)
+					_FocusElement = groupContent;
 
 				ContentPanel.Children.Add(group);
 				Grid.SetRow(group, rowi++);
@@ -97,7 +102,14 @@ namespace AppManager
 			UpdateLayout();
 		}
 
+		public void SetFocus()
+		{
+			var f = _FocusElement.ItemContainerGenerator.ContainerFromIndex(0) as FrameworkElement;
+			if (f != null)
+				f.Focus();
+		}
 
+		
 		protected ButtonList CreateButtonList(MainWorkItem workItem, int rowi, AppType appType)
 		{
 			ButtonList groupContent = new ButtonList()

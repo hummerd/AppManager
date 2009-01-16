@@ -100,6 +100,15 @@ namespace AppManager.Commands
 		}
 
 
+		protected void ChangeActiveState()
+		{
+			if (_WorkItem.MainWindow.IsVisible)
+				_WorkItem.Commands.Deactivate.Execute(null);
+			else
+				_WorkItem.Commands.Activate.Execute(null);
+		}
+
+
 		private void App_SessionEnding(object sender, SessionEndingCancelEventArgs e)
 		{
 			_WorkItem.Commands.Quit.Execute(null);
@@ -109,7 +118,8 @@ namespace AppManager.Commands
 		{
 			if (e.Button == WinForms.MouseButtons.Left)
 			{
-				_WorkItem.Commands.Activate.Execute(null);
+				WinForms.Application.DoEvents();
+				ChangeActiveState();
 			}
 			else
 			{
@@ -122,10 +132,7 @@ namespace AppManager.Commands
 		{
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{
-				if (_WorkItem.MainWindow.IsActive)
-					_WorkItem.Commands.Deactivate.Execute(null);
-				else
-					_WorkItem.Commands.Activate.Execute(null);
+				ChangeActiveState();
 			}
 		}
 	}

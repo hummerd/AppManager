@@ -9,7 +9,7 @@ namespace AppManager.Settings
 	public abstract class ControlAdapterBase<TControl, TSettings>
 		where TControl : DependencyObject
 	{
-		private Dictionary<Window, WndSettingsParams<TControl>> _Context = new Dictionary<Window, WndSettingsParams<TControl>>();
+		private Dictionary<Window, WndSettingsParams> _Context = new Dictionary<Window, WndSettingsParams>();
 
 
 		public void SetControlSettings(TControl control, string settingName, SettingsBag<TSettings> settings)
@@ -27,7 +27,7 @@ namespace AppManager.Settings
 				wnd.Closing -= WndClosing;
 				wnd.Closing += WndClosing;
 
-				var fs = new WndSettingsParams<TControl>()
+				var fs = new WndSettingsParams()
 				{
 					Settings = settings,
 					SettingName = settingName,
@@ -49,14 +49,13 @@ namespace AppManager.Settings
 			Window wnd = sender as Window;
 			wnd.Closing -= WndClosing;
 
-			WndSettingsParams<TControl> fs = _Context[wnd];
+			WndSettingsParams fs = _Context[wnd];
 			_Context.Remove(wnd);
 			SaveControlSettings(fs.Control, fs.SettingName, fs.Settings);
 		}
 
 
-		protected class WndSettingsParams<TControl>
-			where TControl : DependencyObject
+		protected class WndSettingsParams
 		{
 			public SettingsBag<TSettings> Settings { get; set; }
 			public string SettingName { get; set; }
