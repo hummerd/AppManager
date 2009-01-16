@@ -3,9 +3,9 @@
 
 namespace AppManager.Settings
 {
-	public interface ISettingProvider
+	public interface ISettingProvider<TSettings>
 	{
-		Dictionary<string, object> LoadSettings(string path);
-		void SaveSettings(string path, Dictionary<string, object> settings);
+		TSettings LoadSettings(string path);
+		void SaveSettings(string path, TSettings settings);
 	}
 }

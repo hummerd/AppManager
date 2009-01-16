@@ -3,18 +3,25 @@
 
 namespace AppManager.Settings
 {
-	public class SettingsBag
+	public class SettingsBag<TSettings>
 	{
-		protected Dictionary<string, object> _Bag = new Dictionary<string,object>(1);
-		protected ISettingProvider _SettingProvider;
+		protected TSettings _Bag;
+		protected ISettingProvider<TSettings> _SettingProvider;
 
 
-		public SettingsBag(ISettingProvider settingProvider)
+		public SettingsBag(ISettingProvider<TSettings> settingProvider)
 		{
 			_SettingProvider = settingProvider;
 		}
 
-
+		public TSettings Settings
+		{
+			get
+			{
+				return _Bag;
+			}
+		}
+		
 		public void LoadSettings(string path)
 		{
 			_Bag = _SettingProvider.LoadSettings(path);
@@ -26,40 +33,42 @@ namespace AppManager.Settings
 		}
 
 
-		public string GetSettingStr(string setting, string defaultVal)
-		{
-			object val;
-			if (_Bag.TryGetValue(setting, out val))
-				return (string)val;
-			else
-				return defaultVal;
-		}
-
-		public int GetSettingInt(string setting, int defaultVal)
-		{
-			object val;
-			if (_Bag.TryGetValue(setting, out val))
-				return (int)val;
-			else
-				return defaultVal;
-		}
-
-		public T GetSettingCmplx<T>(string setting, T defaultVal)
-		{
-			object val;
-			if (_Bag.TryGetValue(setting, out val))
-				return (T)val;
-			else
-				return defaultVal;
-		}
 
 
-		public void SetSetting(string setting, object val)
-		{
-			if (_Bag.ContainsKey(setting))
-				_Bag[setting] = val;
-			else
-				_Bag.Add(setting, val);
-		}
+		//public string GetSettingStr(string setting, string defaultVal)
+		//{
+		//   object val;
+		//   if (_Bag.TryGetValue(setting, out val))
+		//      return (string)val;
+		//   else
+		//      return defaultVal;
+		//}
+
+		//public int GetSettingInt(string setting, int defaultVal)
+		//{
+		//   object val;
+		//   if (_Bag.TryGetValue(setting, out val))
+		//      return (int)val;
+		//   else
+		//      return defaultVal;
+		//}
+
+		//public T GetSettingCmplx<T>(string setting, T defaultVal)
+		//{
+		//   object val;
+		//   if (_Bag.TryGetValue(setting, out val))
+		//      return (T)val;
+		//   else
+		//      return defaultVal;
+		//}
+
+
+		//public void SetSetting(string setting, object val)
+		//{
+		//   if (_Bag.ContainsKey(setting))
+		//      _Bag[setting] = val;
+		//   else
+		//      _Bag.Add(setting, val);
+		//}
 	}
 }

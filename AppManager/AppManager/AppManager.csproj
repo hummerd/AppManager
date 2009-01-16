@@ -152,6 +152,7 @@
     <Compile Include="Classes\Commands\StartApp.cs" />
     <Compile Include="Classes\Common\DictionarySerializer.cs" />
     <Compile Include="Classes\Common\GDI32.cs" />
+    <Compile Include="Classes\Common\PropSetter.cs" />
     <Compile Include="Classes\Common\ScaleUI.cs" />
     <Compile Include="Classes\Common\UIHelper.cs" />
     <Compile Include="Classes\Common\User32.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Classes\MainWorkItem.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Classes\SettingsController.cs" />
+    <Compile Include="Classes\Settings\AppManagerSettings.cs" />
     <Compile Include="Classes\Settings\ControlAdapterBase.cs" />
     <Compile Include="Classes\Settings\WndSettingsAdapter.cs" />
     <Compile Include="Classes\Settings\ISettingProvider.cs" />
@@ -263,6 +265,9 @@
   <ItemGroup>
     <Resource Include="Resources\down_16.png" />
     <Resource Include="Resources\up_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

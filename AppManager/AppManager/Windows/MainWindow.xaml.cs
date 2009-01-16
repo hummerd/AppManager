@@ -87,20 +87,27 @@ namespace AppManager
 		{
 			//AppManager.Properties.Settings.Default.MWindowWidth = ActualWidth;
 			//AppManager.Properties.Settings.Default.MWindowHeight = ActualHeight;
+
+			WndSettingsAdapter<AppManagerSettings>.Instance.SaveControlSettings(
+				this,
+				"MainFormSett",
+				AMSetttingsFactory.DefaultSettingsBag
+				);
+
 			SaveRowHeight();
-			//AppManager.Properties.Settings.Default.Save();
 		}
 
 		public void LoadState()
 		{
-			WndSettingsAdapter.Instance.SetControlSettings(
+			WndSettingsAdapter<AppManagerSettings>.Instance.SetControlSettings(
 				this,
-				"MainWndPos",
-				AMSetttingsFactory.DefaultSettingsBag
+				"MainFormSett",
+				AMSetttingsFactory.DefaultSettingsBag,
+				false
 				);
 
 			LoadRowHeight();
-			//UpdateLayout();
+			UpdateLayout();
 		}
 
 
@@ -111,23 +118,12 @@ namespace AppManager
 			foreach (var item in ContentPanel.RowDefinitions)
 				h[i++] = item.Height.Value;
 
-			AMSetttingsFactory.DefaultSettingsBag.SetSetting(
-				"MainWndAppTypeHeight", h);
-
-			//string wl = String.Empty;
-			//foreach (var item in ContentPanel.RowDefinitions)
-			//{
-			//   wl = wl + item.Height.Value.ToString(CultureInfo.InvariantCulture) + ";";
-			//}
-
-			//AppManager.Properties.Settings.Default.MainRowWidth = wl.Trim(';');
+			AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights = h;
 		}
 
 		protected void LoadRowHeight()
 		{
-			double[] h = AMSetttingsFactory.DefaultSettingsBag.GetSettingCmplx<double[]>(
-				"MainWndAppTypeHeight", null);
-			//string[] w = AppManager.Properties.Settings.Default.MainRowWidth.Split(';');
+			double[] h = AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights;
 
 			if (h == null)
 				return;
@@ -138,12 +134,8 @@ namespace AppManager
 				if (i >= ContentPanel.RowDefinitions.Count)
 					break;
 
-				//if (String.IsNullOrEmpty(item))
-				//   break;
-
 				ContentPanel.RowDefinitions[i].Height = new GridLength(
 					item, GridUnitType.Star);
-					//double.Parse(item, CultureInfo.InvariantCulture), GridUnitType.Star);
 
 				i++;
 			}

@@ -6,38 +6,37 @@ using AppManager.Classes.Common;
 
 namespace AppManager.Settings
 {
-	public class XMLSettingsLoader : ISettingProvider
+	public class XMLSettingsLoader<TSettings> : ISettingProvider<TSettings>
+		where TSettings : class, new()
 	{
 		#region ISettingProvider Members
 
-		public virtual Dictionary<string, object> LoadSettings(string path)
+		public virtual TSettings LoadSettings(string path)
 		{
-			Dictionary<string, object> result;
+			TSettings result;
 
 			if (!File.Exists(path))
-				return new Dictionary<string, object>();
+				return new TSettings();
 
 			using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
 			{
 				if (fileStream.Length == 0)
-					result = new Dictionary<string,object>();
+					result = new TSettings();
 				else
 				{
 					try
 					{
-						XmlSerializer serializer = new XmlSerializer(
-							typeof(DictionarySerializer<string, object>));
-						var ds = serializer.Deserialize(fileStream)
-							as DictionarySerializer<string, object>;
+						XmlSerializer serializer = new XmlSerializer(typeof(TSettings));
+						var ds = serializer.Deserialize(fileStream) as TSettings;
 
 						if (ds != null)
-							result = ds.Source;
+							result = ds;
 						else
-							result = new Dictionary<string, object>();
+							result = new TSettings();
 					}
 					catch
 					{
-						result = new Dictionary<string, object>();
+						result = new TSettings();
 					}
 				}
 			}
@@ -45,14 +44,12 @@ namespace AppManager.Settings
 			return result;
 		}
 
-		public virtual void SaveSettings(string path, Dictionary<string, object> settings)
+		public virtual void SaveSettings(string path, TSettings settings)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			{
-				XmlSerializer serializer = new XmlSerializer(
-					typeof(DictionarySerializer<string, object>));
-				serializer.Serialize(fileStream, 
-					new DictionarySerializer<string, object>(settings));
+				XmlSerializer serializer = new XmlSerializer(typeof(TSettings));
+				serializer.Serialize(fileStream, settings);
 			}
 		}
 

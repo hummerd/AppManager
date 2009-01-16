@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using AppManager.Classes.Common;
 
 
 namespace AppManager.Settings
@@ -12,34 +13,41 @@ namespace AppManager.Settings
 	}
 
 
-	public class WndSettingsAdapter : ControlAdapterBase<Window>
+	public class WndSettingsAdapter<TSettings> : ControlAdapterBase<Window, TSettings>
 	{
-		private static WndSettingsAdapter _Instance;
+		private static WndSettingsAdapter<TSettings> _Instance;
 
-		public static WndSettingsAdapter Instance 
+		public static WndSettingsAdapter<TSettings> Instance 
 		{
 			get
 			{
 				if (_Instance == null)
-					_Instance = new WndSettingsAdapter();
+					_Instance = new WndSettingsAdapter<TSettings>();
 
 				return _Instance; 
 			}
 		}
 
 
-		public override void SaveControlSettings(Window control, string settingName, SettingsBag settings)
+		public override void SaveControlSettings(
+			Window control, 
+			string settingName,
+			SettingsBag<TSettings> settings)
 		{
 			WndSettings setting = new WndSettings();
 			setting.Location = new Point(control.Left, control.Top);
 			setting.Size = new Size(control.Width, control.Height);
 
-			settings.SetSetting(settingName, setting);
+			PropSetter.SetValue(settings.Settings, settingName, setting);
 		}
 
-		protected override void LoadControlSettings(Window control, string settingName, SettingsBag settings)
+		protected override void LoadControlSettings(
+			Window control, 
+			string settingName,
+			SettingsBag<TSettings> settings)
 		{
-			WndSettings setting = settings.GetSettingCmplx<WndSettings>(settingName, WndSettings.Empty);
+			WndSettings setting = PropSetter.GetValue<WndSettings>(settings.Settings, settingName);
+			//WndSettings setting = settings.GetSettingCmplx<WndSettings>(settingName, WndSettings.Empty);
 
 			if (!setting.Equals(WndSettings.Empty))
 			{
