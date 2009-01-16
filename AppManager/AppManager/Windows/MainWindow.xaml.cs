@@ -41,26 +41,12 @@ namespace AppManager
 			int rowi = 0;
 			foreach (var appType in workItem.AppData.AppTypes)
 			{
-				RowDefinition row = new RowDefinition();
-				row.Height = new GridLength(100.0, GridUnitType.Star);
+				RowDefinition row = new RowDefinition()
+					{ Height = new GridLength(100.0, GridUnitType.Star) };
 				ContentPanel.RowDefinitions.Add(row);
 				
-				ButtonList groupContent = new ButtonList();
-				groupContent.TabIndex = rowi;
-				groupContent.AllowDrop = true;
-				groupContent.Drop += new DragEventHandler(GroupContent_Drop);
-				groupContent.ButtonClicked += delegate (object sender, ObjEventArgs e) 
-					{ workItem.Commands.RunApp.Execute(e.Obj); };
-				groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
-				groupContent.DataContext = appType;
-				groupContent.SnapsToDevicePixels = true;
-				
-				GroupBox group = new GroupBox();
-				group.Margin = new Thickness(7.0);
-				group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
-				group.DataContext = appType;
-				group.SnapsToDevicePixels = true; 
-				group.Content = groupContent;
+				ButtonList groupContent = CreateButtonList(workItem, rowi, appType);
+				GroupBox group = CreateGroupBox(groupContent, appType);
 
 				ContentPanel.Children.Add(group);
 				Grid.SetRow(group, rowi++);
@@ -74,12 +60,13 @@ namespace AppManager
 					split.HorizontalAlignment = HorizontalAlignment.Stretch;
 					split.ShowsPreview = true;
 					split.Background = Brushes.Transparent;
-					split.DragCompleted += new System.Windows.Controls.Primitives.DragCompletedEventHandler(Split_DragCompleted);
+					split.DragCompleted += (s, e) => SaveRowHeight();
 					Grid.SetRow(split, rowi - 1);
 					ContentPanel.Children.Add(split);
 				}
 			}
 
+			LoadRowHeight();
 			//UpdateLayout();
 		}
 
@@ -110,6 +97,39 @@ namespace AppManager
 			UpdateLayout();
 		}
 
+
+		protected ButtonList CreateButtonList(MainWorkItem workItem, int rowi, AppType appType)
+		{
+			ButtonList groupContent = new ButtonList()
+			{
+				TabIndex = rowi,
+				AllowDrop = true,
+				SnapsToDevicePixels = true
+			};
+
+			groupContent.Drop += (s, e) => OnDropFiles(s as ButtonList, e);
+			groupContent.ButtonClicked += (s, e) => workItem.Commands.RunApp.Execute(e.Obj);
+
+			groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
+			groupContent.DataContext = appType;
+
+			return groupContent;
+		}
+
+		protected GroupBox CreateGroupBox(object content, AppType appType)
+		{
+			GroupBox group = new GroupBox()
+			{
+				Margin = new Thickness(7.0),
+				SnapsToDevicePixels = true,
+				Content = content
+			};
+
+			group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
+			group.DataContext = appType;
+			
+			return group;
+		}
 
 		protected void SaveRowHeight()
 		{
@@ -151,6 +171,7 @@ namespace AppManager
 				e.Handled = true;
 			}			
 		}
+
 
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
 		{
@@ -202,25 +223,9 @@ namespace AppManager
 		}
 
 
-		private void Split_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-		{
-			SaveRowHeight();
-		}
-
-		private void GroupContent_Drop(object sender, DragEventArgs e)
-		{
-			OnDropFiles(sender as ButtonList, e);
-		}
-
 		private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			this.DragMove();
-		}
-
-		private void Window_Closing(object sender, CancelEventArgs e)
-		{
-			e.Cancel = true;
-			Hide();
 		}
 
 		private void Resizer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -232,11 +237,17 @@ namespace AppManager
 				// This is the familiar SendMessage function. This enables us to resize the window when the user depresses the ResizeGrip control
 				// If you use Spy to snoop the messages, it closely matches sizing messages sent when regular windows are resized.
 				User32.SendMessage(
-					win.Handle, 
-					User32.WindowMessage.WM_SYSCOMMAND, 
-					(IntPtr)((int)(User32.SysCommand.SC_SIZE) + (int)User32.SCSizingAction.SouthEast), 
+					win.Handle,
+					User32.WindowMessage.WM_SYSCOMMAND,
+					(IntPtr)((int)(User32.SysCommand.SC_SIZE) + (int)User32.SCSizingAction.SouthEast),
 					IntPtr.Zero);
 			}
+		}
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+		{
+			e.Cancel = true;
+			Hide();
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
