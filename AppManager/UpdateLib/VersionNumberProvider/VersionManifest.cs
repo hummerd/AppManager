@@ -7,6 +7,7 @@ namespace UpdateLib.VersionNumberProvider
 	[Serializable]
 	public class VersionManifest
 	{
+		public string AppPath { get; set; }
 		public List<VersionItem> VersionItems { get; set; }
 	}
 }

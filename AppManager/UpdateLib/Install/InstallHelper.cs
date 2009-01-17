@@ -4,7 +4,7 @@ using System.Text;
 using UpdateLib.VersionNumberProvider;
 
 
-namespace UpdateLib
+namespace UpdateLib.Install
 {
 	public class InstallHelper
 	{
