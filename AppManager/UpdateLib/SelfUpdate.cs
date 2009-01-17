@@ -3,6 +3,7 @@ using System.IO;
 using UpdateLib.FileDownloader;
 using UpdateLib.UI;
 using UpdateLib.VersionNumberProvider;
+using UpdateLib.Install;
 
 
 namespace UpdateLib
