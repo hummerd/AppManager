@@ -84,6 +84,7 @@ namespace AppManager
 			}
 		}
 
+		[XmlIgnore]
 		public string AppPath
 		{
 			get
@@ -97,6 +98,7 @@ namespace AppManager
 			}
 		}
 
+		[XmlIgnore]
 		public string AppArgs
 		{
 			get
