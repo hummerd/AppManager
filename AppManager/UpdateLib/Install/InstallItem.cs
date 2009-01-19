@@ -8,6 +8,6 @@ namespace UpdateLib.Install
 	{
 		public string SrcPath { get; set; }
 		public string DstPath { get; set; }
-		public int InstallAction { get; set; }
+		public InstallAction InstallAction { get; set; }
 	}
 }
