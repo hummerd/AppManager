@@ -8,9 +8,18 @@ namespace UpdateLib.Install
 {
 	public class InstallHelper
 	{
+		public InstallHelper()
+		{
+
+		}
+
+
 		public void InstallVersion(VersionManifest verManifest, Version lastVersion)
 		{
-			throw new NotImplementedException();
+			//TODO Unzip
+
+			InstallManifest install = new InstallManifest(verManifest);
+			install.Save(String.Empty);
 		}
 	}
 }

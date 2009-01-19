@@ -13,6 +13,9 @@ namespace Updater
 		[STAThread]
 		static void Main()
 		{
+			MainWorkItem mwi = new MainWorkItem();
+			mwi.Run();
+
 			//Application.EnableVisualStyles();
 			//Application.SetCompatibleTextRenderingDefault(false);
 			//Application.Run();
