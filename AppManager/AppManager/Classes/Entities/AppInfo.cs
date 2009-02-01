@@ -137,7 +137,7 @@ namespace AppManager
 			if (String.IsNullOrEmpty(AppPath))
 				return false;
 
-			if (AppName != Strings.NEW_APP)
+			if (AppName == Strings.NEW_APP)
 			{
 				string name = Path.GetFileNameWithoutExtension(AppPath).ToLower();
 				AppName = name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
