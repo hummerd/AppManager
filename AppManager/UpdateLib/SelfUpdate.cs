@@ -49,7 +49,7 @@ namespace UpdateLib
 					_Downloader.DownloadVersion(verManifest, lastVersion);
 
 					if (AskUserForInstall(versionInfo, lastVersion))
-						_Installer.InstallVersion(verManifest, lastVersion);
+                        _Installer.InstallVersion(tempPath, verManifest, lastVersion);
 				}
 			}
 		}
