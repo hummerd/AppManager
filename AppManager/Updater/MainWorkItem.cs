@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
-using System.IO;
+using System.Diagnostics;
 using System.Windows.Forms;
 using UpdateLib.Install;
 
@@ -16,10 +13,13 @@ namespace Updater
 
 		}
 
-		public void Run()
+		public void Run(string[] args)
 		{
 			try
 			{
+                var p = Process.GetProcessById(0);
+                p.WaitForExit();
+
 				var manifest = InstallManifest.LoadFromCurrentDirectory();
 				var install = new InstallHelper(manifest);
 				install.Install();
