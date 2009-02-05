@@ -92,6 +92,8 @@ namespace AppManager
 				ContentPanel.RowDefinitions.Add(rd);
 
 				_ButtonText = new TextBlock();
+				_ButtonText.FontFamily = new FontFamily("Tahoma");
+				_ButtonText.FontSize = 11;
 				_ButtonText.TextAlignment = TextAlignment.Center;
 				_ButtonText.Foreground = Resources["AppNameBrush"] as Brush;
 				Grid.SetColumn(_ButtonText, 0);

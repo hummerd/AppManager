@@ -227,12 +227,12 @@
 					</ListBox>
 					<ComboBox 
 						DisplayMemberPath="AppTypeName" 
-						Margin="8,12,122,12.723" 
+						Margin="8,12,130,12" 
 						Name="AppTypeSelector" SelectedIndex="0" />
-                    <Button HorizontalAlignment="Right" Margin="0,12,92,12" Name="BtnAppUp" VerticalAlignment="Top" Width="24" Click="BtnAppUp_Click">
+                    <Button HorizontalAlignment="Right" Margin="0,12,100,12" Name="BtnAppUp" VerticalAlignment="Top" Width="24" Click="BtnAppUp_Click">
                         <Image Source="/AppManager;component/Resources/up_16.png" />
                     </Button>
-                    <Button HorizontalAlignment="Right" Margin="0,12,64,12" Name="BtnAppDown" VerticalAlignment="Top" Width="24" Click="BtnAppDown_Click">
+                    <Button HorizontalAlignment="Right" Margin="0,12,68,12" Name="BtnAppDown" VerticalAlignment="Top" Width="24" Click="BtnAppDown_Click">
                         <Image Source="/AppManager;component/Resources/down_16.png" />
                     </Button>
 					<Button HorizontalAlignment="Right" Margin="0,12,36,12" Name="BtnAddApp" VerticalAlignment="Top" Width="24" Click="BtnAddApp_Click">+</Button>
