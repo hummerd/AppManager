@@ -140,6 +140,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ButtonListDrag.cs" />
     <Compile Include="Classes\Commands\Activate.cs" />
     <Compile Include="Classes\Commands\AppCommands.cs" />
     <Compile Include="Classes\Commands\CommandBase.cs" />
@@ -267,6 +268,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
