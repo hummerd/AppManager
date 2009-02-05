@@ -34,6 +34,8 @@ namespace AppManager
 		[XmlIgnore]
 		protected BitmapSource _BlankImage;
 		[XmlIgnore]
+		protected BitmapSource _FolderImage;
+		[XmlIgnore]
 		protected BitmapSource _AppImage;
 
 		protected int _AppInfoID;
@@ -159,7 +161,6 @@ namespace AppManager
 		}
 
 
-
 		protected string GetFilePathFromExecPath(out string args)
 		{
 			args = String.Empty;
@@ -192,6 +193,33 @@ namespace AppManager
 			return filePath;
 		}
 
+		protected void LoadImage()
+		{
+			if (String.IsNullOrEmpty(ExecPath))
+			{
+				AppImage = GetBlankImage();
+				return;
+			}
+
+			BitmapSource src = null;
+
+			if (File.Exists(AppPath))
+			{
+				System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(AppPath);
+
+				src = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+					ico.Handle,
+					Int32Rect.Empty,
+					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+			}
+			else if (Directory.Exists(AppPath))
+			{
+				src = GetFolderImage();
+			}
+
+			_AppImage = src;
+		}
+
 		protected BitmapSource GetBlankImage()
 		{
 			if (_BlankImage == null)
@@ -203,7 +231,7 @@ namespace AppManager
 					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
 
 				//in all other cases we've got size {5, 5} instead of {16, 16}
-				
+
 				//Uri pngSrc = new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute);
 
 				//_BlankImage = new BitmapImage();
@@ -227,24 +255,19 @@ namespace AppManager
 			return _BlankImage;
 		}
 
-		protected void LoadImage()
+		protected BitmapSource GetFolderImage()
 		{
-			if (String.IsNullOrEmpty(ExecPath))
+			if (_FolderImage == null)
 			{
-				AppImage = GetBlankImage();
-				return;
+				_FolderImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+					AppManager.Properties.Resources.folder.GetHbitmap(),
+					IntPtr.Zero,
+					Int32Rect.Empty,
+					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
 			}
 
-			System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(AppPath);
-
-			BitmapSource src = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-				ico.Handle,
-				Int32Rect.Empty,
-				System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-
-			_AppImage = src;
+			return _FolderImage;
 		}
-
 
 		#region IClonableEntity<AppInfo> Members
 

@@ -67,6 +67,13 @@ namespace AppManager.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap folder {
+            get {
+                object obj = ResourceManager.GetObject("folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap gear_2526_16 {
             get {
                 object obj = ResourceManager.GetObject("gear_2526_16", resourceCulture);

@@ -23,11 +23,10 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			AppInfo app = parameter as AppInfo;
-
-			if (File.Exists(app.AppPath))
+			
+			if (File.Exists(app.AppPath) || Directory.Exists(app.AppPath))
 			{
 				Process p = new Process();
-
 				p.StartInfo.FileName = app.AppPath;
 				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
 				p.StartInfo.Arguments = app.AppArgs;
