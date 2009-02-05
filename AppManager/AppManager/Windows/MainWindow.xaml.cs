@@ -119,7 +119,7 @@ namespace AppManager
 				SnapsToDevicePixels = true
 			};
 
-			groupContent.Drop += (s, e) => OnDropFiles(s as ButtonList, e);
+			groupContent.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
 			groupContent.ButtonClicked += (s, e) => workItem.Commands.RunApp.Execute(e.Obj);
 
 			groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
@@ -173,15 +173,9 @@ namespace AppManager
 			}
 		}
 
-		protected void OnDropFiles(ButtonList buttonList, DragEventArgs e)
+		protected void OnDropFiles(ButtonList buttonList, StrArrEventArgs e)
 		{ 
-			if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
-			{
-				string[] files = e.Data.GetData(DataFormats.FileDrop, true) as string[];
-				_Controller.AddFiles(buttonList.DataContext as AppType, files);
-
-				e.Handled = true;
-			}			
+			_Controller.AddFiles(buttonList.DataContext as AppType, e.StrArray);
 		}
 
 

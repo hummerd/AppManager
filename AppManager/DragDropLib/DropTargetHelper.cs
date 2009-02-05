@@ -25,7 +25,7 @@ namespace DragDropLib
 		}
 
 
-		protected void OnDragEnterTarget(DragEventArgs e, FrameworkElement element)
+		protected virtual void OnDragEnter(DragEventArgs e, FrameworkElement element)
 		{
 			Point p = e.GetPosition(element);
 			Win32Point wp = new Win32Point() 
@@ -38,12 +38,12 @@ namespace DragDropLib
 			_DropTargetHelper.DragEnter(wndHelper.Handle, (ComIDataObject)e.Data, ref wp, (int)e.Effects);
 		}
 
-		protected void OnDragLeaveTarget(DragEventArgs e)
+		protected virtual void OnDragLeave(DragEventArgs e)
 		{
 			_DropTargetHelper.DragLeave();
 		}
 
-		protected void OnDragOverTarget(DragEventArgs e, FrameworkElement element)
+		protected virtual void OnDragOver(DragEventArgs e, FrameworkElement element)
 		{
 			Win32Point wp;
 			System.Windows.Point p = e.GetPosition(element);
@@ -52,7 +52,7 @@ namespace DragDropLib
 			_DropTargetHelper.DragOver(ref wp, (int)e.Effects);
 		}
 
-		protected void OnDropTarget(DragEventArgs e, FrameworkElement element)
+		protected virtual void OnDrop(DragEventArgs e, FrameworkElement element)
 		{
 			Win32Point wp;
 			System.Windows.Point p = e.GetPosition(element);
@@ -64,22 +64,22 @@ namespace DragDropLib
 
 		private void DragEnterTarget(object sender, DragEventArgs e)
 		{
-			OnDragEnterTarget(e, sender as FrameworkElement);
+			OnDragEnter(e, sender as FrameworkElement);
 		}
 
 		private void DragOverTarget(object sender, DragEventArgs e)
 		{
-			OnDragOverTarget(e, sender as FrameworkElement);
+			OnDragOver(e, sender as FrameworkElement);
 		}
 
 		private void DragLeaveTarget(object sender, DragEventArgs e)
 		{
-			OnDragLeaveTarget(e);
+			OnDragLeave(e);
 		}
 
 		private void DropTarget(object sender, DragEventArgs e)
 		{
-			OnDropTarget(e, sender as FrameworkElement);
+			OnDrop(e, sender as FrameworkElement);
 		}
 
 
