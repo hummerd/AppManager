@@ -37,10 +37,10 @@ namespace DragDropLib
 			_ItemsControl.PreviewMouseLeftButtonUp += PreviewMouseLeftButtonUp;
 
 			
-			_ItemsControl.DragEnter += DragEnter;
-			_ItemsControl.DragOver += DragOver;
-			_ItemsControl.DragLeave += DragLeave;
-			_ItemsControl.Drop += Drop;
+			//_ItemsControl.DragEnter += DragEnter;
+			//_ItemsControl.DragOver += DragOver;
+			//_ItemsControl.DragLeave += DragLeave;
+			//_ItemsControl.Drop += Drop;
 		}
 
 		
@@ -245,16 +245,21 @@ namespace DragDropLib
 			_DragStartPoint = default(Point);			
 		}
 
-		protected void OnDragEnter(DragEventArgs e, FrameworkElement element)
-		{
-		}
 
-		protected void OnDragLeave(DragEventArgs e)
-		{
-		}
+		//protected override void OnDragEnter(DragEventArgs e, FrameworkElement element)
+		//{
+		//   base.OnDragEnter(e, element);
+		//}
 
-		protected void OnDragOver(DragEventArgs e, FrameworkElement element)
+		//protected override void OnDragLeave(DragEventArgs e)
+		//{
+		//   base.
+		//}
+
+		protected override void OnDragOver(DragEventArgs e, FrameworkElement element)
 		{
+			base.OnDragOver(e, element);
+
 			if (e.Data.GetDataPresent(_DataFormat))
 			{
 				if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
@@ -266,8 +271,10 @@ namespace DragDropLib
 			}
 		}
 
-		protected void OnDrop(DragEventArgs e, FrameworkElement element)
+		protected override void OnDrop(DragEventArgs e, FrameworkElement element)
 		{
+			base.OnDrop(e, element);
+
 			if (e.Data.GetDataPresent(_DataFormat))
 			{
 				if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
@@ -312,25 +319,25 @@ namespace DragDropLib
 		}
 
 
-		private void DragEnter(object sender, DragEventArgs e)
-		{
-			OnDragEnter(e, sender as FrameworkElement);
-		}
+		//private void DragEnter(object sender, DragEventArgs e)
+		//{
+		//   OnDragEnter(e, sender as FrameworkElement);
+		//}
 
-		private void DragOver(object sender, DragEventArgs e)
-		{
-			OnDragOver(e, sender as FrameworkElement);
-		}
+		//private void DragOver(object sender, DragEventArgs e)
+		//{
+		//   OnDragOver(e, sender as FrameworkElement);
+		//}
 
-		private void DragLeave(object sender, DragEventArgs e)
-		{
-			OnDragLeave(e);
-		}
+		//private void DragLeave(object sender, DragEventArgs e)
+		//{
+		//   OnDragLeave(e);
+		//}
 
-		private void Drop(object sender, DragEventArgs e)
-		{
-			OnDrop(e, sender as FrameworkElement);
-		}
+		//private void Drop(object sender, DragEventArgs e)
+		//{
+		//   OnDrop(e, sender as FrameworkElement);
+		//}
 
 
 		private static DependencyObject GetParent(DependencyObject obj)

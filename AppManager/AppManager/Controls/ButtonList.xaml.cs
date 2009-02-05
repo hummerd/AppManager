@@ -14,9 +14,10 @@ namespace AppManager
 	public partial class ButtonList : ListBox
 	{
 		public event EventHandler<ObjEventArgs> ButtonClicked;
+		public event EventHandler<StrArrEventArgs> AddFiles;
 
 
-		protected DragHelper _DragHelper;
+		protected ButtonListDrag _DragHelper;
 		
 
 		public ButtonList()
@@ -27,7 +28,15 @@ namespace AppManager
 			ItemContainerStyle.Resources[SystemColors.HighlightBrushKey] = Brushes.Transparent;
 			ItemContainerStyle.Resources[SystemColors.ControlBrushKey] = Brushes.Transparent;
 
-			_DragHelper = new DragHelper(this, "ButtonListDataFormat", typeof(AppInfo));
+			_DragHelper = new ButtonListDrag(this, "ButtonListDataFormat", typeof(AppInfo));
+			_DragHelper.AddFiles += (s, e) => OnAddFiles(e);
+		}
+
+
+		protected void OnAddFiles(StrArrEventArgs e)
+		{
+			if (AddFiles != null)
+				AddFiles(this, e);
 		}
 
 
