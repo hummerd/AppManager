@@ -186,14 +186,14 @@
 							x:Name="AppTypeName" 
 							Grid.Column="1" 
 							Margin="4,12" />
-                        <Button Width="24" x:Name="BtnAppTypeUp" Margin="4,12,4,12" Grid.Column="2" Click="BtnAppTypeUp_Click">
-                            <Image Source="/AppManager;component/Resources/up_16.png" />
-                        </Button>
-                        <Button Width="24" x:Name="BtnAppTypeDown" Margin="4,12,4,12" Grid.Column="3" Click="BtnAppTypeDown_Click">
-                            <Image Source="/AppManager;component/Resources/down_16.png" />
-                        </Button>
-                        <Button Width="24" Content="+" x:Name="BtnAddAppType" Click="BtnAddAppType_Click" Margin="4,12,4,12" Grid.Column="4" />
-						<Button Width="24" Content="-" x:Name="BtnRemoveAppType" Click="BtnRemoveAppType_Click" Grid.Column="5" HorizontalAlignment="Left" Margin="0,12,8,12" />
+                     <Button Width="24" x:Name="BtnAppTypeUp" Margin="0,12,4,12" Grid.Column="2" Click="BtnAppTypeUp_Click">
+								<Image Source="/AppManager;component/Resources/up_16.png" />
+							</Button>
+                     <Button Width="24" x:Name="BtnAppTypeDown" Margin="0,12,4,12" Grid.Column="3" Click="BtnAppTypeDown_Click">
+								<Image Source="/AppManager;component/Resources/down_16.png" />
+                     </Button>
+                     <Button Width="24" Content="+" x:Name="BtnAddAppType" Click="BtnAddAppType_Click" Margin="0,12,4,12" Grid.Column="4" />
+							<Button Width="24" Content="-" x:Name="BtnRemoveAppType" Click="BtnRemoveAppType_Click" Grid.Column="5" HorizontalAlignment="Left" Margin="0,12,8,12" />
 					</Grid>
 				</Grid>
 			</TabItem>
@@ -227,14 +227,14 @@
 					</ListBox>
 					<ComboBox 
 						DisplayMemberPath="AppTypeName" 
-						Margin="8,12,130,12" 
+						Margin="8,12,120,12" 
 						Name="AppTypeSelector" SelectedIndex="0" />
-                    <Button HorizontalAlignment="Right" Margin="0,12,100,12" Name="BtnAppUp" VerticalAlignment="Top" Width="24" Click="BtnAppUp_Click">
-                        <Image Source="/AppManager;component/Resources/up_16.png" />
-                    </Button>
-                    <Button HorizontalAlignment="Right" Margin="0,12,68,12" Name="BtnAppDown" VerticalAlignment="Top" Width="24" Click="BtnAppDown_Click">
-                        <Image Source="/AppManager;component/Resources/down_16.png" />
-                    </Button>
+					<Button HorizontalAlignment="Right" Margin="0,12,92,12" Name="BtnAppUp" VerticalAlignment="Top" Width="24" Click="BtnAppUp_Click">
+						<Image Source="/AppManager;component/Resources/up_16.png" />
+					</Button>
+					<Button HorizontalAlignment="Right" Margin="0,12,64,12" Name="BtnAppDown" VerticalAlignment="Top" Width="24" Click="BtnAppDown_Click">
+						<Image Source="/AppManager;component/Resources/down_16.png" />
+					</Button>
 					<Button HorizontalAlignment="Right" Margin="0,12,36,12" Name="BtnAddApp" VerticalAlignment="Top" Width="24" Click="BtnAddApp_Click">+</Button>
 					<Button HorizontalAlignment="Right" Margin="0,12,8,12" Name="BtnRemoveApp" VerticalAlignment="Top" Width="24" Click="BtnRemoveApp_Click">-</Button>
 				</Grid>
