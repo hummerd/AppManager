@@ -152,6 +152,7 @@
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
     <Compile Include="Classes\Common\GDI32.cs" />
+    <Compile Include="Classes\Common\PathHelper.cs" />
     <Compile Include="Classes\Common\PropSetter.cs" />
     <Compile Include="Classes\Common\ScaleUI.cs" />
     <Compile Include="Classes\Common\Shell32.cs" />

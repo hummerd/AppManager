@@ -26,7 +26,7 @@ namespace AppManager
 		}
 
 
-		public void Init(MainWorkItem workItem)
+		public void Init(MainWorkItem workItem, bool first)
 		{
 			_FocusElement = null;
 			_Controller = new MainWindowController(workItem);
@@ -40,11 +40,20 @@ namespace AppManager
 			ContentPanel.Children.Clear();
 			ContentPanel.RowDefinitions.Clear();
 
+			int maxApps = -1;
+			if (first)
+				foreach (var item in workItem.AppData.AppTypes)
+					maxApps = Math.Max(item.AppInfos.Count, maxApps);
+
 			int rowi = 0;
 			foreach (var appType in workItem.AppData.AppTypes)
 			{
+				double rowHeight = first ? appType.AppInfos.Count * 100 / maxApps : 100.0;
+				if (rowHeight < 25.0)
+					rowHeight = 25.0;
+
 				RowDefinition row = new RowDefinition()
-					{ Height = new GridLength(100.0, GridUnitType.Star) };
+					{ Height = new GridLength(rowHeight, GridUnitType.Star) };
 				ContentPanel.RowDefinitions.Add(row);
 				
 				ButtonList groupContent = CreateButtonList(workItem, rowi, appType);
@@ -70,7 +79,7 @@ namespace AppManager
 					ContentPanel.Children.Add(split);
 				}
 			}
-
+			
 			LoadRowHeight();
 			//UpdateLayout();
 		}

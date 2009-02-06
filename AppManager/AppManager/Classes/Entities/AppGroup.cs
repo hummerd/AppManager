@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using AppManager.Common;
 using AppManager.EntityCollection;
-using System.Xml.Serialization;
+using System.IO;
 
 
 namespace AppManager
@@ -56,6 +56,44 @@ namespace AppManager
 			}
 
 			_AppTypes.Add(winApps);
+
+			string progFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+			var groupedApps = new List<int>(appSource.Count);
+			for (int i = appSource.Count - 1; i >= 0;)
+			{
+				string progPath = PathHelper.GetNextPathLevel(appSource[i].AppPath, progFiles);
+				if (String.IsNullOrEmpty(progPath))
+				{
+					i--;
+					continue;
+				}
+
+				AppType pfApps = new AppType() { AppTypeName = progPath };
+				groupedApps.Clear();
+
+				for (int j = appSource.Count - 1; j >= 0; j--)
+				{
+					string progStartPath = Path.Combine(progFiles, progPath);
+					if (appSource[j].AppPath.StartsWith(progStartPath, StringComparison.InvariantCultureIgnoreCase))
+					{
+						groupedApps.Add(j);
+					}
+				}
+
+				if (groupedApps.Count > 3)
+				{
+					for (int k = 0; k < groupedApps.Count; k++)
+					{
+						pfApps.AppInfos.Add(appSource[groupedApps[k]]);
+						appSource.RemoveAt(groupedApps[k]);
+					}
+
+					_AppTypes.Add(pfApps);
+					i -= groupedApps.Count;
+				}
+				else
+					i--;
+			}			
 		}
 
 		public AppInfo CreateNewAppInfo(AppType appType)

@@ -38,9 +38,9 @@ namespace AppManager.Commands
 			app.SessionEnding += App_SessionEnding;
 
 			LoadData();
-			FirstLoad();
+			bool first = FirstLoad();
 
-			_WorkItem.MainWindow.Init(_WorkItem);
+			_WorkItem.MainWindow.Init(_WorkItem, first);
 
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
 			kbrdHook.KeyDown += KbrdHook_KeyDown;
@@ -59,7 +59,7 @@ namespace AppManager.Commands
 		}
 
 
-		protected void FirstLoad()
+		protected bool FirstLoad()
 		{
 			if (_WorkItem.AppData.AppTypes.Count == 1 &&
 				 _WorkItem.AppData.AppTypes[0].AppInfos.Count == 0)
@@ -76,9 +76,14 @@ namespace AppManager.Commands
 				links.AddRange(uLinks);
 
 				MainWindowController mwc = new MainWindowController(_WorkItem);
-				mwc.AddFiles(_WorkItem.AppData.AppTypes[0], links, true);
+				mwc.AddFiles(_WorkItem.AppData.AppTypes[0], links, true, false);
 				_WorkItem.AppData.GroupByFolders();
+				_WorkItem.Commands.Save.Execute(null);
+
+				return true;
 			}
+			else
+				return false;
 		}
 
 		protected WinForms.ContextMenuStrip CreateTrayMenu()
