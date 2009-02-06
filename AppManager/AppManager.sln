@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateLib", "UpdateLib\Upda
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{6A2FF6A3-CDCC-4D59-9708-9AE6D8CA550D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionBuilder", "VersionBuilder\VersionBuilder.csproj", "{A48F4FA2-23E7-4630-BC21-FAF40A08D4B8}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs07.codeplex.com/
 		SccLocalPath0 = .
@@ -27,6 +29,9 @@ Global
 		SccProjectUniqueName4 = Updater\\Updater.csproj
 		SccProjectName4 = Updater
 		SccLocalPath4 = Updater
+		SccProjectUniqueName5 = VersionBuilder\\VersionBuilder.csproj
+		SccProjectName5 = VersionBuilder
+		SccLocalPath5 = VersionBuilder
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +54,10 @@ Global
 		{6A2FF6A3-CDCC-4D59-9708-9AE6D8CA550D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2FF6A3-CDCC-4D59-9708-9AE6D8CA550D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A2FF6A3-CDCC-4D59-9708-9AE6D8CA550D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A48F4FA2-23E7-4630-BC21-FAF40A08D4B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A48F4FA2-23E7-4630-BC21-FAF40A08D4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A48F4FA2-23E7-4630-BC21-FAF40A08D4B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A48F4FA2-23E7-4630-BC21-FAF40A08D4B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
