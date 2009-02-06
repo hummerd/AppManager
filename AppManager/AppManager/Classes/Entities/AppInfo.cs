@@ -7,6 +7,7 @@ using System.Windows;
 using AppManager.EntityCollection;
 using System.ComponentModel;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace AppManager
@@ -167,30 +168,62 @@ namespace AppManager
 			string path = ExecPath;
 
 			if (path != null)
-				path = path.Trim();
+				path = path.Trim(' ', '\"');
 
 			if (String.IsNullOrEmpty(path))
 				return String.Empty;
 
-			int lix = path.LastIndexOf('"');
-			string filePath;
-			if (lix >= 0)
-			{
-				filePath = path.Substring(0, lix);
-				filePath = filePath.Trim();
-				filePath = filePath.Trim('\"');
-				filePath = filePath.Trim();
-			}
-			else
-				filePath = path;
-						
-			if (lix >= 0 && path.Length > lix + 1)
-			{
-				args = path.Substring(lix + 1, path.Length - lix - 1);
-				args = args.Trim();
-			}
+			if (File.Exists(path) || Directory.Exists(path))
+				return path;
 
-			return filePath;
+			while (true)
+			{
+				int lix = path.LastIndexOf(' ');
+				if (lix < 0)
+					break;
+
+				path = path.Substring(0, lix);
+				path = path.Trim('\"');
+
+				if (File.Exists(path) || Directory.Exists(path))
+					break;
+			}
+						
+			string argsTemp = ExecPath.Trim(' ', '\"');
+			argsTemp = argsTemp.Substring(path.Length, argsTemp.Length - path.Length);
+			argsTemp = argsTemp.Trim(' ', '\"');
+			args = argsTemp;
+
+			return path;
+
+			//args = String.Empty;
+			//string path = ExecPath;
+			
+			//if (path != null)
+			//   path = path.Trim();
+
+			//if (String.IsNullOrEmpty(path))
+			//   return String.Empty;
+			////Path.GetDirectoryName(path)
+			//int lix = path.LastIndexOf('"');
+			//string filePath;
+			//if (lix >= 0)
+			//{
+			//   filePath = path.Substring(0, lix);
+			//   filePath = filePath.Trim();
+			//   filePath = filePath.Trim('\"');
+			//   filePath = filePath.Trim();
+			//}
+			//else
+			//   filePath = path;
+						
+			//if (lix >= 0 && path.Length > lix + 1)
+			//{
+			//   args = path.Substring(lix + 1, path.Length - lix - 1);
+			//   args = args.Trim();
+			//}
+
+			//return filePath;
 		}
 
 		protected void LoadImage()

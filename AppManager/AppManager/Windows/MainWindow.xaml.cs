@@ -117,6 +117,7 @@ namespace AppManager
 				TabIndex = rowi,
 				AllowDrop = true,
 				SnapsToDevicePixels = true
+				//ContextMenu = App.Current.Resources["ItemMenu"] as ContextMenu
 			};
 
 			groupContent.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
