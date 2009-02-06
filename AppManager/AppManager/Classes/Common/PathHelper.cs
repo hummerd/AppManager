@@ -14,7 +14,7 @@ namespace AppManager.Common
 			string tempPath = path;
 
 			if (tempPath != null)
-				tempPath = tempPath.Trim(' ', Path.DirectorySeparatorChar);
+				tempPath = tempPath.Trim(' ', '\"');
 
 			if (String.IsNullOrEmpty(tempPath))
 				return String.Empty;
@@ -29,15 +29,15 @@ namespace AppManager.Common
 					break;
 
 				tempPath = tempPath.Substring(0, lix);
-				tempPath = tempPath.Trim(Path.DirectorySeparatorChar);
+				tempPath = tempPath.Trim('\"');
 
 				if (File.Exists(tempPath) || Directory.Exists(tempPath))
 					break;
 			}
 
-			string argsTemp = path.Trim(' ', Path.DirectorySeparatorChar);
+			string argsTemp = path.Trim(' ', '\"');
 			argsTemp = argsTemp.Substring(tempPath.Length, argsTemp.Length - tempPath.Length);
-			argsTemp = argsTemp.Trim(' ', Path.DirectorySeparatorChar);
+			argsTemp = argsTemp.Trim(' ', '\"');
 			args = argsTemp;
 
 			return tempPath;
