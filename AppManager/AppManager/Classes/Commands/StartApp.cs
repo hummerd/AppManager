@@ -3,10 +3,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Windows.Controls.Primitives;
 using AppManager.Common;
 using AppManager.Properties;
 using AppManager.Settings;
 using WinForms = System.Windows.Forms;
+using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 
 namespace AppManager.Commands
@@ -33,7 +38,8 @@ namespace AppManager.Commands
 			app.SessionEnding += App_SessionEnding;
 
 			LoadData();
-			ConfigureMenu();
+			FirstLoad();
+
 			_WorkItem.MainWindow.Init(_WorkItem);
 
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
@@ -43,32 +49,63 @@ namespace AppManager.Commands
 			tray.Icon = Resources.leftarrow;
 			tray.MouseUp += TrayIcon_MouseUp;
 			tray.Visible = true;
-
+			tray.ContextMenuStrip = CreateTrayMenu();
+			
 			Assembly.Load("DragDropLib");
 
 			app.Startup += delegate(object sender, StartupEventArgs e)
 			   { _WorkItem.MainWindow.LoadState(); };
 			app.Run(_WorkItem.MainWindow);
 		}
-		
 
-		protected void ConfigureMenu()
+
+		protected void FirstLoad()
 		{
-		  //  <ContextMenu x:Key="TrayMenu">
-		  //    <MenuItem Name="Show" Header="Показать Стартер"/>
-		  //    <MenuItem Header="Скрыть Стартер"/>
-		  //    <Separator/>
-		  //    <MenuItem Header="Насройки"/>
-		  //    <MenuItem Header="Управление приложениями"/>
-		  //	  <MenuItem Header="Закрыть Стартер"/>
-		  //</ContextMenu>
+			if (_WorkItem.AppData.AppTypes.Count == 1 &&
+				 _WorkItem.AppData.AppTypes[0].AppInfos.Count == 0)
+			{
+				StringBuilder allPrograms = new StringBuilder(300);
+				Shell32.SHGetSpecialFolderPath(IntPtr.Zero, allPrograms, Shell32.CSIDL_COMMON_PROGRAMS, false);
+				string[] auLinks = Directory.GetFiles(allPrograms.ToString(), "*.lnk", SearchOption.AllDirectories);
 
-			ContextMenu mnu = App.Current.Resources["TrayMenu"] as ContextMenu;
-			((MenuItem)mnu.Items[0]).Command = _WorkItem.Commands.Activate;
-			((MenuItem)mnu.Items[1]).Command = _WorkItem.Commands.Deactivate;
-			((MenuItem)mnu.Items[3]).Command = _WorkItem.Commands.Settings;
-			((MenuItem)mnu.Items[4]).Command = _WorkItem.Commands.ManageApps;
-			((MenuItem)mnu.Items[5]).Command = _WorkItem.Commands.Quit;
+				string path = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+				string[] uLinks = Directory.GetFiles(path, "*.lnk", SearchOption.AllDirectories);
+
+				var links = new List<string>(auLinks.Length + uLinks.Length);
+				links.AddRange(auLinks);
+				links.AddRange(uLinks);
+
+				MainWindowController mwc = new MainWindowController(_WorkItem);
+				mwc.AddFiles(_WorkItem.AppData.AppTypes[0], links, true);
+				_WorkItem.AppData.GroupByFolders();
+			}
+		}
+
+		protected WinForms.ContextMenuStrip CreateTrayMenu()
+		{
+			var mnu = new WinForms.ContextMenuStrip();
+
+			mnu.Items.Add(
+				WinFrmMenuAdapter.CreateMenuItem(
+					Strings.MNU_SHOW, _WorkItem.Commands.Activate));
+			mnu.Items.Add(
+				WinFrmMenuAdapter.CreateMenuItem(
+					Strings.MNU_HIDE, _WorkItem.Commands.Deactivate));
+			
+			mnu.Items.Add( //-------
+				new WinForms.ToolStripSeparator());
+
+			mnu.Items.Add(
+				WinFrmMenuAdapter.CreateMenuItem(
+					Strings.SETTINGS, _WorkItem.Commands.Settings));
+			mnu.Items.Add(
+				WinFrmMenuAdapter.CreateMenuItem(
+					Strings.MNU_MANAGEAPP, _WorkItem.Commands.ManageApps));
+			mnu.Items.Add(
+				WinFrmMenuAdapter.CreateMenuItem(
+					Strings.MNU_CLOSE, _WorkItem.Commands.Quit));
+
+			return mnu;
 		}
 
 		protected void LoadData()
@@ -98,8 +135,7 @@ namespace AppManager.Commands
 				_WorkItem.AppData.AppTypes.Add(new AppType());
 			}
 		}
-
-
+		
 		protected void ChangeActiveState()
 		{
 			if (_WorkItem.MainWindow.IsVisible)
@@ -123,8 +159,14 @@ namespace AppManager.Commands
 			}
 			else
 			{
-				ContextMenu mnu = App.Current.Resources["TrayMenu"] as ContextMenu;
-				mnu.IsOpen = true;
+				//System.Windows.Forms.ContextMenuStrip mnu = new System.Windows.Forms.ContextMenuStrip();
+				//mnu.Items.Add("asdasd");
+				//mnu.Items.Add("zxcxc");
+				//mnu.Show(sender as System.Windows.Forms.Control, e.X, e.Y);
+
+				//ContextMenu mnu = App.Current.Resources["TrayMenu"] as ContextMenu;
+				//mnu.IsOpen = true;
+				//mnu.Mo
 			}
 		}
 

@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using DragDropLib;
+using System.Windows.Controls.Primitives;
 
 
 namespace AppManager
@@ -24,6 +25,7 @@ namespace AppManager
 		{
 			this.InitializeComponent();
 
+			
 			ItemContainerStyle = new Style();
 			ItemContainerStyle.Resources[SystemColors.HighlightBrushKey] = Brushes.Transparent;
 			ItemContainerStyle.Resources[SystemColors.ControlBrushKey] = Brushes.Transparent;
@@ -57,7 +59,24 @@ namespace AppManager
 				var lbi = Keyboard.FocusedElement as ListBoxItem;
 				if (lbi != null && lbi.DataContext != null)
 					ButtonClicked(this, new ObjEventArgs() { Obj = lbi.DataContext });
-			}	
+			}
+		}
+
+		private void ButtonList_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+		{
+			FrameworkElement item = e.OriginalSource as FrameworkElement;
+			if (item != null)
+			{
+				item = ContainerFromElement(item) as FrameworkElement;
+				if (item != null)
+				{
+					var cm = App.Current.Resources["ItemMenu"] as ContextMenu;
+
+					//cm.Placement = PlacementMode.Right;
+					//cm.PlacementTarget = item;
+					cm.IsOpen = true;
+				}
+			}
 		}
 	}
 

@@ -38,6 +38,26 @@ namespace AppManager
 		}
 
 
+		public void GroupByFolders()
+		{
+			if (_AppTypes.Count <= 0)
+				return;
+
+			string winDir = Environment.GetEnvironmentVariable("windir");
+			AppType winApps = new AppType() { AppTypeName = "Windows" };
+			var appSource = _AppTypes[0].AppInfos;
+			for (int i = appSource.Count - 1; i >= 0; i--)
+			{
+				if (appSource[i].AppPath.StartsWith(winDir, StringComparison.InvariantCultureIgnoreCase))
+				{
+					winApps.AppInfos.Add(appSource[i]);
+					appSource.RemoveAt(i);
+				}
+			}
+
+			_AppTypes.Add(winApps);
+		}
+
 		public AppInfo CreateNewAppInfo(AppType appType)
 		{
 			return CreateNewAppInfo(appType, String.Empty); ;
