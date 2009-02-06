@@ -36,10 +36,10 @@ namespace AppManager
 
 		public void AddFiles(AppType type, IEnumerable<string> files)
 		{
-			AddFiles(type, files, false);
+			AddFiles(type, files, false, true);
 		}
 
-		public void AddFiles(AppType type, IEnumerable<string> files, bool onlyPrograms)
+		public void AddFiles(AppType type, IEnumerable<string> files, bool onlyPrograms, bool saveData)
 		{
 			if (files == null)
 				return;
@@ -101,7 +101,8 @@ namespace AppManager
 				}
 			}
 
-			_WorkItem.Commands.Save.Execute(null);
+			if (saveData)
+				_WorkItem.Commands.Save.Execute(null);
 		}
 
 
@@ -112,6 +113,9 @@ namespace AppManager
 			string ext = Path.GetExtension(appPath).ToLower();
 
 			if (ext != ".exe")
+				return false;
+
+			if (appPath.Contains("{"))
 				return false;
 
 			if (fileName.Contains("setup") ||
