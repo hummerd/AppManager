@@ -69,6 +69,9 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -122,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Windows\InputBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -152,6 +159,7 @@
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
     <Compile Include="Classes\Common\GDI32.cs" />
+    <Compile Include="Classes\Common\MenuHelper.cs" />
     <Compile Include="Classes\Common\MsiShortcutParser.cs" />
     <Compile Include="Classes\Common\PathHelper.cs" />
     <Compile Include="Classes\Common\PropSetter.cs" />
@@ -193,6 +201,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\InputBox.xaml.cs">
+      <DependentUpon>InputBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
