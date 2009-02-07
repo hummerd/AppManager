@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using WinSh = IWshRuntimeLibrary;
+using AppManager.Common;
 
 
 namespace AppManager
@@ -65,7 +66,10 @@ namespace AppManager
 						appPath = shortcut.TargetPath;
 						appArgs = shortcut.Arguments;
 
-						if (!String.IsNullOrEmpty(appArgs ))
+						if (appPath.Contains("{"))
+							appPath = MsiShortcutParser.ParseShortcut(path);
+
+						if (!String.IsNullOrEmpty(appArgs))
 							fullPath = "\"" + appPath + "\"" + " " + appArgs;
 						else
 							fullPath = appPath;
@@ -112,11 +116,14 @@ namespace AppManager
 			string fileName = Path.GetFileNameWithoutExtension(appPath).ToLower();
 			string ext = Path.GetExtension(appPath).ToLower();
 
+			if (!File.Exists(appPath))
+				return false;
+
 			if (ext != ".exe")
 				return false;
 
-			if (appPath.Contains("{"))
-				return false;
+			//if (appPath.Contains("{"))
+			//   return false;
 
 			if (fileName.Contains("setup") ||
 				 fileName.Contains("uninst") ||
