@@ -28,12 +28,26 @@ namespace AppManager
 			
 		}
 
-		public void Init(AppGroup appGroup)
+		public void Init(AppGroup appGroup, AppInfo appInfo)
 		{
 			_Controller = new AppManagerController(appGroup);
 			AppTypes.ItemsSource = appGroup.AppTypes;
 			AppTypeSelector.ItemsSource = appGroup.AppTypes;
 			AppScanType.ItemsSource = appGroup.AppTypes;
+
+			if (appInfo != null)
+			{
+				AppType appType = appGroup.FindAppType(appInfo);
+				AppTypes.SelectedItem = appType;
+				AppTypeSelector.SelectedItem = appType;
+				AppScanType.SelectedItem = appType;
+
+				AppTypes.SelectedItem = appInfo;
+				AppList.SelectedItem = appInfo;
+				AppList.Focus();
+
+				AppTabs.SelectedIndex = 1;
+			}
 		}
 
 

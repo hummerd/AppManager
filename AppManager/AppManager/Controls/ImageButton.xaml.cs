@@ -87,20 +87,23 @@ namespace AppManager
 			}
 			else
 			{
-				RowDefinition rd = new RowDefinition();
-				rd.Height = new GridLength(14.0, GridUnitType.Star);
-				ContentPanel.RowDefinitions.Add(rd);
+				if (_ButtonText == null)
+				{
+					RowDefinition rd = new RowDefinition();
+					rd.Height = new GridLength(14.0, GridUnitType.Star);
+					ContentPanel.RowDefinitions.Add(rd);
 
-				_ButtonText = new TextBlock();
-				_ButtonText.FontFamily = new FontFamily("Tahoma");
-				_ButtonText.FontSize = 11;
-				_ButtonText.TextAlignment = TextAlignment.Center;
-				_ButtonText.Foreground = Resources["AppNameBrush"] as Brush;
-				Grid.SetColumn(_ButtonText, 0);
-				Grid.SetRow(_ButtonText, 1);
-				Grid.SetColumnSpan(_ButtonText, 3);
+					_ButtonText = new TextBlock();
+					_ButtonText.FontFamily = new FontFamily("Tahoma");
+					_ButtonText.FontSize = 11;
+					_ButtonText.TextAlignment = TextAlignment.Center;
+					_ButtonText.Foreground = Resources["AppNameBrush"] as Brush;
+					Grid.SetColumn(_ButtonText, 0);
+					Grid.SetRow(_ButtonText, 1);
+					Grid.SetColumnSpan(_ButtonText, 3);
 
-				ContentPanel.Children.Add(_ButtonText);
+					ContentPanel.Children.Add(_ButtonText);
+				}
 				_ButtonText.Text = text;
 			}
 		}

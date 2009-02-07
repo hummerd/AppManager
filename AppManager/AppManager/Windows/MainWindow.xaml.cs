@@ -132,6 +132,10 @@ namespace AppManager
 			groupContent.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
 			groupContent.ButtonClicked += (s, e) => workItem.Commands.RunApp.Execute(e.Obj);
 
+			groupContent.EditItem += (s, e) => _Controller.EditItem(e.Obj as AppInfo);
+			groupContent.DeleteItem += (s, e) => _Controller.DeleteItem(e.Obj as AppInfo);
+			groupContent.RenameItem += (s, e) => _Controller.RenameItem(e.Obj as AppInfo);
+
 			groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
 			groupContent.DataContext = appType;
 

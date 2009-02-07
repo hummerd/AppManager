@@ -25,6 +25,13 @@ namespace AppManager
 		{
 
 		}
+
+
+		public void AddRange(IEnumerable<AppInfo> items)
+		{
+			foreach (var item in items)
+				Add(item);
+		}
 	}
 
 	[Serializable]
@@ -280,6 +287,11 @@ namespace AppManager
 
 		#endregion
 
+		public override string ToString()
+		{
+			return AppName;
+		}
+		
 		public override bool Equals(object obj)
 		{
 			return AppInfoID == ((AppInfo)obj).AppInfoID;

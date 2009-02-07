@@ -38,6 +38,41 @@ namespace AppManager
 		}
 
 
+		public AppInfoCollection FindApps(string name)
+		{
+			AppInfoCollection result = new AppInfoCollection();
+
+			foreach (var item in _AppTypes)
+				result.AddRange(FindApps(item.AppInfos, name));
+
+			return result;
+		}
+
+		public AppInfoCollection FindApps(AppInfoCollection collection, string name)
+		{
+			AppInfoCollection result = new AppInfoCollection();
+
+			foreach (AppInfo item in collection)
+			{
+				if (item.AppName.IndexOf(name, StringComparison.InvariantCultureIgnoreCase) >= 0)
+					result.Add(item);
+			}
+
+			return result;
+		}
+
+		public AppType FindAppType(AppInfo appInfo)
+		{
+			foreach (var item in _AppTypes)
+			{
+				int ix = item.AppInfos.IndexOf(appInfo);
+				if (ix >= 0)
+					return item;
+			}
+
+			return null;
+		}
+
 		public void GroupByFolders()
 		{
 			if (_AppTypes.Count <= 0)

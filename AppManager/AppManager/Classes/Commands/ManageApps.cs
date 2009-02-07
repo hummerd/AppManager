@@ -20,7 +20,7 @@ namespace AppManager.Commands
 		{
 			WndAppManager appManager = new WndAppManager();
 			AppGroup mangerData = _WorkItem.AppData.CloneEntity();
-			appManager.Init(mangerData);
+			appManager.Init(mangerData, parameter as AppInfo);
 			appManager.Owner = _WorkItem.MainWindow;
 
 			if (appManager.ShowDialog() ?? false)

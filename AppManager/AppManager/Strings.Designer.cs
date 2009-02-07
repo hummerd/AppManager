@@ -151,6 +151,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete application {0} ?.
+        /// </summary>
+        public static string DEL_APP_QUEST {
+            get {
+                return ResourceManager.GetString("DEL_APP_QUEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open app data file.
         /// </summary>
         public static string EDIT_APP_DATA {
@@ -160,11 +169,38 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter app name.
+        /// </summary>
+        public static string ENTER_APP_NAME {
+            get {
+                return ResourceManager.GetString("ENTER_APP_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close StartUp.
         /// </summary>
         public static string MNU_CLOSE {
             get {
                 return ResourceManager.GetString("MNU_CLOSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string MNU_DELETE {
+            get {
+                return ResourceManager.GetString("MNU_DELETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string MNU_EDIT {
+            get {
+                return ResourceManager.GetString("MNU_EDIT", resourceCulture);
             }
         }
         
@@ -183,6 +219,15 @@ namespace AppManager {
         public static string MNU_MANAGEAPP {
             get {
                 return ResourceManager.GetString("MNU_MANAGEAPP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        public static string MNU_RENAME {
+            get {
+                return ResourceManager.GetString("MNU_RENAME", resourceCulture);
             }
         }
         

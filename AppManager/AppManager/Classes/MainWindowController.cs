@@ -4,6 +4,8 @@ using System.Text;
 using System.IO;
 using WinSh = IWshRuntimeLibrary;
 using AppManager.Common;
+using AppManager.Windows;
+using System.Windows;
 
 
 namespace AppManager
@@ -34,6 +36,37 @@ namespace AppManager
 			_WorkItem = workItem;
 		}
 
+
+		public void RenameItem(AppInfo appInfo)
+		{
+			InputBox input = new InputBox(Strings.ENTER_APP_NAME);
+			input.InputText = appInfo.AppName;
+			input.Owner = _WorkItem.MainWindow;
+			input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+			if (input.ShowDialog() ?? false)
+			{
+				appInfo.AppName = input.InputText;
+			}
+		}
+
+		public void DeleteItem(AppInfo appInfo)
+		{
+			if (MessageBox.Show(
+				string.Format(Strings.DEL_APP_QUEST, appInfo.AppName), 
+				Strings.APP_TITLE,
+				MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+				return;
+
+			AppType appType = _WorkItem.AppData.FindAppType(appInfo);
+			if (appType != null)
+				appType.AppInfos.Remove(appInfo);
+		}
+
+		public void EditItem(AppInfo appInfo)
+		{
+			_WorkItem.Commands.ManageApps.Execute(appInfo);
+		}
 
 		public void AddFiles(AppType type, IEnumerable<string> files)
 		{
