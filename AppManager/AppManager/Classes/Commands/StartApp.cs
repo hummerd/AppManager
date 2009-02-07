@@ -137,7 +137,7 @@ namespace AppManager.Commands
 			else
 			{
 				_WorkItem.AppData = new AppGroup();
-				_WorkItem.AppData.AppTypes.Add(new AppType());
+				_WorkItem.AppData.AppTypes.Add(new AppType() { AppTypeName = Strings.APPLICATIONS });
 			}
 		}
 		
