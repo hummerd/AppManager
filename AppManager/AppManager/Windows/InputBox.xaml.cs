@@ -46,5 +46,26 @@ namespace AppManager.Windows
 		{
 			DialogResult = false;
 		}
+
+		private void Window_Activated(object sender, EventArgs e)
+		{
+			TxtInput.Focus();
+			TxtInput.SelectAll();
+		}
+
+		private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				e.Handled = true;
+				DialogResult = true;
+			}
+
+			if (e.Key == Key.Escape)
+			{
+				e.Handled = true;
+				DialogResult = false;
+			}
+		}
 	}
 }

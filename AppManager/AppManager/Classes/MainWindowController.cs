@@ -6,6 +6,8 @@ using WinSh = IWshRuntimeLibrary;
 using AppManager.Common;
 using AppManager.Windows;
 using System.Windows;
+using System.Timers;
+using System.Windows.Threading;
 
 
 namespace AppManager
@@ -28,14 +30,48 @@ namespace AppManager
 		}
 
 
+		protected DispatcherTimer _SearchTimer = new DispatcherTimer();
+		protected QuickSearch _QuickSearchWnd = null;
 		protected MainWorkItem _WorkItem;
 
 
 		public MainWindowController(MainWorkItem workItem)
 		{
 			_WorkItem = workItem;
+			_SearchTimer.Interval = new TimeSpan(0, 0, 60);
+			_SearchTimer.Tick += (s, e) => _QuickSearchWnd.Close();
 		}
+	
 
+		public void FindApp(string appNamePart)
+		{
+			if (_QuickSearchWnd == null)
+			{
+				_QuickSearchWnd = new QuickSearch();
+				_QuickSearchWnd.Owner = _WorkItem.MainWindow;
+				_QuickSearchWnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+				_QuickSearchWnd.SearchString = appNamePart;
+				_QuickSearchWnd.SerachStringChanged += (s, e) => FindApp(_QuickSearchWnd.SearchString);
+				_QuickSearchWnd.Closed += (s, e) => EndSearch();
+				_QuickSearchWnd.ItemSelected += (s, e) => SearchSucceded();
+				
+				_QuickSearchWnd.FoundItems = _WorkItem.AppData.FindApps(appNamePart);
+	
+				_QuickSearchWnd.Show();
+				_SearchTimer.IsEnabled = true;
+			}
+			else
+			{
+				_SearchTimer.Stop();
+				_SearchTimer.Start();
+
+				//var apps = _QuickSearchWnd.FoundItems as AppInfoCollection;
+				var apps = _WorkItem.AppData.FindApps(appNamePart);
+
+				if (apps != null)
+					_QuickSearchWnd.FoundItems = apps;
+			}
+		}
 
 		public void RenameItem(AppInfo appInfo)
 		{
@@ -182,6 +218,19 @@ namespace AppManager
 			//   return false;
 
 			return true;
+		}
+
+		protected void SearchSucceded()
+		{
+			object si = _QuickSearchWnd.SelectedItem;
+			_QuickSearchWnd.Close();
+			_WorkItem.Commands.RunApp.Execute(si);
+		}
+
+		protected void EndSearch()
+		{ 
+			_SearchTimer.IsEnabled = false;
+			_QuickSearchWnd = null;					
 		}
 	}
 }
