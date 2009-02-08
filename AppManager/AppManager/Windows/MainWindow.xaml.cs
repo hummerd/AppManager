@@ -275,5 +275,15 @@ namespace AppManager
 			UpdateLayout();
 			InvalidateVisual();
 		}
+
+		private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			if (!String.IsNullOrEmpty(e.Text))
+				if (char.IsLetterOrDigit(e.Text[0]) || char.IsWhiteSpace(e.Text[0]))
+				{
+					e.Handled = true;
+					_Controller.FindApp(e.Text);
+				}
+		}
 	}
 }

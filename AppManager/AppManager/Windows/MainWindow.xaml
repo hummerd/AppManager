@@ -16,7 +16,7 @@
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d" 
 	Title="Стартер" 
-	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize" Loaded="Window_Loaded" SnapsToDevicePixels="True">
+	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize" Loaded="Window_Loaded" SnapsToDevicePixels="True" PreviewTextInput="Window_PreviewTextInput">
 	
 	<Window.Resources>
 		<ResourceDictionary>

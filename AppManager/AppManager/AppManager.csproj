@@ -133,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\QuickSearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +208,9 @@
     </Compile>
     <Compile Include="Windows\InputBox.xaml.cs">
       <DependentUpon>InputBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\QuickSearch.xaml.cs">
+      <DependentUpon>QuickSearch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
