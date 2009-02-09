@@ -61,6 +61,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to add programs from Start menu?.
+        /// </summary>
+        public static string ADD_PROGS_QUEST {
+            get {
+                return ResourceManager.GetString("ADD_PROGS_QUEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add to group.
         /// </summary>
         public static string ADD_TO_TYPE {

@@ -1,17 +1,15 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Windows.Controls.Primitives;
 using AppManager.Common;
 using AppManager.Properties;
 using AppManager.Settings;
 using WinForms = System.Windows.Forms;
-using System.IO;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace AppManager.Commands
@@ -64,6 +62,13 @@ namespace AppManager.Commands
 			if (_WorkItem.AppData.AppTypes.Count == 1 &&
 				 _WorkItem.AppData.AppTypes[0].AppInfos.Count == 0)
 			{
+				if (MessageBox.Show(
+					_WorkItem.MainWindow,
+					Strings.ADD_PROGS_QUEST,
+					Strings.APP_TITLE,
+					MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+					return false;
+
 				StringBuilder allPrograms = new StringBuilder(300);
 				Shell32.SHGetSpecialFolderPath(IntPtr.Zero, allPrograms, Shell32.CSIDL_COMMON_PROGRAMS, false);
 				string[] auLinks = Directory.GetFiles(allPrograms.ToString(), "*.lnk", SearchOption.AllDirectories);

@@ -1,7 +1,15 @@
 ﻿<Window x:Class="AppManager.Windows.QuickSearch"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-   Title="QuickSearch" Height="326" Width="311" WindowStyle="None" ShowInTaskbar="False" ResizeMode="NoResize" PreviewTextInput="Window_PreviewTextInput" Deactivated="Window_Deactivated" PreviewKeyUp="Window_PreviewKeyUp" Activated="Window_Activated">
+   Title="QuickSearch" 
+	Height="326" Width="311" 
+	WindowStyle="None" 
+	ShowInTaskbar="False" 
+	ResizeMode="NoResize" 
+	PreviewTextInput="Window_PreviewTextInput" 
+	Deactivated="Window_Deactivated" 
+	PreviewKeyUp="Window_PreviewKeyUp" 
+	Activated="Window_Activated">
 
 	<Window.Resources>
 		<DataTemplate x:Key="SemiEditableAppInfo">
@@ -49,7 +57,7 @@
 				TabIndex="2" 
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				ItemTemplate="{DynamicResource SemiEditableAppInfo}"
-				IsSynchronizedWithCurrentItem="True" />
+				IsSynchronizedWithCurrentItem="True" MouseDoubleClick="LstApp_MouseDoubleClick" />
 			<TextBox Height="24" Margin="4,0,4,4" Name="TxtSearch" VerticalAlignment="Bottom" TextChanged="TxtSearch_TextChanged" TabIndex="1" KeyUp="TxtSearch_KeyUp" />
 		</Grid>
 	</Border>

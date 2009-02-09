@@ -7,16 +7,21 @@
 	x:Class="AppManager.MainWindow"
 	x:Name="Window"
 	Width="430" 
-    Height="564" 
+   Height="564" 
 	MinWidth="200" 
-    MinHeight="150"
+   MinHeight="150"
 	WindowStyle="None"
 	AllowsTransparency="False" 
 	Background="{x:Null}" 
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d" 
 	Title="Стартер" 
-	Closing="Window_Closing" ShowInTaskbar="False" ResizeMode="NoResize" Loaded="Window_Loaded" SnapsToDevicePixels="True" PreviewTextInput="Window_PreviewTextInput">
+	Closing="Window_Closing" 
+	ShowInTaskbar="False" 
+	ResizeMode="NoResize" 
+	SnapsToDevicePixels="True" 
+	Loaded="Window_Loaded" 
+	PreviewTextInput="Window_PreviewTextInput">
 	
 	<Window.Resources>
 		<ResourceDictionary>

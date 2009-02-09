@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using WinSh = IWshRuntimeLibrary;
+using System.Windows;
+using System.Windows.Threading;
 using AppManager.Common;
 using AppManager.Windows;
-using System.Windows;
-using System.Timers;
-using System.Windows.Threading;
+using WinSh = IWshRuntimeLibrary;
 
 
 namespace AppManager
@@ -89,6 +87,7 @@ namespace AppManager
 		public void DeleteItem(AppInfo appInfo)
 		{
 			if (MessageBox.Show(
+				_WorkItem.MainWindow,
 				string.Format(Strings.DEL_APP_QUEST, appInfo.AppName), 
 				Strings.APP_TITLE,
 				MessageBoxButton.YesNo) != MessageBoxResult.Yes)
