@@ -20,6 +20,7 @@ namespace AppManager
 	public partial class WndAppManager : Window
 	{
 		protected AppManagerController _Controller;
+		protected object _ItemToSelect;
 
 
 		public WndAppManager()
@@ -43,8 +44,10 @@ namespace AppManager
 				AppScanType.SelectedItem = appType;
 
 				AppTypes.SelectedItem = appInfo;
+				_ItemToSelect = appInfo;
 				AppList.SelectedItem = appInfo;
-				AppList.Focus();
+				//AppList.ScrollIntoView(AppList.SelectedItem);
+				//AppList.Focus();
 
 				AppTabs.SelectedIndex = 1;
 			}
@@ -190,6 +193,16 @@ namespace AppManager
 			_Controller.MoveType(
 				AppTypes.SelectedItem as AppType,
 				false);
+		}
+
+		private void AppsManagerWindow_Activated(object sender, EventArgs e)
+		{
+			if (_ItemToSelect != null)
+			{
+				AppList.ScrollIntoView(_ItemToSelect);
+				AppList.Focus();
+				_ItemToSelect = null;
+			}
 		}
 	}
 }

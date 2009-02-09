@@ -70,6 +70,21 @@ namespace AppManager.Windows
 				ItemSelected(this, EventArgs.Empty);
 		}
 
+		protected void SelectItem(bool first)
+		{ 
+			if (LstApp.Items.Count > 0)
+			{
+				if (LstApp.Items.Count > 1)
+				{
+					LstApp.SelectedIndex = first ? 1 : LstApp.Items.Count - 1;
+					LstApp.ScrollIntoView(LstApp.SelectedItem);
+					var c = LstApp.ItemContainerGenerator.ContainerFromItem(LstApp.SelectedItem) as ListBoxItem;
+					c.IsSelected = true;
+					c.Focus();
+				}
+			}			
+		}
+
 
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
 		{
@@ -126,11 +141,20 @@ namespace AppManager.Windows
 			OnSerachStringChanged();
 		}
 
+		private void TxtSearch_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Down || e.Key == Key.Up)
+			{
+				SelectItem(e.Key == Key.Up);
+			}
+		}
+
 		private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
 			if (e.OriginalSource != TxtSearch)
 			{
-				if (char.IsLetterOrDigit(e.Text[0]) || char.IsWhiteSpace(e.Text[0]))
+				if ((char.IsLetterOrDigit(e.Text[0]) || char.IsWhiteSpace(e.Text[0])) &&
+					 e.Text != "\r")
 				{
 					TxtSearch.Text = TxtSearch.Text + e.Text;
 					TxtSearch.Focus();
@@ -169,32 +193,9 @@ namespace AppManager.Windows
 			TxtSearch.CaretIndex = TxtSearch.Text.Length;
 		}
 
-		private void TxtSearch_KeyUp(object sender, KeyEventArgs e)
+		private void LstApp_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			if (e.Key == Key.Down || e.Key == Key.Up)
-			{
-				if (LstApp.Items.Count > 0)
-				{
-					if (e.Key == Key.Down && LstApp.Items.Count > 1)
-						LstApp.SelectedIndex = 1;
-					else if (e.Key == Key.Up && LstApp.Items.Count > 0)
-						LstApp.SelectedIndex = LstApp.Items.Count - 1;
-					//int ix = 0;
-					//if (e.Key == Key.Down && LstApp.Items.Count > 1)
-					//   ix = 1;
-					//else if (e.Key == Key.Up && LstApp.Items.Count > 0)
-					//   ix = LstApp.Items.Count - 1;
-
-					//LstApp.SelectedIndex = ix;
-					
-					//LstApp.Sele
-					//c.Focus();
-					//LstApp.Focus();
-					LstApp.ScrollIntoView(LstApp.SelectedItem);
-					var c = LstApp.ItemContainerGenerator.ContainerFromItem(LstApp.SelectedItem) as ListBoxItem;
-					c.Focus();
-				}
-			}
+			OnItemSelected();
 		}
 	}
 }
