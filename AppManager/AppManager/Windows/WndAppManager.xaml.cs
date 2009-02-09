@@ -120,9 +120,9 @@ namespace AppManager
 
 		private void BtnRemoveApp_Click(object sender, RoutedEventArgs e)
 		{
-			_Controller.RemoveApp(
-				AppTypeSelector.SelectedItem as AppType,
-				AppList.SelectedItem as AppInfo);
+			AppType appType = AppTypeSelector.SelectedItem as AppType;
+			for (int i = AppList.SelectedItems.Count - 1; i >= 0; i--)
+				_Controller.RemoveApp(appType, AppList.SelectedItems[i] as AppInfo);
 		}
 
 		private void AppPathSelect_Click(object sender, RoutedEventArgs e)
