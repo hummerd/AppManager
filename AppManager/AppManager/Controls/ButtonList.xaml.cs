@@ -72,12 +72,12 @@ namespace AppManager
 		}
 
 
-		private void ImageButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			ImageButton ib = sender as ImageButton;
-			if (ButtonClicked != null)
-				ButtonClicked(this, new ObjEventArgs() { Obj = ib.DataContext });
-		}
+		//private void ImageButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		//{
+		//   ImageButton ib = sender as ImageButton;
+		//   if (ButtonClicked != null)
+		//      ButtonClicked(this, new ObjEventArgs() { Obj = ib.DataContext });
+		//}
 
 		private void ButtonList_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
@@ -111,6 +111,13 @@ namespace AppManager
 					_EditMenu.IsOpen = true;
 				}
 			}
+		}
+
+		private void ImageButton_Click(object sender, RoutedEventArgs e)
+		{
+			ImageButton ib = sender as ImageButton;
+			if (ButtonClicked != null)
+				ButtonClicked(this, new ObjEventArgs() { Obj = ib.DataContext });
 		}
 	}
 

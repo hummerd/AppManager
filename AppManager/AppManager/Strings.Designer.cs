@@ -295,11 +295,38 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scan All Programs menu.
+        /// </summary>
+        public static string SCAN_ALL_PROGS {
+            get {
+                return ResourceManager.GetString("SCAN_ALL_PROGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Quick Launch menu.
+        /// </summary>
+        public static string SCAN_QUICK_LAUNCH {
+            get {
+                return ResourceManager.GetString("SCAN_QUICK_LAUNCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string SEARCH {
             get {
                 return ResourceManager.GetString("SEARCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select group to add applications to.
+        /// </summary>
+        public static string SELECT_APP_GROUP {
+            get {
+                return ResourceManager.GetString("SELECT_APP_GROUP", resourceCulture);
             }
         }
         

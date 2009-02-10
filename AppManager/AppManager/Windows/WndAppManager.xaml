@@ -80,6 +80,11 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<DataTemplate x:Key="myHeaderTemplate">
+			<DockPanel>
+				<CheckBox Click="CheckBox_Click" />
+			</DockPanel>
+		</DataTemplate>
 		<!--<Style x:Key="AppItemStyle" TargetType="ListViewItem">
 			<Style.Resources>
 				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFB0CCF7"/>
@@ -328,43 +333,42 @@
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="100*" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<Label 
-							Margin="8,6,0,1.7" 
-							Name="label1" 
-							VerticalContentAlignment="Center" 
-							Content="{Binding Source={x:Static am:Strings.ADD_TO_TYPE}}" />
-						<ComboBox 
-							DisplayMemberPath="AppTypeName" 
-							Margin="4,12,8,6" 
-							Name="AppScanType" 
-							SelectedIndex="0" 
-							Grid.Column="1" 
-							Grid.ColumnSpan="4" />
-
+						<StackPanel Margin="8,12,8,6" Grid.ColumnSpan="6" Orientation="Horizontal">
+						<Button 
+							Name="BtnScanQuickLaunch" 
+							Content="{Binding Source={x:Static am:Strings.SCAN_QUICK_LAUNCH}}" 
+							Click="BtnScanQuickLaunch_Click" />
+						<Button 
+							Name="BtnScanAllProgs" 
+							Margin="4,0,0,0"
+							Content="{Binding Source={x:Static am:Strings.SCAN_ALL_PROGS}}" 
+							Click="BtnScanAllProgs_Click" />
+						</StackPanel>
 						<TextBox 
 							Grid.Row="1"
-							Margin="8,6,4,12" 
-							Name="TxtFolder" Grid.ColumnSpan="2" />
+							Margin="8,6,32,12" 
+							Name="TxtFolder" Grid.ColumnSpan="4" />
 						<Button 
 							Grid.Row="1"
 							MinWidth="24"
-							Margin="0,6,4,12" Name="BtnFolder" Click="BtnFolder_Click" Grid.Column="2">...</Button>
+							Margin="0,6,4,12" Name="BtnFolder" Click="BtnFolder_Click" Grid.Column="3">...</Button>
 						<Button 
 							Grid.Row="1" 
 							Margin="0,6,4,12" 
-							Name="_BtnSearch" Click="BtnSearch_Click" Content="{Binding Source={x:Static am:Strings.SCAN}}" Grid.Column="3" />
+							Name="_BtnSearch" Click="BtnSearch_Click" Content="{Binding Source={x:Static am:Strings.SCAN}}" Grid.Column="4" />
 						<Button 
 							Grid.Row="1" 
 							Width="24"
 							Margin="0,6,8,12" 
 							Name="BtnAddScan" 
 							Click="BtnAddScan_Click" 
-							Grid.Column="4">+</Button>
+							Grid.Column="5">+</Button>
 					</Grid>
 					<ListView 
 						Margin="8,0" Name="AppScanList" Grid.Row="1" 
@@ -372,8 +376,8 @@
 						ItemContainerStyle="{StaticResource AppItemStyle}">
 						<!---->
 						<ListView.View>
-							<GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Employee Information">
-								<GridViewColumn CellTemplate="{StaticResource CheckCell}" Width="26"/>
+							<GridView AllowsColumnReorder="false">
+								<GridViewColumn HeaderTemplate="{StaticResource myHeaderTemplate}" CellTemplate="{StaticResource CheckCell}" Width="26"/>
 								<GridViewColumn CellTemplate="{StaticResource SemiEditableAppInfo}" Header="{Binding Source={x:Static am:Strings.APPLICATION}}" Width="300"/>
 							</GridView>
 						</ListView.View>

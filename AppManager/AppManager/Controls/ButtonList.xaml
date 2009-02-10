@@ -16,12 +16,13 @@
 	
 	<ListBox.ItemTemplate>
 		<DataTemplate>
+			<!--PreviewMouseLeftButtonUp="ImageButton_MouseLeftButtonUp"-->
 			<am:ImageButton
-                PreviewMouseLeftButtonUp="ImageButton_MouseLeftButtonUp"
-                IsTabStop="False" 
-                Margin="4,4,4,4" 
-                ButtonImageSource="{Binding Path=AppImage}" 
-                ButtonText="{Binding Path=AppName}" />
+				Click="ImageButton_Click" 
+				IsTabStop="False" 
+				Margin="4,4,4,4" 
+				ButtonImageSource="{Binding Path=AppImage}" 
+				ButtonText="{Binding Path=AppName}" />
 		</DataTemplate>
 	</ListBox.ItemTemplate>
 	<ListBox.ItemsPanel>

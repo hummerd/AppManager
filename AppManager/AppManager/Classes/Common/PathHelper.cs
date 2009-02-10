@@ -19,7 +19,7 @@ namespace AppManager.Common
 			if (String.IsNullOrEmpty(tempPath))
 				return String.Empty;
 
-			if (File.Exists(tempPath) || Directory.Exists(tempPath))
+			if (!tempPath.Contains("\"") && (File.Exists(tempPath) || Directory.Exists(tempPath)))
 				return tempPath;
 
 			while (true)
@@ -31,7 +31,7 @@ namespace AppManager.Common
 				tempPath = tempPath.Substring(0, lix);
 				tempPath = tempPath.Trim('\"');
 
-				if (File.Exists(tempPath) || Directory.Exists(tempPath))
+				if (!tempPath.Contains("\"") && (File.Exists(tempPath) || Directory.Exists(tempPath)))
 					break;
 			}
 
@@ -94,6 +94,22 @@ namespace AppManager.Common
 				return path.Substring(ix + 1, path.Length - ix - 1);
 			else
 				return path.Substring(ix + 1, ixe - ix - 1);
+		}
+
+		public static bool IsPathUNC(string path)
+		{
+			Uri uri;
+			try
+			{
+				uri = new Uri(path);
+			}
+			catch (UriFormatException)
+			{
+				path = Path.GetFullPath(path);
+				uri = new Uri(path);
+			}
+
+			return uri.IsUnc;
 		}
 	}
 }

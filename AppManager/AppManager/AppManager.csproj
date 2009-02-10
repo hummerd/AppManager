@@ -141,6 +141,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\SimpleSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="App.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
@@ -162,16 +166,17 @@
     <Compile Include="Classes\Commands\Save.cs" />
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
-    <Compile Include="Classes\Common\GDI32.cs" />
+    <Compile Include="Classes\Common\PInvoke\GDI32.cs" />
     <Compile Include="Classes\Common\MenuHelper.cs" />
-    <Compile Include="Classes\Common\MsiShortcutParser.cs" />
+    <Compile Include="Classes\Common\PInvoke\MsiShortcutParser.cs" />
     <Compile Include="Classes\Common\PathHelper.cs" />
     <Compile Include="Classes\Common\PropSetter.cs" />
-    <Compile Include="Classes\Common\ScaleUI.cs" />
-    <Compile Include="Classes\Common\Shell32.cs" />
+    <Compile Include="Classes\Common\PInvoke\ScaleUI.cs" />
+    <Compile Include="Classes\Common\PInvoke\Shell32.cs" />
     <Compile Include="Classes\Common\UIHelper.cs" />
-    <Compile Include="Classes\Common\User32.cs" />
+    <Compile Include="Classes\Common\PInvoke\User32.cs" />
     <Compile Include="Classes\Common\WinFrmMenuAdapter.cs" />
+    <Compile Include="Classes\ControllerBase.cs" />
     <Compile Include="Classes\Entities\AppGroup.cs" />
     <Compile Include="Classes\Entities\AppInfo.cs" />
     <Compile Include="Classes\AppManagerController.cs" />
@@ -181,7 +186,7 @@
     <Compile Include="Classes\EntityCollection\IClonableEntity.cs" />
     <Compile Include="Classes\EntityCollection\EntityCollection.cs" />
     <Compile Include="Classes\MainWindowController.cs" />
-    <Compile Include="Classes\Common\KeyHook.cs" />
+    <Compile Include="Classes\Common\PInvoke\KeyHook.cs" />
     <Compile Include="Classes\MainWorkItem.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Classes\SettingsController.cs" />
@@ -214,6 +219,9 @@
     </Compile>
     <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SimpleSelector.xaml.cs">
+      <DependentUpon>SimpleSelector.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

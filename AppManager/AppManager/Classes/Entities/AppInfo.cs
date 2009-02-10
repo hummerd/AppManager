@@ -151,6 +151,12 @@ namespace AppManager
 			if (AppName == Strings.NEW_APP)
 			{
 				string name = Path.GetFileNameWithoutExtension(AppPath).ToLower();
+				if (String.IsNullOrEmpty(name))
+					name = AppPath;
+
+				if (String.IsNullOrEmpty(name))
+					return false;
+
 				AppName = name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
 				return true;
 			}
@@ -182,6 +188,12 @@ namespace AppManager
 
 			if (File.Exists(AppPath))
 			{
+				if (PathHelper.IsPathUNC(AppPath))
+				{
+					AppImage = GetBlankImage();
+					return;
+				}
+				
 				System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(AppPath);
 
 				src = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
