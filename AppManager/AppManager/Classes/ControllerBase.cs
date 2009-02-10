@@ -158,8 +158,9 @@ namespace AppManager
 					{
 						if (!uniq.ContainsKey(fullPath))
 						{
+                            string appName = Path.GetFileNameWithoutExtension(path);
 							uniq.Add(fullPath, null);
-							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, fullPath));
+							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, appName, fullPath));
 						}
 					}
 				}
@@ -187,6 +188,7 @@ namespace AppManager
 				if (String.IsNullOrEmpty(dirName))
 					dirName = Path.GetPathRoot(appPath);
 
+                dirName = dirName.ToLower();
 				string fileName = Path.GetFileNameWithoutExtension(appPath).ToLower();
 				string ext = Path.GetExtension(appPath).ToLower();
 

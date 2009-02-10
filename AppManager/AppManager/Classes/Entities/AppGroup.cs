@@ -136,14 +136,19 @@ namespace AppManager
 			return CreateNewAppInfo(appType, String.Empty); ;
 		}
 
-		public AppInfo CreateNewAppInfo(AppType appType, string execPath)
+        public AppInfo CreateNewAppInfo(AppType appType, string execPath)
+        {
+            return CreateNewAppInfo(appType, Strings.NEW_APP, execPath);
+        }
+
+		public AppInfo CreateNewAppInfo(AppType appType, string appName, string execPath)
 		{
 			if (execPath == null)
 				execPath = String.Empty;
 			
 			AppInfo newInfo = new AppInfo()
 			{
-				AppName = Strings.NEW_APP,
+                AppName = appName,
 				ExecPath = execPath,
 				AppInfoID = _LastAppInfoID++
 			};

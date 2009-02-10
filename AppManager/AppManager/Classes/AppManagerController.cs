@@ -117,10 +117,7 @@ namespace AppManager
 				new List<string>() { "lnk", "exe", "jar" },
 				false);
 
-			foreach (var app in apps)
-				result.Add(new AppInfoAdapter(app));
-
-			return result;
+			return AdaptTo(apps);
 		}
 
 		public void AddScned(AppType appType, List<AppInfoAdapter> list)
@@ -157,6 +154,19 @@ namespace AppManager
 				new List<string>() { "lnk" },
 				true);
 		}
+
+        public List<AppInfoAdapter> AdaptTo(AppInfoCollection apps)
+        {
+            if (apps == null)
+                return new List<AppInfoAdapter>();
+
+            var result = new List<AppInfoAdapter>(apps.Count);
+
+            foreach (var app in apps)
+                result.Add(new AppInfoAdapter(app));
+
+            return result;
+        }
 
 
 		public class AppInfoAdapter : INotifyPropertyChanged
