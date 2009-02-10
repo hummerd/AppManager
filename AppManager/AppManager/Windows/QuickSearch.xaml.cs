@@ -145,7 +145,7 @@ namespace AppManager.Windows
 		{
 			if (e.Key == Key.Down || e.Key == Key.Up)
 			{
-				SelectItem(e.Key == Key.Up);
+				SelectItem(e.Key != Key.Up);
 			}
 		}
 

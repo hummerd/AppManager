@@ -28,6 +28,8 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
 			AMSetttingsFactory.WorkItem = _WorkItem;
 
 			App app = new App();
@@ -56,6 +58,12 @@ namespace AppManager.Commands
 			app.Run(_WorkItem.MainWindow);
 		}
 
+		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			if (e.ExceptionObject != null)
+				MessageBox.Show(e.ExceptionObject.ToString());
+		}
+
 
 		protected bool FirstLoad()
 		{
@@ -69,21 +77,28 @@ namespace AppManager.Commands
 					MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 					return false;
 
-				StringBuilder allPrograms = new StringBuilder(300);
-				Shell32.SHGetSpecialFolderPath(IntPtr.Zero, allPrograms, Shell32.CSIDL_COMMON_PROGRAMS, false);
-				string[] auLinks = Directory.GetFiles(allPrograms.ToString(), "*.lnk", SearchOption.AllDirectories);
+				var ctrl = new ControllerBase(_WorkItem);
+				var apps = ctrl.FindAppsInAllProgs();
 
-				string path = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
-				string[] uLinks = Directory.GetFiles(path, "*.lnk", SearchOption.AllDirectories);
-
-				var links = new List<string>(auLinks.Length + uLinks.Length);
-				links.AddRange(auLinks);
-				links.AddRange(uLinks);
-
-				MainWindowController mwc = new MainWindowController(_WorkItem);
-				mwc.AddFiles(_WorkItem.AppData.AppTypes[0], links, true, false);
+				_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
 				_WorkItem.AppData.GroupByFolders();
 				_WorkItem.Commands.Save.Execute(null);
+				
+				//StringBuilder allPrograms = new StringBuilder(300);
+				//Shell32.SHGetSpecialFolderPath(IntPtr.Zero, allPrograms, Shell32.CSIDL_COMMON_PROGRAMS, false);
+				//string[] auLinks = Directory.GetFiles(allPrograms.ToString(), "*.lnk", SearchOption.AllDirectories);
+
+				//string path = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+				//string[] uLinks = Directory.GetFiles(path, "*.lnk", SearchOption.AllDirectories);
+
+				//var links = new List<string>(auLinks.Length + uLinks.Length);
+				//links.AddRange(auLinks);
+				//links.AddRange(uLinks);
+
+				//var ctrl = new ControllerBase(_WorkItem);
+				//ctrl.AddFiles(_WorkItem.AppData.AppTypes[0], links, true, false);
+				//_WorkItem.AppData.GroupByFolders();
+				//_WorkItem.Commands.Save.Execute(null);
 
 				return true;
 			}

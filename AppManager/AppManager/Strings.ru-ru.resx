@@ -195,8 +195,17 @@
   <data name="SCAN" xml:space="preserve">
     <value>Искать</value>
   </data>
+  <data name="SCAN_ALL_PROGS" xml:space="preserve">
+    <value>Искать в меню Все программы</value>
+  </data>
+  <data name="SCAN_QUICK_LAUNCH" xml:space="preserve">
+    <value>Искать в меню Быстрый запуск</value>
+  </data>
   <data name="SEARCH" xml:space="preserve">
     <value>Поиск</value>
+  </data>
+  <data name="SELECT_APP_GROUP" xml:space="preserve">
+    <value>Выберите группу к которой будут добавлены приложения</value>
   </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Настройки</value>

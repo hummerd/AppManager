@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WinForms = System.Windows.Forms;
+using AppManager.Windows;
 
 
 namespace AppManager
@@ -21,6 +22,7 @@ namespace AppManager
 	{
 		protected AppManagerController _Controller;
 		protected object _ItemToSelect;
+		protected AppTypeCollection _AppTypes;
 
 
 		public WndAppManager()
@@ -29,19 +31,20 @@ namespace AppManager
 			
 		}
 
-		public void Init(AppGroup appGroup, AppInfo appInfo)
+		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo)
 		{
-			_Controller = new AppManagerController(appGroup);
+			_Controller = new AppManagerController(workItem, appGroup);
 			AppTypes.ItemsSource = appGroup.AppTypes;
+			_AppTypes = appGroup.AppTypes;
 			AppTypeSelector.ItemsSource = appGroup.AppTypes;
-			AppScanType.ItemsSource = appGroup.AppTypes;
+			//AppScanType.ItemsSource = appGroup.AppTypes;
 
 			if (appInfo != null)
 			{
 				AppType appType = appGroup.FindAppType(appInfo);
 				AppTypes.SelectedItem = appType;
 				AppTypeSelector.SelectedItem = appType;
-				AppScanType.SelectedItem = appType;
+				//AppScanType.SelectedItem = appType;
 
 				AppTypes.SelectedItem = appInfo;
 				_ItemToSelect = appInfo;
@@ -151,10 +154,17 @@ namespace AppManager
 
 		private void BtnAddScan_Click(object sender, RoutedEventArgs e)
 		{
-			AppType appType = AppScanType.SelectedItem as AppType;
-			_Controller.AddScned(
-				appType, 
-				AppScanList.ItemsSource as List<AppManager.AppManagerController.AppInfoAdapter>);
+			//AppType appType = AppScanType.SelectedItem as AppType;
+			if (AppScanList.Items.Count <= 0)
+				return;
+
+			var ss = new SimpleSelector(_AppTypes, "AppTypeName", Strings.SELECT_APP_GROUP);
+			ss.Owner = this;
+
+			if (ss.ShowDialog() ?? false)
+				_Controller.AddScned(
+					ss.SelectedItem as AppType, 
+					AppScanList.ItemsSource as List<AppManager.AppManagerController.AppInfoAdapter>);
 		}
 
 		private void ScanTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -203,6 +213,23 @@ namespace AppManager
 				AppList.Focus();
 				_ItemToSelect = null;
 			}
+		}
+
+		private void CheckBox_Click(object sender, RoutedEventArgs e)
+		{
+			CheckBox cb = sender as CheckBox;
+			if (cb != null)
+				_Controller.SelectAllScan(AppScanList.ItemsSource, cb.IsChecked ?? false);
+		}
+
+		private void BtnScanQuickLaunch_Click(object sender, RoutedEventArgs e)
+		{
+			AppScanList.ItemsSource = _Controller.FindAppsInQuickLaunch();
+		}
+
+		private void BtnScanAllProgs_Click(object sender, RoutedEventArgs e)
+		{
+			AppScanList.ItemsSource = _Controller.FindAppsInAllProgs();
 		}
 	}
 }

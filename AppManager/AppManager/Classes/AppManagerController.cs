@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Media.Imaging;
+using System.ComponentModel;
 using System.IO;
+using System.Windows.Media.Imaging;
 using WinForms = System.Windows.Forms;
+
 
 namespace AppManager
 {
-	public class AppManagerController
+	public class AppManagerController : ControllerBase
 	{
 		protected AppGroup _Data;
 
 
-		public AppManagerController(AppGroup data)
+		public AppManagerController(MainWorkItem workItem, AppGroup data)
+			: base(workItem)
 		{
 			_Data = data;
 		}
@@ -109,19 +112,25 @@ namespace AppManager
 			if (!Directory.Exists(path))
 				return result;
 
-			string[] files = Directory.GetFiles(path, "*.exe", SearchOption.AllDirectories);
+			var apps = FindApps(
+				path,
+				new List<string>() { "lnk", "exe", "jar" },
+				false);
 
-			foreach (var file in files)
-			{
-				AppInfo appi = _Data.CreateNewAppInfo(null, file);
-				result.Add(new AppInfoAdapter(appi));
-			}
+			foreach (var app in apps)
+				result.Add(new AppInfoAdapter(app));
 
 			return result;
 		}
 
 		public void AddScned(AppType appType, List<AppInfoAdapter> list)
 		{
+			if (list == null)
+				return;
+
+			if (appType == null)
+				return;
+
 			foreach (AppInfoAdapter infoAdp in list)
 			{
 				if (infoAdp.Checked)
@@ -129,10 +138,31 @@ namespace AppManager
 			}
 		}
 
+		public void SelectAllScan(IEnumerable appAdps, bool check)
+		{
+			var apps = appAdps as List<AppInfoAdapter>;
+			if (apps != null)
+				foreach (AppInfoAdapter infoAdp in apps)
+					infoAdp.Checked = check;
+		}
 
-		public class AppInfoAdapter
+		public AppInfoCollection FindAppsInQuickLaunch()
+		{
+			string dirPath = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				@"Microsoft\Internet Explorer\Quick Launch");
+
+			return FindApps(
+				new List<string>() { dirPath },
+				new List<string>() { "lnk" },
+				true);
+		}
+
+
+		public class AppInfoAdapter : INotifyPropertyChanged
 		{
 			protected AppInfo _Source;
+			protected bool _Checked;
 
 
 			public AppInfoAdapter(AppInfo source)
@@ -147,7 +177,23 @@ namespace AppManager
 			public string ExecPath { get { return _Source.ExecPath; } set { } }
 			public BitmapSource AppImage { get { return _Source.AppImage; } }
 
-			public bool Checked { get; set; }
+			public bool Checked
+			{
+				get { return _Checked; }
+				set { _Checked = value; OnPropertyChanged("Checked"); } 
+			}
+
+			#region INotifyPropertyChanged Members
+
+			public event PropertyChangedEventHandler PropertyChanged;
+
+			protected void OnPropertyChanged(string propName)
+			{
+				if (PropertyChanged != null)
+					PropertyChanged(this, new PropertyChangedEventArgs(propName));
+			}
+
+			#endregion
 		}
 	}
 }
