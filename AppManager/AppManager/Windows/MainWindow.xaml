@@ -22,12 +22,83 @@
 	SnapsToDevicePixels="True" 
 	Loaded="Window_Loaded" 
 	PreviewTextInput="Window_PreviewTextInput">
-	
+
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ControlTemplates.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
+
+			<BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+			<Style x:Key="CustomGB" TargetType="GroupBox">
+				<Setter Property="BorderBrush"
+                Value="#FFDFCB9A"/>
+				<Setter Property="BorderThickness"
+                Value="1"/>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type GroupBox}">
+							<Grid SnapsToDevicePixels="true">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="6"/>
+									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="6"/>
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="*"/>
+									<RowDefinition Height="6"/>
+								</Grid.RowDefinitions>
+								<Border CornerRadius="4"
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="Transparent"
+                                Background="{TemplateBinding Background}"/>
+								<Border x:Name="Header"
+                                Padding="3,0,3,0"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="1">
+									<ContentPresenter
+										ContentSource="Header" 
+                              RecognizesAccessKey="True" 
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                              TextElement.Foreground="{TemplateBinding Foreground}"/>
+								</Border>
+								<ContentPresenter 
+									Grid.Row="2"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="2"
+                           Margin="{TemplateBinding Padding}"
+                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+								<Border CornerRadius="4"
+                           Grid.Row="1"
+                           Grid.RowSpan="3"
+                           Grid.ColumnSpan="4"
+                           BorderThickness="{TemplateBinding BorderThickness}"
+                           BorderBrush="{TemplateBinding BorderBrush}">
+									<Border.OpacityMask>
+										<MultiBinding Converter="{StaticResource BorderGapMaskConverter}"
+                                              ConverterParameter="7">
+											<Binding ElementName="Header"
+                                             Path="ActualWidth"/>
+											<Binding RelativeSource="{RelativeSource Self}"
+                                             Path="ActualWidth"/>
+											<Binding RelativeSource="{RelativeSource Self}"
+                                             Path="ActualHeight"/>
+										</MultiBinding>
+									</Border.OpacityMask>
+								</Border>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 		</ResourceDictionary>
 	</Window.Resources>
 
@@ -46,28 +117,28 @@
 			</LinearGradientBrush>
 		</Border.BorderBrush>
 		<Grid Width="Auto" Height="Auto">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <!--Window caption-->
-            <Grid 
+			<Grid.RowDefinitions>
+				<RowDefinition Height="32" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<!--Window caption-->
+			<Grid 
                 MouseLeftButtonDown="DockPanel_MouseLeftButtonDown" 
                 Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF158EC1" Offset="0"/>
-                        <GradientStop Color="#9A00587D" Offset="0.996"/>
-                        <GradientStop Color="#FF0D6488" Offset="0.406"/>
-                    </LinearGradientBrush>
-                </Grid.Background>
-                <am:SettingButton 
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.Background>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<GradientStop Color="#FF158EC1" Offset="0"/>
+						<GradientStop Color="#9A00587D" Offset="0.996"/>
+						<GradientStop Color="#FF0D6488" Offset="0.406"/>
+					</LinearGradientBrush>
+				</Grid.Background>
+				<am:SettingButton 
                     x:Name="BtnConfigure" 
                     Width="45" 
                     Height="30"
@@ -75,14 +146,14 @@
                     ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png" 
                     Grid.Column="0" 
                     />
-                <am:SettingButton 
+				<am:SettingButton 
                     x:Name="BtnManageApps" 
                     Width="45" 
                     Height="30"
                     HorizontalAlignment="Left" 
                     ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png" 
                     Grid.Column="1" />
-                <TextBlock FontSize="14" 
+				<TextBlock FontSize="14" 
 					Foreground="#FFFBD888" 
 					TextAlignment="Center" 
 					TextWrapping="Wrap"
@@ -94,8 +165,8 @@
 						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
 					</TextBlock.Effect>
 					<Run FontWeight="Bold" Foreground="#FFFFDC8F"/>
-                </TextBlock>
-                <Button 
+				</TextBlock>
+				<Button 
                     Name="ButtonExit" 
                     Width="24"
                     Height="24"
@@ -104,9 +175,9 @@
                     Template="{DynamicResource CloseButtonControlTemplate}" 
                     Grid.Column="3" 
                     />
-            </Grid>
-            <!--Window content-->
-            <Grid x:Name="ContentPanel" Canvas.Top="35" Grid.Row="1" Opacity="1" SnapsToDevicePixels="True">
+			</Grid>
+			<!--Window content-->
+			<Grid x:Name="ContentPanel" Canvas.Top="35" Grid.Row="1" Opacity="1" SnapsToDevicePixels="True">
 				<Grid.Background>
 					<LinearGradientBrush EndPoint="0.761,0.963" StartPoint="0.239,0.037">
 						<GradientStop Color="#FF78B3F6" Offset="0"/>
@@ -117,10 +188,10 @@
 				<GroupBox Width="Auto" Height="228" Header="GroupBox" Margin="8,8,8,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" BorderBrush="#FFDFCB9A">
 				</GroupBox>
 
-				<GroupBox Width="Auto" Header="GroupBox" Margin="8,240,8,53">
+				<GroupBox Width="Auto" Header="GroupBox" Margin="8,240,8,53" Style="{StaticResource CustomGB}" Foreground="Blue" BorderBrush="#FFDFCB9A">
 				</GroupBox>
 			</Grid>
-            <ResizeGrip 
+			<ResizeGrip 
                 Grid.Row="1" 
                 Cursor="SizeNWSE" 
                 Width="12"
@@ -128,6 +199,6 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Bottom"
                 Name="Resizer" OverridesDefaultStyle="False" MinWidth="12" MinHeight="12" Opacity="0.75" MouseLeftButtonDown="Resizer_MouseLeftButtonDown" IsTabStop="False" />
-        </Grid>
+		</Grid>
 	</Border>
 </Window>

@@ -148,7 +148,9 @@ namespace AppManager
 			{
 				Margin = new Thickness(7.0),
 				SnapsToDevicePixels = true,
-				Content = content
+				Content = content,
+				Foreground = Brushes.Blue,
+				Style = Resources["CustomGB"] as Style
 			};
 
 			group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
