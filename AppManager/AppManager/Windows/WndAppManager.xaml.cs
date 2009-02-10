@@ -27,8 +27,7 @@ namespace AppManager
 
 		public WndAppManager()
 		{
-			InitializeComponent();
-			
+			InitializeComponent();	
 		}
 
 		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo)
@@ -57,16 +56,7 @@ namespace AppManager
 		}
 
 
-		private void BtnOK_Click(object sender, RoutedEventArgs e)
-		{
-			DialogResult = true;
-		}
-
-		private void BtnCancel_Click(object sender, RoutedEventArgs e)
-		{
-			DialogResult = false;
-		}
-
+        //App type tab events===================================================
 		private void BtnAddAppType_Click(object sender, RoutedEventArgs e)
 		{
 			_Controller.AddType();
@@ -79,6 +69,21 @@ namespace AppManager
 				_Controller.RemoveType(AppTypes.SelectedItem as AppType);
 		}
 
+        private void BtnAppTypeUp_Click(object sender, RoutedEventArgs e)
+        {
+            _Controller.MoveType(
+                AppTypes.SelectedItem as AppType,
+                true);
+        }
+
+        private void BtnAppTypeDown_Click(object sender, RoutedEventArgs e)
+        {
+            _Controller.MoveType(
+                AppTypes.SelectedItem as AppType,
+                false);
+        }
+
+        //App management tab events===================================================
 		private void BtnAddApp_Click(object sender, RoutedEventArgs e)
 		{
 			AppType appType = AppTypeSelector.SelectedItem as AppType;
@@ -103,30 +108,28 @@ namespace AppManager
 			//Grid myTextBlock = (Grid)myDataTemplate.FindName("GridT", myContentPresenter);
 		}
 
-		private childItem FindVisualChild<childItem>(DependencyObject obj)
-			 where childItem : DependencyObject
-		{
-			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-			{
-				DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-				if (child != null && child is childItem)
-					return (childItem)child;
-				else
-				{
-					childItem childOfChild = FindVisualChild<childItem>(child);
-					if (childOfChild != null)
-						return childOfChild;
-				}
-			}
-			return null;
-		}
-
 		private void BtnRemoveApp_Click(object sender, RoutedEventArgs e)
 		{
 			AppType appType = AppTypeSelector.SelectedItem as AppType;
 			for (int i = AppList.SelectedItems.Count - 1; i >= 0; i--)
 				_Controller.RemoveApp(appType, AppList.SelectedItems[i] as AppInfo);
 		}
+
+        private void BtnAppDown_Click(object sender, RoutedEventArgs e)
+        {
+            _Controller.MoveApp(
+                AppTypeSelector.SelectedItem as AppType,
+                AppList.SelectedItem as AppInfo,
+                false);
+        }
+
+        private void BtnAppUp_Click(object sender, RoutedEventArgs e)
+        {
+            _Controller.MoveApp(
+                AppTypeSelector.SelectedItem as AppType,
+                AppList.SelectedItem as AppInfo,
+                true);
+        }
 
 		private void AppPathSelect_Click(object sender, RoutedEventArgs e)
 		{
@@ -147,6 +150,7 @@ namespace AppManager
 			TxtFolder.Text = _Controller.SelectPath();
 		}
 
+        //Search apps tab events===================================================
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.Scan(TxtFolder.Text);
@@ -175,46 +179,6 @@ namespace AppManager
 			AppScanList.SelectedIndex = AppScanList.ItemContainerGenerator.IndexFromContainer(dobj);
 		}
 
-		private void BtnAppDown_Click(object sender, RoutedEventArgs e)
-		{
-			_Controller.MoveApp(
-				AppTypeSelector.SelectedItem as AppType,
-				AppList.SelectedItem as AppInfo,
-				false);
-		}
-
-		private void BtnAppUp_Click(object sender, RoutedEventArgs e)
-		{
-			_Controller.MoveApp(
-				AppTypeSelector.SelectedItem as AppType,
-				AppList.SelectedItem as AppInfo,
-				true);
-		}
-
-		private void BtnAppTypeUp_Click(object sender, RoutedEventArgs e)
-		{
-			_Controller.MoveType(
-				AppTypes.SelectedItem as AppType,
-				true);
-		}
-
-		private void BtnAppTypeDown_Click(object sender, RoutedEventArgs e)
-		{
-			_Controller.MoveType(
-				AppTypes.SelectedItem as AppType,
-				false);
-		}
-
-		private void AppsManagerWindow_Activated(object sender, EventArgs e)
-		{
-			if (_ItemToSelect != null)
-			{
-				AppList.ScrollIntoView(_ItemToSelect);
-				AppList.Focus();
-				_ItemToSelect = null;
-			}
-		}
-
 		private void CheckBox_Click(object sender, RoutedEventArgs e)
 		{
 			CheckBox cb = sender as CheckBox;
@@ -224,12 +188,35 @@ namespace AppManager
 
 		private void BtnScanQuickLaunch_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = _Controller.FindAppsInQuickLaunch();
+			AppScanList.ItemsSource = _Controller.AdaptTo(
+                _Controller.FindAppsInQuickLaunch());
 		}
 
 		private void BtnScanAllProgs_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = _Controller.FindAppsInAllProgs();
+            AppScanList.ItemsSource = _Controller.AdaptTo(
+                _Controller.FindAppsInAllProgs());
 		}
+
+        //Other events===================================================
+        private void AppsManagerWindow_Activated(object sender, EventArgs e)
+        {
+            if (_ItemToSelect != null)
+            {
+                AppList.ScrollIntoView(_ItemToSelect);
+                AppList.Focus();
+                _ItemToSelect = null;
+            }
+        }
+
+        private void BtnOK_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
 	}
 }

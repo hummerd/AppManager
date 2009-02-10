@@ -22,6 +22,27 @@ namespace AppManager.Common
 			return null;
 		}
 
+        public TChildItem FindVisualChild<TChildItem>(DependencyObject obj)
+            where TChildItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(obj, i) as TChildItem;
+
+                if (child != null)
+                    return child;
+                else
+                {
+                    var childOfChild = FindVisualChild<TChildItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+
+            return null;
+        }
+
+
 		private static DependencyObject GetParent(DependencyObject obj)
 		{
 			if (obj == null)
