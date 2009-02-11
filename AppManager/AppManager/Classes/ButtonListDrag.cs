@@ -35,6 +35,12 @@ namespace AppManager
 					e.Handled = true;
 				}
 			}
+
+			if (!e.Handled)
+			{
+				e.Effects = DragDropEffects.None;
+				e.Handled = true;
+			}
 		}
 
 		protected override void OnDrop(DragEventArgs e, FrameworkElement element)

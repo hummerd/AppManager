@@ -40,7 +40,7 @@ namespace AppManager.Commands
 			LoadData();
 			bool first = FirstLoad();
 
-			_WorkItem.MainWindow.Init(_WorkItem, first);
+			_WorkItem.MainWindow.Init(first);
 
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
 			kbrdHook.KeyDown += KbrdHook_KeyDown;

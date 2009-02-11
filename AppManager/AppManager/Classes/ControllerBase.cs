@@ -35,6 +35,15 @@ namespace AppManager
 		}
 
 
+		public MainWorkItem WorkItem
+		{ 
+			get
+			{
+				return _WorkItem;
+			}
+		}
+
+
 		public AppInfoCollection FindAppsInAllProgs()
 		{
 			StringBuilder allPrograms = new StringBuilder(300);
