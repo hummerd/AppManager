@@ -27,7 +27,7 @@ namespace AppManager
 
 		public WndAppManager()
 		{
-			InitializeComponent();	
+			InitializeComponent();
 		}
 
 		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo)
@@ -56,7 +56,7 @@ namespace AppManager
 		}
 
 
-        //App type tab events===================================================
+		//App type tab events===================================================
 		private void BtnAddAppType_Click(object sender, RoutedEventArgs e)
 		{
 			_Controller.AddType();
@@ -69,25 +69,25 @@ namespace AppManager
 				_Controller.RemoveType(AppTypes.SelectedItem as AppType);
 		}
 
-        private void BtnAppTypeUp_Click(object sender, RoutedEventArgs e)
-        {
-            _Controller.MoveType(
-                AppTypes.SelectedItem as AppType,
-                true);
-        }
+		private void BtnAppTypeUp_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveType(
+				 AppTypes.SelectedItem as AppType,
+				 true);
+		}
 
-        private void BtnAppTypeDown_Click(object sender, RoutedEventArgs e)
-        {
-            _Controller.MoveType(
-                AppTypes.SelectedItem as AppType,
-                false);
-        }
+		private void BtnAppTypeDown_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveType(
+				 AppTypes.SelectedItem as AppType,
+				 false);
+		}
 
-        //App management tab events===================================================
+		//App management tab events===================================================
 		private void BtnAddApp_Click(object sender, RoutedEventArgs e)
 		{
 			AppType appType = AppTypeSelector.SelectedItem as AppType;
-			
+
 			if (appType != null)
 			{
 				_Controller.AddApp(appType);
@@ -115,21 +115,21 @@ namespace AppManager
 				_Controller.RemoveApp(appType, AppList.SelectedItems[i] as AppInfo);
 		}
 
-        private void BtnAppDown_Click(object sender, RoutedEventArgs e)
-        {
-            _Controller.MoveApp(
-                AppTypeSelector.SelectedItem as AppType,
-                AppList.SelectedItem as AppInfo,
-                false);
-        }
+		private void BtnAppDown_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveApp(
+				 AppTypeSelector.SelectedItem as AppType,
+				 AppList.SelectedItem as AppInfo,
+				 false);
+		}
 
-        private void BtnAppUp_Click(object sender, RoutedEventArgs e)
-        {
-            _Controller.MoveApp(
-                AppTypeSelector.SelectedItem as AppType,
-                AppList.SelectedItem as AppInfo,
-                true);
-        }
+		private void BtnAppUp_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.MoveApp(
+				 AppTypeSelector.SelectedItem as AppType,
+				 AppList.SelectedItem as AppInfo,
+				 true);
+		}
 
 		private void AppPathSelect_Click(object sender, RoutedEventArgs e)
 		{
@@ -140,7 +140,7 @@ namespace AppManager
 		private void TextBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
-			
+
 			DependencyObject dobj = AppList.ContainerFromElement(tb);
 			AppList.SelectedIndex = AppList.ItemContainerGenerator.IndexFromContainer(dobj);
 		}
@@ -150,7 +150,7 @@ namespace AppManager
 			TxtFolder.Text = _Controller.SelectPath();
 		}
 
-        //Search apps tab events===================================================
+		//Search apps tab events===================================================
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.Scan(TxtFolder.Text);
@@ -167,7 +167,7 @@ namespace AppManager
 
 			if (ss.ShowDialog() ?? false)
 				_Controller.AddScned(
-					ss.SelectedItem as AppType, 
+					ss.SelectedItem as AppType,
 					AppScanList.ItemsSource as List<AppManager.AppManagerController.AppInfoAdapter>);
 		}
 
@@ -189,34 +189,43 @@ namespace AppManager
 		private void BtnScanQuickLaunch_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.AdaptTo(
-                _Controller.FindAppsInQuickLaunch());
+					 _Controller.FindAppsInQuickLaunch());
 		}
 
 		private void BtnScanAllProgs_Click(object sender, RoutedEventArgs e)
 		{
-            AppScanList.ItemsSource = _Controller.AdaptTo(
-                _Controller.FindAppsInAllProgs());
+			AppScanList.ItemsSource = _Controller.AdaptTo(
+				 _Controller.FindAppsInAllProgs());
 		}
 
-        //Other events===================================================
-        private void AppsManagerWindow_Activated(object sender, EventArgs e)
-        {
-            if (_ItemToSelect != null)
-            {
-                AppList.ScrollIntoView(_ItemToSelect);
-                AppList.Focus();
-                _ItemToSelect = null;
-            }
-        }
+		//Other events===================================================
+		private void BtnOK_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = true;
+		}
 
-        private void BtnOK_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
+		private void BtnCancel_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = false;
+		}
 
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-        }
+		private void AppsManagerWindow_Activated(object sender, EventArgs e)
+		{
+			if (_ItemToSelect != null)
+			{
+				AppList.ScrollIntoView(_ItemToSelect);
+				AppList.Focus();
+				_ItemToSelect = null;
+			}
+		}
+
+		private void AppsManagerWindow_PreviewKeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				e.Handled = true;
+				DialogResult = false;
+			}
+		}
 	}
 }

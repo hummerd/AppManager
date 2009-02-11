@@ -7,6 +7,7 @@
 	ShowInTaskbar="False"
 	ResizeMode="NoResize"
 	WindowStartupLocation="CenterOwner"
+	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	Activated="Window_Activated"
 	PreviewKeyUp="Window_PreviewKeyUp">
 	<Grid>

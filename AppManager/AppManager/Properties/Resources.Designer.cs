@@ -60,23 +60,9 @@ namespace AppManager.Properties {
             }
         }
         
-        public static System.Drawing.Bitmap edit_add_1184_16 {
-            get {
-                object obj = ResourceManager.GetObject("edit_add_1184_16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         public static System.Drawing.Bitmap folder {
             get {
                 object obj = ResourceManager.GetObject("folder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        public static System.Drawing.Bitmap gear_2526_16 {
-            get {
-                object obj = ResourceManager.GetObject("gear_2526_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
