@@ -49,13 +49,13 @@ namespace AppManager
 			foreach (var appType in workItem.AppData.AppTypes)
 			{
 				double rowHeight = first ? appType.AppInfos.Count * 100 / maxApps : 100.0;
-				if (rowHeight < 25.0)
-					rowHeight = 25.0;
+				//if (rowHeight < 25.0)
+				//   rowHeight = 25.0;
 
 				RowDefinition row = new RowDefinition()
 				{ 
 					Height = new GridLength(rowHeight, GridUnitType.Star),
-					MinHeight = 60.0
+					MinHeight = 100.0
 				};
 				ContentPanel.RowDefinitions.Add(row);
 				
