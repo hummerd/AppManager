@@ -17,6 +17,10 @@ namespace DragDropLib
 {
 	public class DragHelper : DropTargetHelper
 	{
+		public event EventHandler DragStart;
+		public event EventHandler DragEnd;
+
+
 		protected bool						_IsDown = false;
 		protected Point					_DragStartPoint;
 		protected string					_DataFormat;
@@ -99,32 +103,39 @@ namespace DragDropLib
 			Point pt = element.PointToScreen(_DragStartPoint);
 			pt = item.PointFromScreen(pt);
 			CreateDragHelper(bmp, pt, data);
-			
+
+			OnDragStarted(dragItem);
+
 			return DragDrop.DoDragDrop(
 				item,
 				data,
 				DragDropEffects.Copy | DragDropEffects.Move);
 		}
 
-		protected void CreateDragHelper(
-			Drawing.Bitmap bitmap,
-			Point startPoint,
-			System.Windows.DataObject data)
+		protected object GetItemFromElement(DependencyObject element, out int index)
 		{
-			ShDragImage shdi = new ShDragImage();
-			Win32Size size;
-			size.cx = bitmap.Width;
-			size.cy = bitmap.Height;
-			shdi.sizeDragImage = size;
-			Win32Point wpt;
-			wpt.x = (int)startPoint.X;
-			wpt.y = (int)startPoint.Y;
-			shdi.ptOffset = wpt;
-			shdi.hbmpDragImage = bitmap.GetHbitmap();
-			shdi.crColorKey = Drawing.Color.Magenta.ToArgb();
+			index = -1;
 
-			IDragSourceHelper sourceHelper = (IDragSourceHelper)new DragDropHelper();
-			sourceHelper.InitializeFromBitmap(ref shdi, data);
+			while (element != null)
+			{
+				if (element == _ItemsControl)
+					return null;
+
+				object item = _ItemsControl.ItemContainerGenerator.ItemFromContainer(element);
+				index = _ItemsControl.ItemContainerGenerator.IndexFromContainer(element);
+
+				bool itemFound = !object.ReferenceEquals(item, DependencyProperty.UnsetValue);
+				if (itemFound)
+				{
+					return item;
+				}
+				else
+				{
+					element = VisualTreeHelper.GetParent(element) as DependencyObject;
+				}
+			}
+
+			return null;
 		}
 
 		protected Drawing.Bitmap CreateElementBitmap(FrameworkElement element)
@@ -172,6 +183,27 @@ namespace DragDropLib
 			return bmp;
 		}
 
+		protected void CreateDragHelper(
+			Drawing.Bitmap bitmap,
+			Point startPoint,
+			System.Windows.DataObject data)
+		{
+			ShDragImage shdi = new ShDragImage();
+			Win32Size size;
+			size.cx = bitmap.Width;
+			size.cy = bitmap.Height;
+			shdi.sizeDragImage = size;
+			Win32Point wpt;
+			wpt.x = (int)startPoint.X;
+			wpt.y = (int)startPoint.Y;
+			shdi.ptOffset = wpt;
+			shdi.hbmpDragImage = bitmap.GetHbitmap();
+			shdi.crColorKey = Drawing.Color.Magenta.ToArgb();
+
+			IDragSourceHelper sourceHelper = (IDragSourceHelper)new DragDropHelper();
+			sourceHelper.InitializeFromBitmap(ref shdi, data);
+		}
+
 		protected string SerializeItem(object obj)
 		{
 			string result;
@@ -199,6 +231,12 @@ namespace DragDropLib
 			return result;
 		}
 
+		protected virtual void OnDragStarted(object dragItem)
+		{
+			if (DragStart != null)
+				DragStart(this, EventArgs.Empty);
+		}
+
 		protected void DragEnded(DragDropEffects effects, int dragItemPos, object dragItem)
 		{
 			if ((effects & DragDropEffects.Move) == DragDropEffects.Move)
@@ -211,33 +249,15 @@ namespace DragDropLib
 			}
 
 			ResetDrag();
+			OnDragEnded(effects, dragItemPos, dragItem);
 		}
 
-		protected object GetItemFromElement(DependencyObject element, out int index)
+		protected virtual void OnDragEnded(DragDropEffects effects, int dragItemPos, object dragItem)
 		{
-			index = -1;
-
-			while (element != null)
-			{
-				if (element == _ItemsControl)
-					return null;
-
-				object item = _ItemsControl.ItemContainerGenerator.ItemFromContainer(element);
-				index = _ItemsControl.ItemContainerGenerator.IndexFromContainer(element);
-
-				bool itemFound = !object.ReferenceEquals(item, DependencyProperty.UnsetValue);
-				if (itemFound)
-				{
-					return item;
-				}
-				else
-				{
-					element = VisualTreeHelper.GetParent(element) as DependencyObject;
-				}
-			}
-
-			return null;
+			if (DragEnd != null)
+				DragEnd(this, EventArgs.Empty);
 		}
+		
 
 		protected void ResetDrag()
 		{ 

@@ -6,6 +6,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AppManager.Common;
 using AppManager.Settings;
+using System.Windows.Data;
+using System.Windows.Media.Animation;
 
 
 namespace AppManager
@@ -134,6 +136,9 @@ namespace AppManager
 				//ContextMenu = App.Current.Resources["ItemMenu"] as ContextMenu
 			};
 
+			groupContent.DragStart += (s, e) => OnDragStarted();
+			groupContent.DragEnd += (s, e) => OnDragEnded();
+
 			groupContent.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
 			groupContent.ButtonClicked += (s, e) => workItem.Commands.RunApp.Execute(e.Obj);
 
@@ -197,6 +202,18 @@ namespace AppManager
 		protected void OnDropFiles(ButtonList buttonList, StrArrEventArgs e)
 		{ 
 			_Controller.AddFiles(buttonList.DataContext as AppType, e.StrArray);
+		}
+
+		protected void OnDragStarted()
+		{
+			var anim = Resources["TrashMarkShow"] as Storyboard;
+			anim.Begin();
+		}
+
+		protected void OnDragEnded()
+		{
+			var anim = Resources["TrashMarkHide"] as Storyboard;
+			anim.Begin();
 		}
 
 
@@ -292,5 +309,34 @@ namespace AppManager
 					_Controller.FindApp(e.Text);
 				}
 		}
+
+		private void TrashMark_Drop(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
+				e.Effects = DragDropEffects.Move;
+		}
+
+		private void TrashMark_DragOver(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
+				e.Effects = DragDropEffects.Move;
+		}
+	}
+
+	public class TrashMarkAlighner : IValueConverter
+	{
+		#region IValueConverter Members
+
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			return (double)value - 64.0;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }
