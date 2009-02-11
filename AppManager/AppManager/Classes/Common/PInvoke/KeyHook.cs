@@ -83,15 +83,22 @@ namespace AppManager.Common
 			if (code < 0)
 				return CallNextHookEx(_hookHandle, code, wParam, ref lParam);
 
-			// KeyUp event
-			if ((lParam.flags & 0x80) != 0 && this.KeyUp != null)
-				this.KeyUp(this, new HookEventArgs(lParam.vkCode));
+			var hookEA = new HookEventArgs(lParam.vkCode);
+			if ((lParam.flags & 0x80) == 0)
+			{
+				// KeyUp event
+				if (this.KeyUp != null)
+					this.KeyUp(this, hookEA);
 
-			// KeyDown event
-			if ((lParam.flags & 0x80) == 0 && this.KeyDown != null)
-				this.KeyDown(this, new HookEventArgs(lParam.vkCode));
+				// KeyDown event
+				if (this.KeyDown != null)
+					this.KeyDown(this, hookEA);
+			}
 
-			return CallNextHookEx(_hookHandle, code, wParam, ref lParam);
+			if (!hookEA.Handled)
+				return CallNextHookEx(_hookHandle, code, wParam, ref lParam);
+
+			return -1;
 		}
 
 		private void Install()
@@ -143,6 +150,7 @@ namespace AppManager.Common
 		public bool Alt;
 		public bool Control;
 		public bool Shift;
+		public bool Handled = false;
 
 		public HookEventArgs(UInt32 keyCode)
 		{

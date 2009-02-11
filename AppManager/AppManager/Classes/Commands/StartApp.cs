@@ -200,6 +200,7 @@ namespace AppManager.Commands
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{
 				ChangeActiveState();
+				e.Handled = true;
 			}
 		}
 	}
