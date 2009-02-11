@@ -99,8 +99,30 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+			<Storyboard x:Key="TrashMarkShow">
+				<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="TrashMark" Storyboard.TargetProperty="(UIElement.Visibility)" Duration="00:00:00.0010000">
+					<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+				</ObjectAnimationUsingKeyFrames>
+				<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="TrashMark" Storyboard.TargetProperty="(UIElement.Opacity)">
+					<SplineDoubleKeyFrame KeyTime="00:00:01" Value="1"/>
+				</DoubleAnimationUsingKeyFrames>
+			</Storyboard>
+			<Storyboard x:Key="TrashMarkHide">
+				<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="TrashMark" Storyboard.TargetProperty="(UIElement.Visibility)" Duration="00:00:00.0010000">
+					<DiscreteObjectKeyFrame KeyTime="00:00:01">
+						<DiscreteObjectKeyFrame.Value>
+							<Visibility>Hidden</Visibility>
+						</DiscreteObjectKeyFrame.Value>
+					</DiscreteObjectKeyFrame>
+				</ObjectAnimationUsingKeyFrames>
+				<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="TrashMark" Storyboard.TargetProperty="(UIElement.Opacity)">
+					<SplineDoubleKeyFrame KeyTime="00:00:01" Value="0"/>
+				</DoubleAnimationUsingKeyFrames>
+			</Storyboard>
 		</ResourceDictionary>
 	</Window.Resources>
+	<Window.Triggers>
+	</Window.Triggers>
 
 	<Window.InputBindings>
 		<KeyBinding Gesture="Esc" />
@@ -177,7 +199,16 @@
                     />
 			</Grid>
 			<!--Window content-->
-			<Grid x:Name="ContentPanel" Canvas.Top="35" Grid.Row="1" Opacity="1" SnapsToDevicePixels="True">
+			<Canvas Grid.Row="1" Width="Auto" Height="Auto" FlowDirection="LeftToRight">
+				<Grid 
+					x:Name="ContentPanel" 
+					Canvas.Top="Auto" 
+					Grid.Row="1" 
+					Opacity="1" 
+					SnapsToDevicePixels="True" 
+					HorizontalAlignment="Stretch" 
+					VerticalAlignment="Stretch" 
+					>
 				<Grid.Background>
 					<LinearGradientBrush EndPoint="0.761,0.963" StartPoint="0.239,0.037">
 						<GradientStop Color="#FF78B3F6" Offset="0"/>
@@ -185,12 +216,68 @@
 						<GradientStop Color="#FF547EAE" Offset="0.665"/>
 					</LinearGradientBrush>
 				</Grid.Background>
-				<GroupBox Width="Auto" Height="228" Header="GroupBox" Margin="8,8,8,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" BorderBrush="#FFDFCB9A">
-				</GroupBox>
-
-				<GroupBox Width="Auto" Header="GroupBox" Margin="8,240,8,53" Style="{StaticResource CustomGB}" Foreground="Blue" BorderBrush="#FFDFCB9A">
-				</GroupBox>
+				<Grid.Width>
+					<Binding Path="ActualWidth">
+						<Binding.RelativeSource>
+							<RelativeSource Mode="FindAncestor" AncestorType="Canvas"/>
+						</Binding.RelativeSource>
+					</Binding>
+				</Grid.Width>
+				<Grid.Height>
+					<Binding Path="ActualHeight">
+						<Binding.RelativeSource>
+							<RelativeSource Mode="FindAncestor" AncestorType="Canvas"/>
+						</Binding.RelativeSource>
+					</Binding>
+				</Grid.Height>
+				<GroupBox 
+					Width="Auto" 
+					Height="228" 
+					Header="GroupBox" 
+					Margin="8,8,8,0" 
+					VerticalAlignment="Top" 
+					d:LayoutOverrides="VerticalAlignment" 
+					BorderBrush="#FFDFCB9A"
+					/>
+				<GroupBox 
+					Width="Auto" 
+					Header="GroupBox" 
+					Margin="8,240,8,53" 
+					Style="{StaticResource CustomGB}" 
+					Foreground="Blue" 
+					BorderBrush="#FFDFCB9A"
+					/>
 			</Grid>
+			<Image 
+				Visibility="Hidden" 
+				HorizontalAlignment="Stretch" 
+				Height="64" Width="64" 
+				Opacity="0" 
+				FlowDirection="LeftToRight" 
+				Name="TrashMark" Panel.ZIndex="12" Drop="TrashMark_Drop" DragOver="TrashMark_DragOver" AllowDrop="True" Source="/AppManager;component/Resources/trash_64.png" Stretch="None">
+				
+				<Canvas.Left>
+					<Binding Path="ActualWidth">
+						<Binding.Converter>
+							<am:TrashMarkAlighner/>
+						</Binding.Converter>
+						<Binding.RelativeSource>
+							<RelativeSource Mode="FindAncestor" AncestorType="Canvas"/>
+						</Binding.RelativeSource>
+					</Binding>
+				</Canvas.Left>
+				<Canvas.Top>
+					<Binding Path="ActualHeight">
+						<Binding.Converter>
+							<am:TrashMarkAlighner/>
+						</Binding.Converter>
+						<Binding.RelativeSource>
+							<RelativeSource Mode="FindAncestor" AncestorType="Canvas"/>
+						</Binding.RelativeSource>
+					</Binding>
+				</Canvas.Top>
+				</Image>
+			</Canvas>
 			<ResizeGrip 
                 Grid.Row="1" 
                 Cursor="SizeNWSE" 

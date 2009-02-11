@@ -14,6 +14,11 @@ namespace AppManager
 	/// </summary>
 	public partial class ButtonList : ListBox
 	{
+		public const string DragDataFormat = "ButtonListDataFormat";
+
+		public event EventHandler DragStart;
+		public event EventHandler DragEnd;
+
 		public event EventHandler<ObjEventArgs> EditItem;
 		public event EventHandler<ObjEventArgs> RenameItem;
 		public event EventHandler<ObjEventArgs> DeleteItem;
@@ -25,17 +30,19 @@ namespace AppManager
 		protected ButtonListDrag _DragHelper;
 		protected ContextMenu _EditMenu;
 
+
 		public ButtonList()
 		{
 			this.InitializeComponent();
 
-			
 			ItemContainerStyle = new Style();
 			ItemContainerStyle.Resources[SystemColors.HighlightBrushKey] = Brushes.Transparent;
 			ItemContainerStyle.Resources[SystemColors.ControlBrushKey] = Brushes.Transparent;
 
-			_DragHelper = new ButtonListDrag(this, "ButtonListDataFormat", typeof(AppInfo));
+			_DragHelper = new ButtonListDrag(this, DragDataFormat, typeof(AppInfo));
 			_DragHelper.AddFiles += (s, e) => OnAddFiles(e);
+			_DragHelper.DragEnd += (s, e) => OnDragEnded();
+			_DragHelper.DragStart += (s, e) => OnDragStarted();
 
 			_EditMenu = MenuHelper.CopyMenu(App.Current.Resources["ItemMenu"] as ContextMenu);
 			((MenuItem)_EditMenu.Items[0]).Click += (s, ea) => OnEditItem(
@@ -47,25 +54,37 @@ namespace AppManager
 		}
 
 
-		protected void OnEditItem(ObjEventArgs e)
+		protected virtual void OnDragStarted()
+		{
+			if (DragStart != null)
+				DragStart(this, EventArgs.Empty);
+		}
+
+		protected virtual void OnDragEnded()
+		{
+			if (DragEnd != null)
+				DragEnd(this, EventArgs.Empty);
+		}
+
+		protected virtual void OnEditItem(ObjEventArgs e)
 		{
 			if (EditItem != null)
 				EditItem(this, e);
 		}
 
-		protected void OnRenameItem(ObjEventArgs e)
+		protected virtual void OnRenameItem(ObjEventArgs e)
 		{
 			if (RenameItem != null)
 				RenameItem(this, e);
 		}
 
-		protected void OnDeleteItem(ObjEventArgs e)
+		protected virtual void OnDeleteItem(ObjEventArgs e)
 		{
 			if (DeleteItem != null)
 				DeleteItem(this, e);
 		}
-		
-		protected void OnAddFiles(StrArrEventArgs e)
+
+		protected virtual void OnAddFiles(StrArrEventArgs e)
 		{
 			if (AddFiles != null)
 				AddFiles(this, e);
