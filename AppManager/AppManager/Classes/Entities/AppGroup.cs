@@ -38,6 +38,15 @@ namespace AppManager
 		}
 
 
+		public int GetMaxAppCountPerType()
+		{
+			int maxApps = -1;
+			foreach (var item in _AppTypes)
+				maxApps = Math.Max(item.AppInfos.Count, maxApps);
+
+			return maxApps;
+		}
+
 		public AppInfoCollection FindApps(string name)
 		{
 			AppInfoCollection result = new AppInfoCollection();
@@ -136,7 +145,7 @@ namespace AppManager
 			return CreateNewAppInfo(appType, String.Empty); ;
 		}
 
-        public AppInfo CreateNewAppInfo(AppType appType, string execPath)
+      public AppInfo CreateNewAppInfo(AppType appType, string execPath)
         {
             return CreateNewAppInfo(appType, Strings.NEW_APP, execPath);
         }

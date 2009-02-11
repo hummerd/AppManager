@@ -43,23 +43,24 @@ namespace AppManager
 
 			int maxApps = -1;
 			if (first)
-				foreach (var item in workItem.AppData.AppTypes)
-					maxApps = Math.Max(item.AppInfos.Count, maxApps);
+				maxApps = workItem.AppData.GetMaxAppCountPerType();
 
 			int rowi = 0;
+			// now for each app type we must create 
+			//  - row in ContentPanel
+			//  - GroupBox in row
+			//  - ButtonList in GroupBox
+			//  - row spliter
 			foreach (var appType in workItem.AppData.AppTypes)
 			{
 				double rowHeight = first ? appType.AppInfos.Count * 100 / maxApps : 100.0;
-				//if (rowHeight < 25.0)
-				//   rowHeight = 25.0;
 
-				RowDefinition row = new RowDefinition()
-				{ 
-					Height = new GridLength(rowHeight, GridUnitType.Star),
-					MinHeight = 100.0
-				};
-				ContentPanel.RowDefinitions.Add(row);
-				
+				ContentPanel.RowDefinitions.Add(new RowDefinition()
+					{ 
+						Height = new GridLength(rowHeight, GridUnitType.Star),
+						MinHeight = 100.0
+					});
+
 				ButtonList groupContent = CreateButtonList(workItem, rowi, appType);
 				GroupBox group = CreateGroupBox(groupContent, appType);
 
@@ -71,15 +72,7 @@ namespace AppManager
 
 				if (rowi > 1)
 				{
-					GridSplitter split = new GridSplitter();
-					split.ResizeDirection = GridResizeDirection.Rows;
-					split.Height = 3;
-					split.VerticalAlignment = VerticalAlignment.Top;
-					split.HorizontalAlignment = HorizontalAlignment.Stretch;
-					split.ShowsPreview = true;
-					split.Background = Brushes.Transparent;
-					split.DragCompleted += (s, e) => SaveRowHeight();
-					Grid.SetRow(split, rowi - 1);
+					var split = CreateGridSplitter(rowi);
 					ContentPanel.Children.Add(split);
 				}
 			}
@@ -125,7 +118,7 @@ namespace AppManager
 			}
 		}
 
-		
+
 		protected ButtonList CreateButtonList(MainWorkItem workItem, int rowi, AppType appType)
 		{
 			ButtonList groupContent = new ButtonList()
@@ -167,6 +160,24 @@ namespace AppManager
 			group.DataContext = appType;
 			
 			return group;
+		}
+
+		protected GridSplitter CreateGridSplitter(int rowi)
+		{
+			var split = new GridSplitter()
+			{
+				ResizeDirection = GridResizeDirection.Rows,
+				Height = 3,
+				VerticalAlignment = VerticalAlignment.Top,
+				HorizontalAlignment = HorizontalAlignment.Stretch,
+				ShowsPreview = true,
+				Background = Brushes.Transparent
+			};
+
+			split.DragCompleted += (s, e) => SaveRowHeight();
+			Grid.SetRow(split, rowi - 1);
+
+			return split;
 		}
 
 		protected void SaveRowHeight()
