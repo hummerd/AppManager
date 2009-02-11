@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -116,9 +115,12 @@ namespace AppManager
 
 		public void SetFocus()
 		{
-			var f = _FocusElement.ItemContainerGenerator.ContainerFromIndex(0) as FrameworkElement;
-			if (f != null)
-				f.Focus();
+			if (_FocusElement != null && _FocusElement.Items.Count > 0)
+			{
+				var f = _FocusElement.ItemContainerGenerator.ContainerFromIndex(0) as FrameworkElement;
+				if (f != null)
+					f.Focus();
+			}
 		}
 
 		
