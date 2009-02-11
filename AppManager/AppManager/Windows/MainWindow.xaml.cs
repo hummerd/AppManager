@@ -8,6 +8,7 @@ using AppManager.Common;
 using AppManager.Settings;
 using System.Windows.Data;
 using System.Windows.Media.Animation;
+using AppManager.Commands;
 
 
 namespace AppManager
@@ -21,29 +22,25 @@ namespace AppManager
 		protected ItemsControl _FocusElement;
 
 
-		public MainWindow()
+		public MainWindow(MainWorkItem workItem)
 		{
 			InitializeComponent();
+			_Controller = new MainWindowController(workItem);
+			InitCommands(_Controller.WorkItem.Commands);
 		}
 
 
-		public void Init(MainWorkItem workItem, bool first)
+		public void Init(bool first)
 		{
 			_FocusElement = null;
-			_Controller = new MainWindowController(workItem);
-
-			ButtonExit.Command = workItem.Commands.Deactivate;
-			BtnManageApps.Command = workItem.Commands.ManageApps;
-			BtnConfigure.Command = workItem.Commands.Settings;
-
-			InputBindings[0].Command = workItem.Commands.Deactivate;
-
 			ContentPanel.Children.Clear();
 			ContentPanel.RowDefinitions.Clear();
 
+			var appData = _Controller.WorkItem.AppData;
+
 			int maxApps = -1;
 			if (first)
-				maxApps = workItem.AppData.GetMaxAppCountPerType();
+				maxApps = appData.GetMaxAppCountPerType();
 
 			int rowi = 0;
 			// now for each app type we must create 
@@ -51,7 +48,7 @@ namespace AppManager
 			//  - GroupBox in row
 			//  - ButtonList in GroupBox
 			//  - row spliter
-			foreach (var appType in workItem.AppData.AppTypes)
+			foreach (var appType in appData.AppTypes)
 			{
 				double rowHeight = first ? appType.AppInfos.Count * 100 / maxApps : 100.0;
 
@@ -61,7 +58,7 @@ namespace AppManager
 						MinHeight = 100.0
 					});
 
-				ButtonList groupContent = CreateButtonList(workItem, rowi, appType);
+				ButtonList groupContent = CreateButtonList(rowi, appType);
 				GroupBox group = CreateGroupBox(groupContent, appType);
 
 				if (_FocusElement == null)
@@ -119,21 +116,28 @@ namespace AppManager
 		}
 
 
-		protected ButtonList CreateButtonList(MainWorkItem workItem, int rowi, AppType appType)
+		protected void InitCommands(AppCommands commands)
+		{
+			ButtonExit.Command = commands.Deactivate;
+			BtnManageApps.Command = commands.ManageApps;
+			BtnConfigure.Command = commands.Settings;
+			InputBindings[0].Command = commands.Deactivate;
+		}
+
+		protected ButtonList CreateButtonList(int rowi, AppType appType)
 		{
 			ButtonList groupContent = new ButtonList()
 			{
 				TabIndex = rowi,
 				AllowDrop = true,
 				SnapsToDevicePixels = true
-				//ContextMenu = App.Current.Resources["ItemMenu"] as ContextMenu
 			};
 
 			groupContent.DragStart += (s, e) => OnDragStarted();
 			groupContent.DragEnd += (s, e) => OnDragEnded();
 
 			groupContent.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
-			groupContent.ButtonClicked += (s, e) => workItem.Commands.RunApp.Execute(e.Obj);
+			groupContent.ButtonClicked += (s, e) => _Controller.WorkItem.Commands.RunApp.Execute(e.Obj);
 
 			groupContent.EditItem += (s, e) => _Controller.EditItem(e.Obj as AppInfo);
 			groupContent.DeleteItem += (s, e) => _Controller.DeleteItem(e.Obj as AppInfo);

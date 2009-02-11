@@ -21,7 +21,7 @@ namespace AppManager
 		{
 			_Commands = new AppCommands(this);
 			_KbrdHook = new KeyboardHook();
-			_MainWindow = new MainWindow();
+			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
 			//_AppGroup.AppTypes.Add(new AppType());
