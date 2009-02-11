@@ -1,241 +1,233 @@
 ﻿<Application x:Class="AppManager.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:s="clr-namespace:System;assembly=mscorlib"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:s="clr-namespace:System;assembly=mscorlib"
 	xmlns:am="clr-namespace:AppManager">
-    
+
 	<Application.Resources>
-		<!--<ContextMenu x:Key="TrayMenu" StaysOpen="true">
-			<MenuItem Name="Show" Header="{Binding Source={x:Static am:Strings.MNU_SHOW}}"/>
-			<MenuItem Header="{Binding Source={x:Static am:Strings.MNU_HIDE}}"/>
-			<Separator/>
-			<MenuItem Header="{Binding Source={x:Static am:Strings.SETTINGS}}"/>
-			<MenuItem Header="{Binding Source={x:Static am:Strings.MNU_MANAGEAPP}}"/>
-			<MenuItem Header="{Binding Source={x:Static am:Strings.MNU_CLOSE}}"/>
-		</ContextMenu>-->
-        <Style
+		<Style
          TargetType="Separator"
          x:Key="SpecialSeparator">
-            <Style.Resources>
-                <ResourceDictionary />
-            </Style.Resources>
-            <Setter
+			<Style.Resources>
+				<ResourceDictionary />
+			</Style.Resources>
+			<Setter
            Property="UIElement.SnapsToDevicePixels">
-                <Setter.Value>
-                    <s:Boolean>True</s:Boolean>
-                </Setter.Value>
-            </Setter>
-            <Setter
+				<Setter.Value>
+					<s:Boolean>True</s:Boolean>
+				</Setter.Value>
+			</Setter>
+			<Setter
            Property="FrameworkElement.Height">
-                <Setter.Value>
-                    <s:Double>1</s:Double>
-                </Setter.Value>
-            </Setter>
-            <Setter
+				<Setter.Value>
+					<s:Double>1</s:Double>
+				</Setter.Value>
+			</Setter>
+			<Setter
            Property="FrameworkElement.Margin">
-                <Setter.Value>
-                    <Thickness>4,4,4,4</Thickness>
-                </Setter.Value>
-            </Setter>
-            <Setter
+				<Setter.Value>
+					<Thickness>4,4,4,4</Thickness>
+				</Setter.Value>
+			</Setter>
+			<Setter
            Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate
+				<Setter.Value>
+					<ControlTemplate
                TargetType="Separator">
-                        <Grid
+						<Grid
                  Background="#FF9ABAE6"
                  Height="1"
                  SnapsToDevicePixels="True" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style
          TargetType="Menu"
          x:Key="SpecialMenu">
-            <Style.Resources>
-                <ResourceDictionary />
-            </Style.Resources>
-            <Setter
+			<Style.Resources>
+				<ResourceDictionary />
+			</Style.Resources>
+			<Setter
            Property="FrameworkElement.OverridesDefaultStyle">
-                <Setter.Value>
-                    <s:Boolean>True</s:Boolean>
-                </Setter.Value>
-            </Setter>
-            <Setter
+				<Setter.Value>
+					<s:Boolean>True</s:Boolean>
+				</Setter.Value>
+			</Setter>
+			<Setter
            Property="UIElement.SnapsToDevicePixels">
-                <Setter.Value>
-                    <s:Boolean>True</s:Boolean>
-                </Setter.Value>
-            </Setter>
-            <Setter
+				<Setter.Value>
+					<s:Boolean>True</s:Boolean>
+				</Setter.Value>
+			</Setter>
+			<Setter
            Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate
+				<Setter.Value>
+					<ControlTemplate
                TargetType="Menu">
-                        <Border
+						<Border
                  BorderThickness="0,0,0,1"
                  BorderBrush="#FFAAAAAA">
-                            <Border.Background>
-                                <LinearGradientBrush
+							<Border.Background>
+								<LinearGradientBrush
                      StartPoint="0,0"
                      EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStop
+									<LinearGradientBrush.GradientStops>
+										<GradientStop
                          Color="#FFDFE9F6"
                          Offset="0" />
-                                        <GradientStop
+										<GradientStop
                          Color="#FFC7D8EE"
                          Offset="1" />
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <ItemsPresenter
+									</LinearGradientBrush.GradientStops>
+								</LinearGradientBrush>
+							</Border.Background>
+							<ItemsPresenter
                    SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style
          TargetType="ContextMenu"
          x:Key="SpecialContextMenu">
-            <Style.Resources>
-                <ResourceDictionary />
-            </Style.Resources>
-            <Setter
+			<Style.Resources>
+				<ResourceDictionary />
+			</Style.Resources>
+			<Setter
            Property="FrameworkElement.OverridesDefaultStyle">
-                <Setter.Value>
-                    <s:Boolean>True</s:Boolean>
-                </Setter.Value>
-            </Setter>
-            <Setter
+				<Setter.Value>
+					<s:Boolean>True</s:Boolean>
+				</Setter.Value>
+			</Setter>
+			<Setter
            Property="UIElement.SnapsToDevicePixels">
-                <Setter.Value>
-                    <s:Boolean>True</s:Boolean>
-                </Setter.Value>
-            </Setter>
-            <Setter
+				<Setter.Value>
+					<s:Boolean>True</s:Boolean>
+				</Setter.Value>
+			</Setter>
+			<Setter
            Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate
+				<Setter.Value>
+					<ControlTemplate
                TargetType="ContextMenu">
-                        <Border
+						<Border
                  BorderThickness="0,0,0,1"
                  BorderBrush="#FFAAAAAA">
-                            <Border.Background>
-                                <LinearGradientBrush
+							<Border.Background>
+								<LinearGradientBrush
                      StartPoint="0,0"
                      EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStop
+									<LinearGradientBrush.GradientStops>
+										<GradientStop
                          Color="#FFDFE9F6"
                          Offset="0" />
-                                        <GradientStop
+										<GradientStop
                          Color="#FFC7D8EE"
                          Offset="1" />
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <ItemsPresenter
+									</LinearGradientBrush.GradientStops>
+								</LinearGradientBrush>
+							</Border.Background>
+							<ItemsPresenter
                    SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style
          TargetType="MenuItem"
          x:Key="SpecialMenuItem">
-            <Style.Triggers>
-                <Trigger
+			<Style.Triggers>
+				<Trigger
              Property="MenuItem.Role">
-                    <Setter
+					<Setter
                Property="Control.Template">
-                        <Setter.Value>
-                            <DynamicResource
+						<Setter.Value>
+							<DynamicResource
                    ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=TopLevelHeaderTemplateKey}" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <x:Static
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<x:Static
                  Member="MenuItemRole.TopLevelHeader" />
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.Role">
-                    <Setter
+					<Setter
                Property="Control.Template">
-                        <Setter.Value>
-                            <DynamicResource
+						<Setter.Value>
+							<DynamicResource
                    ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=TopLevelItemTemplateKey}" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <x:Static
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<x:Static
                  Member="MenuItemRole.TopLevelItem" />
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.Role">
-                    <Setter
+					<Setter
                Property="Control.Template">
-                        <Setter.Value>
-                            <DynamicResource
+						<Setter.Value>
+							<DynamicResource
                    ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=SubmenuHeaderTemplateKey}" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <x:Static
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<x:Static
                  Member="MenuItemRole.SubmenuHeader" />
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.Role">
-                    <Setter
+					<Setter
                Property="Control.Template">
-                        <Setter.Value>
-                            <DynamicResource
+						<Setter.Value>
+							<DynamicResource
                    ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=SubmenuItemTemplateKey}" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <x:Static
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<x:Static
                  Member="MenuItemRole.SubmenuItem" />
-                    </Trigger.Value>
-                </Trigger>
-            </Style.Triggers>
-            <Style.Resources>
-                <ResourceDictionary />
-            </Style.Resources>
-        </Style>
-        <ControlTemplate
+					</Trigger.Value>
+				</Trigger>
+			</Style.Triggers>
+			<Style.Resources>
+				<ResourceDictionary />
+			</Style.Resources>
+		</Style>
+		<ControlTemplate
          TargetType="MenuItem"
          x:Key="SpecialSubmenuHeader">
-            <Border
+			<Border
            Name="Border">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
                  Width="Auto"
                  MinWidth="17"
                  SharedSizeGroup="Icon" />
-                        <ColumnDefinition
+						<ColumnDefinition
                  Width="*" />
-                        <ColumnDefinition
+						<ColumnDefinition
                  Width="Auto"
                  SharedSizeGroup="Shortcut" />
-                        <ColumnDefinition
+						<ColumnDefinition
                  Width="13" />
-                    </Grid.ColumnDefinitions>
-                    <ContentPresenter
+					</Grid.ColumnDefinitions>
+					<ContentPresenter
                Content="{TemplateBinding MenuItem.Icon}"
                ContentSource="Icon"
                Name="Icon"
                Margin="6,0,6,0"
                HorizontalAlignment="Center"
                VerticalAlignment="Center" />
-                    <ContentPresenter
+					<ContentPresenter
                RecognizesAccessKey="True"
                Content="{TemplateBinding HeaderedContentControl.Header}"
                ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
@@ -244,20 +236,20 @@
                Margin="0,4,0,4"
                TextElement.Foreground="#FF4971A3"
                Grid.Column="1" />
-                    <TextBlock
+					<TextBlock
                Text="{TemplateBinding MenuItem.InputGestureText}"
                Foreground="#FF4971A3"
                Name="InputGestureText"
                Margin="5,2,2,2"
                Grid.Column="2" />
-                    <Path
+					<Path
                Data="M0,0L0,7 4,3.5z"
                Fill="#FF4971AA"
                Name="Arrow"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Grid.Column="3" />
-                    <Popup
+					<Popup
                IsOpen="{TemplateBinding MenuItem.IsSubmenuOpen}"
                Placement="Right"
                HorizontalOffset="0"
@@ -265,150 +257,150 @@
                AllowsTransparency="True"
                Name="Popup"
                Focusable="False">
-                        <Border
+						<Border
                  BorderThickness="1,1,1,1"
                  BorderBrush="#FF9ABAE6"
                  Name="SubmenuBorder"
                  SnapsToDevicePixels="True">
-                            <Border.Background>
-                                <LinearGradientBrush
+							<Border.Background>
+								<LinearGradientBrush
                      StartPoint="0,0"
                      EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStop
+									<LinearGradientBrush.GradientStops>
+										<GradientStop
                          Color="#FFDFE9F6"
                          Offset="0" />
-                                        <GradientStop
+										<GradientStop
                          Color="#FFC7D8EE"
                          Offset="1" />
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <ItemsPresenter
+									</LinearGradientBrush.GradientStops>
+								</LinearGradientBrush>
+							</Border.Background>
+							<ItemsPresenter
                    SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                        </Border>
-                    </Popup>
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger
+						</Border>
+					</Popup>
+				</Grid>
+			</Border>
+			<ControlTemplate.Triggers>
+				<Trigger
              Property="MenuItem.Icon">
-                    <Setter
+					<Setter
                Property="UIElement.Visibility"
                TargetName="Icon">
-                        <Setter.Value>
-                            <x:Static
+						<Setter.Value>
+							<x:Static
                    Member="Visibility.Hidden" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <x:Null />
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<x:Null />
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.IsHighlighted">
-                    <Setter
+					<Setter
                Property="Panel.Background"
                TargetName="Border">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF97B2D7</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FF97B2D7</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="TextElement.Foreground"
                TargetName="HeaderHost">
-                        <Setter.Value>
-                            <SolidColorBrush>#FFFFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FFFFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="TextElement.Foreground"
                TargetName="InputGestureText">
-                        <Setter.Value>
-                            <SolidColorBrush>#FFFFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FFFFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="Shape.Fill"
                TargetName="Arrow">
-                        <Setter.Value>
-                            <SolidColorBrush>#FFFFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						<Setter.Value>
+							<SolidColorBrush>#FFFFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="Window.AllowsTransparency"
              SourceName="Popup">
-                    <Setter
+					<Setter
                Property="Border.CornerRadius"
                TargetName="SubmenuBorder">
-                        <Setter.Value>
-                            <CornerRadius>4,4,4,4</CornerRadius>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<CornerRadius>4,4,4,4</CornerRadius>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="Border.Padding"
                TargetName="SubmenuBorder">
-                        <Setter.Value>
-                            <Thickness>0,3,0,3</Thickness>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						<Setter.Value>
+							<Thickness>0,3,0,3</Thickness>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="UIElement.IsEnabled">
-                    <Setter
+					<Setter
                Property="TextElement.Foreground"
                TargetName="HeaderHost">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF888888</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FF888888</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="TextElement.Foreground"
                TargetName="InputGestureText">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF888888</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>False</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ControlTemplate
+						<Setter.Value>
+							<SolidColorBrush>#FF888888</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>False</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+		<ControlTemplate
          TargetType="MenuItem"
          x:Key="SpecialSubmenuItem">
-            <Border
+			<Border
            Name="Border">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
                  Width="Auto"
                  MinWidth="17"
                  SharedSizeGroup="Icon" />
-                        <ColumnDefinition
+						<ColumnDefinition
                  Width="*" />
-                        <ColumnDefinition
+						<ColumnDefinition
                  Width="Auto"
                  SharedSizeGroup="Shortcut" />
-                        <ColumnDefinition
+						<ColumnDefinition
                  Width="13" />
-                    </Grid.ColumnDefinitions>
-                    <ContentPresenter
+					</Grid.ColumnDefinitions>
+					<ContentPresenter
                Content="{TemplateBinding MenuItem.Icon}"
                ContentSource="Icon"
                Name="Icon"
                Margin="6,4,6,4"
                HorizontalAlignment="Center"
                VerticalAlignment="Center" />
-                    <Path
+					<Path
                Data="M0,2L0,4.8 2.5,7.4 7.1,2.8 7.1,0 2.5,4.6z"
                Fill="#FF4971AA"
                Name="CheckMark"
@@ -417,7 +409,7 @@
                VerticalAlignment="Center"
                Visibility="Hidden"
                SnapsToDevicePixels="False" />
-                    <ContentPresenter
+					<ContentPresenter
                RecognizesAccessKey="True"
                Content="{TemplateBinding HeaderedContentControl.Header}"
                ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
@@ -426,170 +418,170 @@
                Margin="0,4,0,4"
                TextElement.Foreground="#FF4971A3"
                Grid.Column="1" />
-                    <TextBlock
+					<TextBlock
                Text="{TemplateBinding MenuItem.InputGestureText}"
                Foreground="#FF4971A3"
                Name="InputGestureText"
                Margin="5,4,0,4"
                DockPanel.Dock="Right"
                Grid.Column="2" />
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger
+				</Grid>
+			</Border>
+			<ControlTemplate.Triggers>
+				<Trigger
              Property="MenuItem.Icon">
-                    <Setter
+					<Setter
                Property="UIElement.Visibility"
                TargetName="Icon">
-                        <Setter.Value>
-                            <x:Static
+						<Setter.Value>
+							<x:Static
                    Member="Visibility.Hidden" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <x:Null />
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<x:Null />
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.IsChecked">
-                    <Setter
+					<Setter
                Property="UIElement.Visibility"
                TargetName="CheckMark">
-                        <Setter.Value>
-                            <x:Static
+						<Setter.Value>
+							<x:Static
                    Member="Visibility.Visible" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.IsCheckable">
-                    <Setter
+					<Setter
                Property="UIElement.Visibility"
                TargetName="Icon">
-                        <Setter.Value>
-                            <x:Static
+						<Setter.Value>
+							<x:Static
                    Member="Visibility.Hidden" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.IsHighlighted">
-                    <Setter
+					<Setter
                Property="Panel.Background"
                TargetName="Border">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF97B2D7</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FF97B2D7</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="TextElement.Foreground"
                TargetName="HeaderHost">
-                        <Setter.Value>
-                            <SolidColorBrush>#FFFFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FFFFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="TextElement.Foreground"
                TargetName="InputGestureText">
-                        <Setter.Value>
-                            <SolidColorBrush>#FFFFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						<Setter.Value>
+							<SolidColorBrush>#FFFFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="UIElement.IsEnabled">
-                    <Setter
+					<Setter
                Property="TextElement.Foreground"
                TargetName="HeaderHost">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF888888</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FF888888</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="TextElement.Foreground"
                TargetName="InputGestureText">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF888888</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>False</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ControlTemplate
+						<Setter.Value>
+							<SolidColorBrush>#FF888888</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>False</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+		<ControlTemplate
          TargetType="MenuItem"
          x:Key="SpecialTopLevelItem">
-            <Border
+			<Border
            Name="Border">
-                <Grid>
-                    <ContentPresenter
+				<Grid>
+					<ContentPresenter
                RecognizesAccessKey="True"
                Content="{TemplateBinding HeaderedContentControl.Header}"
                ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
                ContentSource="Header"
                Margin="8,4,8,4" />
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger
+				</Grid>
+			</Border>
+			<ControlTemplate.Triggers>
+				<Trigger
              Property="MenuItem.IsHighlighted">
-                    <Setter
+					<Setter
                Property="Panel.Background"
                TargetName="Border">
-                        <Setter.Value>
-                            <SolidColorBrush>#00FFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#00FFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="Border.BorderBrush"
                TargetName="Border">
-                        <Setter.Value>
-                            <SolidColorBrush>#00FFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						<Setter.Value>
+							<SolidColorBrush>#00FFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="UIElement.IsEnabled">
-                    <Setter
+					<Setter
                Property="TextElement.Foreground">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF888888</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>False</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ControlTemplate
+						<Setter.Value>
+							<SolidColorBrush>#FF888888</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>False</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+		<ControlTemplate
          TargetType="MenuItem"
          x:Key="SpecialTopLevelHeader">
-            <Border
+			<Border
            Name="Border">
-                <Grid>
-                    <ContentPresenter
+				<Grid>
+					<ContentPresenter
                RecognizesAccessKey="True"
                Content="{TemplateBinding HeaderedContentControl.Header}"
                ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
                ContentSource="Header"
                Margin="8,6,8,6"
                TextElement.Foreground="#FF4971A3" />
-                    <Popup
+					<Popup
                IsOpen="{TemplateBinding MenuItem.IsSubmenuOpen}"
                Placement="Bottom"
                HorizontalOffset="1"
@@ -597,106 +589,106 @@
                AllowsTransparency="True"
                Name="Popup"
                Focusable="False">
-                        <Border
+						<Border
                  BorderThickness="1,1,1,1"
                  BorderBrush="#FF9ABAE6"
                  Name="SubmenuBorder"
                  SnapsToDevicePixels="True">
-                            <Border.Background>
-                                <LinearGradientBrush
+							<Border.Background>
+								<LinearGradientBrush
                      StartPoint="0,0"
                      EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStop
+									<LinearGradientBrush.GradientStops>
+										<GradientStop
                          Color="#FFDFE9F6"
                          Offset="0" />
-                                        <GradientStop
+										<GradientStop
                          Color="#FFC7D8EE"
                          Offset="1" />
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <ItemsPresenter
+									</LinearGradientBrush.GradientStops>
+								</LinearGradientBrush>
+							</Border.Background>
+							<ItemsPresenter
                    SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                        </Border>
-                    </Popup>
-                </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-                <Trigger
+						</Border>
+					</Popup>
+				</Grid>
+			</Border>
+			<ControlTemplate.Triggers>
+				<Trigger
              Property="MenuItem.IsSuspendingPopupAnimation">
-                    <Setter
+					<Setter
                Property="Popup.PopupAnimation"
                TargetName="Popup">
-                        <Setter.Value>
-                            <x:Static
+						<Setter.Value>
+							<x:Static
                    Member="PopupAnimation.None" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="MenuItem.IsHighlighted">
-                    <Setter
+					<Setter
                Property="Panel.Background"
                TargetName="Border">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF97B2D7</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<SolidColorBrush>#FF97B2D7</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="Border.BorderBrush"
                TargetName="Border">
-                        <Setter.Value>
-                            <SolidColorBrush>#00FFFFFF</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						<Setter.Value>
+							<SolidColorBrush>#00FFFFFF</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="Window.AllowsTransparency"
              SourceName="Popup">
-                    <Setter
+					<Setter
                Property="Border.CornerRadius"
                TargetName="SubmenuBorder">
-                        <Setter.Value>
-                            <CornerRadius>0,0,4,4</CornerRadius>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter
+						<Setter.Value>
+							<CornerRadius>0,0,4,4</CornerRadius>
+						</Setter.Value>
+					</Setter>
+					<Setter
                Property="Border.Padding"
                TargetName="SubmenuBorder">
-                        <Setter.Value>
-                            <Thickness>0,0,0,3</Thickness>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>True</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-                <Trigger
+						<Setter.Value>
+							<Thickness>0,0,0,3</Thickness>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>True</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+				<Trigger
              Property="UIElement.IsEnabled">
-                    <Setter
+					<Setter
                Property="TextElement.Foreground">
-                        <Setter.Value>
-                            <SolidColorBrush>#FF888888</SolidColorBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.Value>
-                        <s:Boolean>False</s:Boolean>
-                    </Trigger.Value>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ContextMenu x:Key="ItemMenu" Style="{DynamicResource SpecialContextMenu}">
-            <MenuItem Name="Edit"/>
+						<Setter.Value>
+							<SolidColorBrush>#FF888888</SolidColorBrush>
+						</Setter.Value>
+					</Setter>
+					<Trigger.Value>
+						<s:Boolean>False</s:Boolean>
+					</Trigger.Value>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+		<ContextMenu x:Key="ItemMenu" Style="{DynamicResource SpecialContextMenu}">
+			<MenuItem Name="Edit"/>
 			<MenuItem Name="Rename"/>
 			<MenuItem Name="Delete"/>
-            <Separator/>
+			<Separator/>
 			<MenuItem Name="Cancel" Header="{Binding Source={x:Static am:Strings.CANCEL}}"/>
 		</ContextMenu>
 	</Application.Resources>

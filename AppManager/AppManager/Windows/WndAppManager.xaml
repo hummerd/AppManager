@@ -9,11 +9,13 @@
 	mc:Ignorable="d" 
 	Title="{Binding Source={x:Static am:Strings.APP_MANAGER}}"
 	Width= "425" Height="525"  
-	WindowStartupLocation="CenterOwner" 
-   Icon="/AppManager;component/Resources/Window.png" 
+	WindowStartupLocation="CenterOwner"
    ShowInTaskbar="False" 
    MinWidth="250" MinHeight="300"
-	Activated="AppsManagerWindow_Activated">
+	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
+	Activated="AppsManagerWindow_Activated"
+	PreviewKeyUp="AppsManagerWindow_PreviewKeyUp"
+	>
 
 	<Window.Resources>
 		<Style x:Key="AppTypeItemStyle" TargetType="ListBoxItem">
@@ -85,73 +87,20 @@
 				<CheckBox Click="CheckBox_Click" />
 			</DockPanel>
 		</DataTemplate>
-		<!--<Style x:Key="AppItemStyle" TargetType="ListViewItem">
-			<Style.Resources>
-				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFB0CCF7"/>
-				<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#FFDFDFDF"/>
-			</Style.Resources>
-        </Style>-->
-		<!--<Style x:Key="AppTypeItemStyle" TargetType="ListBoxItem">
-			<Style.Resources>
-				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFB0CCF7"/>
-				<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#FFDFDFDF"/>
-			</Style.Resources>
-        </Style>-->
-		<!--<Style x:Key="AppItemText" TargetType="TextBox">
-			<Style.Resources>
-				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFB0CCF7"/>
-				<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#FFDFDFDF"/>
-				<SolidColorBrush x:Key="{x:Static SystemColors}" Color="#FFDFDFDF"/>
-			</Style.Resources>
-		</Style>-->
 		<DataTemplate x:Key="CheckCell">
 			<StackPanel x:Name="Back" Orientation="Horizontal">
 				<CheckBox Name="SelectedCheckBox" IsChecked="{Binding Path=Checked}" />
 			</StackPanel>
 		</DataTemplate>
-		<!--<DataTemplate x:Key="ImageCell">
-			<StackPanel Orientation="Horizontal">
-				<Image Width="24" Height="24" Stretch="UniformToFill" Source="{Binding Path=AppImage}" />
-			</StackPanel>
-		</DataTemplate>-->
-		<!--<DataTemplate x:Key="AppInfo">
-			<StackPanel Orientation="Vertical">
-				<TextBlock Text="{Binding Path=AppName}"/>
-				<TextBlock Text="{Binding Path=AppPath}"/>
-			</StackPanel>
-		</DataTemplate>-->
 		<DataTemplate x:Key="AppTypeInfo">
 			<StackPanel x:Name="Back" Orientation="Vertical" Margin="4,2,0,2">
 				<TextBlock Text="{Binding Path=AppTypeName}" FontSize="12"/>
 				<TextBlock Text="{Binding Path=AppTypeInfo}" FontSize="10" Foreground="#FF7A7979"/>
 			</StackPanel>
 		</DataTemplate>
-		<!--<DataTemplate x:Key="EditableAppInfo">
-			<Grid Name="GridT" Height="40" Background="Cyan">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="50*" />
-					<RowDefinition Height="50*" />
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50*" />
-					<ColumnDefinition Width="28" />
-				</Grid.ColumnDefinitions>
-				<TextBox Grid.ColumnSpan="2" Text="{Binding Path=AppName, Mode=TwoWay}" BorderBrush="{x:Null}" Width="250" Background="{x:Null}"/>
-				<TextBlock Name="AppItemPath" Grid.Row="1" Text="{Binding Path=AppPath, Mode=TwoWay}" Margin="4,4,0,0"/>
-				<Button Name="AppItemPathSelect" Content="..." Grid.Row="1" Grid.Column="1" Click="AppPathSelect_Click" />
-			</Grid>
-		</DataTemplate>-->
 		<DataTemplate x:Key="EditableAppInfo">
 			<Border Name="Back" BorderThickness="0,0,0,1" BorderBrush="#FFADADAD" Padding="0,0,0,4">
-				<!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource Mode= AncestorType=ScrollContentPresenter}}">-->
 				<Grid Name="GridT">
-					<!--<Grid.Width>
-						<Binding Path="Width" Mode="OneWay">
-							<Binding.RelativeSource>
-								<RelativeSource Mode="FindAncestor" AncestorType="ListBox"/>
-							</Binding.RelativeSource>
-						</Binding>
-					</Grid.Width>-->
 					<Grid.RowDefinitions>
 						<RowDefinition Height="50*" />
 						<RowDefinition Height="50*" />
@@ -227,7 +176,6 @@
 				</Grid>
 			</Border>
 		</DataTemplate>
-		<!--</SnippetCheckBoxDataTemplate>-->
 	</Window.Resources>
 
 	<Grid x:Name="LayoutRoot">
@@ -386,15 +334,22 @@
 			</TabItem>
 		</TabControl>
 		<Button 
+			Name="BtnOK"
 			Content="{Binding Source={x:Static am:Strings.OK}}"
 			Margin="0,8,94,8" 
 			Grid.Row="1" 
 			Width="80" 
 			HorizontalAlignment="Right" 
-			x:Name="BtnOK" 
-			Click="BtnOK_Click" />
+			Click="BtnOK_Click"
+			/>
 		<Button 
+			Name="BtnCancel"
 			Content="{Binding Source={x:Static am:Strings.CANCEL}}"
-			HorizontalAlignment="Right" Margin="0,8,8,8" Width="80" Grid.Row="1" Name="BtnCancel" Click="BtnCancel_Click" />
+			Margin="0,8,8,8" 
+			Grid.Row="1"
+			Width="80"
+			HorizontalAlignment="Right"
+			Click="BtnCancel_Click"
+			/>
 	</Grid>
 </Window>
