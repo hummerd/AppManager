@@ -38,6 +38,7 @@ namespace AppManager
 	public class AppInfo : IClonableEntity<AppInfo>, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
+		public event EventHandler NeedImage;
 
 
 		[XmlIgnore]
@@ -88,8 +89,9 @@ namespace AppManager
 			get { return _ExecPath; } 
 			set 
 			{ 
-				_ExecPath = value; 
+				_ExecPath = value;
 				LoadImage();
+				OnNeedImage();
 				OnPropertyChanged(new PropertyChangedEventArgs("ExecPath"));
 				OnPropertyChanged(new PropertyChangedEventArgs("AppImage"));
 			}
@@ -176,6 +178,12 @@ namespace AppManager
 		}
 
 
+		protected virtual void OnNeedImage()
+		{
+			if (NeedImage != null)
+				NeedImage(this, EventArgs.Empty);
+		}
+
 		protected void LoadImage()
 		{
 			if (String.IsNullOrEmpty(ExecPath))
@@ -186,22 +194,22 @@ namespace AppManager
 
 			BitmapSource src = null;
 
-			if (File.Exists(AppPath))
-			{
-				if (PathHelper.IsPathUNC(AppPath))
-				{
-					AppImage = GetBlankImage();
-					return;
-				}
-				
-				System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(AppPath);
+			//if (File.Exists(AppPath))
+			//{
+			//   if (PathHelper.IsPathUNC(AppPath))
+			//   {
+			//      AppImage = GetBlankImage();
+			//      return;
+			//   }
 
-				src = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-					ico.Handle,
-					Int32Rect.Empty,
-					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-			}
-			else if (Directory.Exists(AppPath))
+			//   System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(AppPath);
+
+			//   src = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+			//      ico.Handle,
+			//      Int32Rect.Empty,
+			//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+			//} else
+			if (Directory.Exists(AppPath))
 			{
 				src = GetFolderImage();
 			}

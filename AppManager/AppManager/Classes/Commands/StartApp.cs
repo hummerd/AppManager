@@ -39,6 +39,7 @@ namespace AppManager.Commands
 
 			LoadData();
 			bool first = FirstLoad();
+			_WorkItem.AppData.StartLoadImages();
 
 			_WorkItem.MainWindow.Init(first);
 
