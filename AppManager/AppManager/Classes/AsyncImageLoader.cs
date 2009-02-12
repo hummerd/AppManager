@@ -4,18 +4,21 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using AppManager.Common;
+using System.Windows.Threading;
+using System;
+using System.Windows.Interop;
 
 
 namespace AppManager
 {
 	public class AsyncImageLoader
 	{
-		//public event EventHandler<StrArrEventArgs> ImageLoaded;
+		protected DispatcherTimer _SearchTimer = new DispatcherTimer();
 
 		protected object _RequestSync = new object();
 		protected object _ResultSync = new object();
-		protected Queue<string> _RequestedImages = new Queue<string>(100);
-		protected Dictionary<string, System.Drawing.Icon> _LoadedImages = new Dictionary<string, System.Drawing.Icon>(100);
+		protected Queue<AppInfo> _RequestedImages = new Queue<AppInfo>(100);
+		protected Queue<Pair<AppInfo, System.Drawing.Icon>> _LoadedImages = new Queue<Pair<AppInfo, System.Drawing.Icon>>(100);
 		protected Thread _LoadThread;
 
 
@@ -23,13 +26,17 @@ namespace AppManager
 		{
 			_LoadThread = new Thread(ImageLoader);
 			_LoadThread.IsBackground = true;
+
+			_SearchTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+			_SearchTimer.Tick += (s, e) => SetImages();
+			_SearchTimer.Start();
 		}
 
 
-		public void RequestFile(string path)
+		public void RequestImage(AppInfo app)
 		{
 			lock (_RequestSync)
-				_RequestedImages.Enqueue(path);
+				_RequestedImages.Enqueue(app);
 		}
 		
 		public void StartLoad()
@@ -37,27 +44,22 @@ namespace AppManager
 			_LoadThread.Start();
 		}
 
-		public bool HasImages()
-		{
-			lock (_ResultSync)
-				return _LoadedImages.Count > 0;
-		}
 
-		public System.Drawing.Icon TryGetImage(string path)
+		protected void SetImages()
 		{
-			System.Drawing.Icon result;
-			bool exist = false;
-
 			lock (_ResultSync)
 			{
-				exist = _LoadedImages.TryGetValue(path, out result);
-				if (exist)
-					_LoadedImages.Remove(path);
+				while (_LoadedImages.Count > 0)
+				{
+					var pair = _LoadedImages.Dequeue();
+					if (pair.Second != null)
+						pair.First.AppImage = Imaging.CreateBitmapSourceFromHIcon(
+							pair.Second.Handle,
+							Int32Rect.Empty,
+							BitmapSizeOptions.FromEmptyOptions());
+				}
 			}
-
-			return exist ? result : null;
 		}
-
 
 		protected void ImageLoader(object param)
 		{
@@ -70,14 +72,16 @@ namespace AppManager
 
 				while (doLoad)
 				{
-					string path;
+					AppInfo app;
 					lock (_RequestSync)
-						path = _RequestedImages.Dequeue();
+						app = _RequestedImages.Dequeue();
 
-					var src = LoadImage(path);
+					var src = LoadImage(app.AppPath);
 
 					lock (_ResultSync)
-						_LoadedImages[path] = src;
+						_LoadedImages.Enqueue(
+							new Pair<AppInfo, System.Drawing.Icon>() 
+								{ First = app, Second = src });
 
 					lock (_RequestSync)
 						doLoad = _RequestedImages.Count > 0;					
@@ -98,11 +102,6 @@ namespace AppManager
 					return null;
 
 				return System.Drawing.Icon.ExtractAssociatedIcon(path);
-
-				//return System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-				//      ico.Handle,
-				//      Int32Rect.Empty,
-				//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
 			}
 			catch
 			{ ; }
