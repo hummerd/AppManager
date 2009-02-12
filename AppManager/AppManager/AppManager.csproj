@@ -168,6 +168,7 @@
     <Compile Include="Classes\Commands\Save.cs" />
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
+    <Compile Include="Classes\Common\Pair.cs" />
     <Compile Include="Classes\Common\PInvoke\GDI32.cs" />
     <Compile Include="Classes\Common\MenuHelper.cs" />
     <Compile Include="Classes\Common\PInvoke\MsiShortcutParser.cs" />

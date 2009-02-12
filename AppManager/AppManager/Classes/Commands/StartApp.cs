@@ -28,12 +28,17 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
 			AMSetttingsFactory.WorkItem = _WorkItem;
 
 			App app = new App();
 			app.InitializeComponent();
+
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " InitializeComponent");
+
 			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			app.SessionEnding += App_SessionEnding;
 
@@ -41,7 +46,11 @@ namespace AppManager.Commands
 			bool first = FirstLoad();
 			_WorkItem.AppData.StartLoadImages();
 
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
+
 			_WorkItem.MainWindow.Init(first);
+
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Init");
 
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
 			kbrdHook.KeyDown += KbrdHook_KeyDown;
@@ -51,21 +60,19 @@ namespace AppManager.Commands
 			tray.MouseUp += TrayIcon_MouseUp;
 			tray.Visible = true;
 			tray.ContextMenuStrip = CreateTrayMenu();
-			
+
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
+
 			Assembly.Load("DragDropLib");
+
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " DragDropLib");
 
 			app.Startup += delegate(object sender, StartupEventArgs e)
 			   { _WorkItem.MainWindow.LoadState(); };
 			app.Run(_WorkItem.MainWindow);
 		}
 
-		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			if (e.ExceptionObject != null)
-				MessageBox.Show(e.ExceptionObject.ToString());
-		}
-
-
+		
 		protected bool FirstLoad()
 		{
 			if (_WorkItem.AppData.AppTypes.Count == 1 &&
@@ -170,6 +177,12 @@ namespace AppManager.Commands
 				_WorkItem.Commands.Activate.Execute(null);
 		}
 
+
+		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			if (e.ExceptionObject != null)
+				MessageBox.Show(e.ExceptionObject.ToString());
+		}
 
 		private void App_SessionEnding(object sender, SessionEndingCancelEventArgs e)
 		{
