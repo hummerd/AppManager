@@ -66,6 +66,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -155,6 +156,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AsyncImageLoader.cs" />
     <Compile Include="Classes\ButtonListDrag.cs" />
     <Compile Include="Classes\Commands\Activate.cs" />
     <Compile Include="Classes\Commands\AppCommands.cs" />

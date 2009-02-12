@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using AppManager.Common;
 using AppManager.EntityCollection;
 using System.IO;
+using System.Windows.Threading;
+using System.Windows;
 
 
 namespace AppManager
@@ -12,16 +14,24 @@ namespace AppManager
 	{
 		protected AppTypeCollection _AppTypes;
 		protected int _LastAppInfoID = 1;
+		protected AsyncImageLoader _ImageLoader = new AsyncImageLoader();
+		protected DispatcherTimer _SearchTimer = new DispatcherTimer();
 
 
 		public AppGroup()
 		{
 			_AppTypes = new AppTypeCollection();
+			_SearchTimer.Interval = new TimeSpan(0, 0, 1);
+			_SearchTimer.Tick += (s, e) => CheckLoadedApps();
+			_SearchTimer.Start();
 		}
 
 		public AppGroup(IEnumerable<AppType> collection)
 		{
 			_AppTypes = new AppTypeCollection(collection);
+			_SearchTimer.Interval = new TimeSpan(0, 0, 1);
+			_SearchTimer.Tick += (s, e) => CheckLoadedApps();
+			_SearchTimer.Start();
 		}
 
 
@@ -37,6 +47,12 @@ namespace AppManager
 			set { _LastAppInfoID = value; }
 		}
 
+
+		public void StartLoadImages()
+		{
+			ReInitImages();
+			_ImageLoader.StartLoad();
+		}
 
 		public int GetMaxAppCountPerType()
 		{
@@ -157,12 +173,14 @@ namespace AppManager
 			
 			AppInfo newInfo = new AppInfo()
 			{
-                AppName = appName,
-				ExecPath = execPath,
+            AppName = appName,
 				AppInfoID = _LastAppInfoID++
 			};
 
 			newInfo.SetAutoAppName();
+
+			newInfo.NeedImage += (s, e) => RequestImage(s as AppInfo);
+			newInfo.ExecPath = execPath;
 
 			if (appType != null)
 				appType.AppInfos.Add(newInfo);
@@ -205,6 +223,10 @@ namespace AppManager
 			clone.AppGroupName = AppGroupName;
 			clone._LastAppInfoID = _LastAppInfoID;
 			clone.CloneSource = this;
+
+			clone.ReInitImages();
+			clone.StartLoadImages();
+
 			return clone;
 		}
 
@@ -228,5 +250,43 @@ namespace AppManager
 		}
 
 		#endregion
+
+
+		protected void ReInitImages()
+		{
+			foreach (var type in _AppTypes)
+				foreach (AppInfo item in type.AppInfos)
+				{
+					item.NeedImage += (s, e) => RequestImage(s as AppInfo);
+					item.ExecPath = item.ExecPath;
+				}
+		}
+
+		protected void CheckLoadedApps()
+		{
+			if (!_ImageLoader.HasImages())
+				return;
+
+			foreach (var type in _AppTypes)
+				foreach (AppInfo item in type.AppInfos)
+				{
+					var img = _ImageLoader.TryGetImage(item.AppPath);
+					if (img != null)
+					{
+						item.AppImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+								img.Handle,
+						      Int32Rect.Empty,
+						      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+					}
+				}
+		}
+
+		protected void RequestImage(AppInfo app)
+		{
+			if (app == null)
+				return;
+
+			_ImageLoader.RequestFile(app.AppPath);
+		}
 	}
 }
