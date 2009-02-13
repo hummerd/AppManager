@@ -110,7 +110,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="28" MaxWidth="28" />
 					</Grid.ColumnDefinitions>
-					<Image Grid.RowSpan="2" Source="{Binding Path=AppImage}" Width="24" Height="24" />
+					<Image Grid.RowSpan="2" Source="{Binding Path=AppImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="24" Height="24" />
 					<TextBox 
 						Grid.Column="1" 
 						Grid.ColumnSpan="2" 
@@ -170,7 +170,7 @@
 						<ColumnDefinition Width="40" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
-					<Image Grid.RowSpan="2" Source="{Binding Path=AppImage}" Width="24" Height="24" />
+					<Image Grid.RowSpan="2" Source="{Binding Path=AppImage, Mode=OneWay}" Width="24" Height="24" />
 					<TextBox Grid.Column="1" Text="{Binding Path=AppName, Mode=TwoWay}" BorderBrush="{x:Null}" Width="Auto" Background="{x:Null}" HorizontalAlignment="Stretch" GotFocus="ScanTextBox_GotFocus" />
 					<TextBlock Grid.Column="1" x:Name="AppItemPath" Grid.Row="1" Text="{Binding Path=ExecPath, Mode=OneWay}" Margin="4,4,0,0" HorizontalAlignment="Left"/>
 				</Grid>
@@ -325,8 +325,14 @@
 						<!---->
 						<ListView.View>
 							<GridView AllowsColumnReorder="false">
-								<GridViewColumn HeaderTemplate="{StaticResource myHeaderTemplate}" CellTemplate="{StaticResource CheckCell}" Width="26"/>
-								<GridViewColumn CellTemplate="{StaticResource SemiEditableAppInfo}" Header="{Binding Source={x:Static am:Strings.APPLICATION}}" Width="300"/>
+								<GridViewColumn 
+									CellTemplate="{StaticResource CheckCell}"
+									HeaderTemplate="{StaticResource myHeaderTemplate}"  
+									Width="26"/>
+								<GridViewColumn 
+									CellTemplate="{StaticResource SemiEditableAppInfo}" 
+									Header="{Binding Source={x:Static am:Strings.APPLICATION}}" 
+									Width="300"/>
 							</GridView>
 						</ListView.View>
 					</ListView>
