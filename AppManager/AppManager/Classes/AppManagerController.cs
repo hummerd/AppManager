@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Media.Imaging;
 using WinForms = System.Windows.Forms;
+using System.Collections.ObjectModel;
 
 
 namespace AppManager
@@ -19,7 +20,7 @@ namespace AppManager
 		{
 			_Data = data;
 		}
-		
+
 
 		public void AddType()
 		{
@@ -61,7 +62,7 @@ namespace AppManager
 
 				if (ix2 >= 0 && ix2 < appType.AppInfos.Count)
 					appType.AppInfos.Move(ix, ix2);
-			}			
+			}
 		}
 
 		public void RemoveApp(AppType appType, AppInfo appInfo)
@@ -105,9 +106,9 @@ namespace AppManager
 			return string.Empty;
 		}
 
-		public List<AppInfoAdapter> Scan(string path)
+		public AppInfoAdapterCollection Scan(string path)
 		{
-			List<AppInfoAdapter> result = new List<AppInfoAdapter>();
+			var result = new AppInfoAdapterCollection();
 
 			if (!Directory.Exists(path))
 				return result;
@@ -155,19 +156,22 @@ namespace AppManager
 				true);
 		}
 
-        public List<AppInfoAdapter> AdaptTo(AppInfoCollection apps)
-        {
-            if (apps == null)
-                return new List<AppInfoAdapter>();
+		public AppInfoAdapterCollection AdaptTo(AppInfoCollection apps)
+		{
+			if (apps == null)
+				return new AppInfoAdapterCollection();
 
-            var result = new List<AppInfoAdapter>(apps.Count);
+			var result = new AppInfoAdapterCollection();
 
-            foreach (var app in apps)
-                result.Add(new AppInfoAdapter(app));
+			foreach (var app in apps)
+				result.Add(new AppInfoAdapter(app));
 
-            return result;
-        }
+			return result;
+		}
 
+
+		public class AppInfoAdapterCollection : List<AppInfoAdapter>
+		{ }
 
 		public class AppInfoAdapter : INotifyPropertyChanged
 		{
@@ -178,6 +182,7 @@ namespace AppManager
 			public AppInfoAdapter(AppInfo source)
 			{
 				_Source = source;
+				_Source.PropertyChanged += (s, e) => OnPropertyChanged(e.PropertyName);
 			}
 
 
@@ -190,7 +195,7 @@ namespace AppManager
 			public bool Checked
 			{
 				get { return _Checked; }
-				set { _Checked = value; OnPropertyChanged("Checked"); } 
+				set { _Checked = value; OnPropertyChanged("Checked"); }
 			}
 
 			#region INotifyPropertyChanged Members
