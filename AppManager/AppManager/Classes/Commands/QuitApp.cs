@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
-using System.Xml;
-using System.Xml.Serialization;
-using System.IO;
-using AppManager.Settings;
-
+﻿
 
 namespace AppManager.Commands
 {
