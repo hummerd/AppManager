@@ -2,13 +2,13 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using AppManager.Common;
-using AppManager.Settings;
-using System.Windows.Data;
 using System.Windows.Media.Animation;
 using AppManager.Commands;
+using AppManager.Common;
+using AppManager.Settings;
 
 
 namespace AppManager
