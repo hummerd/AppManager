@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using AppManager.Classes;
 
 
@@ -40,6 +41,21 @@ namespace AppManager.Windows
 		private void BtnEditAppData_Click(object sender, RoutedEventArgs e)
 		{
 			_Controller.EditAppData();
+		}
+
+		private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				e.Handled = true;
+				DialogResult = true;
+			}
+
+			if (e.Key == Key.Escape)
+			{
+				e.Handled = true;
+				DialogResult = false;
+			}
 		}
 	}
 }

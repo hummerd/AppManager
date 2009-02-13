@@ -19,7 +19,10 @@ namespace AppManager.Windows
 	/// </summary>
 	public partial class SimpleSelector : Window
 	{
-		public SimpleSelector(IEnumerable items, string displayPath, string title)
+		protected object _ItemToSelect;
+
+
+		public SimpleSelector(IEnumerable items, object selectedItem, string displayPath, string title)
 		{
 			InitializeComponent();
 
@@ -27,8 +30,7 @@ namespace AppManager.Windows
 			CbxInput.DisplayMemberPath = displayPath;
 			CbxInput.ItemsSource = items;
 
-			if (CbxInput.Items.Count > 0)
-				CbxInput.SelectedIndex = 0;
+			_ItemToSelect = selectedItem;
 		}
 
 
@@ -37,6 +39,14 @@ namespace AppManager.Windows
 			get
 			{
 				return CbxInput.SelectedItem;
+			}
+		}
+
+		public string NewName
+		{
+			get
+			{
+				return TxtNewTypeName.IsEnabled ? TxtNewTypeName.Text : null;
 			}
 		}
 
@@ -53,6 +63,11 @@ namespace AppManager.Windows
 
 		private void Window_Activated(object sender, EventArgs e)
 		{
+			if (_ItemToSelect != null)
+				CbxInput.SelectedItem = _ItemToSelect;
+			else if (CbxInput.Items.Count > 0)
+				CbxInput.SelectedIndex = 0;
+
 			CbxInput.Focus();
 		}
 
@@ -69,6 +84,18 @@ namespace AppManager.Windows
 				e.Handled = true;
 				DialogResult = false;
 			}
+		}
+
+		private void RadioNew_Click(object sender, RoutedEventArgs e)
+		{
+			TxtNewTypeName.IsEnabled = RadioNew.IsChecked ?? false;
+			CbxInput.IsEnabled = !(RadioNew.IsChecked ?? false);
+		}
+
+		private void RadioExisting_Click(object sender, RoutedEventArgs e)
+		{
+			TxtNewTypeName.IsEnabled = RadioNew.IsChecked ?? false;
+			CbxInput.IsEnabled = !(RadioNew.IsChecked ?? false);
 		}
 	}
 }

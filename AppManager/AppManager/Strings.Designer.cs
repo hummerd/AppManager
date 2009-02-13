@@ -169,6 +169,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string DETAILS {
+            get {
+                return ResourceManager.GetString("DETAILS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open app data file.
         /// </summary>
         public static string EDIT_APP_DATA {
@@ -183,6 +192,24 @@ namespace AppManager {
         public static string ENTER_APP_NAME {
             get {
                 return ResourceManager.GetString("ENTER_APP_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AppManager error.
+        /// </summary>
+        public static string ERROR {
+            get {
+                return ResourceManager.GetString("ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry there is an unknown error in application.
+        /// </summary>
+        public static string ERROR_OCCUR {
+            get {
+                return ResourceManager.GetString("ERROR_OCCUR", resourceCulture);
             }
         }
         
@@ -259,6 +286,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string NEW {
+            get {
+                return ResourceManager.GetString("NEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New application.
         /// </summary>
         public static string NEW_APP {
@@ -318,6 +354,15 @@ namespace AppManager {
         public static string SEARCH {
             get {
                 return ResourceManager.GetString("SEARCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string SELECT {
+            get {
+                return ResourceManager.GetString("SELECT", resourceCulture);
             }
         }
         

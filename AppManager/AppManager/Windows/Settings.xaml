@@ -9,7 +9,8 @@
 	ShowInTaskbar="False" 
 	MinWidth="295" 
 	MinHeight="200"
-	Icon="/AppManager;component/Resources/1leftarrow_1159.ico">
+	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
+	PreviewKeyUp="Window_PreviewKeyUp">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />

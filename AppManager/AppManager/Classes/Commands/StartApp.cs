@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 using AppManager.Common;
 using AppManager.Properties;
 using AppManager.Settings;
+using AppManager.Windows;
 using WinForms = System.Windows.Forms;
 
 
@@ -181,7 +179,13 @@ namespace AppManager.Commands
 		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (e.ExceptionObject != null)
-				MessageBox.Show(e.ExceptionObject.ToString());
+			{
+				var exc = e.ExceptionObject as Exception;
+				if (exc != null)
+					ErrorBox.Show(Strings.ERROR, exc.Message, exc.ToString());
+				else
+					ErrorBox.Show(Strings.ERROR, Strings.ERROR_OCCUR, String.Empty);
+			}
 		}
 
 		private void App_SessionEnding(object sender, SessionEndingCancelEventArgs e)

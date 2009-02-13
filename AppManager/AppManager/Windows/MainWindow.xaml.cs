@@ -303,6 +303,27 @@ namespace AppManager
 			}
 		}
 
+		private void TrashMark_Drop(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
+				e.Effects = DragDropEffects.Move;
+		}
+
+		private void TrashMark_DragOver(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
+				e.Effects = DragDropEffects.Move;
+		}
+
+		private void ContentPanel_DragOver(object sender, DragEventArgs e)
+		{
+			if (ContentPanel.Children.Count <= 0)
+				_Controller.CreateDefaultType();
+
+			e.Effects = DragDropEffects.None;
+			e.Handled = true;
+		}
+
 		private void Window_Closing(object sender, CancelEventArgs e)
 		{
 			e.Cancel = true;
@@ -325,16 +346,14 @@ namespace AppManager
 				}
 		}
 
-		private void TrashMark_Drop(object sender, DragEventArgs e)
+		private void Window_Activated(object sender, EventArgs e)
 		{
-			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
-				e.Effects = DragDropEffects.Move;
+			GridCaption.Background = (Brush)Resources["ActiveCaptionBrush"];
 		}
 
-		private void TrashMark_DragOver(object sender, DragEventArgs e)
+		private void Window_Deactivated(object sender, EventArgs e)
 		{
-			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
-				e.Effects = DragDropEffects.Move;
+			GridCaption.Background = (Brush)Resources["InactiveCaptionBrush"];
 		}
 	}
 

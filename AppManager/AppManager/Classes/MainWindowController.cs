@@ -22,7 +22,16 @@ namespace AppManager
 			_SearchTimer.Interval = new TimeSpan(0, 0, 60);
 			_SearchTimer.Tick += (s, e) => _QuickSearchWnd.Close();
 		}
-	
+
+
+		public void CreateDefaultType()
+		{
+			_WorkItem.AppData.AppTypes.Add(
+				new AppType() { AppTypeName = Strings.APPLICATIONS }
+				);
+
+			_WorkItem.MainWindow.Init(false);
+		}
 
 		public void FindApp(string appNamePart)
 		{
