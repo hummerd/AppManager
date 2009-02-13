@@ -84,7 +84,7 @@
 		</Style>
 		<DataTemplate x:Key="myHeaderTemplate">
 			<DockPanel>
-				<CheckBox Click="CheckBox_Click" />
+				<CheckBox IsChecked="True" Click="CheckBox_Click" />
 			</DockPanel>
 		</DataTemplate>
 		<DataTemplate x:Key="CheckCell">
@@ -256,7 +256,9 @@
 					<ComboBox 
 						DisplayMemberPath="AppTypeName" 
 						Margin="8,12,120,12" 
-						Name="AppTypeSelector" SelectedIndex="0" />
+						Name="AppTypeSelector" 
+						SelectedItem = "{Binding ElementName=AppTypes, Path=SelectedItem, Mode=TwoWay}"
+					/>
 					<Button HorizontalAlignment="Right" Margin="0,12,92,12" Name="BtnAppUp" VerticalAlignment="Top" Width="24" Click="BtnAppUp_Click">
 						<Image Source="/AppManager;component/Resources/up_16.png" />
 					</Button>

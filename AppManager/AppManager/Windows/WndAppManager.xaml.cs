@@ -23,6 +23,7 @@ namespace AppManager
 		protected AppManagerController _Controller;
 		protected object _ItemToSelect;
 		protected AppTypeCollection _AppTypes;
+		protected bool _SearchAppCheck = true;
 
 
 		public WndAppManager()
@@ -153,7 +154,8 @@ namespace AppManager
 		//Search apps tab events===================================================
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = _Controller.Scan(TxtFolder.Text);
+			AppScanList.ItemsSource = _Controller.AdaptTo(
+					 _Controller.Scan(TxtFolder.Text), _SearchAppCheck);
 		}
 
 		private void BtnAddScan_Click(object sender, RoutedEventArgs e)
@@ -161,14 +163,22 @@ namespace AppManager
 			//AppType appType = AppScanType.SelectedItem as AppType;
 			if (AppScanList.Items.Count <= 0)
 				return;
+			
+			var ss = new SimpleSelector(
+				_AppTypes, 
+				AppTypes.SelectedItem, 
+				"AppTypeName", 
+				Strings.SELECT_APP_GROUP);
 
-			var ss = new SimpleSelector(_AppTypes, "AppTypeName", Strings.SELECT_APP_GROUP);
 			ss.Owner = this;
 
 			if (ss.ShowDialog() ?? false)
+			{
 				_Controller.AddScned(
 					ss.SelectedItem as AppType,
+					ss.NewName,
 					AppScanList.ItemsSource as List<AppManager.AppManagerController.AppInfoAdapter>);
+			}
 		}
 
 		private void ScanTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -183,19 +193,22 @@ namespace AppManager
 		{
 			CheckBox cb = sender as CheckBox;
 			if (cb != null)
-				_Controller.SelectAllScan(AppScanList.ItemsSource, cb.IsChecked ?? false);
+			{
+				_SearchAppCheck = cb.IsChecked ?? false;
+				_Controller.SelectAllScan(AppScanList.ItemsSource, _SearchAppCheck);
+			}
 		}
 
 		private void BtnScanQuickLaunch_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.AdaptTo(
-					 _Controller.FindAppsInQuickLaunch());
+					 _Controller.FindAppsInQuickLaunch(), _SearchAppCheck);
 		}
 
 		private void BtnScanAllProgs_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.AdaptTo(
-				 _Controller.FindAppsInAllProgs());
+				 _Controller.FindAppsInAllProgs(), _SearchAppCheck);
 		}
 
 		//Other events===================================================

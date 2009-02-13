@@ -21,8 +21,10 @@
 	ResizeMode="NoResize" 
 	SnapsToDevicePixels="True" 
 	Loaded="Window_Loaded" 
-	PreviewTextInput="Window_PreviewTextInput">
-
+	PreviewTextInput="Window_PreviewTextInput" 
+	Activated="Window_Activated"
+	Deactivated="Window_Deactivated"
+	>
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -119,6 +121,16 @@
 					<SplineDoubleKeyFrame KeyTime="00:00:01" Value="0"/>
 				</DoubleAnimationUsingKeyFrames>
 			</Storyboard>
+			<LinearGradientBrush x:Key="ActiveCaptionBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+				<GradientStop Color="#FF158EC1" Offset="0"/>
+				<GradientStop Color="#9A00587D" Offset="0.996"/>
+				<GradientStop Color="#FF0D6488" Offset="0.406"/>
+			</LinearGradientBrush>
+			<LinearGradientBrush x:Key="InactiveCaptionBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+				<GradientStop Color="#FF3DB8EC" Offset="0"/>
+				<GradientStop Color="#9A20AEEA" Offset="0.996"/>
+				<GradientStop Color="#FF5BA4C3" Offset="0.406"/>
+			</LinearGradientBrush>
 		</ResourceDictionary>
 	</Window.Resources>
 	<Window.Triggers>
@@ -138,7 +150,7 @@
 				<GradientStop Color="#FFFFC33E" Offset="0.603"/>
 			</LinearGradientBrush>
 		</Border.BorderBrush>
-		<Grid Width="Auto" Height="Auto">
+		<Grid Width="Auto" Height="Auto" x:Name="GridMain">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="32" />
 				<RowDefinition Height="*" />
@@ -146,20 +158,13 @@
 			<!--Window caption-->
 			<Grid 
                 MouseLeftButtonDown="DockPanel_MouseLeftButtonDown" 
-                Grid.Row="0">
+                Grid.Row="0" Background="{DynamicResource ActiveCaptionBrush}" x:Name="GridCaption">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<Grid.Background>
-					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-						<GradientStop Color="#FF158EC1" Offset="0"/>
-						<GradientStop Color="#9A00587D" Offset="0.996"/>
-						<GradientStop Color="#FF0D6488" Offset="0.406"/>
-					</LinearGradientBrush>
-				</Grid.Background>
 				<am:SettingButton 
                     x:Name="BtnConfigure" 
                     Width="45" 
@@ -207,8 +212,7 @@
 					Opacity="1" 
 					SnapsToDevicePixels="True" 
 					HorizontalAlignment="Stretch" 
-					VerticalAlignment="Stretch" 
-					>
+					VerticalAlignment="Stretch" AllowDrop="True" DragOver="ContentPanel_DragOver">
 				<Grid.Background>
 					<LinearGradientBrush EndPoint="0.761,0.963" StartPoint="0.239,0.037">
 						<GradientStop Color="#FF78B3F6" Offset="0"/>

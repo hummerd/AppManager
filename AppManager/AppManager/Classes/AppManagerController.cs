@@ -106,28 +106,32 @@ namespace AppManager
 			return string.Empty;
 		}
 
-		public AppInfoAdapterCollection Scan(string path)
+		public AppInfoCollection Scan(string path)
 		{
-			var result = new AppInfoAdapterCollection();
+			var result = new AppInfoCollection();
 
 			if (!Directory.Exists(path))
 				return result;
 
-			var apps = FindApps(
+			return FindApps(
 				path,
 				new List<string>() { "lnk", "exe", "jar" },
 				false);
-
-			return AdaptTo(apps);
 		}
 
-		public void AddScned(AppType appType, List<AppInfoAdapter> list)
+		public void AddScned(AppType appType, string newAppTypeName, List<AppInfoAdapter> list)
 		{
 			if (list == null)
 				return;
 
-			if (appType == null)
+			if (appType == null && newAppTypeName == null)
 				return;
+
+			if (newAppTypeName != null)
+			{
+				appType = new AppType() { AppTypeName = newAppTypeName };
+				_Data.AppTypes.Add(appType);
+			}
 
 			foreach (AppInfoAdapter infoAdp in list)
 			{
@@ -156,7 +160,7 @@ namespace AppManager
 				true);
 		}
 
-		public AppInfoAdapterCollection AdaptTo(AppInfoCollection apps)
+		public AppInfoAdapterCollection AdaptTo(AppInfoCollection apps, bool check)
 		{
 			if (apps == null)
 				return new AppInfoAdapterCollection();
@@ -164,7 +168,7 @@ namespace AppManager
 			var result = new AppInfoAdapterCollection();
 
 			foreach (var app in apps)
-				result.Add(new AppInfoAdapter(app));
+				result.Add(new AppInfoAdapter(app) { Checked = check });
 
 			return result;
 		}
@@ -176,7 +180,7 @@ namespace AppManager
 		public class AppInfoAdapter : INotifyPropertyChanged
 		{
 			protected AppInfo _Source;
-			protected bool _Checked;
+			protected bool _Checked = true;
 
 
 			public AppInfoAdapter(AppInfo source)
