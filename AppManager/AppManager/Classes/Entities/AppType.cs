@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using AppManager.EntityCollection;
-using System.ComponentModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using AppManager.EntityCollection;
 
 
 namespace AppManager

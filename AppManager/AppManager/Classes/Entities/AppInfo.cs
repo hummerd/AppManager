@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
-using System.Windows;
-using AppManager.EntityCollection;
 using System.ComponentModel;
 using System.IO;
-using System.Diagnostics;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 using AppManager.Common;
+using AppManager.EntityCollection;
 
 
 namespace AppManager

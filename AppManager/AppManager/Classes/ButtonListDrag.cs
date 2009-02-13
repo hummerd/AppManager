@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
-using DragDropLib;
 using System.Windows.Controls;
+using DragDropLib;
 
 
 namespace AppManager

@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Media.Imaging;
 using WinForms = System.Windows.Forms;
-using System.Collections.ObjectModel;
 
 
 namespace AppManager
