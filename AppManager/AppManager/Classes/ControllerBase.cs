@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows;
 using AppManager.Common;
 using WinSh = IWshRuntimeLibrary;
-using System.Text;
 
 
 namespace AppManager

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using AppManager.Common;
-using System.Windows.Threading;
-using System;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using AppManager.Common;
 
 
 namespace AppManager
