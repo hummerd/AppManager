@@ -118,7 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ADD_PROGS_QUEST" xml:space="preserve">
-    <value>Вы хотите добавить программы из меню Пуск?</value>
+    <value>Вы хотите добавить программы из меню Пуск
+(Вы можете сделать это позже в Менеджере приложений - кнопка "+")?</value>
   </data>
   <data name="ADD_TO_TYPE" xml:space="preserve">
     <value>Добавлять к группе</value>

@@ -12,8 +12,28 @@
 	Activated="Window_Activated">
 
 	<Window.Resources>
+		<Style x:Key="AppItemStyle" TargetType="ListBoxItem">
+			<!--<Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>-->
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ListBoxItem}">
+						<Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsSelected" Value="true">
+								<Setter Property="Background" TargetName="Bd" Value="#FFB0CCF7"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 		<DataTemplate x:Key="SemiEditableAppInfo">
-			<Border Name="BorderT" BorderThickness="0,0,0,1" BorderBrush="#FFADADAD" Padding="0,0,0,4">
+			<Border Name="BorderT" BorderThickness="0,0,0,1" BorderBrush="DarkSlateBlue" Padding="0,0,0,4">
 				<Border.Width>
 					<Binding Path="ActualWidth">
 						<Binding.RelativeSource>
@@ -48,6 +68,12 @@
 			</Border>
 		</DataTemplate>
 	</Window.Resources>
+	<Window.Background>
+		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FF618FCC" Offset="0"/>
+			<GradientStop Color="#FF9EBEE7" Offset="1"/>
+		</LinearGradientBrush>
+	</Window.Background>
 	
 	<Border Name="MainContentBorder" CornerRadius="4,4,4,4" BorderThickness="4" BorderBrush="DarkSlateBlue">
 		<Grid>
@@ -56,8 +82,12 @@
 				Name="LstApp"
 				TabIndex="2" 
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ItemContainerStyle="{StaticResource AppItemStyle}"
 				ItemTemplate="{DynamicResource SemiEditableAppInfo}"
-				IsSynchronizedWithCurrentItem="True" MouseDoubleClick="LstApp_MouseDoubleClick" />
+				IsSynchronizedWithCurrentItem="True" 
+				Background="{x:Null}"
+				MouseDoubleClick="LstApp_MouseDoubleClick" 
+				/>
 			<TextBox Height="24" Margin="4,0,4,4" Name="TxtSearch" VerticalAlignment="Bottom" TextChanged="TxtSearch_TextChanged" TabIndex="1" KeyUp="TxtSearch_KeyUp" />
 		</Grid>
 	</Border>
