@@ -61,7 +61,8 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to add programs from Start menu?.
+        ///   Looks up a localized string similar to Do you want to add programs from Start menu
+        ///(You can do it later via Application manager &quot;+&quot; button)?.
         /// </summary>
         public static string ADD_PROGS_QUEST {
             get {
