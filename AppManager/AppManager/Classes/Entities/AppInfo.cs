@@ -143,6 +143,11 @@ namespace AppManager
 		}
 
 
+		public void RequestAppImage()
+		{
+			OnNeedImage();
+		}
+
 		public bool SetAutoAppName()
 		{
 			if (String.IsNullOrEmpty(AppPath))

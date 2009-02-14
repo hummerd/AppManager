@@ -24,7 +24,7 @@ namespace AppManager
 		public event EventHandler<ObjEventArgs> DeleteItem;
 
 		public event EventHandler<ObjEventArgs> ButtonClicked;
-		public event EventHandler<StrArrEventArgs> AddFiles;
+		public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
 
 		protected ButtonListDrag _DragHelper;
@@ -84,7 +84,7 @@ namespace AppManager
 				DeleteItem(this, e);
 		}
 
-		protected virtual void OnAddFiles(StrArrEventArgs e)
+		protected virtual void OnAddFiles(ValueEventArgs<string[]> e)
 		{
 			if (AddFiles != null)
 				AddFiles(this, e);

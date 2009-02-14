@@ -17,6 +17,7 @@ namespace DragDropLib
 {
 	public class DragHelper : DropTargetHelper
 	{
+		public event EventHandler<ObjectEventArgs> PrepareItem;
 		public event EventHandler DragStart;
 		public event EventHandler DragEnd;
 
@@ -322,6 +323,14 @@ namespace DragDropLib
 			}
 		}
 
+		protected virtual void PrepeareDropedObject(object item)
+		{
+			if (PrepareItem != null)
+			{ 
+				PrepareItem(this, new ObjectEventArgs(item));
+			}
+		}
+
 
 		private void PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
@@ -396,5 +405,15 @@ namespace DragDropLib
 
 			return null;
 		}
+	}
+
+	public class ObjectEventArgs : EventArgs
+	{
+		public ObjectEventArgs(object obj)
+		{
+			Obj = obj;
+		}
+
+		public object Obj { get; set; }
 	}
 }

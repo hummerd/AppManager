@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using AppManager.Common;
 using DragDropLib;
 
 
@@ -8,7 +9,7 @@ namespace AppManager
 {
 	public class ButtonListDrag : DragHelper
 	{
-		public event EventHandler<StrArrEventArgs> AddFiles;
+		public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
 
 		public ButtonListDrag(ItemsControl control, string dataFormat, Type dataType)
@@ -52,15 +53,10 @@ namespace AppManager
 				{
 					string[] files = e.Data.GetData(DataFormats.FileDrop, true) as string[];
 					if (AddFiles != null)
-						AddFiles(this, new StrArrEventArgs() { StrArray = files });
+						AddFiles(this, new ValueEventArgs<string[]>(files));
 
 					e.Handled = true;
 				}
 		}
-	}
-
-	public class StrArrEventArgs : EventArgs
-	{
-		public string[] StrArray { get; set; }
 	}
 }
