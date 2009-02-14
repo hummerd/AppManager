@@ -214,9 +214,9 @@ namespace AppManager
 			}
 		}
 
-		protected void OnDropFiles(ButtonList buttonList, StrArrEventArgs e)
+		protected void OnDropFiles(ButtonList buttonList, ValueEventArgs<string[]> e)
 		{ 
-			_Controller.AddFiles(buttonList.DataContext as AppType, e.StrArray);
+			_Controller.AddFiles(buttonList.DataContext as AppType, e.Value);
 		}
 
 		protected void OnDragStarted()

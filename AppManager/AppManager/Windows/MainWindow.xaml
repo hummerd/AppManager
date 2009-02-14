@@ -126,10 +126,15 @@
 				<GradientStop Color="#9A00587D" Offset="0.996"/>
 				<GradientStop Color="#FF0D6488" Offset="0.406"/>
 			</LinearGradientBrush>
-			<LinearGradientBrush x:Key="InactiveCaptionBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-				<GradientStop Color="#FF3DB8EC" Offset="0"/>
-				<GradientStop Color="#9A20AEEA" Offset="0.996"/>
-				<GradientStop Color="#FF5BA4C3" Offset="0.406"/>
+			<LinearGradientBrush x:Key="ContenBackBrush" EndPoint="0.761,0.963" StartPoint="0.239,0.037">
+				<GradientStop Color="#FF78B3F6" Offset="0"/>
+				<GradientStop Color="#FF4F9DF4" Offset="1"/>
+				<GradientStop Color="#FF547EAE" Offset="0.665"/>
+			</LinearGradientBrush>
+			<LinearGradientBrush x:Key="InactiveCaptionBrush" EndPoint="0.516,3.766" StartPoint="0.513,-2.803">
+				<GradientStop Color="#FF78B3F6" Offset="0.366"/>
+				<GradientStop Color="#FF5E8ABB" Offset="0.508"/>
+				<GradientStop Color="#FF6CA6E8" Offset="0.668"/>
 			</LinearGradientBrush>
 		</ResourceDictionary>
 	</Window.Resources>
@@ -158,7 +163,7 @@
 			<!--Window caption-->
 			<Grid 
                 MouseLeftButtonDown="DockPanel_MouseLeftButtonDown" 
-                Grid.Row="0" Background="{DynamicResource ActiveCaptionBrush}" x:Name="GridCaption">
+                Grid.Row="0" x:Name="GridCaption" Background="{DynamicResource InactiveCaptionBrush}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
@@ -180,14 +185,16 @@
                     HorizontalAlignment="Left" 
                     ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png" 
                     Grid.Column="1" />
-				<TextBlock FontSize="14" 
+				<TextBlock 
+					FontSize="14" 
 					Foreground="#FFFBD888" 
 					TextAlignment="Center" 
 					TextWrapping="Wrap"
                     Height="24"
 					Text="{Binding Source={x:Static am:Strings.APP_TITLE}}"
 					d:IsStaticText="True" 
-                    Grid.Column="2">
+                    Grid.Column="2" 
+					Margin="8,4,-8,7">
 					<TextBlock.Effect>
 						<DropShadowEffect Direction="325" Opacity="1" ShadowDepth="8"/>
 					</TextBlock.Effect>
@@ -212,14 +219,7 @@
 					Opacity="1" 
 					SnapsToDevicePixels="True" 
 					HorizontalAlignment="Stretch" 
-					VerticalAlignment="Stretch" AllowDrop="True" DragOver="ContentPanel_DragOver">
-				<Grid.Background>
-					<LinearGradientBrush EndPoint="0.761,0.963" StartPoint="0.239,0.037">
-						<GradientStop Color="#FF78B3F6" Offset="0"/>
-						<GradientStop Color="#FF4F9DF4" Offset="1"/>
-						<GradientStop Color="#FF547EAE" Offset="0.665"/>
-					</LinearGradientBrush>
-				</Grid.Background>
+					VerticalAlignment="Stretch" AllowDrop="True" DragOver="ContentPanel_DragOver" Background="{DynamicResource ContenBackBrush}">
 				<Grid.Width>
 					<Binding Path="ActualWidth">
 						<Binding.RelativeSource>
