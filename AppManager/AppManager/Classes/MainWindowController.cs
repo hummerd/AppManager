@@ -95,6 +95,16 @@ namespace AppManager
 			_WorkItem.Commands.ManageApps.Execute(appInfo);
 		}
 
+		public void PrepareItem(AppInfo appInfo)
+		{
+			if (appInfo == null)
+				return;
+
+			appInfo.AppInfoID = _WorkItem.AppData.LastAppInfoID;
+			_WorkItem.AppData.LastAppInfoID += 1;
+			_WorkItem.AppData.RequestAppImage(appInfo);
+		}
+
 
 		protected void SearchSucceded()
 		{

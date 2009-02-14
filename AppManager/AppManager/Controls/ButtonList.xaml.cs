@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using AppManager.Common;
+using DragDropLib;
 
 
 namespace AppManager
@@ -16,14 +17,16 @@ namespace AppManager
 	{
 		public const string DragDataFormat = "ButtonListDataFormat";
 
+
 		public event EventHandler DragStart;
 		public event EventHandler DragEnd;
 
-		public event EventHandler<ObjEventArgs> EditItem;
-		public event EventHandler<ObjEventArgs> RenameItem;
-		public event EventHandler<ObjEventArgs> DeleteItem;
+		public event EventHandler<ObjectEventArgs> EditItem;
+		public event EventHandler<ObjectEventArgs> RenameItem;
+		public event EventHandler<ObjectEventArgs> DeleteItem;
+		public event EventHandler<ObjectEventArgs> PrepareItem;
 
-		public event EventHandler<ObjEventArgs> ButtonClicked;
+		public event EventHandler<ObjectEventArgs> ButtonClicked;
 		public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
 
@@ -43,16 +46,23 @@ namespace AppManager
 			_DragHelper.AddFiles += (s, e) => OnAddFiles(e);
 			_DragHelper.DragEnd += (s, e) => OnDragEnded();
 			_DragHelper.DragStart += (s, e) => OnDragStarted();
+			_DragHelper.PrepareItem += (s, e) => OnPrepareItem(e);
 
 			_EditMenu = MenuHelper.CopyMenu(App.Current.Resources["ItemMenu"] as ContextMenu);
 			((MenuItem)_EditMenu.Items[0]).Click += (s, ea) => OnEditItem(
-				new ObjEventArgs() { Obj = (s as FrameworkElement).DataContext });
+				new ObjectEventArgs((s as FrameworkElement).DataContext));
 			((MenuItem)_EditMenu.Items[1]).Click += (s, ea) => OnRenameItem(
-				new ObjEventArgs() { Obj = (s as FrameworkElement).DataContext });
+				new ObjectEventArgs((s as FrameworkElement).DataContext));
 			((MenuItem)_EditMenu.Items[2]).Click += (s, ea) => OnDeleteItem(
-				new ObjEventArgs() { Obj = (s as FrameworkElement).DataContext });
+				new ObjectEventArgs((s as FrameworkElement).DataContext));
 		}
 
+
+		protected virtual void OnPrepareItem(ObjectEventArgs e)
+		{
+			if (PrepareItem != null)
+				PrepareItem(this, e);
+		}
 
 		protected virtual void OnDragStarted()
 		{
@@ -66,19 +76,19 @@ namespace AppManager
 				DragEnd(this, EventArgs.Empty);
 		}
 
-		protected virtual void OnEditItem(ObjEventArgs e)
+		protected virtual void OnEditItem(ObjectEventArgs e)
 		{
 			if (EditItem != null)
 				EditItem(this, e);
 		}
 
-		protected virtual void OnRenameItem(ObjEventArgs e)
+		protected virtual void OnRenameItem(ObjectEventArgs e)
 		{
 			if (RenameItem != null)
 				RenameItem(this, e);
 		}
 
-		protected virtual void OnDeleteItem(ObjEventArgs e)
+		protected virtual void OnDeleteItem(ObjectEventArgs e)
 		{
 			if (DeleteItem != null)
 				DeleteItem(this, e);
@@ -91,13 +101,6 @@ namespace AppManager
 		}
 
 
-		//private void ImageButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		//{
-		//   ImageButton ib = sender as ImageButton;
-		//   if (ButtonClicked != null)
-		//      ButtonClicked(this, new ObjEventArgs() { Obj = ib.DataContext });
-		//}
-
 		private void ButtonList_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			if (ButtonClicked != null &&
@@ -107,7 +110,7 @@ namespace AppManager
 			{
 				var lbi = Keyboard.FocusedElement as ListBoxItem;
 				if (lbi != null && lbi.DataContext != null)
-					ButtonClicked(this, new ObjEventArgs() { Obj = lbi.DataContext });
+					ButtonClicked(this, new ObjectEventArgs(lbi.DataContext));
 			}
 		}
 
@@ -136,13 +139,7 @@ namespace AppManager
 		{
 			ImageButton ib = sender as ImageButton;
 			if (ButtonClicked != null)
-				ButtonClicked(this, new ObjEventArgs() { Obj = ib.DataContext });
+				ButtonClicked(this, new ObjectEventArgs(ib.DataContext));
 		}
-	}
-
-
-	public class ObjEventArgs : EventArgs
-	{
-		public object Obj { get; set; }
 	}
 }

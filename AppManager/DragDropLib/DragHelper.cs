@@ -315,6 +315,8 @@ namespace DragDropLib
 				object objAdd = DataObject.ReadFromStream(e.Data.GetData(_DataFormat) as MemoryStream);
 				objAdd = DeserializeItem(objAdd.ToString());
 
+				PrepeareDropedObject(objAdd);
+
 				if (dropIx < 0)
 					dropIx = coll.Count;
 				coll.Insert(dropIx, objAdd);
@@ -326,9 +328,7 @@ namespace DragDropLib
 		protected virtual void PrepeareDropedObject(object item)
 		{
 			if (PrepareItem != null)
-			{ 
 				PrepareItem(this, new ObjectEventArgs(item));
-			}
 		}
 
 

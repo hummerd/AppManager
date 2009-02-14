@@ -39,6 +39,12 @@ namespace AppManager
 		}
 
 
+		public void RequestAppImage(AppInfo app)
+		{
+			app.NeedImage += (s, e) => RequestImage(s as AppInfo);
+			app.RequestAppImage();
+		}
+
 		public void StartLoadImages()
 		{
 			ReInitImages();
@@ -240,21 +246,18 @@ namespace AppManager
 		#endregion
 
 
-		protected void ReInitImages()
-		{
-			foreach (AppInfo item in AllApps())
-			{
-				item.NeedImage += (s, e) => RequestImage(s as AppInfo);
-				item.ExecPath = item.ExecPath;
-			}
-		}
-
 		protected void RequestImage(AppInfo app)
 		{
 			if (app == null)
 				return;
 
 			_ImageLoader.RequestImage(app);
+		}
+
+		protected void ReInitImages()
+		{
+			foreach (AppInfo item in AllApps())
+				RequestAppImage(item);
 		}
 
 		protected IEnumerable<AppInfo> AllApps()
