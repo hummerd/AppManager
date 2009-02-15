@@ -7,7 +7,7 @@ using DragDropLib;
 
 namespace AppManager
 {
-	public class ButtonListDrag : DragHelper
+	public class ButtonListDrag : ItemsDragHelper
 	{
 		public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
