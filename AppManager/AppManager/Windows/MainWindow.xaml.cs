@@ -186,6 +186,7 @@ namespace AppManager
 			drag.DragHandlers.Add(_FileDrop);
 			drag.DragStart += (s, e) => OnDragStarted();
 			drag.DragEnd += (s, e) => OnDragEnded();
+			drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
 
 			return group;
 		}
@@ -261,6 +262,12 @@ namespace AppManager
 		{
 			var anim = Resources["TrashMarkHide"] as Storyboard;
 			anim.Begin();
+		}
+
+		protected void OnAppTypeDragEnded(DragDropEffects effects, AppType appType)
+		{
+			if ((effects & DragDropEffects.Move) == DragDropEffects.Move)
+				_Controller.RemoveAppType(appType);
 		}
 
 
@@ -339,11 +346,17 @@ namespace AppManager
 		{
 			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat))
 				e.Effects = DragDropEffects.Move;
+
+			if (e.Data.GetDataPresent(AppTypeDrag.DragDataFormat))
+				e.Effects = DragDropEffects.Move;
 		}
 
 		private void TrashMark_DragOver(object sender, DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat))
+				e.Effects = DragDropEffects.Move;
+
+			if (e.Data.GetDataPresent(AppTypeDrag.DragDataFormat))
 				e.Effects = DragDropEffects.Move;
 		}
 

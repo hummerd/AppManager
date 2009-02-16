@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataObject.cs" />
+    <Compile Include="Classes\DragContextEventArgs.cs" />
     <Compile Include="Classes\DragDropHelper.cs" />
     <Compile Include="Classes\DragHelperBase.cs" />
     <Compile Include="Classes\DropTargetHelper.cs" />

@@ -19,7 +19,7 @@ namespace DragDropLib
 			Type dataType,
 			Drawing.Bitmap bmp,
 			string dragElementName)
-			: base(control, dataFormat, dataType)
+			: base(control, dataFormat, dataType, false)
 		{
 			_Bitmap = bmp;
 			_DragElementName = dragElementName;

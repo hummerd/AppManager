@@ -17,7 +17,7 @@ namespace DragDropLib
 	public abstract class DragHelperBase : DropTargetHelper
 	{
 		public event EventHandler DragStart;
-		public event EventHandler DragEnd;
+		public event EventHandler<DragEndEventArgs> DragEnd;
 
 
 		protected bool						_IsDown = false;
@@ -28,7 +28,7 @@ namespace DragDropLib
 		protected FrameworkElement		_Element;
 
 
-		public DragHelperBase(FrameworkElement control, string dataFormat, Type dataType)
+		public DragHelperBase(FrameworkElement control, string dataFormat, Type dataType, bool useTunneling)
 			: base (control)
 		{
 			_DragHandlers.Add(
@@ -38,9 +38,18 @@ namespace DragDropLib
 			_Element = control;
 			_DropTargetHelper = (IDropTargetHelper)new DragDropHelper();
 
-			_Element.PreviewMouseLeftButtonDown += PreviewMouseLeftButtonDown;
-			_Element.PreviewMouseMove += PreviewMouseMove;
-			_Element.PreviewMouseLeftButtonUp += PreviewMouseLeftButtonUp;
+			if (useTunneling)
+			{
+				_Element.PreviewMouseLeftButtonDown += PreviewMouseLeftButtonDown;
+				_Element.PreviewMouseMove += PreviewMouseMove;
+				_Element.PreviewMouseLeftButtonUp += PreviewMouseLeftButtonUp;
+			}
+			else
+			{
+				_Element.MouseLeftButtonDown += PreviewMouseLeftButtonDown;
+				_Element.MouseMove += PreviewMouseMove;
+				_Element.MouseLeftButtonUp += PreviewMouseLeftButtonUp;			
+			}
 		}
 
 
@@ -215,7 +224,8 @@ namespace DragDropLib
 		protected virtual void OnDragEnded(DragDropEffects effects, object dragItem)
 		{
 			if (DragEnd != null)
-				DragEnd(this, EventArgs.Empty);
+				DragEnd(this, new DragEndEventArgs() 
+					{ DropEffects = effects, DropObject = dragItem  });
 		}
 
 		protected virtual void ResetDrag()
@@ -274,9 +284,7 @@ namespace DragDropLib
 		}
 
 		//protected abstract void HandleDropedObject(FrameworkElement element, DragEventArgs e, object dragObject);
-
 		
-
 
 		private void PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{

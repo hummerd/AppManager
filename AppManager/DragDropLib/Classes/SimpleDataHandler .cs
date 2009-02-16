@@ -54,17 +54,16 @@ namespace DragDropLib
 
 		public void SetDragData(DataObject dragData, object dragObject)
 		{
+			if (dragObject == null)
+				return;
+
+			if (dragObject.GetType() != _DataType)
+				return;
+
 			string serObj = XmlSerializeHelper.SerializeItem(dragObject);
 			dragData.SetManagedData(_DataFormat, serObj);
 		}
 
 		#endregion
-	}
-	
-	public class DragContextEventArgs : EventArgs
-	{
-		public DragEventArgs EventArguments { get; set; }
-
-		public object DropObject { get; set; }
 	}
 }
