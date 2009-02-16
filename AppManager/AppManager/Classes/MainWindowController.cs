@@ -23,6 +23,15 @@ namespace AppManager
 		}
 
 
+		public void RemoveAppType(AppType appType)
+		{
+			if (appType == null)
+				return;
+
+			_WorkItem.AppData.AppTypes.Remove(appType);
+			_WorkItem.MainWindow.Init(false);
+		}
+
 		public void InsertAppType(AppType addAppType, AppType beforeAppType)
 		{
 			if (addAppType == null)
@@ -36,8 +45,14 @@ namespace AppManager
 
 			int ix = _WorkItem.AppData.AppTypes.IndexOf(beforeAppType);
 			if (ix >= 0)
-				_WorkItem.AppData.AppTypes.Insert(ix, addAppType);
+			{
+				foreach (var item in addAppType.AppInfos)
+					PrepareItem(item);
 
+				_WorkItem.AppData.AppTypes.Insert(ix, addAppType);
+			}
+
+			_WorkItem.MainWindow.Init(false);
 		}
 
 		public void CreateDefaultType()

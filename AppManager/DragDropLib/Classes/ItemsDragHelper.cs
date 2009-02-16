@@ -22,7 +22,7 @@ namespace DragDropLib
 
 
 		public ItemsDragHelper(ItemsControl control, string dataFormat, Type dataType)
-			: base(control, dataFormat, dataType)
+			: base(control, dataFormat, dataType, true)
 		{
 			_ItemsControl = control;
 
