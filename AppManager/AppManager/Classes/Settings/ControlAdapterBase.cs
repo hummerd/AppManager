@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using AppManager.Common;
+using CommonLib;
 
 
 namespace AppManager.Settings

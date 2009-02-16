@@ -258,7 +258,14 @@
 				Height="64" Width="64" 
 				Opacity="0" 
 				FlowDirection="LeftToRight" 
-				Name="TrashMark" Panel.ZIndex="12" Drop="TrashMark_Drop" DragOver="TrashMark_DragOver" AllowDrop="True" Source="/AppManager;component/Resources/trash_64.png" Stretch="None">
+				Name="TrashMark" 
+				Panel.ZIndex="12" 
+				AllowDrop="True" 
+				Source="/AppManager;component/Resources/trash_64.png" 
+				Stretch="None"
+				Drop="TrashMark_Drop" 
+				DragOver="TrashMark_DragOver" 
+				>
 				
 				<Canvas.Left>
 					<Binding Path="ActualWidth">

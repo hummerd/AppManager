@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 
-namespace AppManager.Common
+namespace CommonLib.PInvoke
 {
 		/// <summary>
 		/// Functions and delegates used for performing PInvoke for Win32 calls in GDI32.dll

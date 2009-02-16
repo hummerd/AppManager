@@ -2,7 +2,7 @@
 using System.IO;
 
 
-namespace AppManager.Common
+namespace CommonLib
 {
 	public static class PathHelper
 	{

@@ -5,8 +5,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
-using AppManager.Common;
 using AppManager.EntityCollection;
+using CommonLib;
 
 
 namespace AppManager

@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace AppManager.Common
+namespace CommonLib
 {
 	public static class WinFrmMenuAdapter
 	{

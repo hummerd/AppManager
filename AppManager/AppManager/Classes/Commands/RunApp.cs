@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Windows.Input;
 
 
 namespace AppManager.Commands
@@ -19,7 +20,8 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			AppInfo app = parameter as AppInfo;
-			
+			bool altPressed = (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
+
 			if (File.Exists(app.AppPath) || Directory.Exists(app.AppPath))
 			{
 				Process p = new Process();
@@ -30,7 +32,10 @@ namespace AppManager.Commands
 			}
 
 			_WorkItem.MainWindow.InvalidateVisual();
-			_WorkItem.Commands.Deactivate.Execute(null);
+			if (!altPressed)
+				_WorkItem.Commands.Deactivate.Execute(null);
+			else
+				_WorkItem.Commands.Activate.Execute(null);
 		}
 	}
 }

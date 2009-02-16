@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using AppManager.Classes.Common;
+using CommonLib;
 
 
 namespace AppManager.Settings

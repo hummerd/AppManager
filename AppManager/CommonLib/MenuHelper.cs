@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 
 
-namespace AppManager.Common
+namespace CommonLib
 {
 	public class MenuHelper
 	{

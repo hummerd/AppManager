@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using AppManager.Classes.Common;
 
 
 namespace AppManager.Settings

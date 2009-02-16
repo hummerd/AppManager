@@ -2,9 +2,9 @@
 using System.Windows.Media;
 
 
-namespace AppManager.Common
+namespace CommonLib
 {
-	class UIHelper
+	public class UIHelper
 	{
 		public static T FindAncestorOrSelf<T>(DependencyObject obj)
 			where T : DependencyObject
@@ -22,25 +22,28 @@ namespace AppManager.Common
 			return null;
 		}
 
-        public TChildItem FindVisualChild<TChildItem>(DependencyObject obj)
-            where TChildItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(obj, i) as TChildItem;
+		public static TChildItem FindVisualChild<TChildItem>(DependencyObject obj, string name)
+				where TChildItem : FrameworkElement
+		{
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+			{
+				DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+				var result = child as TChildItem;
 
-                if (child != null)
-                    return child;
-                else
-                {
-                    var childOfChild = FindVisualChild<TChildItem>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
+				if (name == null && result != null)
+					return result;
+				else if (name != null && result != null && result.Name == name)
+					return result;
+				else
+				{
+					var childOfChild = FindVisualChild<TChildItem>(child, name);
+					if (childOfChild != null)
+						return childOfChild;
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
 
 		private static DependencyObject GetParent(DependencyObject obj)

@@ -3,11 +3,12 @@ using System.Reflection;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
-using AppManager.Common;
 using AppManager.Properties;
 using AppManager.Settings;
 using AppManager.Windows;
 using WinForms = System.Windows.Forms;
+using CommonLib.PInvoke;
+using CommonLib;
 
 
 namespace AppManager.Commands
@@ -169,7 +170,7 @@ namespace AppManager.Commands
 		
 		protected void ChangeActiveState()
 		{
-			if (_WorkItem.MainWindow.IsVisible)
+			if (_WorkItem.MainWindow.IsVisible && _WorkItem.MainWindow.IsKeyboardFocusWithin)
 				_WorkItem.Commands.Deactivate.Execute(null);
 			else
 				_WorkItem.Commands.Activate.Execute(null);

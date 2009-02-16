@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using AppManager.Commands;
-using AppManager.Common;
 using WinForms = System.Windows.Forms;
+using CommonLib.PInvoke;
 
 
 namespace AppManager

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
-using AppManager.Common;
 using WinSh = IWshRuntimeLibrary;
+using CommonLib.PInvoke;
 
 
 namespace AppManager

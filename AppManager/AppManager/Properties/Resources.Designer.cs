@@ -60,6 +60,13 @@ namespace AppManager.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap cnruninstall_3273_32 {
+            get {
+                object obj = ResourceManager.GetObject("cnruninstall_3273_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap folder {
             get {
                 object obj = ResourceManager.GetObject("folder", resourceCulture);
