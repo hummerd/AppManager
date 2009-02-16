@@ -6,7 +6,7 @@ using System.Reflection;
 using WinForms = System.Windows.Forms;
 
 
-namespace AppManager.Common
+namespace CommonLib.PInvoke
 {
 	public class KeyboardHook : IDisposable
 	{

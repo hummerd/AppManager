@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using AppManager.Common;
 using DragDropLib;
+using CommonLib;
 
 
 namespace AppManager
 {
 	public class ButtonListDrag : ItemsDragHelper
 	{
+		public const string DragDataFormat = "AM_AppInfoDataFormat";
+
+
 		public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
 
-		public ButtonListDrag(ItemsControl control, string dataFormat, Type dataType)
-			: base(control, dataFormat, dataType)
+		public ButtonListDrag(ItemsControl control, Type dataType)
+			: base(control, DragDataFormat, dataType)
 		{
 
 		}
@@ -31,6 +34,15 @@ namespace AppManager
 			if (!e.Handled)
 			{
 				if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+				{
+					e.Effects = DragDropEffects.Copy;
+					e.Handled = true;
+				}
+			}
+
+			if (!e.Handled)
+			{
+				if (e.Data.GetDataPresent(AppTypeDrag.DragDataFormat, true))
 				{
 					e.Effects = DragDropEffects.Copy;
 					e.Handled = true;

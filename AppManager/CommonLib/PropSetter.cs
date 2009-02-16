@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
 
-namespace AppManager.Classes.Common
+namespace CommonLib
 {
 	public static class PropSetter
 	{

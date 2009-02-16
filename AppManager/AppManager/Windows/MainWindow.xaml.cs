@@ -6,9 +6,12 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using AppManager.Commands;
-using AppManager.Common;
 using AppManager.Settings;
+using DragDropLib;
+using CommonLib.PInvoke;
+using CommonLib;
 
 
 namespace AppManager
@@ -18,8 +21,10 @@ namespace AppManager
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		protected MainWindowController _Controller;
-		protected ItemsControl _FocusElement;
+		protected MainWindowController	_Controller;
+		protected ItemsControl				_FocusElement;
+		protected FileDropHandler			_FileDrop = new FileDropHandler();
+		protected SimpleDragDataHandler	_AppTypeDrop ;
 
 
 		public MainWindow(MainWorkItem workItem)
@@ -27,6 +32,12 @@ namespace AppManager
 			InitializeComponent();
 			_Controller = new MainWindowController(workItem);
 			InitCommands(_Controller.WorkItem.Commands);
+
+			_AppTypeDrop = new SimpleDragDataHandler(
+				AppTypeDrag.DragDataFormat, typeof(AppType));
+
+			//_AppTypeDrop.ObjectDroped += (s, e) => OnDropFiles(s as FrameworkElement, e);
+			_FileDrop.AddFiles += (s, e) => OnDropFiles(s as FrameworkElement, e);
 		}
 
 
@@ -132,17 +143,21 @@ namespace AppManager
 				AllowDrop = true,
 				SnapsToDevicePixels = true
 			};
+			
+			groupContent.DragHelper.DragHandlers.Add(_FileDrop);
+			groupContent.DragHelper.DragHandlers.Add(_AppTypeDrop);
 
-			groupContent.DragStart += (s, e) => OnDragStarted();
-			groupContent.DragEnd += (s, e) => OnDragEnded();
+			groupContent.DragHelper.DragStart += (s, e) => OnDragStarted();
+			groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
+			groupContent.DragHelper.PrepareItem += (s, e) => _Controller.PrepareItem(e.Value as AppInfo);
 
-			groupContent.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
-			groupContent.ButtonClicked += (s, e) => _Controller.WorkItem.Commands.RunApp.Execute(e.Obj);
+			//groupContent.DragHelper.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
+			groupContent.ButtonClicked += (s, e) => _Controller.WorkItem.Commands.RunApp.Execute(e.Value);
 
-			groupContent.EditItem += (s, e) => _Controller.EditItem(e.Obj as AppInfo);
-			groupContent.DeleteItem += (s, e) => _Controller.DeleteItem(e.Obj as AppInfo);
-			groupContent.RenameItem += (s, e) => _Controller.RenameItem(e.Obj as AppInfo);
-			groupContent.PrepareItem += (s, e) => _Controller.PrepareItem(e.Obj as AppInfo);
+			groupContent.EditItem += (s, e) => _Controller.EditItem(e.Value as AppInfo);
+			groupContent.DeleteItem += (s, e) => _Controller.DeleteItem(e.Value as AppInfo);
+			groupContent.RenameItem += (s, e) => _Controller.RenameItem(e.Value as AppInfo);
+			//groupContent.PrepareItem += (s, e) => _Controller.PrepareItem(e.Obj as AppInfo);
 
 			groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
 			groupContent.DataContext = appType;
@@ -158,12 +173,20 @@ namespace AppManager
 				SnapsToDevicePixels = true,
 				Content = content,
 				Foreground = Brushes.Blue,
-				Style = Resources["CustomGB"] as Style
+				Style = Resources["CustomGB"] as Style,
+				AllowDrop = true
 			};
 
 			group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
 			group.DataContext = appType;
-			
+
+			var drag = new AppTypeDrag(group);
+			(drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped +=
+				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
+			drag.DragHandlers.Add(_FileDrop);
+			drag.DragStart += (s, e) => OnDragStarted();
+			drag.DragEnd += (s, e) => OnDragEnded();
+
 			return group;
 		}
 
@@ -215,9 +238,17 @@ namespace AppManager
 			}
 		}
 
-		protected void OnDropFiles(ButtonList buttonList, ValueEventArgs<string[]> e)
-		{ 
-			_Controller.AddFiles(buttonList.DataContext as AppType, e.Value);
+		protected void OnDropFiles(FrameworkElement target, ValueEventArgs<string[]> e)
+		{
+			if (target == null)
+				return;
+
+			var appType = target.DataContext as AppType;
+				
+			if (appType == null)
+				return;
+
+			_Controller.AddFiles(appType, e.Value);
 		}
 
 		protected void OnDragStarted()
@@ -306,13 +337,13 @@ namespace AppManager
 
 		private void TrashMark_Drop(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
+			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat))
 				e.Effects = DragDropEffects.Move;
 		}
 
 		private void TrashMark_DragOver(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent(ButtonList.DragDataFormat))
+			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat))
 				e.Effects = DragDropEffects.Move;
 		}
 

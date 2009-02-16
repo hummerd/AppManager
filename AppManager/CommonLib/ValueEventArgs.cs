@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace AppManager.Common
+namespace CommonLib
 {
 	public class ValueEventArgs<T> : EventArgs
 	{

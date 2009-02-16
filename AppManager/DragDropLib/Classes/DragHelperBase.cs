@@ -9,30 +9,33 @@ using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using Drawing = System.Drawing;
 using Imaging = System.Drawing.Imaging;
+using System.Collections.Generic;
 
 
 namespace DragDropLib
 {
 	public abstract class DragHelperBase : DropTargetHelper
 	{
-		public event EventHandler<ObjectEventArgs> PrepareItem;
 		public event EventHandler DragStart;
 		public event EventHandler DragEnd;
 
 
-		protected bool					_IsDown = false;
-		protected Point				_DragStartPoint;
-		protected string				_DataFormat;
-		protected Type					_DataType;
-		protected FrameworkElement	_Element;
+		protected bool						_IsDown = false;
+		protected Point					_DragStartPoint;
+		//protected string				_DataFormat;
+		protected List<IDragHandler>	_DragHandlers = new List<IDragHandler>();
+		//protected Type					_DataType;
+		protected FrameworkElement		_Element;
 
 
 		public DragHelperBase(FrameworkElement control, string dataFormat, Type dataType)
 			: base (control)
 		{
+			_DragHandlers.Add(
+				new SimpleDragDataHandler(dataFormat, dataType)
+				);
+
 			_Element = control;
-			_DataFormat = dataFormat;
-			_DataType = dataType;
 			_DropTargetHelper = (IDropTargetHelper)new DragDropHelper();
 
 			_Element.PreviewMouseLeftButtonDown += PreviewMouseLeftButtonDown;
@@ -41,7 +44,20 @@ namespace DragDropLib
 		}
 
 
-		protected abstract void PrepareDrag(MouseButtonEventArgs e, FrameworkElement element);
+		public List<IDragHandler> DragHandlers
+		{
+			get
+			{
+				return _DragHandlers;
+			}
+		}
+
+
+		protected virtual void PrepareDrag(MouseButtonEventArgs e, FrameworkElement element)
+		{
+			_IsDown = true;
+			_DragStartPoint = e.GetPosition(element);
+		}
 
 		protected void CheckAndStartDrag(MouseEventArgs e, FrameworkElement element)
 		{
@@ -71,10 +87,10 @@ namespace DragDropLib
 
 			DataObject dataObject = new DataObject();
 			var data = new System.Windows.DataObject(dataObject);
-			string serObj = SerializeItem(dragObject);
-			dataObject.SetManagedData(_DataFormat, serObj);
+			foreach (var item in _DragHandlers)
+				item.SetDragData(dataObject, dragObject);
 
-			var bmp = CreateElementBitmap(element, dragObject);
+			var bmp = CreateElementBitmap(element, dragObject, 1);
 
 			Point pt = GetDragPoint(element);
 			CreateDragHelper(bmp, pt, data);
@@ -82,18 +98,86 @@ namespace DragDropLib
 			OnDragStarted(dragObject);
 
 			return DragDrop.DoDragDrop(
-				GetDragSource(),
+				GetDragSource(element),
 				data,
 				DragDropEffects.Copy | DragDropEffects.Move);
 		}
 
 		protected abstract object GetDragObject(FrameworkElement element);
 
-		protected abstract Drawing.Bitmap CreateElementBitmap(FrameworkElement element, object dragObject);
+		protected virtual Drawing.Bitmap CreateElementBitmap(FrameworkElement element, object dragObject, int scale)
+		{
+			RenderTargetBitmap rbmp = new RenderTargetBitmap(
+				(int)element.ActualWidth + 8,
+				(int)element.ActualHeight + 8,
+				96.0,
+				96.0,
+				PixelFormats.Pbgra32);
+
+			rbmp.Render(element);
+			return BmpFromBmpSource(rbmp, scale);
+		}
+
+		protected Drawing.Bitmap BmpFromBmpSource(BitmapSource src, int scale)
+		{
+			var bmp = new Drawing.Bitmap(
+				(int)src.PixelWidth,
+				(int)src.PixelHeight,
+				Imaging.PixelFormat.Format32bppPArgb);
+
+			var bdata = bmp.LockBits(
+				new Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+				Imaging.ImageLockMode.ReadWrite,
+				Imaging.PixelFormat.Format32bppPArgb);
+
+			src.CopyPixels(
+				new Int32Rect(0, 0, bmp.Width, bmp.Height),
+				bdata.Scan0,
+				bdata.Stride * bmp.Height,
+				bdata.Stride);
+
+			bmp.UnlockBits(bdata);
+
+			PrepareBitmap(bmp);
+
+			if (scale == 1)
+				return bmp;
+
+			System.Drawing.Bitmap nb = new System.Drawing.Bitmap(bmp.Width * scale, bmp.Height * scale);
+			using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(nb))
+				g.DrawImage(bmp, 1, 1, bmp.Width * scale, bmp.Height * scale);
+
+			return nb;
+		}
+
+		protected void PrepareBitmap(Drawing.Bitmap bmp)
+		{
+			var bdata = bmp.LockBits(
+				new Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+				Imaging.ImageLockMode.ReadWrite,
+				Imaging.PixelFormat.Format32bppPArgb);
+
+			int magenta = System.Drawing.Color.Magenta.ToArgb();
+			unsafe
+			{
+				byte* pscan = (byte*)bdata.Scan0.ToPointer();
+				for (int y = 0; y < bmp.Height; ++y, pscan += bdata.Stride)
+				{
+					int* prgb = (int*)pscan;
+					for (int x = 0; x < bmp.Width; ++x, ++prgb)
+					{
+						if ((*prgb & 0xff000000L) == 0L)
+							*prgb = magenta;
+					}
+				}
+			}
+
+			bmp.UnlockBits(bdata);
+		}
 
 		protected abstract Point GetDragPoint(FrameworkElement element);
 
-		protected abstract DependencyObject GetDragSource();
+		protected abstract DependencyObject GetDragSource(FrameworkElement element);
 
 		protected void CreateDragHelper(
 			Drawing.Bitmap bitmap,
@@ -116,33 +200,6 @@ namespace DragDropLib
 			sourceHelper.InitializeFromBitmap(ref shdi, data);
 		}
 
-		protected string SerializeItem(object obj)
-		{
-			string result;
-			XmlSerializer xser = new XmlSerializer(obj.GetType());
-
-			using (StringWriter sr = new StringWriter())
-			{
-				xser.Serialize(sr, obj);
-				result = sr.ToString();
-			}
-
-			return result;
-		}
-
-		protected object DeserializeItem(string obj)
-		{
-			XmlSerializer xser = new XmlSerializer(_DataType);
-
-			object result;
-			using (TextReader xr = new StringReader(obj))
-			{
-				result = xser.Deserialize(xr);
-			}
-
-			return result;
-		}
-
 		protected virtual void OnDragStarted(object dragItem)
 		{
 			if (DragStart != null)
@@ -160,64 +217,65 @@ namespace DragDropLib
 			if (DragEnd != null)
 				DragEnd(this, EventArgs.Empty);
 		}
-		
-		protected void ResetDrag()
+
+		protected virtual void ResetDrag()
 		{ 
 			_IsDown = false;
 			_DragStartPoint = default(Point);			
 		}
 
 
-		//protected override void OnDragEnter(DragEventArgs e, FrameworkElement element)
-		//{
-		//   base.OnDragEnter(e, element);
-		//}
-
-		//protected override void OnDragLeave(DragEventArgs e)
-		//{
-		//   base.
-		//}
-
 		protected override void OnDragOver(DragEventArgs e, FrameworkElement element)
 		{
 			base.OnDragOver(e, element);
 
-			if (e.Data.GetDataPresent(_DataFormat))
-			{
-				if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
-					e.Effects = DragDropEffects.Copy;
-				else
-					e.Effects = DragDropEffects.Move;
+			if (e.Handled)
+				return;
 
-				e.Handled = true;
-			}
+			DragDropEffects effect = DragDropEffects.None;
+			foreach (var item in _DragHandlers)
+				effect |= item.SupportDataFormat(e);
+
+			e.Effects = e.AllowedEffects & effect;
+			e.Handled = effect != DragDropEffects.None;
 		}
 
 		protected override void OnDrop(DragEventArgs e, FrameworkElement element)
 		{
 			base.OnDrop(e, element);
 
-			if (e.Data.GetDataPresent(_DataFormat))
-			{
-				if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
-					e.Effects = DragDropEffects.Copy;
-				else
-					e.Effects = DragDropEffects.Move;
+			if (e.Handled)
+				return;
 
-				ResetDrag();
-				HandleDropedObject(element, e);
+			bool handled = false;
+			foreach (var item in _DragHandlers)
+				handled |= item.HandleDragData(element, e);
 
-				e.Handled = true;
-			}
+			e.Handled = handled;
+			
+			ResetDrag();
+
+			//if (e.Data.GetDataPresent(_DataFormat))
+			//{
+			//   if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
+			//      e.Effects = DragDropEffects.Copy;
+			//   else
+			//      e.Effects = DragDropEffects.Move;
+
+			//  
+
+			//   object objAdd = DataObject.ReadFromStream(e.Data.GetData(_DataFormat) as MemoryStream);
+			//   objAdd = DeserializeItem(objAdd.ToString());
+
+			//   HandleDropedObject(element, e, objAdd);
+
+			//   e.Handled = true;
+			//}
 		}
 
-		protected abstract void HandleDropedObject(FrameworkElement element, DragEventArgs e);
+		//protected abstract void HandleDropedObject(FrameworkElement element, DragEventArgs e, object dragObject);
 
-		protected virtual void PrepeareDropedObject(object item)
-		{
-			if (PrepareItem != null)
-				PrepareItem(this, new ObjectEventArgs(item));
-		}
+		
 
 
 		private void PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -293,15 +351,5 @@ namespace DragDropLib
 
 			return null;
 		}
-	}
-
-	public class ObjectEventArgs : EventArgs
-	{
-		public ObjectEventArgs(object obj)
-		{
-			Obj = obj;
-		}
-
-		public object Obj { get; set; }
 	}
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace AppManager.Common
+
+namespace CommonLib.PInvoke
 {
 	public static class Shell32
 	{

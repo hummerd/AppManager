@@ -4,7 +4,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 
-namespace AppManager.Common
+namespace CommonLib.PInvoke
 {
 	/* Thanks for this code to 
 	http://www.geektieguy.com/2007/11/19/how-to-parse-special-lnk-files-aka-msi-shortcuts-aka-windows-installer-advertised-shortcuts-using-c/

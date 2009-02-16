@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Threading;
-using AppManager.Common;
 using AppManager.Windows;
 using WinSh = IWshRuntimeLibrary;
 
@@ -23,6 +22,23 @@ namespace AppManager
 			_SearchTimer.Tick += (s, e) => _QuickSearchWnd.Close();
 		}
 
+
+		public void InsertAppType(AppType addAppType, AppType beforeAppType)
+		{
+			if (addAppType == null)
+				return;
+
+			if (beforeAppType == null)
+			{
+				_WorkItem.AppData.AppTypes.Insert(0, addAppType);
+				return;
+			}
+
+			int ix = _WorkItem.AppData.AppTypes.IndexOf(beforeAppType);
+			if (ix >= 0)
+				_WorkItem.AppData.AppTypes.Insert(ix, addAppType);
+
+		}
 
 		public void CreateDefaultType()
 		{

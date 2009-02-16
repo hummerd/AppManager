@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AppManager.Common
+namespace CommonLib.PInvoke
 {
 	/// <summary>
 	/// 

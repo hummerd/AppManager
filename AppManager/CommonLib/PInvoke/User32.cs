@@ -1,12 +1,9 @@
-﻿#region Using directives
-
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-#endregion
 
-namespace AppManager.Common
+namespace CommonLib.PInvoke
 {
 		/// <summary>
 		/// Functions and delegates used for performing PInvoke for Win32 calls in User32.dll

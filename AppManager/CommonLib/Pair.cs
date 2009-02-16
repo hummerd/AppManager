@@ -1,6 +1,6 @@
 ﻿
 
-namespace AppManager.Common
+namespace CommonLib
 {
 	public class Pair<TFirst, TSecond>
 	{

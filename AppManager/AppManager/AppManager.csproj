@@ -160,6 +160,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AppTypeDrag.cs" />
     <Compile Include="Classes\AsyncImageLoader.cs" />
     <Compile Include="Classes\ButtonListDrag.cs" />
     <Compile Include="Classes\Commands\Activate.cs" />
@@ -172,18 +173,6 @@
     <Compile Include="Classes\Commands\Save.cs" />
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
-    <Compile Include="Classes\Common\GenericEventArgs.cs" />
-    <Compile Include="Classes\Common\Pair.cs" />
-    <Compile Include="Classes\Common\PInvoke\GDI32.cs" />
-    <Compile Include="Classes\Common\MenuHelper.cs" />
-    <Compile Include="Classes\Common\PInvoke\MsiShortcutParser.cs" />
-    <Compile Include="Classes\Common\PathHelper.cs" />
-    <Compile Include="Classes\Common\PropSetter.cs" />
-    <Compile Include="Classes\Common\PInvoke\ScaleUI.cs" />
-    <Compile Include="Classes\Common\PInvoke\Shell32.cs" />
-    <Compile Include="Classes\Common\UIHelper.cs" />
-    <Compile Include="Classes\Common\PInvoke\User32.cs" />
-    <Compile Include="Classes\Common\WinFrmMenuAdapter.cs" />
     <Compile Include="Classes\ControllerBase.cs" />
     <Compile Include="Classes\Entities\AppGroup.cs" />
     <Compile Include="Classes\Entities\AppInfo.cs" />
@@ -194,7 +183,6 @@
     <Compile Include="Classes\EntityCollection\IClonableEntity.cs" />
     <Compile Include="Classes\EntityCollection\EntityCollection.cs" />
     <Compile Include="Classes\MainWindowController.cs" />
-    <Compile Include="Classes\Common\PInvoke\KeyHook.cs" />
     <Compile Include="Classes\MainWorkItem.cs" />
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Classes\SettingsController.cs" />
@@ -298,6 +286,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
+      <Project>{76677F13-784E-4FA4-A739-45D22C8DEE09}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DragDropLib\DragDropLib.csproj">
       <Project>{44298D97-06A4-47CF-B59C-AE731BD52684}</Project>
       <Name>DragDropLib</Name>
