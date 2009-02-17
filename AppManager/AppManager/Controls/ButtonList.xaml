@@ -20,7 +20,8 @@
 			<am:ImageButton
 				Click="ImageButton_Click" 
 				IsTabStop="False" 
-				Margin="4,4,4,4" 
+				Margin="4,4,4,4"
+				ToolTip="{Binding Path=AppPathInfo}"
 				ButtonImageSource="{Binding Path=AppImage}" 
 				ButtonText="{Binding Path=AppName}" />
 		</DataTemplate>

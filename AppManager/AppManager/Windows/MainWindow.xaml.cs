@@ -24,7 +24,7 @@ namespace AppManager
 		protected MainWindowController	_Controller;
 		protected ItemsControl				_FocusElement;
 		protected FileDropHandler			_FileDrop = new FileDropHandler();
-		protected SimpleDragDataHandler	_AppTypeDrop ;
+		protected SimpleDragDataHandler	_AppTypeDrop;
 
 
 		public MainWindow(MainWorkItem workItem)
@@ -36,7 +36,8 @@ namespace AppManager
 			_AppTypeDrop = new SimpleDragDataHandler(
 				AppTypeDrag.DragDataFormat, typeof(AppType));
 
-			//_AppTypeDrop.ObjectDroped += (s, e) => OnDropFiles(s as FrameworkElement, e);
+			_AppTypeDrop.ObjectDroped +=
+				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
 			_FileDrop.AddFiles += (s, e) => OnDropFiles(s as FrameworkElement, e);
 		}
 
@@ -86,7 +87,10 @@ namespace AppManager
 			}
 			
 			LoadRowHeight();
+
+			ContentPanel.InvalidateVisual();
 			//UpdateLayout();
+			//InvalidateVisual();
 		}
 
 		public void SaveState()
@@ -113,7 +117,9 @@ namespace AppManager
 				);
 
 			LoadRowHeight();
-			UpdateLayout();
+			ContentPanel.InvalidateVisual();
+			//UpdateLayout();
+			//InvalidateVisual();
 		}
 
 		public void SetFocus()
@@ -377,8 +383,9 @@ namespace AppManager
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			UpdateLayout();
-			InvalidateVisual();
+			//ContentPanel.InvalidateVisual();
+			//UpdateLayout();
+			//InvalidateVisual();
 		}
 
 		private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -394,6 +401,9 @@ namespace AppManager
 		private void Window_Activated(object sender, EventArgs e)
 		{
 			GridCaption.Background = (Brush)Resources["ActiveCaptionBrush"];
+			
+			//UpdateLayout();
+			//InvalidateVisual();
 		}
 
 		private void Window_Deactivated(object sender, EventArgs e)

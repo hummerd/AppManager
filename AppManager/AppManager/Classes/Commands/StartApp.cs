@@ -15,6 +15,9 @@ namespace AppManager.Commands
 {
 	public class StartApp : CommandBase
 	{
+		protected bool _FirstStart = false;
+
+
 		public StartApp(MainWorkItem workItem)
 			: base(workItem)
 		{ ; }
@@ -42,14 +45,13 @@ namespace AppManager.Commands
 			app.SessionEnding += App_SessionEnding;
 
 			LoadData();
-			bool first = FirstLoad();
+			_FirstStart = FirstLoad();
 			_WorkItem.AppData.StartLoadImages();
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
 
-			_WorkItem.MainWindow.Init(first);
-
-			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Init");
+			//_WorkItem.MainWindow.Init(first);
+			//System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Init");
 
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
 			kbrdHook.KeyDown += KbrdHook_KeyDown;
@@ -66,12 +68,12 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " DragDropLib");
 
-			app.Startup += delegate(object sender, StartupEventArgs e)
-			   { _WorkItem.MainWindow.LoadState(); };
+			_WorkItem.MainWindow.Loaded += (s, e) => _WorkItem.MainWindow.Init(_FirstStart);
+			app.Startup += (s, e) => _WorkItem.MainWindow.LoadState();
 			app.Run(_WorkItem.MainWindow);
 		}
 
-		
+
 		protected bool FirstLoad()
 		{
 			if (_WorkItem.AppData.AppTypes.Count == 1 &&

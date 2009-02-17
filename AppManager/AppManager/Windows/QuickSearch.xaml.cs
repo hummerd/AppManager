@@ -74,14 +74,12 @@ namespace AppManager.Windows
 		{ 
 			if (LstApp.Items.Count > 0)
 			{
-				if (LstApp.Items.Count > 1)
-				{
-					LstApp.SelectedIndex = first ? 1 : LstApp.Items.Count - 1;
-					LstApp.ScrollIntoView(LstApp.SelectedItem);
-					var c = LstApp.ItemContainerGenerator.ContainerFromItem(LstApp.SelectedItem) as ListBoxItem;
-					c.IsSelected = true;
-					c.Focus();
-				}
+				LstApp.SelectedIndex = first && LstApp.Items.Count > 1 ? 1 : LstApp.Items.Count - 1;
+				LstApp.ScrollIntoView(LstApp.SelectedItem);
+
+				var c = LstApp.ItemContainerGenerator.ContainerFromItem(LstApp.SelectedItem) as ListBoxItem;
+				c.IsSelected = true;
+				c.Focus();
 			}			
 		}
 
@@ -141,11 +139,12 @@ namespace AppManager.Windows
 			OnSerachStringChanged();
 		}
 
-		private void TxtSearch_KeyUp(object sender, KeyEventArgs e)
+		private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Down || e.Key == Key.Up)
 			{
 				SelectItem(e.Key != Key.Up);
+				e.Handled = true;
 			}
 		}
 
