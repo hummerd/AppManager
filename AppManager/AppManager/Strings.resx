@@ -173,10 +173,13 @@
     <value>Close StartUp</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
-    <value>Delete</value>
+    <value>Delete {0}</value>
   </data>
   <data name="MNU_EDIT" xml:space="preserve">
-    <value>Edit</value>
+    <value>Edit {0}</value>
+  </data>
+  <data name="MNU_GOTO" xml:space="preserve">
+    <value>Go to {0} application folder</value>
   </data>
   <data name="MNU_HIDE" xml:space="preserve">
     <value>Hide StartUp</value>
@@ -185,7 +188,7 @@
     <value>Applications manager</value>
   </data>
   <data name="MNU_RENAME" xml:space="preserve">
-    <value>Rename</value>
+    <value>Rename {0}</value>
   </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
     <value>Settings</value>

@@ -688,6 +688,7 @@
 			<MenuItem Name="Edit"/>
 			<MenuItem Name="Rename"/>
 			<MenuItem Name="Delete"/>
+			<MenuItem Name="GoTo"/>
 			<Separator/>
 			<MenuItem Name="Cancel" Header="{Binding Source={x:Static am:Strings.CANCEL}}"/>
 		</ContextMenu>

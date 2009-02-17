@@ -96,6 +96,9 @@ namespace AppManager
 
 		public void RenameItem(AppInfo appInfo)
 		{
+			if (appInfo == null)
+				return;
+
 			InputBox input = new InputBox(Strings.ENTER_APP_NAME);
 			input.InputText = appInfo.AppName;
 			input.Owner = _WorkItem.MainWindow;
@@ -109,6 +112,9 @@ namespace AppManager
 
 		public void DeleteItem(AppInfo appInfo)
 		{
+			if (appInfo == null)
+				return;
+
 			if (MessageBox.Show(
 				_WorkItem.MainWindow,
 				string.Format(Strings.DEL_APP_QUEST, appInfo.AppName), 
@@ -123,7 +129,18 @@ namespace AppManager
 
 		public void EditItem(AppInfo appInfo)
 		{
+			if (appInfo == null)
+				return;
+
 			_WorkItem.Commands.ManageApps.Execute(appInfo);
+		}
+
+		public void GoToAppFolder(AppInfo appInfo)
+		{
+			if (appInfo == null)
+				return;
+
+			appInfo.OpenFolder();
 		}
 
 		public void PrepareItem(AppInfo appInfo)
@@ -134,6 +151,15 @@ namespace AppManager
 			appInfo.AppInfoID = _WorkItem.AppData.LastAppInfoID;
 			_WorkItem.AppData.LastAppInfoID += 1;
 			_WorkItem.AppData.RequestAppImage(appInfo);
+		}
+
+		public void AddFiles(AppType appType, string[] files)
+		{
+			if (appType == null)
+				return;
+
+			appType.AppInfos.AddRange(FindApps(files));
+			_WorkItem.Commands.Save.Execute(null);
 		}
 
 
@@ -148,15 +174,6 @@ namespace AppManager
 		{ 
 			_SearchTimer.IsEnabled = false;
 			_QuickSearchWnd = null;					
-		}
-
-		public void AddFiles(AppType appType, string[] files)
-		{
-			if (appType == null)
-				return;
-
-			appType.AppInfos.AddRange(FindApps(files));
-			_WorkItem.Commands.Save.Execute(null);
 		}
 	}
 }
