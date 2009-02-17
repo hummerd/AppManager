@@ -170,9 +170,9 @@ namespace AppManager.Commands
 			}
 		}
 		
-		protected void ChangeActiveState()
+		protected void ChangeActiveState(bool focus)
 		{
-			if (_WorkItem.MainWindow.IsVisible && _WorkItem.MainWindow.IsKeyboardFocusWithin)
+			if (_WorkItem.MainWindow.IsVisible && (focus || _WorkItem.MainWindow.IsKeyboardFocusWithin))
 				_WorkItem.Commands.Deactivate.Execute(null);
 			else
 				_WorkItem.Commands.Activate.Execute(null);
@@ -200,19 +200,8 @@ namespace AppManager.Commands
 		{
 			if (e.Button == WinForms.MouseButtons.Left)
 			{
-				WinForms.Application.DoEvents();
-				ChangeActiveState();
-			}
-			else
-			{
-				//System.Windows.Forms.ContextMenuStrip mnu = new System.Windows.Forms.ContextMenuStrip();
-				//mnu.Items.Add("asdasd");
-				//mnu.Items.Add("zxcxc");
-				//mnu.Show(sender as System.Windows.Forms.Control, e.X, e.Y);
-
-				//ContextMenu mnu = App.Current.Resources["TrayMenu"] as ContextMenu;
-				//mnu.IsOpen = true;
-				//mnu.Mo
+				//WinForms.Application.DoEvents();
+				ChangeActiveState(true);
 			}
 		}
 
@@ -220,7 +209,7 @@ namespace AppManager.Commands
 		{
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{
-				ChangeActiveState();
+				ChangeActiveState(false);
 				e.Handled = true;
 			}
 		}
