@@ -142,6 +142,14 @@ namespace AppManager
 			} 
 		}
 
+		[XmlIgnore]
+		public string AppPathInfo
+		{
+			get
+			{
+				return AppName + Environment.NewLine + AppPath;
+			}
+		}
 
 		public void RequestAppImage()
 		{

@@ -15,16 +15,11 @@ namespace AppManager
 	/// </summary>
 	public partial class ButtonList : ListBox
 	{
-		//public event EventHandler DragStart;
-		//public event EventHandler DragEnd;
-
 		public event EventHandler<ValueEventArgs<object>> EditItem;
 		public event EventHandler<ValueEventArgs<object>> RenameItem;
 		public event EventHandler<ValueEventArgs<object>> DeleteItem;
-		//public event EventHandler<ObjectEventArgs> PrepareItem;
 
 		public event EventHandler<ValueEventArgs<object>> ButtonClicked;
-		//public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
 
 		protected ButtonListDrag _DragHelper;
@@ -64,24 +59,6 @@ namespace AppManager
 		}
 		
 
-		//protected virtual void OnPrepareItem(ObjectEventArgs e)
-		//{
-		//   if (PrepareItem != null)
-		//      PrepareItem(this, e);
-		//}
-
-		//protected virtual void OnDragStarted()
-		//{
-		//   if (DragStart != null)
-		//      DragStart(this, EventArgs.Empty);
-		//}
-
-		//protected virtual void OnDragEnded()
-		//{
-		//   if (DragEnd != null)
-		//      DragEnd(this, EventArgs.Empty);
-		//}
-
 		protected virtual void OnEditItem(ValueEventArgs<object> e)
 		{
 			if (EditItem != null)
@@ -100,13 +77,7 @@ namespace AppManager
 				DeleteItem(this, e);
 		}
 
-		//protected virtual void OnAddFiles(ValueEventArgs<string[]> e)
-		//{
-		//   if (AddFiles != null)
-		//      AddFiles(this, e);
-		//}
-
-
+		
 		private void ButtonList_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			if (ButtonClicked != null &&
