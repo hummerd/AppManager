@@ -12,7 +12,7 @@
 	d:DesignHeight="75" 
 	d:DesignWidth="105" 
 	PreviewKeyDown="ButtonList_PreviewKeyDown" 
-	ContextMenuOpening="ButtonList_ContextMenuOpening">
+	>
 	
 	<ListBox.ItemTemplate>
 		<DataTemplate>

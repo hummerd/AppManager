@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using AppManager.EntityCollection;
 using CommonLib;
+using System.Diagnostics;
 
 
 namespace AppManager
@@ -148,6 +149,35 @@ namespace AppManager
 			get
 			{
 				return AppName + Environment.NewLine + AppPath;
+			}
+		}
+
+
+		public void OpenFolder()
+		{
+			string dir = Path.GetDirectoryName(AppPath);
+
+			if (String.IsNullOrEmpty(dir))
+				return;
+
+			if (Directory.Exists(dir))
+			{
+				Process p = new Process();
+				p.StartInfo.FileName = dir;
+				p.StartInfo.WorkingDirectory = dir;
+				p.Start();
+			}
+		}
+
+		public void RunApp()
+		{
+			if (File.Exists(AppPath) || Directory.Exists(AppPath))
+			{
+				Process p = new Process();
+				p.StartInfo.FileName = AppPath;
+				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(AppPath);
+				p.StartInfo.Arguments = AppArgs;
+				p.Start();
 			}
 		}
 

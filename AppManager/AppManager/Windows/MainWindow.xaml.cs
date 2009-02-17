@@ -2,16 +2,16 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 using AppManager.Commands;
 using AppManager.Settings;
-using DragDropLib;
-using CommonLib.PInvoke;
 using CommonLib;
+using CommonLib.PInvoke;
+using DragDropLib;
 
 
 namespace AppManager
@@ -157,18 +157,60 @@ namespace AppManager
 			groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
 			groupContent.DragHelper.PrepareItem += (s, e) => _Controller.PrepareItem(e.Value as AppInfo);
 
-			//groupContent.DragHelper.AddFiles += (s, e) => OnDropFiles(s as ButtonList, e);
 			groupContent.ButtonClicked += (s, e) => _Controller.WorkItem.Commands.RunApp.Execute(e.Value);
 
-			groupContent.EditItem += (s, e) => _Controller.EditItem(e.Value as AppInfo);
-			groupContent.DeleteItem += (s, e) => _Controller.DeleteItem(e.Value as AppInfo);
-			groupContent.RenameItem += (s, e) => _Controller.RenameItem(e.Value as AppInfo);
-			//groupContent.PrepareItem += (s, e) => _Controller.PrepareItem(e.Obj as AppInfo);
+			groupContent.EditMenu = CreateAppContextMenu();
+			groupContent.ContextMenuOpening += (s, e) =>
+				OnContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
 
 			groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
 			groupContent.DataContext = appType;
 
 			return groupContent;
+		}
+
+		protected ContextMenu CreateAppContextMenu()
+		{
+			var menu = MenuHelper.CopyMenu(App.Current.Resources["ItemMenu"] as ContextMenu);
+
+			((MenuItem)menu.Items[0]).Click += (s, ea) =>
+				_Controller.EditItem((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[1]).Click += (s, ea) =>
+				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[2]).Click += (s, ea) =>
+				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[3]).Click += (s, ea) =>
+				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
+
+			return menu;
+		}
+
+		protected void OnContextMenuOpening(ButtonList buttonList, FrameworkElement item)
+		{
+			if (item == null)
+				return;
+
+			if (buttonList == null)
+				return;
+
+			item = buttonList.ContainerFromElement(item) as FrameworkElement;
+			if (item != null)
+			{
+				var menu = buttonList.EditMenu;
+				menu.DataContext = item.DataContext;
+
+				((MenuItem)menu.Items[0]).Header = String.Format(Strings.MNU_EDIT, item.DataContext);
+				((MenuItem)menu.Items[1]).Header = String.Format(Strings.MNU_RENAME, item.DataContext);
+				((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_DELETE, item.DataContext);
+				((MenuItem)menu.Items[3]).Header = String.Format(Strings.MNU_GOTO, item.DataContext);
+
+				menu.Placement = PlacementMode.Right;
+				menu.PlacementTarget = item;
+				menu.IsOpen = true;
+			}
 		}
 
 		protected GroupBox CreateGroupBox(object content, AppType appType)

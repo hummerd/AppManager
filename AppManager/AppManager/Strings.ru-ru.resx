@@ -173,10 +173,13 @@
     <value>Закрыть Стартер</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Удалить {0}</value>
   </data>
   <data name="MNU_EDIT" xml:space="preserve">
-    <value>Редактировать</value>
+    <value>Редактировать {0}</value>
+  </data>
+  <data name="MNU_GOTO" xml:space="preserve">
+    <value>Перейти к папке приложения {0}</value>
   </data>
   <data name="MNU_HIDE" xml:space="preserve">
     <value>Скрыть Стартер</value>
@@ -185,7 +188,7 @@
     <value>Управление приложениями</value>
   </data>
   <data name="MNU_RENAME" xml:space="preserve">
-    <value>Переименовать</value>
+    <value>Переименовать {0}</value>
   </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
     <value>Настройки</value>

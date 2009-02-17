@@ -224,7 +224,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete.
+        ///   Looks up a localized string similar to Delete {0}.
         /// </summary>
         public static string MNU_DELETE {
             get {
@@ -233,11 +233,20 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit.
+        ///   Looks up a localized string similar to Edit {0}.
         /// </summary>
         public static string MNU_EDIT {
             get {
                 return ResourceManager.GetString("MNU_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to {0} application folder.
+        /// </summary>
+        public static string MNU_GOTO {
+            get {
+                return ResourceManager.GetString("MNU_GOTO", resourceCulture);
             }
         }
         
@@ -260,7 +269,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rename.
+        ///   Looks up a localized string similar to Rename {0}.
         /// </summary>
         public static string MNU_RENAME {
             get {
