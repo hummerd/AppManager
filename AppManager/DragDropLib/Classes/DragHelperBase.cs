@@ -22,10 +22,9 @@ namespace DragDropLib
 
 		protected bool						_IsDown = false;
 		protected Point					_DragStartPoint;
-		//protected string				_DataFormat;
 		protected List<IDragHandler>	_DragHandlers = new List<IDragHandler>();
-		//protected Type					_DataType;
 		protected FrameworkElement		_Element;
+		protected bool						_UseTunneling;
 
 
 		public DragHelperBase(FrameworkElement control, string dataFormat, Type dataType, bool useTunneling)
@@ -38,7 +37,8 @@ namespace DragDropLib
 			_Element = control;
 			_DropTargetHelper = (IDropTargetHelper)new DragDropHelper();
 
-			if (useTunneling)
+			_UseTunneling = useTunneling;
+			if (_UseTunneling)
 			{
 				_Element.PreviewMouseLeftButtonDown += PreviewMouseLeftButtonDown;
 				_Element.PreviewMouseMove += PreviewMouseMove;
@@ -288,7 +288,8 @@ namespace DragDropLib
 
 		private void PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			PrepareDrag(e, sender as FrameworkElement);
+			if (_UseTunneling || e.Source == _Element)
+				PrepareDrag(e, sender as FrameworkElement);
 		}
 
 		private void PreviewMouseMove(object sender, MouseEventArgs e)
