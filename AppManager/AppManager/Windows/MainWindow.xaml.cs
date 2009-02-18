@@ -442,15 +442,12 @@ namespace AppManager
 
 		private void Window_Activated(object sender, EventArgs e)
 		{
-			GridCaption.Background = (Brush)Resources["ActiveCaptionBrush"];
-			
-			//UpdateLayout();
-			//InvalidateVisual();
+			CaptionBorder.Background = (Brush)Resources["ActiveCaptionBrush"];
 		}
 
 		private void Window_Deactivated(object sender, EventArgs e)
 		{
-			GridCaption.Background = (Brush)Resources["InactiveCaptionBrush"];
+			CaptionBorder.Background = (Brush)Resources["InactiveCaptionBrush"];
 		}
 	}
 
