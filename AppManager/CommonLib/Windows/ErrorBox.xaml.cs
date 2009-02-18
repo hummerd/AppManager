@@ -22,6 +22,8 @@ namespace CommonLib.Windows
 			Title = title;
 			TxtMessage.Text = message;
 			TxtDetails.Text = details;
+
+			new DialogKeyDecorator(this);
 		}
 
 

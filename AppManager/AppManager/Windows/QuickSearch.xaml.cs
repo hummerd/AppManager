@@ -58,7 +58,7 @@ namespace AppManager.Windows
 		}
 
 		
-		protected void OnSerachStringChanged()
+		protected void OnSearchStringChanged()
 		{
 			if (SerachStringChanged != null)
 				SerachStringChanged(this, EventArgs.Empty);
@@ -136,7 +136,7 @@ namespace AppManager.Windows
 
 		private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			OnSerachStringChanged();
+			OnSearchStringChanged();
 		}
 
 		private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
