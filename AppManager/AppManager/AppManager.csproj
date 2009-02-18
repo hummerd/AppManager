@@ -116,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Windows\HelpBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -188,6 +192,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\HelpBox.xaml.cs">
+      <DependentUpon>HelpBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\QuickSearch.xaml.cs">
       <DependentUpon>QuickSearch.xaml</DependentUpon>
