@@ -170,15 +170,6 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Details.
-        /// </summary>
-        public static string DETAILS {
-            get {
-                return ResourceManager.GetString("DETAILS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Open app data file.
         /// </summary>
         public static string EDIT_APP_DATA {

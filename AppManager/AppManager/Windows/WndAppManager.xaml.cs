@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using AppManager.Windows;
+using CommonLib.Windows;
 
 
 namespace AppManager
@@ -11,7 +11,7 @@ namespace AppManager
 	/// <summary>
 	/// Interaction logic for Manger.xaml
 	/// </summary>
-	public partial class WndAppManager : Window
+	public partial class WndAppManager : DialogWindow
 	{
 		protected AppManagerController _Controller;
 		protected object _ItemToSelect;
@@ -23,6 +23,7 @@ namespace AppManager
 		{
 			InitializeComponent();
 		}
+
 
 		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo)
 		{
@@ -205,16 +206,6 @@ namespace AppManager
 		}
 
 		//Other events===================================================
-		private void BtnOK_Click(object sender, RoutedEventArgs e)
-		{
-			DialogResult = true;
-		}
-
-		private void BtnCancel_Click(object sender, RoutedEventArgs e)
-		{
-			DialogResult = false;
-		}
-
 		private void AppsManagerWindow_Activated(object sender, EventArgs e)
 		{
 			if (_ItemToSelect != null)
@@ -222,15 +213,6 @@ namespace AppManager
 				AppList.ScrollIntoView(_ItemToSelect);
 				AppList.Focus();
 				_ItemToSelect = null;
-			}
-		}
-
-		private void AppsManagerWindow_PreviewKeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Escape)
-			{
-				e.Handled = true;
-				DialogResult = false;
 			}
 		}
 	}

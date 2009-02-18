@@ -154,9 +154,6 @@
   <data name="DEL_APP_QUEST" xml:space="preserve">
     <value>Delete application {0} ?</value>
   </data>
-  <data name="DETAILS" xml:space="preserve">
-    <value>Details</value>
-  </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Open app data file</value>
   </data>

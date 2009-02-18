@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace AppManager.Windows
+namespace CommonLib.Windows
 {
 	/// <summary>
 	/// Interaction logic for ErrorBox.xaml

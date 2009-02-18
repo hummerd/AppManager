@@ -86,8 +86,7 @@
 				ItemTemplate="{DynamicResource SemiEditableAppInfo}"
 				IsSynchronizedWithCurrentItem="True" 
 				Background="{x:Null}"
-				MouseDoubleClick="LstApp_MouseDoubleClick" 
-				/>
+				MouseDoubleClick="LstApp_MouseDoubleClick" ClipToBounds="True" />
 			<TextBox 
 				Name="TxtSearch"
 				Height="24" 
