@@ -188,6 +188,8 @@ namespace AppManager.Windows
 
 		private void Window_Activated(object sender, EventArgs e)
 		{
+			MainContent.InvalidateVisual();
+
 			TxtSearch.Focus();
 			TxtSearch.CaretIndex = TxtSearch.Text.Length;
 		}

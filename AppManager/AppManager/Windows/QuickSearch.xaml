@@ -1,99 +1,148 @@
-﻿<Window x:Class="AppManager.Windows.QuickSearch"
+﻿<Window
+	x:Class="AppManager.Windows.QuickSearch"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-   Title="QuickSearch" 
-	Height="326" Width="311" 
-	WindowStyle="None" 
-	ShowInTaskbar="False" 
-	ResizeMode="NoResize" 
-	PreviewTextInput="Window_PreviewTextInput" 
-	Deactivated="Window_Deactivated" 
-	PreviewKeyUp="Window_PreviewKeyUp" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="QuickSearch"
+	Height="326"
+	Width="311"
+	WindowStyle="None"
+	ShowInTaskbar="False"
+	ResizeMode="NoResize"
+	PreviewTextInput="Window_PreviewTextInput"
+	Deactivated="Window_Deactivated"
+	PreviewKeyUp="Window_PreviewKeyUp"
 	Activated="Window_Activated">
 
 	<Window.Resources>
-		<Style x:Key="AppItemStyle" TargetType="ListBoxItem">
+		<Style
+			x:Key="AppItemStyle"
+			TargetType="ListBoxItem">
 			<!--<Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="Padding" Value="2,0,0,0"/>-->
-			<Setter Property="Template">
+			<Setter
+				Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type ListBoxItem}">
-						<Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+					<ControlTemplate
+						TargetType="{x:Type ListBoxItem}">
+						<Border
+							x:Name="Bd"
+							SnapsToDevicePixels="true"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Padding="{TemplateBinding Padding}">
+							<ContentPresenter
+								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</Border>
 						<ControlTemplate.Triggers>
-							<Trigger Property="IsSelected" Value="true">
-								<Setter Property="Background" TargetName="Bd" Value="#FFB0CCF7"/>
+							<Trigger
+								Property="IsSelected"
+								Value="true">
+								<Setter
+									Property="Background"
+									TargetName="Bd"
+									Value="#FFB0CCF7" />
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
 		</Style>
-		<DataTemplate x:Key="SemiEditableAppInfo">
-			<Border Name="BorderT" BorderThickness="0,0,0,1" BorderBrush="DarkSlateBlue" Padding="0,0,0,4">
+		<DataTemplate
+			x:Key="SemiEditableAppInfo">
+			<Border
+				Name="BorderT"
+				BorderThickness="0,0,0,1"
+				BorderBrush="DarkSlateBlue"
+				Padding="0,0,0,4">
 				<Border.Width>
-					<Binding Path="ActualWidth">
+					<Binding
+						Path="ActualWidth">
 						<Binding.RelativeSource>
-							<RelativeSource Mode="FindAncestor" AncestorType="ScrollContentPresenter"/>
+							<RelativeSource
+								Mode="FindAncestor"
+								AncestorType="ScrollContentPresenter" />
 						</Binding.RelativeSource>
 					</Binding>
 				</Border.Width>
-				<Grid Name="GridT">
+				<Grid
+					Name="GridT">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="50*" />
-						<RowDefinition Height="50*" />
+						<RowDefinition
+							Height="50*" />
+						<RowDefinition
+							Height="50*" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="40" />
-						<ColumnDefinition Width="*" />
+						<ColumnDefinition
+							Width="40" />
+						<ColumnDefinition
+							Width="*" />
 					</Grid.ColumnDefinitions>
-					<Image 
-						Grid.RowSpan="2" 
+					<Image
+						Grid.RowSpan="2"
 						Source="{Binding Path=AppImage}"
-						Width="24" Height="24" />
-					<TextBlock 
-						Grid.Column="1" 
-						Text="{Binding Path=AppName, Mode=OneWay}" Width="Auto" 
-						Background="{x:Null}" 
-						HorizontalAlignment="Stretch"/>
-					<TextBlock 
-						Grid.Column="1" 
+						Width="24"
+						Height="24" />
+					<TextBlock
+						Grid.Column="1"
+						Text="{Binding Path=AppName, Mode=OneWay}"
+						Width="Auto"
+						Background="{x:Null}"
+						HorizontalAlignment="Stretch" />
+					<TextBlock
+						Grid.Column="1"
 						Grid.Row="1"
-						Text="{Binding Path=ExecPath, Mode=OneWay}" 
-						Margin="4,4,0,0" HorizontalAlignment="Left"/>
+						Text="{Binding Path=ExecPath, Mode=OneWay}"
+						Margin="4,4,0,0"
+						HorizontalAlignment="Left" />
 				</Grid>
 			</Border>
 		</DataTemplate>
 	</Window.Resources>
 	<Window.Background>
-		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-			<GradientStop Color="#FF9EBEE7" Offset="0"/>
-			<GradientStop Color="#FF618FCC" Offset="1"/>
+		<LinearGradientBrush
+			EndPoint="0.5,1"
+			StartPoint="0.5,0">
+			<GradientStop
+				Color="#FF9EBEE7"
+				Offset="0" />
+			<GradientStop
+				Color="#FF618FCC"
+				Offset="1" />
 		</LinearGradientBrush>
 	</Window.Background>
-	
-	<Border Name="MainContentBorder" CornerRadius="4,4,4,4" BorderThickness="4" BorderBrush="DarkSlateBlue">
-		<Grid>
-			<ListBox 
-				Margin="0,0,0,32" 
+
+	<Border
+		Name="MainContentBorder"
+		CornerRadius="4,4,4,4"
+		BorderThickness="4"
+		Padding="1"
+		BorderBrush="DarkSlateBlue">
+		<Grid Name="MainContent">
+			<ListBox
+				Margin="0,0,0,32"
 				Name="LstApp"
-				TabIndex="2" 
+				TabIndex="2"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				ItemContainerStyle="{StaticResource AppItemStyle}"
 				ItemTemplate="{DynamicResource SemiEditableAppInfo}"
-				IsSynchronizedWithCurrentItem="True" 
+				IsSynchronizedWithCurrentItem="True"
 				Background="{x:Null}"
-				MouseDoubleClick="LstApp_MouseDoubleClick" ClipToBounds="True" />
-			<TextBox 
+				MouseDoubleClick="LstApp_MouseDoubleClick"
+				ClipToBounds="False"
+				BorderThickness="0" />
+			<TextBox
 				Name="TxtSearch"
-				Height="24" 
-				Margin="4,0,4,4" 
-				VerticalAlignment="Bottom" 
-				TabIndex="1" 
-				TextChanged="TxtSearch_TextChanged" 
+				Height="24"
+				Margin="4,0,4,4"
+				VerticalAlignment="Bottom"
+				TabIndex="1"
+				TextChanged="TxtSearch_TextChanged"
 				PreviewKeyDown="TxtSearch_KeyDown" />
 		</Grid>
 	</Border>
