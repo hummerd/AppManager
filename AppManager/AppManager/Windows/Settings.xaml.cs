@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using AppManager.Classes;
+using CommonLib.Windows;
+using System.ComponentModel;
 
 
 namespace AppManager.Windows
@@ -8,7 +10,7 @@ namespace AppManager.Windows
 	/// <summary>
 	/// Interaction logic for Settings.xaml
 	/// </summary>
-	public partial class Settings : Window
+	public partial class Settings : DialogWindow
 	{
 		protected SettingsController _Controller;
 
@@ -22,17 +24,6 @@ namespace AppManager.Windows
 		}
 
 
-		private void BtnOk_Click(object sender, RoutedEventArgs e)
-		{
-			DialogResult = true;
-			_Controller.SetStartUp(ChkAutoStart.IsChecked ?? false);
-		}
-
-		private void BtnCancel_Click(object sender, RoutedEventArgs e)
-		{
-			DialogResult = false;
-		}
-
 		private void BtnOpenAppDataPath_Click(object sender, RoutedEventArgs e)
 		{
 			_Controller.ShowAppDataPath();
@@ -43,19 +34,10 @@ namespace AppManager.Windows
 			_Controller.EditAppData();
 		}
 
-		private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+		private void DialogWindow_Closing(object sender, CancelEventArgs e)
 		{
-			if (e.Key == Key.Enter)
-			{
-				e.Handled = true;
-				DialogResult = true;
-			}
-
-			if (e.Key == Key.Escape)
-			{
-				e.Handled = true;
-				DialogResult = false;
-			}
+			if (DialogResult ?? false)
+				_Controller.SetStartUp(ChkAutoStart.IsChecked ?? false);
 		}
 	}
 }

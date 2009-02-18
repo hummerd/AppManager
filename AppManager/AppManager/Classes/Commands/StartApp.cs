@@ -5,10 +5,10 @@ using System.Xml;
 using System.Xml.Serialization;
 using AppManager.Properties;
 using AppManager.Settings;
-using AppManager.Windows;
-using WinForms = System.Windows.Forms;
-using CommonLib.PInvoke;
 using CommonLib;
+using CommonLib.PInvoke;
+using CommonLib.Windows;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager.Commands

@@ -117,113 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ADD_PROGS_QUEST" xml:space="preserve">
-    <value>Вы хотите добавить программы из меню Пуск
-(Вы можете сделать это позже в Менеджере приложений - кнопка "+")?</value>
-  </data>
-  <data name="ADD_TO_TYPE" xml:space="preserve">
-    <value>Добавлять к группе</value>
-  </data>
-  <data name="APPLICATION" xml:space="preserve">
-    <value>Приложение</value>
-  </data>
-  <data name="APPLICATIONS" xml:space="preserve">
-    <value>Приложения</value>
-  </data>
-  <data name="APPS_IN_TYPE" xml:space="preserve">
-    <value>Приложений в группе:</value>
-  </data>
-  <data name="APP_MANAGER" xml:space="preserve">
-    <value>Менеджер приложений</value>
-  </data>
-  <data name="APP_TITLE" xml:space="preserve">
-    <value>Стартер</value>
-  </data>
-  <data name="APP_TYPES" xml:space="preserve">
-    <value>Группы приложений</value>
-  </data>
-  <data name="APP_TYPE_NAME" xml:space="preserve">
-    <value>Имя группы</value>
-  </data>
-  <data name="AUTO_START" xml:space="preserve">
-    <value>Автостарт</value>
-  </data>
   <data name="CANCEL" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="DEL_APP_QUEST" xml:space="preserve">
-    <value>Удалить приложение {0}?</value>
-  </data>
-  <data name="EDIT_APP_DATA" xml:space="preserve">
-    <value>Редактировать файл приложений</value>
-  </data>
-  <data name="ENTER_APP_NAME" xml:space="preserve">
-    <value>Введите имя приложения</value>
-  </data>
-  <data name="ERROR" xml:space="preserve">
-    <value>Ошибка в Стартере</value>
-  </data>
-  <data name="ERROR_OCCUR" xml:space="preserve">
-    <value>Извините, в приложении произошла неопознанная ошибка</value>
-  </data>
-  <data name="MNU_CLOSE" xml:space="preserve">
-    <value>Закрыть Стартер</value>
-  </data>
-  <data name="MNU_DELETE" xml:space="preserve">
-    <value>Удалить {0}</value>
-  </data>
-  <data name="MNU_EDIT" xml:space="preserve">
-    <value>Редактировать {0}</value>
-  </data>
-  <data name="MNU_GOTO" xml:space="preserve">
-    <value>Перейти к папке приложения {0}</value>
-  </data>
-  <data name="MNU_HIDE" xml:space="preserve">
-    <value>Скрыть Стартер</value>
-  </data>
-  <data name="MNU_MANAGEAPP" xml:space="preserve">
-    <value>Управление приложениями</value>
-  </data>
-  <data name="MNU_RENAME" xml:space="preserve">
-    <value>Переименовать {0}</value>
-  </data>
-  <data name="MNU_SETTINGS" xml:space="preserve">
-    <value>Настройки</value>
-  </data>
-  <data name="MNU_SHOW" xml:space="preserve">
-    <value>Показать Стартер</value>
-  </data>
-  <data name="NEW" xml:space="preserve">
-    <value>Новая</value>
-  </data>
-  <data name="NEW_APP" xml:space="preserve">
-    <value>Новое приложение</value>
+  <data name="DETAILS" xml:space="preserve">
+    <value>Детали</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="OPEN_APP_DATA" xml:space="preserve">
-    <value>Перейти к папке с файлом приложений</value>
-  </data>
-  <data name="SCAN" xml:space="preserve">
-    <value>Искать</value>
-  </data>
-  <data name="SCAN_ALL_PROGS" xml:space="preserve">
-    <value>Искать в меню Все программы</value>
-  </data>
-  <data name="SCAN_QUICK_LAUNCH" xml:space="preserve">
-    <value>Искать в меню Быстрый запуск</value>
-  </data>
-  <data name="SEARCH" xml:space="preserve">
-    <value>Поиск</value>
-  </data>
-  <data name="SELECT" xml:space="preserve">
-    <value>Выбрать</value>
-  </data>
-  <data name="SELECT_APP_GROUP" xml:space="preserve">
-    <value>Выберите группу к которой будут добавлены приложения</value>
-  </data>
-  <data name="SETTINGS" xml:space="preserve">
-    <value>Настройки</value>
   </data>
 </root>

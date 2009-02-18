@@ -1,0 +1,24 @@
+﻿<cw:DialogWindow
+	x:Class="CommonLib.Windows.InputBox"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:cw="clr-namespace:CommonLib.Windows"
+	Title="InputBox"
+	Height="156"
+	Width="367"
+	ResizeMode="NoResize"
+	ShowInTaskbar="False"
+	TabIndex="1000"
+	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
+	Activated="Window_Activated">
+
+	<StackPanel>
+		<TextBox
+			Margin="12,12,12,0"
+			Name="TxtInput"
+			Height="24"
+			VerticalAlignment="Top"
+			HorizontalContentAlignment="Stretch"
+			TabIndex="1" />
+	</StackPanel>
+</cw:DialogWindow>

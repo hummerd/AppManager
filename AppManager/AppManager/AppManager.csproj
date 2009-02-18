@@ -114,26 +114,12 @@
     <Compile Include="Windows\WndAppManager.xaml.cs">
       <DependentUpon>WndAppManager.xaml</DependentUpon>
     </Compile>
-    <BlendEmbeddedFont Include="Fonts\tahoma.ttf">
-      <IsSystemFont>True</IsSystemFont>
-    </BlendEmbeddedFont>
-    <BlendEmbeddedFont Include="Fonts\tahomabd.ttf">
-      <IsSystemFont>True</IsSystemFont>
-    </BlendEmbeddedFont>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Windows\ErrorBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\InputBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -206,12 +192,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\ErrorBox.xaml.cs">
-      <DependentUpon>ErrorBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\InputBox.xaml.cs">
-      <DependentUpon>InputBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\QuickSearch.xaml.cs">
       <DependentUpon>QuickSearch.xaml</DependentUpon>
@@ -307,9 +287,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\trash_64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Error.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\cnruninstall_3273_32.png" />
