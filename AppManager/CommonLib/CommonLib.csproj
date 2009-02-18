@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="UIHelper.cs" />
     <Compile Include="ValueEventArgs.cs" />
+    <Compile Include="Windows\DialogKeyDecorator.cs" />
     <Compile Include="Windows\DialogWindow.cs" />
     <Compile Include="Windows\ErrorBox.xaml.cs">
       <DependentUpon>ErrorBox.xaml</DependentUpon>

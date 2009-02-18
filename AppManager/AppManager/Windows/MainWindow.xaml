@@ -15,24 +15,80 @@
 	Background="{DynamicResource MainWindowBorder}"
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d"
-	Title="Стартер"
-	Closing="Window_Closing"
+	Title="{Binding Source={x:Static am:Strings.APP_TITLE}}"
 	ShowInTaskbar="False"
 	ResizeMode="NoResize"
 	SnapsToDevicePixels="True"
 	Loaded="Window_Loaded"
 	PreviewTextInput="Window_PreviewTextInput"
 	Activated="Window_Activated"
+	Closing="Window_Closing"
 	Deactivated="Window_Deactivated">
 	<Window.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary
-					Source="ControlTemplates.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 
-			<BorderGapMaskConverter
-				x:Key="BorderGapMaskConverter" />
+			<BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+
+			<Style
+				x:Key="MainWndCloseButton"
+				TargetType="Button">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<ControlTemplate.Resources>
+								<Storyboard x:Key="CloseButtonAnimation">
+									<ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ellipse" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)">
+										<SplineColorKeyFrame KeyTime="00:00:00.5000000" Value="#FFFBB0B0"/>
+									</ColorAnimationUsingKeyFrames>
+								</Storyboard>
+							</ControlTemplate.Resources>
+							<Grid x:Name="LayoutRoot">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="0.199*"/>
+									<RowDefinition Height="0.596*"/>
+									<RowDefinition Height="0.205*"/>
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="0.178*"/>
+									<ColumnDefinition Width="0.625*"/>
+									<ColumnDefinition Width="0.197*"/>
+								</Grid.ColumnDefinitions>
+								<Ellipse Stroke="#FF000000" x:Name="ellipse" Grid.ColumnSpan="3" Grid.RowSpan="3">
+									<Ellipse.Fill>
+										<RadialGradientBrush SpreadMethod="Pad">
+											<GradientStop Color="#FFE12A2A" Offset="0"/>
+											<GradientStop Color="#FFF91919" Offset="1"/>
+											<GradientStop Color="#FFD62020" Offset="0.582"/>
+										</RadialGradientBrush>
+									</Ellipse.Fill>
+								</Ellipse>
+								<Path Fill="{x:Null}" Stretch="Fill" StrokeThickness="3" Data="M4,4 L46,46 M46,4 L4,46" Grid.Column="1" Grid.Row="1">
+									<Path.Stroke>
+										<LinearGradientBrush EndPoint="0.7,0.91" StartPoint="0.92,0.69">
+											<GradientStop Color="#FFE8E8E8" Offset="0"/>
+											<GradientStop Color="#FFD6CDCD" Offset="0.982"/>
+											<GradientStop Color="#FFFBF2F2" Offset="0.56"/>
+										</LinearGradientBrush>
+									</Path.Stroke>
+								</Path>
+							</Grid>
+							<ControlTemplate.Triggers>
+								<EventTrigger RoutedEvent="Mouse.MouseEnter">
+									<BeginStoryboard Storyboard="{StaticResource CloseButtonAnimation}" x:Name="CloseButtonAnimation_BeginStoryboard"/>
+								</EventTrigger>
+								<EventTrigger RoutedEvent="Mouse.MouseLeave">
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+								</EventTrigger>
+								<EventTrigger RoutedEvent="Mouse.PreviewMouseDown">
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+								</EventTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 			<Style
 				x:Key="CustomGB"
 				TargetType="GroupBox">
@@ -124,6 +180,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+
 			<Storyboard
 				x:Key="TrashMarkShow">
 				<ObjectAnimationUsingKeyFrames
@@ -167,6 +224,7 @@
 						Value="0" />
 				</DoubleAnimationUsingKeyFrames>
 			</Storyboard>
+
 			<LinearGradientBrush
 				x:Key="ActiveCaptionBrush"
 				EndPoint="0.5,1"
@@ -231,54 +289,54 @@
 		BorderThickness="4,4,4,4"
 		CornerRadius="4,4,4,4"
 		SnapsToDevicePixels="True" BorderBrush="{DynamicResource MainWindowBorder}" Background="{x:Null}">
-			<Grid
+		<Grid
 				Width="Auto"
 				Height="Auto"
 				Name="GridMain"
 				SnapsToDevicePixels="True"
 				>
-				<Grid.RowDefinitions>
-					<RowDefinition
+			<Grid.RowDefinitions>
+				<RowDefinition
 						Height="32" />
-					<RowDefinition
+				<RowDefinition
 						Height="*" />
-				</Grid.RowDefinitions>
-				<!--Window caption-->
-				<Border 
+			</Grid.RowDefinitions>
+			<!--Window caption-->
+			<Border 
 					Name="CaptionBorder" 
 					Background="{DynamicResource ActiveCaptionBrush}" 
 					CornerRadius="5,5,0,0"
 					SnapsToDevicePixels="True"
 					>
-					<Grid
+				<Grid
 						MouseLeftButtonDown="DockPanel_MouseLeftButtonDown"
 						SnapsToDevicePixels="True"
 						>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
 								Width="Auto" />
-							<ColumnDefinition
+						<ColumnDefinition
 								Width="Auto" />
-							<ColumnDefinition
+						<ColumnDefinition
 								Width="*" />
-							<ColumnDefinition
+						<ColumnDefinition
 								Width="Auto" />
-						</Grid.ColumnDefinitions>
-						<am:SettingButton
+					</Grid.ColumnDefinitions>
+					<am:SettingButton
 							x:Name="BtnConfigure"
 							Width="45"
 							Height="30"
 							Margin="4,0,0,0"
 							ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png"
 							Grid.Column="0" />
-						<am:SettingButton
+					<am:SettingButton
 							x:Name="BtnManageApps"
 							Width="45"
 							Height="30"
 							HorizontalAlignment="Left"
 							ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
 							Grid.Column="1" />
-						<TextBlock
+					<TextBlock
 							FontSize="14"
 							Foreground="#FFFBD888"
 							TextAlignment="Center"
@@ -297,19 +355,19 @@
 						<Run
 								FontWeight="Bold"
 								Foreground="#FFFFDC8F" />
-						</TextBlock>
-						<Button
+					</TextBlock>
+					<Button
 							Name="ButtonExit"
 							Width="24"
 							Height="24"
 							Margin="0,0,4,0"
 							Content="Button"
-							Template="{DynamicResource CloseButtonControlTemplate}"
-							Grid.Column="3" />
-					</Grid>
-				</Border>
-				<!--Window content-->
-				<Border 
+							Grid.Column="3" 
+							Style="{DynamicResource MainWndCloseButton}" />
+				</Grid>
+			</Border>
+			<!--Window content-->
+			<Border 
 					x:Name="ClientAreaBorder"
 					Grid.Row="1" 
 					CornerRadius="0,0,4,4" 
@@ -411,8 +469,8 @@
 						</Canvas.Top>
 					</Image>
 				</Canvas>
-				</Border>
-				<ResizeGrip
+			</Border>
+			<ResizeGrip
 					Grid.Row="1"
 					Cursor="SizeNWSE"
 					Width="12"
@@ -426,6 +484,6 @@
 					Opacity="0.75"
 					MouseLeftButtonDown="Resizer_MouseLeftButtonDown"
 					IsTabStop="False" />
-			</Grid>
+		</Grid>
 	</Border>
 </Window>

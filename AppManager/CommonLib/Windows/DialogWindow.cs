@@ -50,6 +50,12 @@ namespace CommonLib.Windows
 		}
 
 
+		public DialogWindow()
+		{
+			new DialogKeyDecorator(this);
+		}
+
+
 		public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -59,23 +65,6 @@ namespace CommonLib.Windows
 
 			var btnOk = GetTemplateChild("BtnOk") as Button;
 			btnOk.Click += (s, e) => DialogResult = true;
-		}
-
-		protected override void OnPreviewKeyUp(KeyEventArgs e)
-		{
-			if (e.Key == Key.Enter)
-			{
-				e.Handled = true;
-				DialogResult = true;
-			}
-
-			if (e.Key == Key.Escape)
-			{
-				e.Handled = true;
-				DialogResult = false;
-			}
-
-			base.OnPreviewKeyUp(e);
 		}
 	}
 }
