@@ -288,7 +288,9 @@
 		Height="Auto"
 		BorderThickness="4,4,4,4"
 		CornerRadius="4,4,4,4"
-		SnapsToDevicePixels="True" BorderBrush="{DynamicResource MainWindowBorder}" Background="{x:Null}">
+		SnapsToDevicePixels="True" 
+		BorderBrush="{DynamicResource MainWindowBorder}" 
+		Background="{x:Null}">
 		<Grid
 				Width="Auto"
 				Height="Auto"
