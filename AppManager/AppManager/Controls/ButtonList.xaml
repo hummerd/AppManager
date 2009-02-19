@@ -16,14 +16,72 @@
 	
 	<ListBox.ItemTemplate>
 		<DataTemplate>
-			<!--PreviewMouseLeftButtonUp="ImageButton_MouseLeftButtonUp"-->
+			<DataTemplate.Resources>
+				<LinearGradientBrush
+					x:Key="ToolTipBk"
+					EndPoint="348.806,530.234"
+					StartPoint="81.194,33.766"
+					MappingMode="Absolute">
+					<GradientStop
+						Color="#FFF8CF75"
+						Offset="0" />
+					<GradientStop
+						Color="#FFBD8B1C"
+						Offset="1" />
+				</LinearGradientBrush>
+				<Style
+					x:Key="ToolTipStyle"
+					TargetType="{x:Type ToolTip}">
+					<Setter
+						Property="OverridesDefaultStyle"
+						Value="true" />
+					<Setter
+						Property="VerticalOffset"
+						Value="2" />
+					<Setter
+						Property="HorizontalOffset"
+						Value="15" />
+					<Setter
+						Property="Placement"
+						Value="Bottom" />
+					<Setter
+						Property="TextElement.FontSize"
+						Value="11" />
+					<Setter
+						Property="TextElement.Foreground"
+						Value="Black"/>
+					<Setter
+						Property="Template">
+						<Setter.Value>
+							<ControlTemplate
+								TargetType="{x:Type ToolTip}">
+								<Border
+									BorderBrush="Black"
+									Background="{StaticResource ToolTipBk}"
+									BorderThickness="1"
+									CornerRadius="3"
+									Name="border"
+									SnapsToDevicePixels="True">
+									<ContentPresenter
+										Margin="10,5,10,5"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</DataTemplate.Resources>
 			<am:ImageButton
-				Click="ImageButton_Click" 
-				IsTabStop="False" 
+				Click="ImageButton_Click"
+				IsTabStop="False"
 				Margin="4,4,4,4"
-				ToolTip="{Binding Path=AppPathInfo}"
-				ButtonImageSource="{Binding Path=AppImage}" 
-				ButtonText="{Binding Path=AppName}" />
+				ButtonImageSource="{Binding Path=AppImage}"
+				ButtonText="{Binding Path=AppName}">
+				<am:ImageButton.ToolTip>
+					<ToolTip Style="{DynamicResource ToolTipStyle}" Content="{Binding Path=AppPathInfo}"/>	
+				</am:ImageButton.ToolTip>
+			</am:ImageButton>
 		</DataTemplate>
 	</ListBox.ItemTemplate>
 	<ListBox.ItemsPanel>
