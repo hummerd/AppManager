@@ -5,7 +5,9 @@
 	xmlns:am="clr-namespace:AppManager"
 	Title="{x:Static am:Strings.APP_TITLE}"
 	Height="153" Width="239"
-	>
+	WindowStartupLocation="CenterScreen"
+	ResizeMode="NoResize"
+	SizeToContent="WidthAndHeight">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition
@@ -27,6 +29,7 @@
 			Grid.ColumnSpan="4">
 			<Label
 				Name="LblHeader"
+				Margin="8,8,8,8"
 				HorizontalAlignment="Center" />
 			<CheckBox
 				Name="ChkQuickSart"
