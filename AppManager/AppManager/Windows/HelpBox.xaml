@@ -5,7 +5,7 @@
     <Grid>
 		<RichTextBox 
 			Name="HelpText"
-			TextChanged="HelpText_TextChanged">
+			>
 			<FlowDocument>
 				<Paragraph TextAlignment="Center"><Run Language="ru-ru" FontSize="14" FontWeight="Bold" Text="Как пользоваться программой?"/></Paragraph>
 				<Paragraph LineHeight="6">

@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:cw="clr-namespace:CommonLib.Windows;assembly=CommonLib"
-	Title="{Binding Source={x:Static am:Strings.SETTINGS}}"
+	Title="{x:Static am:Strings.SETTINGS}"
 	Height="268"
 	Width="310"
 	WindowStartupLocation="CenterOwner"
@@ -15,7 +15,7 @@
 	Closing="DialogWindow_Closing">
 	<Grid>
 		<CheckBox
-			Content="{Binding Source={x:Static am:Strings.AUTO_START}}"
+			Content="{x:Static am:Strings.AUTO_START}"
 			Name="ChkAutoStart"
 			Height="16"
 			Margin="12,12,0,0"
@@ -23,7 +23,7 @@
 			HorizontalAlignment="Left"
 			Width="120.071" />
 		<Button
-			Content="{Binding Source={x:Static am:Strings.OPEN_APP_DATA}}"
+			Content="{x:Static am:Strings.OPEN_APP_DATA}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
 			Height="28"
@@ -32,7 +32,7 @@
 			Name="BtnOpenAppDataPath"
 			Click="BtnOpenAppDataPath_Click" />
 		<Button
-			Content="{Binding Source={x:Static am:Strings.EDIT_APP_DATA}}"
+			Content="{x:Static am:Strings.EDIT_APP_DATA}"
 			Margin="8,92,0,0"
 			Name="BtnEditAppData"
 			Click="BtnEditAppData_Click"

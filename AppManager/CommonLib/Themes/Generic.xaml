@@ -26,14 +26,14 @@
 							<ContentPresenter />
 						</AdornerDecorator>
 						<Button
-							Content="{Binding Source={x:Static c:Strings.CANCEL}}"
+							Content="{x:Static c:Strings.CANCEL}"
 							HorizontalAlignment="Right"
 							Margin="0,8,8,8"
 							Name="BtnCancel"
 							Width="80"
 							Grid.Row="1" />
 						<Button
-							Content="{Binding Source={x:Static c:Strings.OK}}"
+							Content="{x:Static c:Strings.OK}"
 							Margin="0,8,94,8"
 							Name="BtnOk"
 							HorizontalAlignment="Right"

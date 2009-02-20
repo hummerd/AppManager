@@ -44,6 +44,18 @@ namespace AppManager
 		}
 
 
+		public AppInfoCollection FindAppsInQuickLaunch()
+		{
+			string dirPath = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				@"Microsoft\Internet Explorer\Quick Launch");
+
+			return FindApps(
+				new List<string>() { dirPath },
+				new List<string>() { "lnk" },
+				true);
+		}
+
 		public AppInfoCollection FindAppsInAllProgs()
 		{
 			StringBuilder allPrograms = new StringBuilder(300);
