@@ -8,7 +8,7 @@
 	x:Class="AppManager.WndAppManager"
 	x:Name="AppsManagerWindow"
 	mc:Ignorable="d"
-	Title="{Binding Source={x:Static am:Strings.APP_MANAGER}}"
+	Title="{x:Static am:Strings.APP_MANAGER}"
 	Width="425"
 	Height="525"
 	WindowStartupLocation="CenterOwner"
@@ -314,7 +314,7 @@
 		Name="AppTabs"
 		IsSynchronizedWithCurrentItem="True">
 		<TabItem
-			Header="{Binding Source={x:Static am:Strings.APP_TYPES}}">
+			Header="{x:Static am:Strings.APP_TYPES}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition
@@ -352,7 +352,7 @@
 					</Grid.ColumnDefinitions>
 					<Label
 						Margin="8,9,0,6"
-						Content="{Binding Source={x:Static am:Strings.APP_TYPE_NAME}}"
+						Content="{x:Static am:Strings.APP_TYPE_NAME}"
 						x:Name="AppTypeLabel"
 						HorizontalAlignment="Left" />
 					<TextBox
@@ -398,7 +398,7 @@
 			</Grid>
 		</TabItem>
 		<TabItem
-			Header="{Binding Source={x:Static am:Strings.APPLICATIONS}}">
+			Header="{x:Static am:Strings.APPLICATIONS}">
 			<Grid
 				Height="Auto"
 				Width="Auto"
@@ -475,7 +475,7 @@
 			</Grid>
 		</TabItem>
 		<TabItem
-			Header="{Binding Source={x:Static am:Strings.SEARCH}}">
+			Header="{x:Static am:Strings.SEARCH}">
 			<Grid
 				Height="Auto"
 				Width="Auto">
@@ -514,12 +514,12 @@
 						Orientation="Horizontal">
 						<Button
 							Name="BtnScanQuickLaunch"
-							Content="{Binding Source={x:Static am:Strings.SCAN_QUICK_LAUNCH}}"
+							Content="{x:Static am:Strings.SCAN_QUICK_LAUNCH}"
 							Click="BtnScanQuickLaunch_Click" />
 						<Button
 							Name="BtnScanAllProgs"
 							Margin="4,0,0,0"
-							Content="{Binding Source={x:Static am:Strings.SCAN_ALL_PROGS}}"
+							Content="{x:Static am:Strings.SCAN_ALL_PROGS}"
 							Click="BtnScanAllProgs_Click" />
 					</StackPanel>
 					<TextBox
@@ -539,7 +539,7 @@
 						Margin="0,6,4,12"
 						Name="_BtnSearch"
 						Click="BtnSearch_Click"
-						Content="{Binding Source={x:Static am:Strings.SCAN}}"
+						Content="{x:Static am:Strings.SCAN}"
 						Grid.Column="4" />
 					<Button
 						Grid.Row="1"
@@ -564,7 +564,7 @@
 									Width="26"/>
 								<GridViewColumn 
 									CellTemplate="{StaticResource SemiEditableAppInfo}" 
-									Header="{Binding Source={x:Static am:Strings.APPLICATION}}" 
+									Header="{x:Static am:Strings.APPLICATION}" 
 									Width="300"/>
 							</GridView>
 						</ListView.View>

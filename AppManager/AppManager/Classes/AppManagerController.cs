@@ -147,18 +147,6 @@ namespace AppManager
 					infoAdp.Checked = check;
 		}
 
-		public AppInfoCollection FindAppsInQuickLaunch()
-		{
-			string dirPath = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				@"Microsoft\Internet Explorer\Quick Launch");
-
-			return FindApps(
-				new List<string>() { dirPath },
-				new List<string>() { "lnk" },
-				true);
-		}
-
 		public AppInfoAdapterCollection AdaptTo(AppInfoCollection apps, bool check)
 		{
 			if (apps == null)

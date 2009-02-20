@@ -117,12 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ADD_PROGS_QUEST" xml:space="preserve">
-    <value>Do you want to add programs from Start menu
-(You can do it later via Application manager "+" button)?</value>
-  </data>
   <data name="ADD_TO_TYPE" xml:space="preserve">
     <value>Add to group</value>
+  </data>
+  <data name="ALL_PROGS" xml:space="preserve">
+    <value>All Programs menu</value>
   </data>
   <data name="APPLICATION" xml:space="preserve">
     <value>Application</value>
@@ -147,9 +146,6 @@
   </data>
   <data name="AUTO_START" xml:space="preserve">
     <value>Autostart</value>
-  </data>
-  <data name="CANCEL" xml:space="preserve">
-    <value>Cancel</value>
   </data>
   <data name="DEL_APP_QUEST" xml:space="preserve">
     <value>Delete application {0} ?</value>
@@ -199,11 +195,17 @@
   <data name="NEW_APP" xml:space="preserve">
     <value>New application</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
-  </data>
   <data name="OPEN_APP_DATA" xml:space="preserve">
     <value>Show app data folder</value>
+  </data>
+  <data name="QUEST_FIRST_SCAN" xml:space="preserve">
+    <value>Do you want to add applications from these folders?</value>
+  </data>
+  <data name="QUICK_LAUNCH" xml:space="preserve">
+    <value>Quick Launch</value>
+  </data>
+  <data name="QUICK_START" xml:space="preserve">
+    <value>Quick Start menu</value>
   </data>
   <data name="SCAN" xml:space="preserve">
     <value>Scan</value>

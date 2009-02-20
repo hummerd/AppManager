@@ -9,6 +9,7 @@ using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
+using AppManager.Windows;
 
 
 namespace AppManager.Commands
@@ -79,18 +80,33 @@ namespace AppManager.Commands
 			if (_WorkItem.AppData.AppTypes.Count == 1 &&
 				 _WorkItem.AppData.AppTypes[0].AppInfos.Count == 0)
 			{
-				if (MessageBox.Show(
-					_WorkItem.MainWindow,
-					Strings.ADD_PROGS_QUEST,
-					Strings.APP_TITLE,
-					MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+				FirstScan askScan = new FirstScan();
+				//askScan.Owner = _WorkItem.MainWindow;
+				askScan.Title = Strings.APP_TITLE;
+
+				if (!(askScan.ShowDialog() ?? false))
 					return false;
 
 				var ctrl = new ControllerBase(_WorkItem);
-				var apps = ctrl.FindAppsInAllProgs();
 
-				_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
-				_WorkItem.AppData.GroupByFolders();
+				if (askScan.AddFromAllProgs)
+				{
+					var apps = ctrl.FindAppsInAllProgs();
+
+					_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
+					_WorkItem.AppData.GroupByFolders();
+				}
+
+				if (askScan.AddFromQickStart)
+				{
+					var apps = ctrl.FindAppsInQuickLaunch();
+
+					var quickAppType = new AppType(apps) 
+						{ AppTypeName = Strings.QUICK_LAUNCH };
+
+					_WorkItem.AppData.AppTypes.Insert(0, quickAppType);			
+				}
+
 				_WorkItem.Commands.Save.Execute(null);
 				
 				//StringBuilder allPrograms = new StringBuilder(300);

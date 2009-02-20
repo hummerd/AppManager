@@ -2,7 +2,8 @@
    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
    xmlns:s="clr-namespace:System;assembly=mscorlib"
-	xmlns:am="clr-namespace:AppManager">
+	xmlns:am="clr-namespace:AppManager"
+	xmlns:с="clr-namespace:CommonLib;assembly=CommonLib">
 
 	<Application.Resources>
 		<Style
@@ -690,7 +691,7 @@
 			<MenuItem Name="Delete"/>
 			<MenuItem Name="GoTo"/>
 			<Separator/>
-			<MenuItem Name="Cancel" Header="{Binding Source={x:Static am:Strings.CANCEL}}"/>
+			<MenuItem Name="Cancel" Header="{x:Static с:Strings.CANCEL}"/>
 		</ContextMenu>
 	</Application.Resources>
 </Application>

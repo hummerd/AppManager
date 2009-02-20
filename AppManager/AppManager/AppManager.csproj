@@ -65,9 +65,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AppManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <ExecutableExtension>.exe</ExecutableExtension>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -119,7 +116,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Resources\HelpText.xaml">
+    <Page Include="Windows\FirstScan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,6 +196,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\FirstScan.xaml.cs">
+      <DependentUpon>FirstScan.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\HelpBox.xaml.cs">
       <DependentUpon>HelpBox.xaml</DependentUpon>
@@ -294,6 +294,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folder.png" />
+    <Resource Include="Resources\Help.en-en.rtf" />
+    <Resource Include="Resources\Help.ru-ru.rtf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\trash_64.png" />

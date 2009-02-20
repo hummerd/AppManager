@@ -61,21 +61,20 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to add programs from Start menu
-        ///(You can do it later via Application manager &quot;+&quot; button)?.
-        /// </summary>
-        public static string ADD_PROGS_QUEST {
-            get {
-                return ResourceManager.GetString("ADD_PROGS_QUEST", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add to group.
         /// </summary>
         public static string ADD_TO_TYPE {
             get {
                 return ResourceManager.GetString("ADD_TO_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Programs menu.
+        /// </summary>
+        public static string ALL_PROGS {
+            get {
+                return ResourceManager.GetString("ALL_PROGS", resourceCulture);
             }
         }
         
@@ -148,15 +147,6 @@ namespace AppManager {
         public static string AUTO_START {
             get {
                 return ResourceManager.GetString("AUTO_START", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string CANCEL {
-            get {
-                return ResourceManager.GetString("CANCEL", resourceCulture);
             }
         }
         
@@ -305,20 +295,38 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OK.
-        /// </summary>
-        public static string OK {
-            get {
-                return ResourceManager.GetString("OK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show app data folder.
         /// </summary>
         public static string OPEN_APP_DATA {
             get {
                 return ResourceManager.GetString("OPEN_APP_DATA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to add applications from these folders?.
+        /// </summary>
+        public static string QUEST_FIRST_SCAN {
+            get {
+                return ResourceManager.GetString("QUEST_FIRST_SCAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Launch.
+        /// </summary>
+        public static string QUICK_LAUNCH {
+            get {
+                return ResourceManager.GetString("QUICK_LAUNCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Start menu.
+        /// </summary>
+        public static string QUICK_START {
+            get {
+                return ResourceManager.GetString("QUICK_START", resourceCulture);
             }
         }
         

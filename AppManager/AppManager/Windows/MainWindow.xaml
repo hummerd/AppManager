@@ -15,7 +15,7 @@
 	Background="{DynamicResource MainWindowBorder}"
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d"
-	Title="{Binding Source={x:Static am:Strings.APP_TITLE}}"
+	Title="{x:Static am:Strings.APP_TITLE}"
 	ShowInTaskbar="False"
 	ResizeMode="NoResize"
 	SnapsToDevicePixels="True"
@@ -344,7 +344,7 @@
 							TextAlignment="Center"
 							TextWrapping="Wrap"
 							Height="24"
-							Text="{Binding Source={x:Static am:Strings.APP_TITLE}}"
+							Text="{x:Static am:Strings.APP_TITLE}"
 							d:IsStaticText="True"
 							Grid.Column="2"
 							Margin="8,4,-8,7">
