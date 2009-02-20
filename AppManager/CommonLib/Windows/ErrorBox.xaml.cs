@@ -23,13 +23,7 @@ namespace CommonLib.Windows
 			TxtMessage.Text = message;
 			TxtDetails.Text = details;
 
-			new DialogKeyDecorator(this);
-		}
-
-
-		private void BtnOk_Click(object sender, RoutedEventArgs e)
-		{
-			DialogResult = true;
+			new DialogKeyDecorator(this, BtnOk, null, false);
 		}
 	}
 }

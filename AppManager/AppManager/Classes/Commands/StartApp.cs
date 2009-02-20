@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 using AppManager.Properties;
 using AppManager.Settings;
+using AppManager.Windows;
 using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
-using AppManager.Windows;
 
 
 namespace AppManager.Commands
 {
 	public class StartApp : CommandBase
 	{
+		protected Mutex _Mutex;
 		protected bool _FirstStart = false;
 
 
@@ -74,6 +76,13 @@ namespace AppManager.Commands
 			app.Run(_WorkItem.MainWindow);
 		}
 
+
+		protected bool InstanceExists()
+		{
+			bool isNew;
+			_Mutex = new Mutex(false, "AppManager.Commands.StartApp.Mutex", out isNew);
+			return !isNew;
+		}
 
 		protected bool FirstLoad()
 		{

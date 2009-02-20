@@ -52,7 +52,7 @@ namespace CommonLib.Windows
 
 		public DialogWindow()
 		{
-			new DialogKeyDecorator(this);
+			
 		}
 
 
@@ -61,10 +61,9 @@ namespace CommonLib.Windows
 			base.OnApplyTemplate();
 
 			var btnCancel = GetTemplateChild("BtnCancel") as Button;
-			btnCancel.Click += (s, e) => DialogResult = false;
-
 			var btnOk = GetTemplateChild("BtnOk") as Button;
-			btnOk.Click += (s, e) => DialogResult = true;
+
+			new DialogKeyDecorator(this, btnOk, btnCancel, true);
 		}
 	}
 }

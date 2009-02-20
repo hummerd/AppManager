@@ -33,7 +33,6 @@
 			Name="BtnOk"
 			Width="80"
 			Grid.Row="3"
-			Click="BtnOk_Click"
 			TabIndex="5"
 			Grid.Column="1"
 			HorizontalAlignment="Right"
