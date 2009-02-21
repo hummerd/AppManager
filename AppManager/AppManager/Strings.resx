@@ -162,6 +162,9 @@
   <data name="ERROR_OCCUR" xml:space="preserve">
     <value>Sorry there is an unknown error in application</value>
   </data>
+  <data name="HELP_FILE" xml:space="preserve">
+    <value>Resources/Help.en-en.rtf</value>
+  </data>
   <data name="MNU_CLOSE" xml:space="preserve">
     <value>Close StartUp</value>
   </data>
@@ -198,6 +201,9 @@
   <data name="OPEN_APP_DATA" xml:space="preserve">
     <value>Show app data folder</value>
   </data>
+  <data name="PAGE_ON_CP" xml:space="preserve">
+    <value>StartUp's page on CodePlex</value>
+  </data>
   <data name="QUEST_FIRST_SCAN" xml:space="preserve">
     <value>Do you want to add applications from these folders?</value>
   </data>
@@ -227,5 +233,8 @@
   </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="SPECIAL_THANKS" xml:space="preserve">
+    <value>Special thanks to my friends for testing and feature requests.</value>
   </data>
 </root>

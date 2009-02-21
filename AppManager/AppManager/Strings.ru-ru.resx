@@ -162,6 +162,9 @@
   <data name="ERROR_OCCUR" xml:space="preserve">
     <value>Извините, в приложении произошла неопознанная ошибка</value>
   </data>
+  <data name="HELP_FILE" xml:space="preserve">
+    <value>Resources/Help.ru-ru.rtf</value>
+  </data>
   <data name="MNU_CLOSE" xml:space="preserve">
     <value>Закрыть Стартер</value>
   </data>
@@ -198,6 +201,9 @@
   <data name="OPEN_APP_DATA" xml:space="preserve">
     <value>Перейти к папке с файлом приложений</value>
   </data>
+  <data name="PAGE_ON_CP" xml:space="preserve">
+    <value>Страница Стартер'а на CodePlex</value>
+  </data>
   <data name="QUEST_FIRST_SCAN" xml:space="preserve">
     <value>Вы хотите добавить приложения из этих папок?</value>
   </data>
@@ -227,5 +233,8 @@
   </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Настройки</value>
+  </data>
+  <data name="SPECIAL_THANKS" xml:space="preserve">
+    <value>Особое спасибо моим друзьям за тестирование и идеи по улучшению Стартера.</value>
   </data>
 </root>

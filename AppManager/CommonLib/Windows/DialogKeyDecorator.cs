@@ -10,15 +10,17 @@ namespace CommonLib.Windows
 {
 	public class DialogKeyDecorator
 	{
-		protected Window _Wnd;
+		protected Window	_Wnd;
+		protected bool		_IsDialog;
 
 
 		public DialogKeyDecorator(Window wnd, Button btnOk, Button btnCancel, bool isDialog)
 		{
+			_IsDialog = isDialog;
 			_Wnd = wnd;
 			_Wnd.PreviewKeyUp += (s, e) => OnPreviewKeyUp(e);
 
-			if (isDialog)
+			if (_IsDialog)
 			{
 				if (btnOk != null)
 					btnOk.Click += (s, e) => _Wnd.DialogResult = true;
@@ -39,16 +41,13 @@ namespace CommonLib.Windows
 
 		protected void OnPreviewKeyUp(KeyEventArgs e)
 		{
-			if (e.Key == Key.Enter)
+			if (e.Key == Key.Enter || e.Key == Key.Escape)
 			{
 				e.Handled = true;
-				_Wnd.DialogResult = true;
-			}
-
-			if (e.Key == Key.Escape)
-			{
-				e.Handled = true;
-				_Wnd.DialogResult = false;
+				if (_IsDialog)
+					_Wnd.DialogResult = e.Key == Key.Enter;
+				else
+					_Wnd.Close();
 			}
 		}
 	}

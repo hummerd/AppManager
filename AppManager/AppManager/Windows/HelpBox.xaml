@@ -1,47 +1,65 @@
-﻿<Window x:Class="AppManager.Windows.HelpBox"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="HelpBox" Height="498" Width="480">
-    <Grid>
-		<RichTextBox 
-			Name="HelpText"
+﻿<Window
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:am="clr-namespace:AppManager" 
+	xmlns:c="clr-namespace:CommonLib;assembly=CommonLib" 
+	x:Class="AppManager.Windows.HelpBox"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	mc:Ignorable="d"
+	Title="{x:Static am:Strings.APP_TITLE}"
+	MinHeight="220" MinWidth="280"
+	Height="580" Width="490" 
+	>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="44" />
+		</Grid.RowDefinitions>
+		<TabControl
+			x:Name="AppTabs"
+			IsSynchronizedWithCurrentItem="True"
 			>
-			<FlowDocument>
-				<Paragraph TextAlignment="Center"><Run Language="ru-ru" FontSize="14" FontWeight="Bold" Text="Как пользоваться программой?"/></Paragraph>
-				<Paragraph LineHeight="6">
-					<Run Language="ru-ru" FontSize="12" Text="При первом запуске программа предложит вам просканировать мену Пуск\Все программы и если вы согласитесь добавит ссылки на них. После этого удалите лишние ссылки. Самый простой способ для этого - перетасчить значок программы или заголовок группы в корзину, появляющуюся при перетаскивании в правом нижнем углу программы."/>
-				</Paragraph>
-				<Paragraph LineHeight="6">
-					<Run Language="ru-ru" FontSize="12" Text="Вы можете добавлять ссылки на программы, часто используемые файлы и папки перетаскивая их на главное окно."/>
-				</Paragraph>
-				<Paragraph
-					LineHeight="6">
-					<Run
-						Language="ru-ru"
-						FontSize="12"
-						Text="В менеджере приложений " />
-					<LineBreak />
-				</Paragraph>
-				<Paragraph LineHeight="6">
-					<Run Language="ru-ru" FontSize="12" Text="Полезные возможности:"/>
-				</Paragraph>
-				<List MarkerOffset="1" MarkerStyle="Disc">
-					<ListItem>
-						<Paragraph><Run FontSize="12" Text="Att + ~ для вызова/скрытия программы (Esc также )"/></Paragraph>
-					</ListItem>
-					<ListItem>
-						<Paragraph><Run Language="ru-ru" FontSize="12" Text="Быстрый поиск - начните писать имя программы на главной форме"/></Paragraph>
-					</ListItem>
-					<ListItem>
-						<Paragraph>
-							<Run
-								Language="ru-ru"
-								FontSize="12"
-								Text="Контекстное меню для быстрого редактирования ссылок" />
-						</Paragraph>
-					</ListItem>
-				</List>
-			</FlowDocument>
-		</RichTextBox>
+			<TabItem
+				x:Name="TabAbout"
+				Header="{x:Static c:CommStr.ABOUT}">
+				<StackPanel>
+					<TextBlock Margin="8,8,8,0" TextWrapping="Wrap">
+						<InlineUIContainer>
+							<Image Height="48" Width="48" Source="/AppManager;component/Resources/1leftarrow_1159_32.png" />
+						</InlineUIContainer>
+						<Run FontSize="26" Foreground="#FF24A1F9" Text="  " BaselineAlignment="Center"/>
+						<Run FontSize="26" Foreground="#FF24A1F9" Text="{x:Static am:Strings.APP_TITLE}" BaselineAlignment="Center"/>
+						<LineBreak/>
+						<LineBreak/>
+						<Run Name="RunVersion" Text="AppManager v1.0.0.*"/>
+						<LineBreak/>
+						<LineBreak/>
+						<Hyperlink NavigateUri="http://www.codeplex.com/AppManager">
+							<Run Text="{x:Static am:Strings.PAGE_ON_CP}"/>
+						</Hyperlink>
+						<LineBreak/>
+						<LineBreak/>
+						<Run Name="TbThanks" Text="{x:Static am:Strings.SPECIAL_THANKS}"/>
+					</TextBlock>
+				</StackPanel>
+			</TabItem>
+			<TabItem
+				x:Name="TabHelp"
+				Header="{x:Static c:CommStr.HELP}"
+				>
+				<Grid>
+					<RichTextBox x:Name="HelpText" IsDocumentEnabled="False" />
+				</Grid>
+			</TabItem>
+		</TabControl>
+		<Button 
+			x:Name="BtnOk"
+			Grid.Row="1" 
+			HorizontalAlignment="Right" 
+			Margin="0,8,8,8" 
+			Width="80"
+			Content="{x:Static c:CommStr.OK}"
+			/>
 	</Grid>
 </Window>

@@ -691,7 +691,7 @@
 			<MenuItem Name="Delete"/>
 			<MenuItem Name="GoTo"/>
 			<Separator/>
-			<MenuItem Name="Cancel" Header="{x:Static с:Strings.CANCEL}"/>
+			<MenuItem Name="Cancel" Header="{x:Static с:CommStr.CANCEL}"/>
 		</ContextMenu>
 	</Application.Resources>
 </Application>

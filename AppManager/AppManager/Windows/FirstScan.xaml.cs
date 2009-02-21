@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CommonLib.Windows;
+using CommonLib;
 
 
 namespace AppManager.Windows
@@ -12,13 +13,6 @@ namespace AppManager.Windows
 		public FirstScan()
 		{
 			InitializeComponent();
-
-			BtnYes.Content = CommonLib.Strings.YES;
-			BtnNo.Content = CommonLib.Strings.NO;
-
-			LblHeader.Content = Strings.QUEST_FIRST_SCAN;
-			ChkAllProgs.Content = Strings.ALL_PROGS;
-			ChkQuickSart.Content = Strings.QUICK_START;
 
 			new DialogKeyDecorator(this, BtnYes, BtnNo, true);
 		}
