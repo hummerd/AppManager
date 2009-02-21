@@ -21,6 +21,14 @@ namespace AppManager
 		}
 
 
+		public void ShowAboutBox()
+		{
+			HelpBox hb = new HelpBox();
+			hb.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			hb.Owner = _WorkItem.MainWindow;
+			hb.Show();
+		}
+
 		public void RemoveAppType(AppType appType)
 		{
 			if (appType == null)

@@ -28,7 +28,7 @@
 				Height="44" />
 		</Grid.RowDefinitions>
 		<Button
-			Content="{x:Static c:Strings.OK}"
+			Content="{x:Static c:CommStr.OK}"
 			Margin="0,0,8,8"
 			Name="BtnOk"
 			Width="80"
@@ -39,7 +39,7 @@
 			Height="28"
 			VerticalAlignment="Bottom" />
 		<Expander
-			Header="{x:Static c:Strings.DETAILS}"
+			Header="{x:Static c:CommStr.DETAILS}"
 			HorizontalAlignment="Stretch"
 			Margin="8,8,8,0"
 			Name="ExpDetails"

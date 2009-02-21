@@ -8,7 +8,7 @@
 	x:Name="Window"
 	Width="430"
 	Height="564"
-	MinWidth="200"
+	MinWidth="260"
 	MinHeight="150"
 	WindowStyle="None"
 	AllowsTransparency="False"
@@ -71,6 +71,58 @@
 										</LinearGradientBrush>
 									</Path.Stroke>
 								</Path>
+							</Grid>
+							<ControlTemplate.Triggers>
+								<EventTrigger RoutedEvent="Mouse.MouseEnter">
+									<BeginStoryboard Storyboard="{StaticResource CloseButtonAnimation}" x:Name="CloseButtonAnimation_BeginStoryboard"/>
+								</EventTrigger>
+								<EventTrigger RoutedEvent="Mouse.MouseLeave">
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+								</EventTrigger>
+								<EventTrigger RoutedEvent="Mouse.PreviewMouseDown">
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+									<RemoveStoryboard BeginStoryboardName="CloseButtonAnimation_BeginStoryboard"/>
+								</EventTrigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			<Style
+				x:Key="MainWndHelpButton"
+				TargetType="Button">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<ControlTemplate.Resources>
+								<Storyboard x:Key="CloseButtonAnimation">
+									<ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ellipse" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)">
+										<SplineColorKeyFrame KeyTime="00:00:00.5000000" Value="#FF8CABE4"/>
+									</ColorAnimationUsingKeyFrames>
+								</Storyboard>
+							</ControlTemplate.Resources>
+							<Grid x:Name="LayoutRoot">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="0.199*"/>
+									<RowDefinition Height="0.596*"/>
+									<RowDefinition Height="0.205*"/>
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="0.178*"/>
+									<ColumnDefinition Width="0.625*"/>
+									<ColumnDefinition Width="0.197*"/>
+								</Grid.ColumnDefinitions>
+								<Ellipse Stroke="#FF000000" x:Name="ellipse" Grid.ColumnSpan="3" Grid.RowSpan="3">
+									<Ellipse.Fill>
+										<RadialGradientBrush SpreadMethod="Pad">
+											<GradientStop Color="#FF3174EA" Offset="0"/>
+											<GradientStop Color="#FF194BF9" Offset="1"/>
+											<GradientStop Color="#FF2062D6" Offset="0.582"/>
+										</RadialGradientBrush>
+									</Ellipse.Fill>
+								</Ellipse>
+								<Image Grid.Column="1" Grid.RowSpan="3" Source="..\Resources\Question.png" Opacity="0.845"/>
 							</Grid>
 							<ControlTemplate.Triggers>
 								<EventTrigger RoutedEvent="Mouse.MouseEnter">
@@ -315,14 +367,11 @@
 						SnapsToDevicePixels="True"
 						>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-								Width="Auto" />
-						<ColumnDefinition
-								Width="Auto" />
-						<ColumnDefinition
-								Width="*" />
-						<ColumnDefinition
-								Width="Auto" />
+						<ColumnDefinition Width="Auto" MinWidth="49" />
+						<ColumnDefinition	Width="Auto" MinWidth="45" />
+						<ColumnDefinition	Width="*" />
+						<ColumnDefinition Width="Auto" MinWidth="28" />
+						<ColumnDefinition Width="Auto" MinWidth="28" />
 					</Grid.ColumnDefinitions>
 					<am:SettingButton
 							x:Name="BtnConfigure"
@@ -342,12 +391,10 @@
 							FontSize="14"
 							Foreground="#FFFBD888"
 							TextAlignment="Center"
-							TextWrapping="Wrap"
-							Height="24"
-							Text="{x:Static am:Strings.APP_TITLE}"
+							TextWrapping="Wrap" Text="{x:Static am:Strings.APP_TITLE}"
 							d:IsStaticText="True"
 							Grid.Column="2"
-							Margin="8,4,-8,7">
+							Margin="8,4,6,2">
 						<TextBlock.Effect>
 							<DropShadowEffect
 									Direction="325"
@@ -359,12 +406,22 @@
 								Foreground="#FFFFDC8F" />
 					</TextBlock>
 					<Button
+						Name="ButtonHelp"
+						Width="24"
+						Height="24"
+						Margin="0,0,4,0"
+						Content="Button"
+						Grid.Column="3" 
+						Style="{DynamicResource MainWndHelpButton}"
+						Click="ButtonHelp_Click"
+						/>
+					<Button
 							Name="ButtonExit"
 							Width="24"
 							Height="24"
 							Margin="0,0,4,0"
 							Content="Button"
-							Grid.Column="3" 
+							Grid.Column="4" 
 							Style="{DynamicResource MainWndCloseButton}" />
 				</Grid>
 			</Border>

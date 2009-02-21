@@ -449,6 +449,11 @@ namespace AppManager
 		{
 			CaptionBorder.Background = (Brush)Resources["InactiveCaptionBrush"];
 		}
+
+		private void ButtonHelp_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.ShowAboutBox();
+		}
 	}
 
 	public class TrashMarkAlighner : IValueConverter

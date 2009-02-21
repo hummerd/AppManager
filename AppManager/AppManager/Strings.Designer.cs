@@ -196,6 +196,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resources/Help.en-en.rtf.
+        /// </summary>
+        public static string HELP_FILE {
+            get {
+                return ResourceManager.GetString("HELP_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close StartUp.
         /// </summary>
         public static string MNU_CLOSE {
@@ -304,6 +313,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to StartUp&apos;s page on CodePlex.
+        /// </summary>
+        public static string PAGE_ON_CP {
+            get {
+                return ResourceManager.GetString("PAGE_ON_CP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to add applications from these folders?.
         /// </summary>
         public static string QUEST_FIRST_SCAN {
@@ -390,6 +408,15 @@ namespace AppManager {
         public static string SETTINGS {
             get {
                 return ResourceManager.GetString("SETTINGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special thanks to my friends for testing and feature requests..
+        /// </summary>
+        public static string SPECIAL_THANKS {
+            get {
+                return ResourceManager.GetString("SPECIAL_THANKS", resourceCulture);
             }
         }
     }

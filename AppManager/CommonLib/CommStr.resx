@@ -117,19 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ABOUT" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="CANCEL" xml:space="preserve">
-    <value>Отмена</value>
+    <value>Cancel</value>
   </data>
   <data name="DETAILS" xml:space="preserve">
-    <value>Детали</value>
+    <value>Details</value>
+  </data>
+  <data name="HELP" xml:space="preserve">
+    <value>Help</value>
   </data>
   <data name="NO" xml:space="preserve">
-    <value>Нет</value>
+    <value>No</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="YES" xml:space="preserve">
-    <value>Да</value>
+    <value>Yes</value>
   </data>
 </root>
