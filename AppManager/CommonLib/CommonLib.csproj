@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider">
@@ -73,6 +74,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="SingleInstance.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="ValueEventArgs.cs" />
     <Compile Include="Windows\DialogKeyDecorator.cs" />

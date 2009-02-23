@@ -23,8 +23,7 @@ namespace AppManager
 
 		public void ShowAboutBox()
 		{
-			HelpBox hb = new HelpBox();
-			hb.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			HelpBox hb = new HelpBox(_WorkItem, true);
 			hb.Owner = _WorkItem.MainWindow;
 			hb.Show();
 		}

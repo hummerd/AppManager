@@ -60,6 +60,15 @@ namespace AppManager.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to http://www.codeplex.com/AppManager.
+        /// </summary>
+        public static string APP_PAGE {
+            get {
+                return ResourceManager.GetString("APP_PAGE", resourceCulture);
+            }
+        }
+        
         public static System.Drawing.Bitmap cnruninstall_3273_32 {
             get {
                 object obj = ResourceManager.GetObject("cnruninstall_3273_32", resourceCulture);

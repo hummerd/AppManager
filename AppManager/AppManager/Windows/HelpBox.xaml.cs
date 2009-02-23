@@ -3,37 +3,36 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 using CommonLib.Windows;
+using System.Windows.Navigation;
 
 
 namespace AppManager.Windows
 {
-    /// <summary>
-    /// Interaction logic for HelpBox.xaml
-    /// </summary>
+	/// <summary>
+   /// Interaction logic for HelpBox.xaml
+   /// </summary>
 	public partial class HelpBox : Window
 	{
-		public HelpBox()
+		protected HelpBoxController _Controller;
+
+
+		public HelpBox(MainWorkItem workItem, bool about)
 		{
+			_Controller = new HelpBoxController(workItem);
+
 			InitializeComponent();
 
-			RunVersion.Text = Strings.APP_TITLE +
-				Assembly.GetEntryAssembly().GetName().Version;
-
-			LoadHelpText();
+			AppTabs.SelectedIndex = about ? 0 : 1;
+			RunVersion.Text = _Controller.GetVersionString();
+			HelpText.Document = _Controller.GetHelpText();
 
 			new DialogKeyDecorator(this, BtnOk, null, false);
 		}
 
 
-		protected void LoadHelpText()
+		private void Hyperlink_Click(object sender, RoutedEventArgs e)
 		{
-			var res = Application.GetResourceStream(new Uri(Strings.HELP_FILE, UriKind.Relative));
-
-			var fd = new FlowDocument();
-			var tb = new TextRange(fd.ContentStart, fd.ContentEnd);
-			tb.Load(res.Stream, DataFormats.Rtf);
-
-			HelpText.Document = fd;
+			_Controller.GoToAppPage();
 		}
 	}
 }

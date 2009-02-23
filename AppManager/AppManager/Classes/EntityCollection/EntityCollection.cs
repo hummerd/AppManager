@@ -52,7 +52,7 @@ namespace AppManager.EntityCollection
 				{
 					TEntity soureItem = null;
 					int ix = 0;
-					//foreach (var item in this)
+					
 					for (int j = 0; j < this.Count; j++)
 						if (object.ReferenceEquals(sourceCollection[i].CloneSource, this[j]))
 						{
@@ -63,7 +63,7 @@ namespace AppManager.EntityCollection
 					if (soureItem != null)
 					{
 						if (i != ix)
-							Move(i, ix);
+							Move(ix, i);
 
 						soureItem.MergeEntity(sourceCollection[i]);
 					}
