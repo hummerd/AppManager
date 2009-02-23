@@ -31,7 +31,7 @@ namespace CommonLib
 				{
 					ActivateFirstInstance();
 				}
-				catch
+				catch(Exception)
 				{
 					_FirstInstance = true;
 				}
@@ -73,17 +73,10 @@ namespace CommonLib
 			// Register the channel.
 			ChannelServices.RegisterChannel(channel, false);
 
-			// Register as client for remote object.
-			WellKnownClientTypeEntry remoteType =
-				 new WellKnownClientTypeEntry(
-					  typeof(RemoteSingleInstance),
-					  "ipc://localhost:101632/RemoteObject.rem");
-			RemotingConfiguration.RegisterWellKnownClientType(remoteType);
-
 			// Create an instance of the remote object.
 			RemoteSingleInstance service = (RemoteSingleInstance)Activator.GetObject(
 				typeof(RemoteSingleInstance),
-				"ipc://localhost:9090/RemoteObject.rem");
+				"ipc://localhost:101632/RemoteObject.rem");
 			service.ActivateApp();
 		}
 	}
