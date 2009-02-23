@@ -11,6 +11,7 @@ using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
+using System.Diagnostics;
 
 
 namespace AppManager.Commands
@@ -19,6 +20,7 @@ namespace AppManager.Commands
 	{
 		protected Mutex _Mutex;
 		protected bool _FirstStart = false;
+		protected SingleInstance _Single;
 
 
 		public StartApp(MainWorkItem workItem)
@@ -35,6 +37,10 @@ namespace AppManager.Commands
 		{
 			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
+			_Single = new SingleInstance();
+			if (!_Single.FirstInstance)
+				return;
+						
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
 			AMSetttingsFactory.WorkItem = _WorkItem;
@@ -71,11 +77,23 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " DragDropLib");
 
-			_WorkItem.MainWindow.Loaded += (s, e) => _WorkItem.MainWindow.Init(_FirstStart);
+			_WorkItem.MainWindow.Loaded += (s, e) => OnMainWindowLoaded();
 			app.Startup += (s, e) => _WorkItem.MainWindow.LoadState();
 			app.Run(_WorkItem.MainWindow);
 		}
 
+
+		protected void OnMainWindowLoaded()
+		{
+			_WorkItem.MainWindow.Init(_FirstStart);
+
+			if (_FirstStart)
+			{
+				HelpBox hb = new HelpBox(_WorkItem, false);
+				hb.Owner = _WorkItem.MainWindow;
+				hb.Show();
+			}
+		}
 
 		protected bool InstanceExists()
 		{
@@ -90,49 +108,30 @@ namespace AppManager.Commands
 				 _WorkItem.AppData.AppTypes[0].AppInfos.Count == 0)
 			{
 				FirstScan askScan = new FirstScan();
-				//askScan.Owner = _WorkItem.MainWindow;
 				askScan.Title = Strings.APP_TITLE;
 
-				if (!(askScan.ShowDialog() ?? false))
-					return false;
+				bool doScan = askScan.ShowDialog() ?? false;
 
-				var ctrl = new ControllerBase(_WorkItem);
-
-				if (askScan.AddFromAllProgs)
+				if (doScan)
 				{
-					var apps = ctrl.FindAppsInAllProgs();
+					var ctrl = new ControllerBase(_WorkItem);
 
-					_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
-					_WorkItem.AppData.GroupByFolders();
+					if (askScan.AddFromAllProgs)
+					{
+						var apps = ctrl.FindAppsInAllProgs();
+						_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
+						_WorkItem.AppData.GroupByFolders();
+					}
+
+					if (askScan.AddFromQickStart)
+					{
+						var apps = ctrl.FindAppsInQuickLaunch();
+						var quickAppType = new AppType(apps) { AppTypeName = Strings.QUICK_LAUNCH };
+						_WorkItem.AppData.AppTypes.Insert(0, quickAppType);
+					}
+
+					_WorkItem.Commands.Save.Execute(null);
 				}
-
-				if (askScan.AddFromQickStart)
-				{
-					var apps = ctrl.FindAppsInQuickLaunch();
-
-					var quickAppType = new AppType(apps) 
-						{ AppTypeName = Strings.QUICK_LAUNCH };
-
-					_WorkItem.AppData.AppTypes.Insert(0, quickAppType);			
-				}
-
-				_WorkItem.Commands.Save.Execute(null);
-				
-				//StringBuilder allPrograms = new StringBuilder(300);
-				//Shell32.SHGetSpecialFolderPath(IntPtr.Zero, allPrograms, Shell32.CSIDL_COMMON_PROGRAMS, false);
-				//string[] auLinks = Directory.GetFiles(allPrograms.ToString(), "*.lnk", SearchOption.AllDirectories);
-
-				//string path = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
-				//string[] uLinks = Directory.GetFiles(path, "*.lnk", SearchOption.AllDirectories);
-
-				//var links = new List<string>(auLinks.Length + uLinks.Length);
-				//links.AddRange(auLinks);
-				//links.AddRange(uLinks);
-
-				//var ctrl = new ControllerBase(_WorkItem);
-				//ctrl.AddFiles(_WorkItem.AppData.AppTypes[0], links, true, false);
-				//_WorkItem.AppData.GroupByFolders();
-				//_WorkItem.Commands.Save.Execute(null);
 
 				return true;
 			}

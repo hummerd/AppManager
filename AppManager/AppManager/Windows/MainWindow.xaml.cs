@@ -443,6 +443,7 @@ namespace AppManager
 		private void Window_Activated(object sender, EventArgs e)
 		{
 			CaptionBorder.Background = (Brush)Resources["ActiveCaptionBrush"];
+			//InvalidateVisual();
 		}
 
 		private void Window_Deactivated(object sender, EventArgs e)

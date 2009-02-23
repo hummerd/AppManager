@@ -47,6 +47,18 @@ namespace CommonLib.PInvoke
 		[DllImport("user32.dll")]
 		public static extern IntPtr SendMessage(IntPtr hwnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
 
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern IntPtr PostMessage(IntPtr hwnd, WindowMessage msg, IntPtr wparam, IntPtr lparam);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern IntPtr FindWindow(string className, string windowName);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
 		#region User32 Enums
 		/// <summary>
 		/// Specifies keys that must be pressed in combination with another key.
@@ -272,7 +284,10 @@ namespace CommonLib.PInvoke
 		public enum WindowMessage : int
 		{
 			WM_SYSCOMMAND = 274,
-			WM_LBUTTONUP = 514
+			WM_LBUTTONUP = 514,
+			WM_ACTIVATE	= 0x0006,
+			WM_ACTIVATEAPP	= 0x001C,
+			WM_CHANGEUISTATE = 0x0127
 		}
 
 		/// <summary>

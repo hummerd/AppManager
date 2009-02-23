@@ -53,7 +53,7 @@ namespace AppManager
 
 		public int GetMaxAppCountPerType()
 		{
-			int maxApps = -1;
+			int maxApps = 1;
 			foreach (var item in _AppTypes)
 				maxApps = Math.Max(item.AppInfos.Count, maxApps);
 

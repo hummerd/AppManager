@@ -10,6 +10,7 @@
 	Title="{x:Static am:Strings.APP_TITLE}"
 	MinHeight="220" MinWidth="280"
 	Height="580" Width="490" 
+	WindowStartupLocation="CenterOwner"
 	>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -35,7 +36,7 @@
 						<Run Name="RunVersion" Text="AppManager v1.0.0.*"/>
 						<LineBreak/>
 						<LineBreak/>
-						<Hyperlink NavigateUri="http://www.codeplex.com/AppManager">
+						<Hyperlink Click="Hyperlink_Click">
 							<Run Text="{x:Static am:Strings.PAGE_ON_CP}"/>
 						</Hyperlink>
 						<LineBreak/>
