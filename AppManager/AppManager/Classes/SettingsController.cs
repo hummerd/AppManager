@@ -7,14 +7,11 @@ using WinSh = IWshRuntimeLibrary;
 
 namespace AppManager.Classes
 {
-	public class SettingsController
+	public class SettingsController : ControllerBase
 	{
-		protected MainWorkItem _WorkItem;
-
-
 		public SettingsController(MainWorkItem workItem)
+			: base(workItem)
 		{
-			_WorkItem = workItem;
 		}
 
 

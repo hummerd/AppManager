@@ -21,6 +21,8 @@ namespace AppManager.Windows
 
 			_Controller = new SettingsController(workItem);
 			ChkAutoStart.IsChecked = _Controller.IsStartupFileExists();
+			ChkAlwaysOnTop.IsChecked = workItem.Settings.AlwaysOnTop;
+			ChkStartMinimized.IsChecked = workItem.Settings.StartMinimized;
 		}
 
 
@@ -37,7 +39,11 @@ namespace AppManager.Windows
 		private void DialogWindow_Closing(object sender, CancelEventArgs e)
 		{
 			if (DialogResult ?? false)
+			{
 				_Controller.SetStartUp(ChkAutoStart.IsChecked ?? false);
+				_Controller.WorkItem.Settings.AlwaysOnTop = ChkAlwaysOnTop.IsChecked ?? false;
+				_Controller.WorkItem.Settings.StartMinimized = ChkStartMinimized.IsChecked ?? false;
+			}
 		}
 	}
 }

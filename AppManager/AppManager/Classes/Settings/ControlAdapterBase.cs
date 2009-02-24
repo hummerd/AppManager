@@ -8,6 +8,7 @@ namespace AppManager.Settings
 {
 	public abstract class ControlAdapterBase<TControl, TSettings>
 		where TControl : DependencyObject
+		where TSettings : INotifyPropertyChanged
 	{
 		private Dictionary<Window, WndSettingsParams> _Context = new Dictionary<Window, WndSettingsParams>();
 

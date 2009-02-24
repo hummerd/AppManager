@@ -123,6 +123,9 @@
   <data name="ALL_PROGS" xml:space="preserve">
     <value>Меню Все программы</value>
   </data>
+  <data name="ALWAYS_ON_TOP" xml:space="preserve">
+    <value>Поверх остальных окон</value>
+  </data>
   <data name="APPLICATION" xml:space="preserve">
     <value>Приложение</value>
   </data>
@@ -236,5 +239,8 @@
   </data>
   <data name="SPECIAL_THANKS" xml:space="preserve">
     <value>Особое спасибо моим друзьям за тестирование, идеи по улучшению Стартера и помощь с переводом на английский.</value>
+  </data>
+  <data name="START_MINIMIZED" xml:space="preserve">
+    <value>Запускаться свенрнутым</value>
   </data>
 </root>

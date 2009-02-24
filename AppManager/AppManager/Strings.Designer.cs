@@ -79,6 +79,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Always on top.
+        /// </summary>
+        public static string ALWAYS_ON_TOP {
+            get {
+                return ResourceManager.GetString("ALWAYS_ON_TOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application manager.
         /// </summary>
         public static string APP_MANAGER {
@@ -268,7 +277,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Preferences.
         /// </summary>
         public static string MNU_SETTINGS {
             get {
@@ -403,7 +412,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Preferences.
         /// </summary>
         public static string SETTINGS {
             get {
@@ -417,6 +426,15 @@ namespace AppManager {
         public static string SPECIAL_THANKS {
             get {
                 return ResourceManager.GetString("SPECIAL_THANKS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start minimized.
+        /// </summary>
+        public static string START_MINIMIZED {
+            get {
+                return ResourceManager.GetString("START_MINIMIZED", resourceCulture);
             }
         }
     }

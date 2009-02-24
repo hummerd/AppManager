@@ -3,6 +3,7 @@ using System.IO;
 using AppManager.Commands;
 using WinForms = System.Windows.Forms;
 using CommonLib.PInvoke;
+using AppManager.Settings;
 
 
 namespace AppManager
@@ -15,16 +16,18 @@ namespace AppManager
 		protected KeyboardHook	_KbrdHook;
 		protected WinForms.NotifyIcon _TrayIcon;
 		protected AppCommands	_Commands;
+		protected AppManagerSettings _Settings;
 
 
 		public MainWorkItem()
 		{
+			AMSetttingsFactory.WorkItem = this;
+			_Settings = AMSetttingsFactory.DefaultSettingsBag.Settings;
 			_Commands = new AppCommands(this);
 			_KbrdHook = new KeyboardHook();
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
-			//_AppGroup.AppTypes.Add(new AppType());
 		}
 
 
@@ -57,6 +60,14 @@ namespace AppManager
 			get
 			{
 				return _TrayIcon;
+			}
+		}
+
+		public AppManagerSettings Settings
+		{
+			get 
+			{
+				return _Settings;
 			}
 		}
 

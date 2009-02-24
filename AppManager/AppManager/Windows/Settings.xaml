@@ -13,41 +13,52 @@
 	MinHeight="200"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	Closing="DialogWindow_Closing">
-	<Grid>
+	<StackPanel>
 		<CheckBox
 			Content="{x:Static am:Strings.AUTO_START}"
 			Name="ChkAutoStart"
-			Height="16"
 			Margin="12,12,0,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
-			Width="120.071" />
+			/>
+		<CheckBox
+			Content="{x:Static am:Strings.START_MINIMIZED}"
+			Name="ChkStartMinimized"
+			Margin="12,8,0,0"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left" />
+		<CheckBox
+			Content="{x:Static am:Strings.ALWAYS_ON_TOP}"
+			Name="ChkAlwaysOnTop"
+			Margin="12,8,0,0"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left" />
+		<Path
+			Fill="#FFFFFFFF"
+			Stretch="Fill"
+			Stroke="#FF325BCE"
+			Margin="8,8,8,0"
+			VerticalAlignment="Top"
+			Height="2"
+			Data="M12,40L295,40"
+			StrokeThickness="2" />
 		<Button
 			Content="{x:Static am:Strings.OPEN_APP_DATA}"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
 			Height="28"
 			Width="Auto"
-			Margin="8,56,0,0"
+			Margin="12,12,0,0"
 			Name="BtnOpenAppDataPath"
 			Click="BtnOpenAppDataPath_Click" />
 		<Button
 			Content="{x:Static am:Strings.EDIT_APP_DATA}"
-			Margin="8,92,0,0"
+			Margin="12,8,0,0"
 			Name="BtnEditAppData"
 			Click="BtnEditAppData_Click"
 			HorizontalAlignment="Left"
 			Width="{Binding Path=ActualWidth, ElementName=BtnOpenAppDataPath, Mode=Default}"
 			Height="28"
 			VerticalAlignment="Top" />
-		<Path
-			Fill="#FFFFFFFF"
-			Stretch="Fill"
-			Stroke="#FF325BCE"
-			Margin="8,40,8,0"
-			VerticalAlignment="Top"
-			Height="2"
-			Data="M12,40L295,40"
-			StrokeThickness="2" />
-	</Grid>
+	</StackPanel>
 </cw:DialogWindow>
