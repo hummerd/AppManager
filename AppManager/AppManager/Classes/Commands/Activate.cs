@@ -20,10 +20,12 @@ namespace AppManager.Commands
 		{
 			MainWindow wnd = _WorkItem.MainWindow;
 
+			bool top = wnd.Topmost;
+
 			wnd.Show();
 			wnd.Topmost = true;
 			wnd.Focus();
-			wnd.Topmost = false;
+			wnd.Topmost = top;
 			wnd.Activate();
 			wnd.InvalidateVisual();
 			wnd.SetFocus();

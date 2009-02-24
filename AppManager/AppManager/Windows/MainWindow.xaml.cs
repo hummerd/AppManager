@@ -30,15 +30,25 @@ namespace AppManager
 		public MainWindow(MainWorkItem workItem)
 		{
 			InitializeComponent();
+
+			ContentPanel.Children.Clear();
+			ContentPanel.RowDefinitions.Clear();
+
 			_Controller = new MainWindowController(workItem);
 			InitCommands(_Controller.WorkItem.Commands);
 
 			_AppTypeDrop = new SimpleDragDataHandler(
 				AppTypeDrag.DragDataFormat, typeof(AppType));
 
-			_AppTypeDrop.ObjectDroped +=
-				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
-			_FileDrop.AddFiles += (s, e) => OnDropFiles(s as FrameworkElement, e);
+			_AppTypeDrop.ObjectDroped += (s, e) => 
+				_Controller.InsertAppType(
+					e.DropObject as AppType, 
+					(s as FrameworkElement).DataContext as AppType);
+
+			_FileDrop.AddFiles += (s, e) => 
+				OnDropFiles(s as FrameworkElement, e);
+
+			workItem.Settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
 
@@ -116,8 +126,10 @@ namespace AppManager
 				false
 				);
 
-			LoadRowHeight();
-			ContentPanel.InvalidateVisual();
+			Topmost = _Controller.WorkItem.Settings.AlwaysOnTop;
+
+			//LoadRowHeight();
+			//ContentPanel.InvalidateVisual();
 			//UpdateLayout();
 			//InvalidateVisual();
 		}
@@ -338,11 +350,11 @@ namespace AppManager
 
 			// First, we create the rounded portion of the title bar area with a call to CreateRoundRectRgn
 			IntPtr titleArea = GDI32.CreateRoundRectRgn(
-				0, 
-				0, 
-				(int)ScaleUI.UpScaleX(sizeInfo.NewSize.Width), 
-				(int)ScaleUI.UpScaleY(MainContentBorder.ActualHeight), 
-				12, 
+				0,
+				0,
+				(int)ScaleUI.UpScaleX(sizeInfo.NewSize.Width),
+				(int)ScaleUI.UpScaleY(MainContentBorder.ActualHeight),
+				12,
 				12);
 
 			//IntPtr clientArea = GDI32.CreateRoundRectRgn(
@@ -368,6 +380,12 @@ namespace AppManager
 			User32.SetWindowRgn(win.Handle, titleArea, true);
 		}
 
+
+		private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "AlwaysOnTop")
+				Topmost = _Controller.WorkItem.Settings.AlwaysOnTop;
+		}
 
 		private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
@@ -443,7 +461,8 @@ namespace AppManager
 		private void Window_Activated(object sender, EventArgs e)
 		{
 			CaptionBorder.Background = (Brush)Resources["ActiveCaptionBrush"];
-			//InvalidateVisual();
+			InvalidateVisual();
+			ContentPanel.InvalidateVisual();
 		}
 
 		private void Window_Deactivated(object sender, EventArgs e)

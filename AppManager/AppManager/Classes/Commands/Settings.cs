@@ -18,7 +18,10 @@ namespace AppManager.Commands
 		{
 			Windows.Settings wndSett = new Windows.Settings(_WorkItem);
 			wndSett.Owner = _WorkItem.MainWindow;
-			wndSett.ShowDialog();
+			if (wndSett.ShowDialog() ?? false)
+			{ 
+				
+			}
 		}
 	}
 }

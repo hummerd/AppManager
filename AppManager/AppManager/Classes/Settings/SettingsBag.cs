@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 
 namespace AppManager.Settings
 {
 	public class SettingsBag<TSettings>
+		where TSettings : INotifyPropertyChanged
 	{
 		protected TSettings _Bag;
 		protected ISettingProvider<TSettings> _SettingProvider;

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using CommonLib;
 
 
@@ -14,6 +15,7 @@ namespace AppManager.Settings
 
 
 	public class WndSettingsAdapter<TSettings> : ControlAdapterBase<Window, TSettings>
+		where TSettings : INotifyPropertyChanged
 	{
 		private static WndSettingsAdapter<TSettings> _Instance;
 
