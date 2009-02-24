@@ -331,6 +331,8 @@
 	<Window.InputBindings>
 		<KeyBinding
 			Gesture="Esc" />
+		<KeyBinding x:Name="asd"
+			Gesture="F1" />
 	</Window.InputBindings>
 
 	<Border
@@ -413,7 +415,6 @@
 						Content="Button"
 						Grid.Column="3" 
 						Style="{DynamicResource MainWndHelpButton}"
-						Click="ButtonHelp_Click"
 						/>
 					<Button
 							Name="ButtonExit"
