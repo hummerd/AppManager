@@ -77,7 +77,7 @@ namespace AppManager
 				ContentPanel.RowDefinitions.Add(new RowDefinition()
 					{ 
 						Height = new GridLength(rowHeight, GridUnitType.Star),
-						MinHeight = 100.0
+						MinHeight = 102.0
 					});
 
 				ButtonList groupContent = CreateButtonList(rowi, appType);
