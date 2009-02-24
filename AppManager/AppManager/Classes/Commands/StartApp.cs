@@ -4,14 +4,12 @@ using System.Threading;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
+using WinForms = System.Windows.Forms;
 using AppManager.Properties;
-using AppManager.Settings;
 using AppManager.Windows;
 using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.Windows;
-using WinForms = System.Windows.Forms;
-using System.Diagnostics;
 
 
 namespace AppManager.Commands
@@ -42,9 +40,7 @@ namespace AppManager.Commands
 				return;
 						
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
-
-			AMSetttingsFactory.WorkItem = _WorkItem;
-
+			
 			App app = new App();
 			app.InitializeComponent();
 
@@ -77,15 +73,26 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " DragDropLib");
 
-			_WorkItem.MainWindow.Loaded += (s, e) => OnMainWindowLoaded();
-			app.Startup += (s, e) => _WorkItem.MainWindow.LoadState();
-			app.Run(_WorkItem.MainWindow);
+			_WorkItem.MainWindow.LoadState();
+
+			if (!_WorkItem.Settings.StartMinimized)
+				_WorkItem.MainWindow.Show();
+
+			OnMainWindowLoaded();
+
+			app.MainWindow = _WorkItem.MainWindow;
+			app.Run();
 		}
 
 
 		protected void OnMainWindowLoaded()
 		{
+			//_WorkItem.MainWindow.LoadState();
 			_WorkItem.MainWindow.Init(_FirstStart);
+
+			//_WorkItem.MainWindow.ContentPanel.InvalidateVisual();
+			//System.Threading.Thread.Sleep(500);
+			//_WorkItem.MainWindow.ContentPanel.InvalidateVisual();
 
 			if (_FirstStart)
 			{
