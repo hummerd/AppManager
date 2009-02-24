@@ -51,7 +51,7 @@
 			<TextBlock
 				Name="TxtDetails"
 				Text="Some text Some text Some text Some text Some text Some text Some text Some text"
-				TextAlignment="Center"
+				TextAlignment="Left"
 				TextWrapping="Wrap" />
 		</Expander>
 		<TextBlock
@@ -63,8 +63,8 @@
 			TextWrapping="Wrap" />
 		<Image
 			Margin="8,8,8,0"
-			Source="/AppManager;component/Resources/Error.png"
 			Stretch="Uniform"
-			VerticalAlignment="Top" />
+			VerticalAlignment="Top"
+			Source="/CommonLib;component/Resources/Error.png" />
 	</Grid>
 </Window>

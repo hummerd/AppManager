@@ -11,7 +11,7 @@ namespace CommonLib.Windows
 		public static void Show(string title, string message, string details)
 		{
 			var eb = new ErrorBox(title, message, details);
-			eb.Show();
+			eb.ShowDialog();
 		}
 
 
