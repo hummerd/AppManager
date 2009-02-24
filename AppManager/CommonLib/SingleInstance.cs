@@ -99,10 +99,13 @@ namespace CommonLib
 		protected void ActivateMainWnd()
 		{ 
 			var wnd = Application.Current.MainWindow;
+
+			bool top = wnd.Topmost;
+
 			wnd.Show();
 			wnd.Topmost = true;
 			wnd.Focus();
-			wnd.Topmost = false;
+			wnd.Topmost = top;
 			wnd.Activate();
 			wnd.InvalidateVisual();
 		}
