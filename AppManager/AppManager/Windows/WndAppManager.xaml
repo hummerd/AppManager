@@ -318,18 +318,16 @@
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="44" />
+						Height="48" />
 					<RowDefinition
-						Height="306.723*" />
-					<RowDefinition
-						Height="8" />
+						Height="*" />
 				</Grid.RowDefinitions>
 				<ListBox
 					ItemTemplate="{StaticResource AppTypeInfo}"
 					ItemContainerStyle="{StaticResource AppTypeItemStyle}"
 					IsSynchronizedWithCurrentItem="True"
 					x:Name="AppTypes"
-					Margin="8,0,8,0"
+					Margin="8,0,8,8"
 					Grid.Row="1" />
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -405,7 +403,7 @@
 				Name="AppTypesApp">
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="44" />
+						Height="48" />
 					<RowDefinition
 						Height="306.723*" />
 					<RowDefinition
@@ -461,15 +459,13 @@
 				<Button
 					HorizontalAlignment="Right"
 					Margin="0,12,36,12"
-					Name="BtnAddApp"
-					VerticalAlignment="Top"
+					Name="BtnAddApp" 
 					Width="24"
 					Click="BtnAddApp_Click">+</Button>
 				<Button
 					HorizontalAlignment="Right"
 					Margin="0,12,8,12"
 					Name="BtnRemoveApp"
-					VerticalAlignment="Top"
 					Width="24"
 					Click="BtnRemoveApp_Click">-</Button>
 			</Grid>
@@ -481,18 +477,16 @@
 				Width="Auto">
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="76" />
+						Height="84" />
 					<RowDefinition
-						Height="293.723*" />
-					<RowDefinition
-						Height="8" />
+						Height="100*" />
 				</Grid.RowDefinitions>
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition
-							Height="38" />
+							Height="100*" />
 						<RowDefinition
-							Height="38" />
+							Height="100*" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -550,7 +544,7 @@
 						Grid.Column="5">+</Button>
 				</Grid>
 				<ListView
-					Margin="8,0"
+					Margin="8,0,8,8"
 					Name="AppScanList"
 					Grid.Row="1"
 					HorizontalContentAlignment="Stretch"
