@@ -159,9 +159,21 @@ namespace AppManager.Commands
 			mnu.Items.Add(
 				WinFrmMenuAdapter.CreateMenuItem(
 					Strings.SETTINGS, _WorkItem.Commands.Settings));
+
+			var tsmi = new System.Windows.Forms.ToolStripMenuItem(Strings.ALWAYS_ON_TOP);
+			tsmi.CheckOnClick = true;
+			tsmi.Checked = _WorkItem.Settings.AlwaysOnTop;
+			tsmi.CheckedChanged += (s, e) =>
+				_WorkItem.Settings.AlwaysOnTop = (s as System.Windows.Forms.ToolStripMenuItem).Checked;
+			mnu.Items.Add(tsmi);
+
 			mnu.Items.Add(
 				WinFrmMenuAdapter.CreateMenuItem(
 					Strings.MNU_MANAGEAPP, _WorkItem.Commands.ManageApps));
+
+			mnu.Items.Add( //-------
+				new WinForms.ToolStripSeparator());
+
 			mnu.Items.Add(
 				WinFrmMenuAdapter.CreateMenuItem(
 					Strings.MNU_CLOSE, _WorkItem.Commands.Quit));
@@ -205,6 +217,7 @@ namespace AppManager.Commands
 				_WorkItem.Commands.Activate.Execute(null);
 		}
 
+		
 
 		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
