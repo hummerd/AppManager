@@ -9,7 +9,7 @@
 	mc:Ignorable="d"
 	Title="{x:Static am:Strings.APP_TITLE}"
 	MinHeight="220" MinWidth="280"
-	Height="580" Width="490" 
+	Height="610" Width="510" 
 	WindowStartupLocation="CenterOwner"
 	>
 	<Grid>
