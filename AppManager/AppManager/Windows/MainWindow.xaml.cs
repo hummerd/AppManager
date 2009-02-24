@@ -98,7 +98,7 @@ namespace AppManager
 			
 			LoadRowHeight();
 
-			ContentPanel.InvalidateVisual();
+			//ContentPanel.InvalidateVisual();
 			//UpdateLayout();
 			//InvalidateVisual();
 		}
@@ -461,8 +461,8 @@ namespace AppManager
 		private void Window_Activated(object sender, EventArgs e)
 		{
 			CaptionBorder.Background = (Brush)Resources["ActiveCaptionBrush"];
-			InvalidateVisual();
-			ContentPanel.InvalidateVisual();
+			//InvalidateVisual();
+			//ContentPanel.InvalidateVisual();
 		}
 
 		private void Window_Deactivated(object sender, EventArgs e)
