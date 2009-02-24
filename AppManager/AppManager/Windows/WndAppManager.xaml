@@ -318,7 +318,7 @@
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="48" />
+						Height="46" />
 					<RowDefinition
 						Height="*" />
 				</Grid.RowDefinitions>
@@ -403,7 +403,7 @@
 				Name="AppTypesApp">
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="48" />
+						Height="46" />
 					<RowDefinition
 						Height="306.723*" />
 					<RowDefinition
@@ -477,7 +477,7 @@
 				Width="Auto">
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="84" />
+						Height="80" />
 					<RowDefinition
 						Height="100*" />
 				</Grid.RowDefinitions>

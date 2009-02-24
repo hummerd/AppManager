@@ -5,12 +5,12 @@
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:cw="clr-namespace:CommonLib.Windows;assembly=CommonLib"
 	Title="{x:Static am:Strings.SETTINGS}"
-	Height="268"
+	Height="270"
 	Width="310"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	MinWidth="295"
-	MinHeight="200"
+	MinHeight="255"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	Closing="DialogWindow_Closing">
 	<StackPanel>
