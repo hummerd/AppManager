@@ -148,9 +148,15 @@ namespace AppManager
 		protected void InitCommands(AppCommands commands)
 		{
 			ButtonExit.Command = commands.Deactivate;
+			ButtonHelp.Command = commands.Help;
+			ButtonHelp.CommandParameter = true;
+
 			BtnManageApps.Command = commands.ManageApps;
 			BtnConfigure.Command = commands.Settings;
+					
 			InputBindings[0].Command = commands.Deactivate;
+			InputBindings[1].Command = commands.Help;
+			InputBindings[1].CommandParameter = false;
 		}
 
 		protected ButtonList CreateButtonList(int rowi, AppType appType)
@@ -468,11 +474,6 @@ namespace AppManager
 		private void Window_Deactivated(object sender, EventArgs e)
 		{
 			CaptionBorder.Background = (Brush)Resources["InactiveCaptionBrush"];
-		}
-
-		private void ButtonHelp_Click(object sender, RoutedEventArgs e)
-		{
-			_Controller.ShowAboutBox();
 		}
 	}
 

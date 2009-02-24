@@ -95,11 +95,7 @@ namespace AppManager.Commands
 			//_WorkItem.MainWindow.ContentPanel.InvalidateVisual();
 
 			if (_FirstStart)
-			{
-				HelpBox hb = new HelpBox(_WorkItem, false);
-				hb.Owner = _WorkItem.MainWindow;
-				hb.Show();
-			}
+				_WorkItem.Commands.Help.Execute(false);
 		}
 
 		protected bool InstanceExists()

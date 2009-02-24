@@ -23,6 +23,7 @@ namespace AppManager.Commands
 			ManageApps = new ManageApps(_WorkItem);
 			Settings = new Settings(_WorkItem);
 			Save = new Save(_WorkItem);
+			Help = new Help(_WorkItem);
 		}
 
 
@@ -34,5 +35,6 @@ namespace AppManager.Commands
 		public ICommand ManageApps { get; set; }
 		public ICommand Settings { get; set; }
 		public ICommand Save { get; set; }
+		public ICommand Help { get; set; }
 	}
 }

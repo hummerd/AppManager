@@ -157,6 +157,7 @@
     <Compile Include="Classes\Commands\AppCommands.cs" />
     <Compile Include="Classes\Commands\CommandBase.cs" />
     <Compile Include="Classes\Commands\Deactivate.cs" />
+    <Compile Include="Classes\Commands\Help.cs" />
     <Compile Include="Classes\Commands\ManageApps.cs" />
     <Compile Include="Classes\Commands\QuitApp.cs" />
     <Compile Include="Classes\Commands\RunApp.cs" />
