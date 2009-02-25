@@ -97,12 +97,12 @@
 			<Style.Resources>
 				<ResourceDictionary />
 			</Style.Resources>
-			<Setter
+			<!--<Setter
 				Property="FrameworkElement.OverridesDefaultStyle">
 				<Setter.Value>
 					<s:Boolean>True</s:Boolean>
 				</Setter.Value>
-			</Setter>
+			</Setter>-->
 			<Setter
 				Property="UIElement.SnapsToDevicePixels">
 				<Setter.Value>
@@ -156,62 +156,42 @@
 		<Style
 			TargetType="MenuItem"
 			x:Key="SpecialMenuItem">
+			<Setter
+				Property="Background"
+				Value="Red"
+			/>
 			<Style.Triggers>
 				<Trigger
-					Property="MenuItem.Role">
+					Property="MenuItem.Role"
+					Value="{x:Static MenuItemRole.TopLevelHeader}">
 					<Setter
-						Property="Control.Template">
-						<Setter.Value>
-							<DynamicResource
-								ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=TopLevelHeaderTemplateKey}" />
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<x:Static
-							Member="MenuItemRole.TopLevelHeader" />
-					</Trigger.Value>
+						Property="Control.Template"
+						Value="{DynamicResource SpecialTopLevelHeader}"
+						/>
 				</Trigger>
 				<Trigger
-					Property="MenuItem.Role">
+					Property="MenuItem.Role"
+					Value="{x:Static MenuItemRole.TopLevelItem}">
 					<Setter
-						Property="Control.Template">
-						<Setter.Value>
-							<DynamicResource
-								ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=TopLevelItemTemplateKey}" />
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<x:Static
-							Member="MenuItemRole.TopLevelItem" />
-					</Trigger.Value>
+						Property="Control.Template"
+						Value="{DynamicResource SpecialTopLevelItem}"
+						/>
 				</Trigger>
 				<Trigger
-					Property="MenuItem.Role">
+					Property="MenuItem.Role"
+					Value="{x:Static MenuItemRole.SubmenuHeader}">
 					<Setter
-						Property="Control.Template">
-						<Setter.Value>
-							<DynamicResource
-								ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=SubmenuHeaderTemplateKey}" />
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<x:Static
-							Member="MenuItemRole.SubmenuHeader" />
-					</Trigger.Value>
+						Property="Control.Template"
+						Value="{DynamicResource SpecialSubmenuHeader}"
+						/>
 				</Trigger>
 				<Trigger
-					Property="MenuItem.Role">
+					Property="MenuItem.Role"
+					Value="{x:Static MenuItemRole.SubmenuItem}">
 					<Setter
-						Property="Control.Template">
-						<Setter.Value>
-							<DynamicResource
-								ResourceKey="{ComponentResourceKey TypeInTargetAssembly=MenuItem, ResourceId=SubmenuItemTemplateKey}" />
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<x:Static
-							Member="MenuItemRole.SubmenuItem" />
-					</Trigger.Value>
+						Property="Control.Template"
+						Value="{DynamicResource SpecialSubmenuItem}"
+						/>
 				</Trigger>
 			</Style.Triggers>
 			<Style.Resources>
@@ -327,10 +307,8 @@
 					</Setter>
 					<Setter
 						Property="TextElement.Foreground"
-						TargetName="HeaderHost">
-						<Setter.Value>
-							<SolidColorBrush>#FFFFFFFF</SolidColorBrush>
-						</Setter.Value>
+						TargetName="HeaderHost"
+						Value="Red">
 					</Setter>
 					<Setter
 						Property="TextElement.Foreground"
@@ -435,7 +413,7 @@
 						ContentSource="Header"
 						Name="HeaderHost"
 						Margin="0,4,0,4"
-						TextElement.Foreground="#FF4971A3"
+						TextElement.Foreground="#FF06326C"
 						Grid.Column="1" />
 					<TextBlock
 						Text="{TemplateBinding MenuItem.InputGestureText}"
@@ -601,7 +579,8 @@
 						ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
 						ContentSource="Header"
 						Margin="8,6,8,6"
-						TextElement.Foreground="#FF4971A3" />
+						TextElement.Foreground="#FF06326C"
+						/>
 					<Popup
 						IsOpen="{TemplateBinding MenuItem.IsSubmenuOpen}"
 						Placement="Bottom"
@@ -709,7 +688,9 @@
 		
 		<ContextMenu
 			x:Key="ItemMenu"
-			Style="{DynamicResource SpecialContextMenu}">
+			Style="{DynamicResource SpecialContextMenu}"
+			ItemContainerStyle="{DynamicResource SpecialMenuItem}"
+			>
 			<MenuItem
 				Name="Edit" />
 			<MenuItem

@@ -9,6 +9,7 @@ namespace CommonLib
 		{
 			ContextMenu copy = new ContextMenu();
 			copy.Style = menu.Style;
+			copy.ItemContainerStyle = menu.ItemContainerStyle;
 
 			foreach (var item in menu.Items)
 			{
@@ -17,8 +18,9 @@ namespace CommonLib
 				{
 					MenuItem mic = new MenuItem()
 					{
-						Header = mi.Header,
-						Style = mi.Style
+						Header = mi.Header
+						//Style = mi.Style,
+						//Template = mi.Template
 					};
 
 					copy.Items.Add(mic);

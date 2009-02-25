@@ -88,7 +88,7 @@ namespace AppManager
 			get { return _ExecPath; } 
 			set 
 			{ 
-				_ExecPath = value;
+				_ExecPath = (value ?? String.Empty).Trim();
 				LoadImage();
 				OnNeedImage();
 				OnPropertyChanged(new PropertyChangedEventArgs("ExecPath"));

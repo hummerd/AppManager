@@ -94,6 +94,11 @@ namespace AppManager
 
 		#endregion
 
+		public override string ToString()
+		{
+			return _AppTypeName;
+		}
+
 		
 		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
 		{

@@ -188,9 +188,8 @@ namespace AppManager
 		public void CorrectAppInfoID()
 		{
 			int maxId = -1;
-			foreach (var at in AppTypes)
-				foreach (var ai in at.AppInfos)
-					maxId = Math.Max(maxId, ai.AppInfoID);
+			foreach (var ai in AllApps())
+				maxId = Math.Max(maxId, ai.AppInfoID);
 
 			_LastAppInfoID = maxId + 1;
 
