@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using AppManager.EntityCollection;
 using CommonLib;
-using System.Diagnostics;
 
 
 namespace AppManager
