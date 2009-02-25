@@ -220,6 +220,8 @@ namespace AppManager
 			{
 				AppList.ScrollIntoView(_ItemToSelect);
 				AppList.Focus();
+				var cont = AppList.ItemContainerGenerator.ContainerFromItem(_ItemToSelect) as FrameworkElement;
+				cont.Focus();
 				_ItemToSelect = null;
 			}
 		}
