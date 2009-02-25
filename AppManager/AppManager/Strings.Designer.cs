@@ -214,6 +214,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new application.
+        /// </summary>
+        public static string MNU_ADD_APP {
+            get {
+                return ResourceManager.GetString("MNU_ADD_APP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close StartUp.
         /// </summary>
         public static string MNU_CLOSE {
@@ -228,6 +237,15 @@ namespace AppManager {
         public static string MNU_DELETE {
             get {
                 return ResourceManager.GetString("MNU_DELETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete {0} group.
+        /// </summary>
+        public static string MNU_DELETE_TYPE {
+            get {
+                return ResourceManager.GetString("MNU_DELETE_TYPE", resourceCulture);
             }
         }
         

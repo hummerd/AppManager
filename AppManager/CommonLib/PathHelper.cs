@@ -109,5 +109,16 @@ namespace CommonLib
 
 			return uri.IsUnc;
 		}
+
+		public static bool IsLikeDrive(string path)
+		{
+			if (String.IsNullOrEmpty(path))
+				return false;
+
+			return
+				Char.IsLetter(path[0]) && 
+				path.Length == 3 && 
+				path.EndsWith(":\\");
+		}
 	}
 }

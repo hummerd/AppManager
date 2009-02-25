@@ -168,11 +168,17 @@
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.en-en.rtf</value>
   </data>
+  <data name="MNU_ADD_APP" xml:space="preserve">
+    <value>Add new application</value>
+  </data>
   <data name="MNU_CLOSE" xml:space="preserve">
     <value>Close StartUp</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
     <value>Delete {0}</value>
+  </data>
+  <data name="MNU_DELETE_TYPE" xml:space="preserve">
+    <value>Delete {0} group</value>
   </data>
   <data name="MNU_EDIT" xml:space="preserve">
     <value>Edit {0}</value>

@@ -250,7 +250,10 @@ namespace AppManager
 			//      Int32Rect.Empty,
 			//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
 			//} else
-			if (Directory.Exists(AppPath))
+			string appPath = AppPath;
+
+			if (PathHelper.IsLikeDrive(appPath) || 
+				 Directory.Exists(appPath))
 			{
 				src = GetFolderImage();
 			}

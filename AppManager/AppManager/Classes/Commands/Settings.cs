@@ -17,6 +17,7 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			Windows.Settings wndSett = new Windows.Settings(_WorkItem);
+			_WorkItem.Commands.Activate.Execute(null);
 			wndSett.Owner = _WorkItem.MainWindow;
 			if (wndSett.ShowDialog() ?? false)
 			{ 

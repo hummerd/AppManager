@@ -14,19 +14,20 @@ namespace AppManager
 	public partial class ButtonList : ListBox
 	{
 		public event EventHandler<ValueEventArgs<object>> ButtonClicked;
-
-
+		
 		protected ButtonListDrag _DragHelper;
+
 		protected ContextMenu _EditMenu;
+		protected ContextMenu _CommonMenu;
 
 
 		public ButtonList()
 		{
 			this.InitializeComponent();
 
-			ItemContainerStyle = new Style();
-			ItemContainerStyle.Resources[SystemColors.HighlightBrushKey] = Brushes.Transparent;
-			ItemContainerStyle.Resources[SystemColors.ControlBrushKey] = Brushes.Transparent;
+			//ItemContainerStyle = new Style();
+			//ItemContainerStyle.Resources[SystemColors.HighlightBrushKey] = Brushes.Transparent;
+			//ItemContainerStyle.Resources[SystemColors.ControlBrushKey] = Brushes.Transparent;
 
 			_DragHelper = new ButtonListDrag(this, typeof(AppInfo));
 		}
@@ -36,6 +37,12 @@ namespace AppManager
 		{
 			get { return _EditMenu; }
 			set { _EditMenu = value; }
+		}
+
+		public ContextMenu CommonMenu
+		{
+			get { return _CommonMenu; }
+			set { _CommonMenu = value; }
 		}
 
 		public ButtonListDrag DragHelper

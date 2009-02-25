@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
+using CommonLib;
 
 
 namespace AppManager.Commands
@@ -22,13 +23,21 @@ namespace AppManager.Commands
 			AppInfo app = parameter as AppInfo;
 			bool altPressed = (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
 
-			if (File.Exists(app.AppPath) || Directory.Exists(app.AppPath))
+			string appPath = app.AppPath;
+			bool unc = PathHelper.IsPathUNC(appPath);
+
+			if (unc || File.Exists(appPath) || Directory.Exists(appPath))
 			{
-				Process p = new Process();
-				p.StartInfo.FileName = app.AppPath;
-				p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
-				p.StartInfo.Arguments = app.AppArgs;
-				p.Start();
+				try
+				{
+					Process p = new Process();
+					p.StartInfo.FileName = app.AppPath;
+					p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
+					p.StartInfo.Arguments = app.AppArgs;
+					p.Start();
+				}
+				catch
+				{ ; }
 			}
 
 			_WorkItem.MainWindow.InvalidateVisual();

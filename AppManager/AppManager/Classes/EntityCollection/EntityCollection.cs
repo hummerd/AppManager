@@ -33,6 +33,15 @@ namespace AppManager.EntityCollection
 		}
 
 
+		public TEntity FindBySource(TEntity search)
+		{
+			foreach (var item in this)
+				if (item.CloneSource.Equals(search))
+					return item;
+
+			return null;
+		}
+
 		public EntityCollection<TEntity> Copy()
 		{
 			EntityCollection<TEntity> copy = new EntityCollection<TEntity>();
