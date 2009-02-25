@@ -177,6 +177,7 @@ namespace AppManager
 
 			groupContent.ButtonClicked += (s, e) => _Controller.WorkItem.Commands.RunApp.Execute(e.Value);
 
+			groupContent.CommonMenu = CreateAppTypeContextMenu();
 			groupContent.EditMenu = CreateAppContextMenu();
 			groupContent.ContextMenuOpening += (s, e) =>
 				OnContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
@@ -206,6 +207,19 @@ namespace AppManager
 			return menu;
 		}
 
+		protected ContextMenu CreateAppTypeContextMenu()
+		{
+			var menu = MenuHelper.CopyMenu(App.Current.Resources["AppTypeMenu"] as ContextMenu);
+
+			((MenuItem)menu.Items[0]).Click += (s, ea) =>
+				_Controller.AddNewApp((s as FrameworkElement).DataContext as AppType);
+
+			((MenuItem)menu.Items[1]).Click += (s, ea) =>
+				_Controller.DeleteAppType((s as FrameworkElement).DataContext as AppType);
+
+			return menu;
+		}
+
 		protected void OnContextMenuOpening(ButtonList buttonList, FrameworkElement item)
 		{
 			if (item == null)
@@ -227,6 +241,18 @@ namespace AppManager
 
 				menu.Placement = PlacementMode.Right;
 				menu.PlacementTarget = item;
+				menu.IsOpen = true;
+			}
+			else
+			{
+				var menu = buttonList.CommonMenu;
+				menu.DataContext = buttonList.DataContext;
+
+				((MenuItem)menu.Items[0]).Header = Strings.MNU_ADD_APP;
+				((MenuItem)menu.Items[1]).Header = String.Format(Strings.MNU_DELETE_TYPE, buttonList.DataContext);
+
+				//menu.Placement = PlacementMode.;
+				//menu.PlacementTarget = item;
 				menu.IsOpen = true;
 			}
 		}

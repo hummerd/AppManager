@@ -69,6 +69,22 @@ namespace AppManager
 			_WorkItem.MainWindow.Init(false);
 		}
 
+		public void DeleteAppType(AppType appType)
+		{
+			if (appType == null)
+				return;
+
+			if (MessageBox.Show(
+				_WorkItem.MainWindow,
+				string.Format(Strings.DEL_APP_QUEST, appType.AppTypeName),
+				Strings.APP_TITLE,
+				MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+				return;
+
+			_WorkItem.AppData.AppTypes.Remove(appType);
+			_WorkItem.MainWindow.Init(false);
+		}
+
 		public void FindApp(string appNamePart)
 		{
 			if (_QuickSearchWnd == null)
@@ -97,6 +113,14 @@ namespace AppManager
 				if (apps != null)
 					_QuickSearchWnd.FoundItems = apps;
 			}
+		}
+
+		public void AddNewApp(AppType appType)
+		{
+			if (appType == null)
+				return;
+
+			_WorkItem.Commands.ManageApps.Execute(appType);
 		}
 
 		public void RenameItem(AppInfo appInfo)

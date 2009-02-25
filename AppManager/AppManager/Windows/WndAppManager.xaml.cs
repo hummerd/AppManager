@@ -25,7 +25,7 @@ namespace AppManager
 		}
 
 
-		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo)
+		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo, AppType appType)
 		{
 			_Controller = new AppManagerController(workItem, appGroup);
 			AppTypes.ItemsSource = appGroup.AppTypes;
@@ -35,16 +35,24 @@ namespace AppManager
 
 			if (appInfo != null)
 			{
-				AppType appType = appGroup.FindAppType(appInfo);
-				AppTypes.SelectedItem = appType;
-				AppTypeSelector.SelectedItem = appType;
-				//AppScanType.SelectedItem = appType;
+				AppType selAppType = appGroup.FindAppType(appInfo);
+				AppTypes.SelectedItem = selAppType;
+				AppTypeSelector.SelectedItem = selAppType;
 
-				AppTypes.SelectedItem = appInfo;
 				_ItemToSelect = appInfo;
 				AppList.SelectedItem = appInfo;
-				//AppList.ScrollIntoView(AppList.SelectedItem);
-				//AppList.Focus();
+
+				AppTabs.SelectedIndex = 1;
+			}
+
+			if (appType != null)
+			{
+				AppType selAppType = appGroup.AppTypes.FindBySource(appType);
+				AppTypes.SelectedItem = selAppType;
+				AppTypeSelector.SelectedItem = selAppType;
+
+				_ItemToSelect = appGroup.CreateNewAppInfo(selAppType);
+				AppList.SelectedItem = _ItemToSelect;
 
 				AppTabs.SelectedIndex = 1;
 			}
