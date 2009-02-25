@@ -180,7 +180,7 @@ namespace AppManager
 			groupContent.CommonMenu = CreateAppTypeContextMenu();
 			groupContent.EditMenu = CreateAppContextMenu();
 			groupContent.ContextMenuOpening += (s, e) =>
-				OnContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
+				e.Handled = OnAppListContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
 
 			groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
 			groupContent.DataContext = appType;
@@ -220,13 +220,13 @@ namespace AppManager
 			return menu;
 		}
 
-		protected void OnContextMenuOpening(ButtonList buttonList, FrameworkElement item)
+		protected bool OnAppListContextMenuOpening(ButtonList buttonList, FrameworkElement item)
 		{
 			if (item == null)
-				return;
+				return false;
 
 			if (buttonList == null)
-				return;
+				return false;
 
 			item = buttonList.ContainerFromElement(item) as FrameworkElement;
 			if (item != null)
@@ -255,6 +255,8 @@ namespace AppManager
 				//menu.PlacementTarget = item;
 				menu.IsOpen = true;
 			}
+
+			return true;
 		}
 
 		protected GroupBox CreateGroupBox(object content, AppType appType)
@@ -269,6 +271,9 @@ namespace AppManager
 				AllowDrop = true
 			};
 
+			group.ContextMenu = CreateAppTypeContextMenu();
+			group.ContextMenuOpening += (s, e) => 
+				e.Handled = OnAppTypeContextMenuOpening(s as FrameworkElement);
 			group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
 			group.DataContext = appType;
 
@@ -283,6 +288,20 @@ namespace AppManager
 			return group;
 		}
 
+		protected bool OnAppTypeContextMenuOpening(FrameworkElement sender)
+		{
+			if (sender == null)
+				return false;
+
+			var menu = sender.ContextMenu;
+			menu.DataContext = sender.DataContext;
+
+			((MenuItem)menu.Items[0]).Header = Strings.MNU_ADD_APP;
+			((MenuItem)menu.Items[1]).Header = String.Format(Strings.MNU_DELETE_TYPE, sender.DataContext);
+
+			return false;
+		}
+		
 		protected GridSplitter CreateGridSplitter(int rowi)
 		{
 			var split = new GridSplitter()
