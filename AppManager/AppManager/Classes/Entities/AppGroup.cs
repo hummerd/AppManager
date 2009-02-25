@@ -174,10 +174,9 @@ namespace AppManager
 				AppInfoID = _LastAppInfoID++
 			};
 
-			newInfo.SetAutoAppName();
-
 			newInfo.NeedImage += (s, e) => RequestImage(s as AppInfo);
 			newInfo.ExecPath = execPath;
+			newInfo.SetAutoAppName();
 
 			if (appType != null)
 				appType.AppInfos.Add(newInfo);
