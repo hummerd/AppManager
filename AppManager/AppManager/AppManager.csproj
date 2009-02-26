@@ -186,6 +186,7 @@
     <Compile Include="Classes\Settings\AMSettingLoader.cs" />
     <Compile Include="Classes\Settings\SettingsBag.cs" />
     <Compile Include="Classes\Settings\XMLSettingsLoader.cs" />
+    <Compile Include="Controls\VerticalGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
