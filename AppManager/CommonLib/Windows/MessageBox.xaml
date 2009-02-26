@@ -1,0 +1,53 @@
+﻿<Window
+	x:Class="CommonLib.Windows.MessageBox"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:c="clr-namespace:CommonLib"
+	Height="300"
+	Width="300"
+	SizeToContent="WidthAndHeight"
+	ResizeMode="NoResize"
+	ShowInTaskbar="False"
+	SnapsToDevicePixels="True">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition
+				Height="100*" />
+			<RowDefinition
+				Height="44" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				Width="100*" MinWidth="12" />
+			<ColumnDefinition
+				Width="Auto" />
+			<ColumnDefinition
+				Width="Auto" />
+			<ColumnDefinition
+				Width="100*" MinWidth="12" />
+		</Grid.ColumnDefinitions>
+		<StackPanel
+			Grid.ColumnSpan="4">
+			<TextBlock
+				x:Name="LblHeader"
+				Margin="8,8,8,8"
+				HorizontalAlignment="Center" 
+				TextAlignment="Center"
+				/>
+		</StackPanel>
+		<Button
+			Name="BtnYes"
+			Grid.Row="1"
+			Grid.Column="1"
+			Margin="0,8,4,8"
+			Width="80"
+			Content="{x:Static c:CommStr.YES}" />
+		<Button
+			Name="BtnNo"
+			Grid.Row="1"
+			Grid.Column="2"
+			Margin="4,8,0,8"
+			Width="80"
+			Content="{x:Static c:CommStr.NO}" />
+	</Grid>
+</Window>
