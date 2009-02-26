@@ -85,6 +85,9 @@
     <Compile Include="Windows\InputBox.xaml.cs">
       <DependentUpon>InputBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MessageBox.xaml.cs">
+      <DependentUpon>MessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WinFrmMenuAdapter.cs" />
     <Compile Include="XmlSerializeHelper.cs" />
   </ItemGroup>
@@ -100,6 +103,10 @@
     <Page Include="Windows\InputBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\MessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -74,11 +74,12 @@ namespace AppManager
 			if (appType == null)
 				return;
 
-			if (MessageBox.Show(
-				_WorkItem.MainWindow,
-				string.Format(Strings.DEL_APP_QUEST, appType.AppTypeName),
-				Strings.APP_TITLE,
-				MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (!CommonLib.Windows.MessageBox.Show(
+					_WorkItem.MainWindow,
+					Strings.APP_TITLE,
+					string.Format(Strings.QUEST_DEL_APP_TYPE, appType.AppTypeName)
+					)
+				)
 				return;
 
 			_WorkItem.AppData.AppTypes.Remove(appType);
@@ -144,11 +145,12 @@ namespace AppManager
 			if (appInfo == null)
 				return;
 
-			if (MessageBox.Show(
-				_WorkItem.MainWindow,
-				string.Format(Strings.DEL_APP_QUEST, appInfo.AppName), 
-				Strings.APP_TITLE,
-				MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (!CommonLib.Windows.MessageBox.Show(
+					_WorkItem.MainWindow,
+					Strings.APP_TITLE,
+					string.Format(Strings.QUEST_DEL_APP, appInfo.AppName)
+					)
+				)
 				return;
 
 			AppType appType = _WorkItem.AppData.FindAppType(appInfo);

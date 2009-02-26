@@ -160,15 +160,6 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete application {0} ?.
-        /// </summary>
-        public static string DEL_APP_QUEST {
-            get {
-                return ResourceManager.GetString("DEL_APP_QUEST", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Open app data file.
         /// </summary>
         public static string EDIT_APP_DATA {
@@ -214,7 +205,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add new application.
+        ///   Looks up a localized string similar to Add new application....
         /// </summary>
         public static string MNU_ADD_APP {
             get {
@@ -223,7 +214,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close StartUp.
+        ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string MNU_CLOSE {
             get {
@@ -250,7 +241,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit {0}.
+        ///   Looks up a localized string similar to Edit {0}....
         /// </summary>
         public static string MNU_EDIT {
             get {
@@ -277,7 +268,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Applications manager.
+        ///   Looks up a localized string similar to Applications manager....
         /// </summary>
         public static string MNU_MANAGEAPP {
             get {
@@ -286,7 +277,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rename {0}.
+        ///   Looks up a localized string similar to Rename {0}....
         /// </summary>
         public static string MNU_RENAME {
             get {
@@ -295,7 +286,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Preferences.
+        ///   Looks up a localized string similar to Preferences....
         /// </summary>
         public static string MNU_SETTINGS {
             get {
@@ -345,6 +336,26 @@ namespace AppManager {
         public static string PAGE_ON_CP {
             get {
                 return ResourceManager.GetString("PAGE_ON_CP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete application {0} ?.
+        /// </summary>
+        public static string QUEST_DEL_APP {
+            get {
+                return ResourceManager.GetString("QUEST_DEL_APP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete
+        ///{0}
+        ///group?.
+        /// </summary>
+        public static string QUEST_DEL_APP_TYPE {
+            get {
+                return ResourceManager.GetString("QUEST_DEL_APP_TYPE", resourceCulture);
             }
         }
         

@@ -1,15 +1,16 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
-using WinForms = System.Windows.Forms;
 using AppManager.Properties;
 using AppManager.Windows;
 using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.Windows;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager.Commands
@@ -158,13 +159,20 @@ namespace AppManager.Commands
 
 			mnu.Items.Add(
 				WinFrmMenuAdapter.CreateMenuItem(
-					Strings.SETTINGS, _WorkItem.Commands.Settings));
+					Strings.MNU_SETTINGS, _WorkItem.Commands.Settings));
 
 			var tsmi = new System.Windows.Forms.ToolStripMenuItem(Strings.ALWAYS_ON_TOP);
-			tsmi.CheckOnClick = true;
 			tsmi.Checked = _WorkItem.Settings.AlwaysOnTop;
-			tsmi.CheckedChanged += (s, e) =>
-				_WorkItem.Settings.AlwaysOnTop = (s as System.Windows.Forms.ToolStripMenuItem).Checked;
+			
+			tsmi.Click += (s, e) =>
+				_WorkItem.Settings.AlwaysOnTop = !(s as System.Windows.Forms.ToolStripMenuItem).Checked;
+
+			_WorkItem.Settings.PropertyChanged += delegate(object s, PropertyChangedEventArgs e)
+			{
+				if (e.PropertyName == "AlwaysOnTop")
+					tsmi.Checked = _WorkItem.Settings.AlwaysOnTop;
+			};
+
 			mnu.Items.Add(tsmi);
 
 			mnu.Items.Add(
@@ -218,7 +226,6 @@ namespace AppManager.Commands
 		}
 
 		
-
 		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (e.ExceptionObject != null)

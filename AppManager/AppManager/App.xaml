@@ -713,6 +713,10 @@
 				Name="AddNewApp" />
 			<MenuItem
 				Name="DeleteAppType" />
+			<Separator />
+			<MenuItem
+				Name="Cancel"
+				Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
 	</Application.Resources>
 </Application>

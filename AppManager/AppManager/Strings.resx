@@ -150,9 +150,6 @@
   <data name="AUTO_START" xml:space="preserve">
     <value>Autostart</value>
   </data>
-  <data name="DEL_APP_QUEST" xml:space="preserve">
-    <value>Delete application {0} ?</value>
-  </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Open app data file</value>
   </data>
@@ -169,10 +166,10 @@
     <value>Resources/Help.en-en.rtf</value>
   </data>
   <data name="MNU_ADD_APP" xml:space="preserve">
-    <value>Add new application</value>
+    <value>Add new application...</value>
   </data>
   <data name="MNU_CLOSE" xml:space="preserve">
-    <value>Close StartUp</value>
+    <value>Exit</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
     <value>Delete {0}</value>
@@ -181,7 +178,7 @@
     <value>Delete {0} group</value>
   </data>
   <data name="MNU_EDIT" xml:space="preserve">
-    <value>Edit {0}</value>
+    <value>Edit {0}...</value>
   </data>
   <data name="MNU_GOTO" xml:space="preserve">
     <value>Go to {0} application folder</value>
@@ -190,13 +187,13 @@
     <value>Hide StartUp</value>
   </data>
   <data name="MNU_MANAGEAPP" xml:space="preserve">
-    <value>Applications manager</value>
+    <value>Applications manager...</value>
   </data>
   <data name="MNU_RENAME" xml:space="preserve">
-    <value>Rename {0}</value>
+    <value>Rename {0}...</value>
   </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
-    <value>Preferences</value>
+    <value>Preferences...</value>
   </data>
   <data name="MNU_SHOW" xml:space="preserve">
     <value>Show StartUp</value>
@@ -212,6 +209,14 @@
   </data>
   <data name="PAGE_ON_CP" xml:space="preserve">
     <value>StartUp's page on CodePlex</value>
+  </data>
+  <data name="QUEST_DEL_APP" xml:space="preserve">
+    <value>Delete application {0} ?</value>
+  </data>
+  <data name="QUEST_DEL_APP_TYPE" xml:space="preserve">
+    <value>Delete
+{0}
+group?</value>
   </data>
   <data name="QUEST_FIRST_SCAN" xml:space="preserve">
     <value>Do you want to add applications from these folders?</value>
