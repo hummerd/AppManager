@@ -50,7 +50,9 @@
 				Header="{x:Static c:CommStr.HELP}"
 				>
 				<Grid>
-					<RichTextBox x:Name="HelpText" IsDocumentEnabled="False" />
+					<RichTextBox 
+						x:Name="HelpText"
+						IsReadOnly="True" />
 				</Grid>
 			</TabItem>
 		</TabControl>
