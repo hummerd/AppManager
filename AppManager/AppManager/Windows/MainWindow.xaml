@@ -4,6 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:am="clr-namespace:AppManager"
+	xmlns:amc="clr-namespace:AppManager.Controls"
 	x:Class="AppManager.MainWindow"
 	x:Name="Window"
 	Width="490"
@@ -439,7 +440,39 @@
 					Width="Auto"
 					Height="Auto"
 					FlowDirection="LeftToRight">
-					<Grid
+					<ItemsControl ItemsSource="{Binding Path=AppData.AppTypes}">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<amc:VerticalGrid
+									IsItemsHost="True"
+									Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								
+									<Grid>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="*"/>
+											<RowDefinition Height="6"/>
+										</Grid.RowDefinitions>
+										<GroupBox 
+											Grid.Row="0"
+											Style="{DynamicResource CustomGB}">
+											<am:ButtonList	
+												ItemsSource="{Binding Path=AppInfos}"
+												/>
+										</GroupBox>											
+										<Rectangle
+											Loaded="Rectangle_Loaded"
+											Grid.Row="1"
+											Fill="Green"
+											/>
+									</Grid>						
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+					<!--<Grid
 						x:Name="ContentPanel"
 						Canvas.Top="Auto"
 						Grid.Row="1"
@@ -485,7 +518,7 @@
 							Style="{StaticResource CustomGB}"
 							Foreground="Blue"
 							BorderBrush="#FFDFCB9A" />
-					</Grid>
+					</Grid>-->
 					<Image
 						Visibility="Hidden"
 						HorizontalAlignment="Stretch"
