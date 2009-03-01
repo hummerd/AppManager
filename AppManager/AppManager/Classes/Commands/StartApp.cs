@@ -74,6 +74,7 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " DragDropLib");
 
+			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
 
 			if (!_WorkItem.Settings.StartMinimized)
@@ -89,7 +90,7 @@ namespace AppManager.Commands
 		protected void OnMainWindowLoaded()
 		{
 			//_WorkItem.MainWindow.LoadState();
-			_WorkItem.MainWindow.Init(_FirstStart);
+			///_WorkItem.MainWindow.Init(_FirstStart);
 
 			//_WorkItem.MainWindow.ContentPanel.InvalidateVisual();
 			//System.Threading.Thread.Sleep(500);

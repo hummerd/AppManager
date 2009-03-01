@@ -12,6 +12,7 @@ using AppManager.Settings;
 using CommonLib;
 using CommonLib.PInvoke;
 using DragDropLib;
+using System.Windows.Shapes;
 
 
 namespace AppManager
@@ -31,8 +32,8 @@ namespace AppManager
 		{
 			InitializeComponent();
 
-			ContentPanel.Children.Clear();
-			ContentPanel.RowDefinitions.Clear();
+			//ContentPanel.Children.Clear();
+			//ContentPanel.RowDefinitions.Clear();
 
 			_Controller = new MainWindowController(workItem);
 			InitCommands(_Controller.WorkItem.Commands);
@@ -54,53 +55,53 @@ namespace AppManager
 
 		public void Init(bool first)
 		{
-			_FocusElement = null;
-			ContentPanel.Children.Clear();
-			ContentPanel.RowDefinitions.Clear();
+			//_FocusElement = null;
+			//ContentPanel.Children.Clear();
+			//ContentPanel.RowDefinitions.Clear();
 
-			var appData = _Controller.WorkItem.AppData;
+			//var appData = _Controller.WorkItem.AppData;
 
-			int maxApps = -1;
-			if (first)
-				maxApps = appData.GetMaxAppCountPerType();
+			//int maxApps = -1;
+			//if (first)
+			//   maxApps = appData.GetMaxAppCountPerType();
 
-			int rowi = 0;
-			// now for each app type we must create 
-			//  - row in ContentPanel
-			//  - GroupBox in row
-			//  - ButtonList in GroupBox
-			//  - row spliter
-			foreach (var appType in appData.AppTypes)
-			{
-				double rowHeight = first ? appType.AppInfos.Count * 100 / maxApps : 100.0;
+			//int rowi = 0;
+			//// now for each app type we must create 
+			////  - row in ContentPanel
+			////  - GroupBox in row
+			////  - ButtonList in GroupBox
+			////  - row spliter
+			//foreach (var appType in appData.AppTypes)
+			//{
+			//   double rowHeight = first ? appType.AppInfos.Count * 100 / maxApps : 100.0;
 
-				ContentPanel.RowDefinitions.Add(new RowDefinition()
-					{ 
-						Height = new GridLength(rowHeight, GridUnitType.Star),
-						MinHeight = 102.0
-					});
+			//   ContentPanel.RowDefinitions.Add(new RowDefinition()
+			//      { 
+			//         Height = new GridLength(rowHeight, GridUnitType.Star),
+			//         MinHeight = 102.0
+			//      });
 
-				ButtonList groupContent = CreateButtonList(rowi, appType);
-				GroupBox group = CreateGroupBox(groupContent, appType);
+			//   ButtonList groupContent = CreateButtonList(rowi, appType);
+			//   GroupBox group = CreateGroupBox(groupContent, appType);
 
-				if (_FocusElement == null)
-					_FocusElement = groupContent;
+			//   if (_FocusElement == null)
+			//      _FocusElement = groupContent;
 
-				ContentPanel.Children.Add(group);
-				Grid.SetRow(group, rowi++);
+			//   ContentPanel.Children.Add(group);
+			//   Grid.SetRow(group, rowi++);
 
-				if (rowi > 1)
-				{
-					var split = CreateGridSplitter(rowi);
-					ContentPanel.Children.Add(split);
-				}
-			}
+			//   if (rowi > 1)
+			//   {
+			//      var split = CreateGridSplitter(rowi);
+			//      ContentPanel.Children.Add(split);
+			//   }
+			//}
 			
-			LoadRowHeight();
+			//LoadRowHeight();
 
-			//ContentPanel.InvalidateVisual();
-			//UpdateLayout();
-			//InvalidateVisual();
+			////ContentPanel.InvalidateVisual();
+			////UpdateLayout();
+			////InvalidateVisual();
 		}
 
 		public void SaveState()
@@ -322,32 +323,32 @@ namespace AppManager
 
 		protected void SaveRowHeight()
 		{
-			double[] h = new double[ContentPanel.RowDefinitions.Count];
-			int i = 0;
-			foreach (var item in ContentPanel.RowDefinitions)
-				h[i++] = item.Height.Value;
+			//double[] h = new double[ContentPanel.RowDefinitions.Count];
+			//int i = 0;
+			//foreach (var item in ContentPanel.RowDefinitions)
+			//   h[i++] = item.Height.Value;
 
-			AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights = h;
+			//AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights = h;
 		}
 
 		protected void LoadRowHeight()
 		{
-			double[] h = AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights;
+			//double[] h = AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights;
 
-			if (h == null)
-				return;
+			//if (h == null)
+			//   return;
 
-			int i = 0;
-			foreach (var item in h)
-			{
-				if (i >= ContentPanel.RowDefinitions.Count)
-					break;
+			//int i = 0;
+			//foreach (var item in h)
+			//{
+			//   if (i >= ContentPanel.RowDefinitions.Count)
+			//      break;
 
-				ContentPanel.RowDefinitions[i].Height = new GridLength(
-					item, GridUnitType.Star);
+			//   ContentPanel.RowDefinitions[i].Height = new GridLength(
+			//      item, GridUnitType.Star);
 
-				i++;
-			}
+			//   i++;
+			//}
 		}
 
 		protected void OnDropFiles(FrameworkElement target, ValueEventArgs<string[]> e)
@@ -479,11 +480,11 @@ namespace AppManager
 
 		private void ContentPanel_DragOver(object sender, DragEventArgs e)
 		{
-			if (ContentPanel.Children.Count <= 0)
-				_Controller.CreateDefaultType();
+			//if (ContentPanel.Children.Count <= 0)
+			//   _Controller.CreateDefaultType();
 
-			e.Effects = DragDropEffects.None;
-			e.Handled = true;
+			//e.Effects = DragDropEffects.None;
+			//e.Handled = true;
 		}
 
 		private void Window_Closing(object sender, CancelEventArgs e)
@@ -519,6 +520,11 @@ namespace AppManager
 		private void Window_Deactivated(object sender, EventArgs e)
 		{
 			CaptionBorder.Background = (Brush)Resources["InactiveCaptionBrush"];
+		}
+
+		private void Rectangle_Loaded(object sender, RoutedEventArgs e)
+		{
+			new Resizer(sender as Shape);
 		}
 	}
 

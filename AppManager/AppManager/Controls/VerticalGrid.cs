@@ -28,19 +28,19 @@ namespace AppManager.Controls
 
 					SetRow(Children[ix], ix);
 
-					var gs = new GridSplitter()
-					{
-						ResizeDirection = GridResizeDirection.Rows,
-						Height = 3,
-						VerticalAlignment = VerticalAlignment.Top,
-						HorizontalAlignment = HorizontalAlignment.Stretch,
-						ShowsPreview = true,
-						Background = System.Windows.Media.Brushes.Transparent
-					};
+					//var gs = new GridSplitter()
+					//{
+					//   ResizeDirection = GridResizeDirection.Rows,
+					//   Height = 3,
+					//   VerticalAlignment = VerticalAlignment.Top,
+					//   HorizontalAlignment = HorizontalAlignment.Stretch,
+					//   ShowsPreview = true,
+					//   Background = System.Windows.Media.Brushes.Transparent
+					//};
 
-					Children.Add(gs);
-					_SpltterCount++;
-					SetRow(gs, ix);
+					//Children.Add(gs);
+					//_SpltterCount++;
+					//SetRow(gs, ix);
 
 					ix++;
 				}
