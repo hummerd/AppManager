@@ -153,6 +153,7 @@
     <Compile Include="Classes\AppTypeDrag.cs" />
     <Compile Include="Classes\AsyncImageLoader.cs" />
     <Compile Include="Classes\ButtonListDrag.cs" />
+    <Compile Include="Classes\CommandKeyBinding.cs" />
     <Compile Include="Classes\Commands\Activate.cs" />
     <Compile Include="Classes\Commands\AppCommands.cs" />
     <Compile Include="Classes\Commands\CommandBase.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Classes\Settings\AMSettingLoader.cs" />
     <Compile Include="Classes\Settings\SettingsBag.cs" />
     <Compile Include="Classes\Settings\XMLSettingsLoader.cs" />
+    <Compile Include="Controls\GridResizer.cs" />
     <Compile Include="Controls\VerticalGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -24,7 +24,7 @@ namespace AppManager.Settings
 
 			if (saveOnClose)
 			{
-				Window wnd = UIHelper.FindAncestorOrSelf<Window>(control);
+				Window wnd = UIHelper.FindAncestorOrSelf<Window>(control, null);
 				wnd.Closing -= WndClosing;
 				wnd.Closing += WndClosing;
 
