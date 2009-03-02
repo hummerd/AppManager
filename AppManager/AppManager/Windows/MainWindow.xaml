@@ -5,6 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:amc="clr-namespace:AppManager.Controls"
+	xmlns:t="clr-namespace:System;assembly=mscorlib"
 	x:Class="AppManager.MainWindow"
 	x:Name="Window"
 	Width="490"
@@ -326,15 +327,6 @@
 			</LinearGradientBrush>
 		</ResourceDictionary>
 	</Window.Resources>
-	<Window.Triggers>
-	</Window.Triggers>
-
-	<Window.InputBindings>
-		<KeyBinding
-			Gesture="Esc" />
-		<KeyBinding x:Name="asd"
-			Gesture="F1" />
-	</Window.InputBindings>
 
 	<Border
 		ClipToBounds="True"
@@ -377,19 +369,21 @@
 						<ColumnDefinition Width="Auto" MinWidth="28" />
 					</Grid.ColumnDefinitions>
 					<am:SettingButton
-							x:Name="BtnConfigure"
-							Width="45"
-							Height="30"
-							Margin="4,0,0,0"
-							ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png"
-							Grid.Column="0" />
+						x:Name="BtnConfigure"
+						Width="45"
+						Height="30"
+						Margin="4,0,0,0"
+						Command="{Binding Path=Commands.Settings}"
+						ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png"
+						Grid.Column="0" />
 					<am:SettingButton
-							x:Name="BtnManageApps"
-							Width="45"
-							Height="30"
-							HorizontalAlignment="Left"
-							ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
-							Grid.Column="1" />
+						x:Name="BtnManageApps"
+						Width="45"
+						Height="30"
+						HorizontalAlignment="Left"
+						Command="{Binding Path=Commands.ManageApps}"
+						ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
+						Grid.Column="1" />
 					<TextBlock
 							FontSize="14"
 							Foreground="#FFFBD888"
@@ -414,17 +408,22 @@
 						Height="24"
 						Margin="0,0,4,0"
 						Content="Button"
-						Grid.Column="3" 
-						Style="{DynamicResource MainWndHelpButton}"
-						/>
+						Grid.Column="3"
+						Command="{Binding Path=Commands.Help}"
+						Style="{DynamicResource MainWndHelpButton}">
+						<Button.CommandParameter>
+							<t:Boolean>True</t:Boolean>
+						</Button.CommandParameter>
+					</Button>
 					<Button
-							Name="ButtonExit"
-							Width="24"
-							Height="24"
-							Margin="0,0,4,0"
-							Content="Button"
-							Grid.Column="4" 
-							Style="{DynamicResource MainWndCloseButton}" />
+						Name="ButtonExit"
+						Width="24"
+						Height="24"
+						Margin="0,0,4,0"
+						Content="Button"
+						Grid.Column="4" 
+						Command="{Binding Path=Commands.Deactivate}"
+						Style="{DynamicResource MainWndCloseButton}" />
 				</Grid>
 			</Border>
 			<!--Window content-->
@@ -435,38 +434,64 @@
 					Background="{DynamicResource ContenBackBrush}"
 					SnapsToDevicePixels="True"
 					>
-				<Canvas
-					
+				<Canvas		
 					Width="Auto"
 					Height="Auto"
 					FlowDirection="LeftToRight">
 					<ItemsControl ItemsSource="{Binding Path=AppData.AppTypes}">
+						<ItemsControl.Width>
+							<Binding
+								Path="ActualWidth">
+								<Binding.RelativeSource>
+									<RelativeSource
+										Mode="FindAncestor"
+										AncestorType="Canvas" />
+								</Binding.RelativeSource>
+							</Binding>
+						</ItemsControl.Width>
+						<ItemsControl.Height>
+							<Binding
+								Path="ActualHeight">
+								<Binding.RelativeSource>
+									<RelativeSource
+										Mode="FindAncestor"
+										AncestorType="Canvas" />
+								</Binding.RelativeSource>
+							</Binding>
+						</ItemsControl.Height>
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
 								<amc:VerticalGrid
+									Name="ContentGrid"
 									IsItemsHost="True"
+									Margin="8"
+									MinRowHeight="102"
 									Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}" />
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								
 									<Grid>
 										<Grid.RowDefinitions>
 											<RowDefinition Height="*"/>
 											<RowDefinition Height="6"/>
 										</Grid.RowDefinitions>
 										<GroupBox 
+											Header="{Binding Path=AppTypeName}"
 											Grid.Row="0"
-											Style="{DynamicResource CustomGB}">
-											<am:ButtonList	
+											Style="{DynamicResource CustomGB}"
+											Initialized="GroupBox_Initialized"
+											>
+											<am:ButtonList
+												AllowDrop="True"
+												Initialized="ButtonList_Initialized"
 												ItemsSource="{Binding Path=AppInfos}"
 												/>
 										</GroupBox>											
-										<Rectangle
-											Loaded="Rectangle_Loaded"
+										<Label
 											Grid.Row="1"
-											Fill="Green"
+											Cursor="SizeNS"
+											Initialized="Resizer_Initialized"
 											/>
 									</Grid>						
 							</DataTemplate>

@@ -5,32 +5,40 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 
 namespace CommonLib
 {
 	public class Resizer
 	{
-		protected Grid					_Target;
-		protected Shape				_Resizer;
-		protected UIElement			_TargetChild;
-		protected int					_GridRow;
-		protected Point				_InGridPos;
-		protected bool					_DoResize = false;
+		protected Grid			_Target;
+		protected Control		_Resizer;
+		protected UIElement	_TargetChild;
+		protected int			_GridRow;
+		protected Point		_InGridPos;
+		protected bool			_DoResize = false;
+		protected Brush		_ResizeBackColor;
+		protected Brush		_OriginalBackColor;
 
 
-		public Resizer(Shape resizer)
+		public Resizer(Control resizer, string name, Brush resizeBackColor)
 		{
+			_ResizeBackColor = resizeBackColor;
 			_Resizer = resizer;
-			_Target = UIHelper.FindAncestorOrSelf<Grid>(_Resizer);
+			_Target = UIHelper.FindAncestorOrSelf<Grid>(_Resizer, name);
+			_OriginalBackColor = resizer.Background;
 
-			foreach (UIElement item in _Target.Children)
-				if (_Resizer.FindCommonVisualAncestor(item) != null)
+			var parent = VisualTreeHelper.GetParent(_Resizer);
+			while (parent != null)
+			{
+				if (_Target.Children.Contains(parent as UIElement))
 				{
-					_TargetChild = item;
-					break;
+					_TargetChild = parent as UIElement;
+					break;				
 				}
+
+				parent = VisualTreeHelper.GetParent(parent);
+			}
 			
 			_GridRow = Grid.GetRow(_TargetChild);
 
@@ -68,14 +76,14 @@ namespace CommonLib
 			_Resizer.CaptureMouse();
 			_InGridPos = e.GetPosition(_Target);
 			_DoResize = true;
-			_Resizer.Fill = Brushes.Red;
+			_Resizer.Background = _ResizeBackColor;
 		}
 
 		private void resizer_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			_Resizer.ReleaseMouseCapture();
 			_DoResize = false;
-			_Resizer.Fill = Brushes.Transparent;
+			_Resizer.Background = _OriginalBackColor;
 		}
 	}
 }

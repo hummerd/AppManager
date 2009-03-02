@@ -12,12 +12,11 @@ namespace CommonLib
 		protected RemoteSingleInstance _Single;
 		protected bool _FirstInstance = true;
 
-
-		public SingleInstance()
+		public SingleInstance(int port)
 		{
 			try
 			{
-				InitFirstInstance();
+				InitFirstInstance(port);
 				return;
 			}
 			catch(RemotingException)
@@ -29,7 +28,7 @@ namespace CommonLib
 			{
 				try
 				{
-					ActivateFirstInstance();
+					ActivateFirstInstance(port);
 				}
 				catch(Exception)
 				{
@@ -48,9 +47,9 @@ namespace CommonLib
 		}
 
 
-		protected void InitFirstInstance()
+		protected void InitFirstInstance(int port)
 		{
-			IpcChannel serverChannel = new IpcChannel("localhost:101632");
+			IpcChannel serverChannel = new IpcChannel("localhost:" + port);
 
 			// Register the server channel.
 			ChannelServices.RegisterChannel(
@@ -66,7 +65,7 @@ namespace CommonLib
 					  WellKnownObjectMode.Singleton);
 		}
 
-		protected void ActivateFirstInstance()
+		protected void ActivateFirstInstance(int port)
 		{
 			IpcChannel channel = new IpcChannel();
 
@@ -76,7 +75,7 @@ namespace CommonLib
 			// Create an instance of the remote object.
 			RemoteSingleInstance service = (RemoteSingleInstance)Activator.GetObject(
 				typeof(RemoteSingleInstance),
-				"ipc://localhost:101632/RemoteObject.rem");
+				"ipc://localhost:" + port + "/RemoteObject.rem");
 			service.ActivateApp();
 		}
 	}

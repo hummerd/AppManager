@@ -148,27 +148,37 @@ namespace AppManager
 
 		protected void InitCommands(AppCommands commands)
 		{
-			ButtonExit.Command = commands.Deactivate;
-			ButtonHelp.Command = commands.Help;
-			ButtonHelp.CommandParameter = true;
+			var mwi = DataContext as MainWorkItem;
 
-			BtnManageApps.Command = commands.ManageApps;
-			BtnConfigure.Command = commands.Settings;
-					
-			InputBindings[0].Command = commands.Deactivate;
-			InputBindings[1].Command = commands.Help;
-			InputBindings[1].CommandParameter = false;
+			InputBindings.Add(
+				new InputBinding(
+					mwi.Commands.Deactivate, 
+					new KeyGesture(Key.Escape)
+				));
+
+			InputBindings.Add(
+				new InputBinding(
+					mwi.Commands.Help,
+					new KeyGesture(Key.F1)
+				) { CommandParameter = true }
+				);
+
+			//InputBindings[0].Command = 
+
+			//ButtonExit.Command = commands.Deactivate;
+			//ButtonHelp.Command = commands.Help;
+			//ButtonHelp.CommandParameter = true;
+
+			//BtnManageApps.Command = commands.ManageApps;
+			//BtnConfigure.Command = commands.Settings;
+
+			//InputBindings[0].Command = commands.Deactivate;
+			//InputBindings[1].Command = commands.Help;
+			//InputBindings[1].CommandParameter = false;
 		}
 
-		protected ButtonList CreateButtonList(int rowi, AppType appType)
+		protected void InitButtonList(ButtonList groupContent)
 		{
-			ButtonList groupContent = new ButtonList()
-			{
-				TabIndex = rowi,
-				AllowDrop = true,
-				SnapsToDevicePixels = true
-			};
-			
 			groupContent.DragHelper.DragHandlers.Add(_FileDrop);
 			groupContent.DragHelper.DragHandlers.Add(_AppTypeDrop);
 
@@ -180,13 +190,47 @@ namespace AppManager
 
 			groupContent.CommonMenu = CreateAppTypeContextMenu();
 			groupContent.EditMenu = CreateAppContextMenu();
+
 			groupContent.ContextMenuOpening += (s, e) =>
 				e.Handled = OnAppListContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
+		}
 
-			groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
-			groupContent.DataContext = appType;
+		protected void InitAppTypeGroupBox(GroupBox group)
+		{
+			group.ContextMenu = CreateAppTypeContextMenu();
+			group.ContextMenuOpening += (s, e) =>
+				e.Handled = OnAppTypeContextMenuOpening(s as FrameworkElement);
 
-			return groupContent;
+			var drag = new AppTypeDrag(group);
+			(drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped +=
+				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
+
+			drag.DragHandlers.Add(_FileDrop);
+			drag.DragStart += (s, e) => OnDragStarted();
+			drag.DragEnd += (s, e) => OnDragEnded();
+			drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
+		}
+
+		protected ButtonList CreateButtonList(int rowi, AppType appType)
+		{
+			//ButtonList groupContent = new ButtonList()
+			//{
+			//   TabIndex = rowi,
+			//   AllowDrop = true,
+			//   SnapsToDevicePixels = true
+			//};
+			
+			//groupContent.CommonMenu = CreateAppTypeContextMenu();
+			//groupContent.EditMenu = CreateAppContextMenu();
+			//groupContent.ContextMenuOpening += (s, e) =>
+			//   e.Handled = OnAppListContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
+
+			//groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
+			//groupContent.DataContext = appType;
+
+			//return groupContent;
+
+			return null;
 		}
 
 		protected ContextMenu CreateAppContextMenu()
@@ -522,9 +566,19 @@ namespace AppManager
 			CaptionBorder.Background = (Brush)Resources["InactiveCaptionBrush"];
 		}
 
-		private void Rectangle_Loaded(object sender, RoutedEventArgs e)
+		private void Resizer_Initialized(object sender, EventArgs e)
 		{
-			new Resizer(sender as Shape);
+			new Resizer(sender as Control, "ContentGrid", Brushes.Gray);
+		}
+
+		private void ButtonList_Initialized(object sender, EventArgs e)
+		{
+			InitButtonList(sender as ButtonList);
+		}
+
+		private void GroupBox_Initialized(object sender, EventArgs e)
+		{
+			InitAppTypeGroupBox(sender as GroupBox);
 		}
 	}
 

@@ -6,7 +6,7 @@ namespace AppManager.Controls
 {
 	public class VerticalGrid : Grid
 	{
-		protected int _SpltterCount = 0;
+		//protected int _SpltterCount = 0;
 
 
 		public VerticalGrid()
@@ -14,9 +14,12 @@ namespace AppManager.Controls
 		}
 
 
+		public double MinRowHeight { get; set; }
+
+
 		protected override Size MeasureOverride(Size constraint)
 		{
-			int ch = Children.Count - _SpltterCount;
+			int ch = Children.Count;
 			if (RowDefinitions.Count < ch)
 			{
 				int d = Children.Count - RowDefinitions.Count;
@@ -24,24 +27,12 @@ namespace AppManager.Controls
 
 				for (int i = 0; i < d; i++)
 				{
-					RowDefinitions.Add(new RowDefinition());
-
+					RowDefinitions.Add(new RowDefinition()
+						{
+							Height = new GridLength(100.0, GridUnitType.Star),
+							MinHeight = MinRowHeight
+						});
 					SetRow(Children[ix], ix);
-
-					//var gs = new GridSplitter()
-					//{
-					//   ResizeDirection = GridResizeDirection.Rows,
-					//   Height = 3,
-					//   VerticalAlignment = VerticalAlignment.Top,
-					//   HorizontalAlignment = HorizontalAlignment.Stretch,
-					//   ShowsPreview = true,
-					//   Background = System.Windows.Media.Brushes.Transparent
-					//};
-
-					//Children.Add(gs);
-					//_SpltterCount++;
-					//SetRow(gs, ix);
-
 					ix++;
 				}
 			}
