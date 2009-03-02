@@ -147,6 +147,9 @@
 				x:Key="CustomGB"
 				TargetType="GroupBox">
 				<Setter
+					Property="Foreground"
+					Value="Blue" />
+				<Setter
 					Property="BorderBrush"
 					Value="#FFDFCB9A" />
 				<Setter
@@ -438,7 +441,9 @@
 					Width="Auto"
 					Height="Auto"
 					FlowDirection="LeftToRight">
-					<ItemsControl ItemsSource="{Binding Path=AppData.AppTypes}">
+					<ItemsControl 
+						Name="AppTypeContent"
+						ItemsSource="{Binding Path=AppData.AppTypes}">
 						<ItemsControl.Width>
 							<Binding
 								Path="ActualWidth">
