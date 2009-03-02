@@ -152,13 +152,13 @@ namespace AppManager
 
 			InputBindings.Add(
 				new InputBinding(
-					mwi.Commands.Deactivate, 
+					commands.Deactivate, 
 					new KeyGesture(Key.Escape)
 				));
 
 			InputBindings.Add(
 				new InputBinding(
-					mwi.Commands.Help,
+					commands.Help,
 					new KeyGesture(Key.F1)
 				) { CommandParameter = true }
 				);
@@ -367,32 +367,35 @@ namespace AppManager
 
 		protected void SaveRowHeight()
 		{
-			//double[] h = new double[ContentPanel.RowDefinitions.Count];
-			//int i = 0;
-			//foreach (var item in ContentPanel.RowDefinitions)
-			//   h[i++] = item.Height.Value;
+			var contentGrid = UIHelper.FindVisualChild<Grid>(AppTypeContent, "ContentGrid");
 
-			//AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights = h;
+			double[] h = new double[contentGrid.RowDefinitions.Count];
+			int i = 0;
+			foreach (var item in contentGrid.RowDefinitions)
+				h[i++] = item.Height.Value;
+
+			AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights = h;
 		}
 
 		protected void LoadRowHeight()
 		{
-			//double[] h = AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights;
+			double[] h = AMSetttingsFactory.DefaultSettingsBag.Settings.MianFormRowHeights;
 
-			//if (h == null)
-			//   return;
+			if (h == null)
+				return;
 
-			//int i = 0;
-			//foreach (var item in h)
-			//{
-			//   if (i >= ContentPanel.RowDefinitions.Count)
-			//      break;
+			var contentGrid = UIHelper.FindVisualChild<Grid>(AppTypeContent, "ContentGrid");
+			int i = 0;
+			foreach (var item in h)
+			{
+				if (i >= contentGrid.RowDefinitions.Count)
+					break;
 
-			//   ContentPanel.RowDefinitions[i].Height = new GridLength(
-			//      item, GridUnitType.Star);
+				contentGrid.RowDefinitions[i].Height = new GridLength(
+					item, GridUnitType.Star);
 
-			//   i++;
-			//}
+				i++;
+			}
 		}
 
 		protected void OnDropFiles(FrameworkElement target, ValueEventArgs<string[]> e)
@@ -539,6 +542,7 @@ namespace AppManager
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			LoadRowHeight();
 			//ContentPanel.InvalidateVisual();
 			//UpdateLayout();
 			//InvalidateVisual();
