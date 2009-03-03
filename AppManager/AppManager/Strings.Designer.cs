@@ -223,7 +223,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete {0}.
+        ///   Looks up a localized string similar to Remove link to {0}.
         /// </summary>
         public static string MNU_DELETE {
             get {
@@ -450,7 +450,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Special thanks to my friends for testing, feature requests and help with translating into eanglish..
+        ///   Looks up a localized string similar to Special thanks to my friends for testing, feature requests and help with translating into english..
         /// </summary>
         public static string SPECIAL_THANKS {
             get {

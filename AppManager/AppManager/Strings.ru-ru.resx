@@ -172,7 +172,7 @@
     <value>Выход</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
-    <value>Удалить {0}</value>
+    <value>Удалить ссылку на {0}</value>
   </data>
   <data name="MNU_DELETE_TYPE" xml:space="preserve">
     <value>Удалить группу {0}</value>

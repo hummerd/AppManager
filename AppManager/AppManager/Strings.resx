@@ -172,7 +172,7 @@
     <value>Exit</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
-    <value>Delete {0}</value>
+    <value>Remove link to {0}</value>
   </data>
   <data name="MNU_DELETE_TYPE" xml:space="preserve">
     <value>Delete {0} group</value>
@@ -249,7 +249,7 @@ group?</value>
     <value>Preferences</value>
   </data>
   <data name="SPECIAL_THANKS" xml:space="preserve">
-    <value>Special thanks to my friends for testing, feature requests and help with translating into eanglish.</value>
+    <value>Special thanks to my friends for testing, feature requests and help with translating into english.</value>
   </data>
   <data name="START_MINIMIZED" xml:space="preserve">
     <value>Start minimized</value>

@@ -34,7 +34,6 @@ namespace AppManager
 				return;
 
 			_WorkItem.AppData.AppTypes.Remove(appType);
-			_WorkItem.MainWindow.Init(false);
 		}
 
 		public void InsertAppType(AppType addAppType, AppType beforeAppType)
@@ -56,8 +55,6 @@ namespace AppManager
 
 				_WorkItem.AppData.AppTypes.Insert(ix, addAppType);
 			}
-
-			_WorkItem.MainWindow.Init(false);
 		}
 
 		public void CreateDefaultType()
@@ -65,8 +62,6 @@ namespace AppManager
 			_WorkItem.AppData.AppTypes.Add(
 				new AppType() { AppTypeName = Strings.APPLICATIONS }
 				);
-
-			_WorkItem.MainWindow.Init(false);
 		}
 
 		public void DeleteAppType(AppType appType)
@@ -83,7 +78,6 @@ namespace AppManager
 				return;
 
 			_WorkItem.AppData.AppTypes.Remove(appType);
-			_WorkItem.MainWindow.Init(false);
 		}
 
 		public void FindApp(string appNamePart)
@@ -114,6 +108,15 @@ namespace AppManager
 				if (apps != null)
 					_QuickSearchWnd.FoundItems = apps;
 			}
+		}
+
+		public void AddApp(AppType appType, AppInfo app)
+		{
+			if (appType == null || app == null)
+				return;
+
+			PrepareItem(app);
+			appType.AppInfos.Add(app);
 		}
 
 		public void AddNewApp(AppType appType)

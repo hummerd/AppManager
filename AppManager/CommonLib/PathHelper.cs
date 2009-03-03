@@ -103,8 +103,15 @@ namespace CommonLib
 			}
 			catch (UriFormatException)
 			{
-				path = Path.GetFullPath(path);
-				uri = new Uri(path);
+				try
+				{
+					path = Path.GetFullPath(path);
+					uri = new Uri(path);
+				}
+				catch 
+				{
+					return false;
+				}
 			}
 
 			return uri.IsUnc;

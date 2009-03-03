@@ -184,6 +184,7 @@
 								</Grid.RowDefinitions>
 								<Border
 									CornerRadius="4"
+									SnapsToDevicePixels="True"
 									Grid.Row="1"
 									Grid.RowSpan="3"
 									Grid.Column="0"
@@ -193,6 +194,7 @@
 									Background="{TemplateBinding Background}" />
 								<Border
 									x:Name="Header"
+									SnapsToDevicePixels="True"
 									Padding="3,0,3,0"
 									Grid.Row="0"
 									Grid.RowSpan="2"
@@ -203,17 +205,13 @@
 										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 										TextElement.Foreground="{TemplateBinding Foreground}" />
 								</Border>
-								<ContentPresenter
-									Grid.Row="2"
-									Grid.Column="1"
-									Grid.ColumnSpan="2"
-									Margin="{TemplateBinding Padding}"
-									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 								<Border
+								   Background="Transparent"
 									CornerRadius="4"
 									Grid.Row="1"
 									Grid.RowSpan="3"
 									Grid.ColumnSpan="4"
+									SnapsToDevicePixels="True"
 									BorderThickness="{TemplateBinding BorderThickness}"
 									BorderBrush="{TemplateBinding BorderBrush}">
 									<Border.OpacityMask>
@@ -232,6 +230,13 @@
 										</MultiBinding>
 									</Border.OpacityMask>
 								</Border>
+								<ContentPresenter
+									Grid.Row="2"
+									Grid.Column="1"
+									Grid.ColumnSpan="2"
+									Margin="{TemplateBinding Padding}"
+									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+									/>
 							</Grid>
 						</ControlTemplate>
 					</Setter.Value>
@@ -440,9 +445,11 @@
 				<Canvas		
 					Width="Auto"
 					Height="Auto"
+					SnapsToDevicePixels="True"
 					FlowDirection="LeftToRight">
 					<ItemsControl 
 						Name="AppTypeContent"
+						SnapsToDevicePixels="True"
 						ItemsSource="{Binding Path=AppData.AppTypes}">
 						<ItemsControl.Width>
 							<Binding
@@ -467,29 +474,35 @@
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
 								<amc:VerticalGrid
+									SnapsToDevicePixels="True"
 									Name="ContentGrid"
 									IsItemsHost="True"
 									Margin="8"
-									MinRowHeight="102"
+									MinRowHeight="92"
 									Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}" />
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-									<Grid>
+									<Grid SnapsToDevicePixels="True">
 										<Grid.RowDefinitions>
 											<RowDefinition Height="*"/>
 											<RowDefinition Height="6"/>
 										</Grid.RowDefinitions>
 										<GroupBox 
+											SnapsToDevicePixels="True"
+											AllowDrop="True"
 											Header="{Binding Path=AppTypeName}"
 											Grid.Row="0"
 											Style="{DynamicResource CustomGB}"
 											Initialized="GroupBox_Initialized"
 											>
 											<am:ButtonList
+												SnapsToDevicePixels="True"
+												BorderBrush="Transparent"
+												Background="Transparent"
 												AllowDrop="True"
-												Initialized="ButtonList_Initialized"
+												Loaded="ButtonList_Loaded"
 												ItemsSource="{Binding Path=AppInfos}"
 												/>
 										</GroupBox>											

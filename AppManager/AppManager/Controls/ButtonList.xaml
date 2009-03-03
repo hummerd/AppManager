@@ -7,8 +7,6 @@
 	mc:Ignorable="d"
 	x:Class="AppManager.ButtonList"
 	x:Name="ButtonList1"
-	Background="{x:Null}"
-	BorderBrush="{x:Null}"
 	d:DesignHeight="75" 
 	d:DesignWidth="105" 
 	PreviewKeyDown="ButtonList_PreviewKeyDown" 

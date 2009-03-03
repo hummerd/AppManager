@@ -12,7 +12,6 @@ using AppManager.Settings;
 using CommonLib;
 using CommonLib.PInvoke;
 using DragDropLib;
-using System.Windows.Shapes;
 
 
 namespace AppManager
@@ -26,6 +25,7 @@ namespace AppManager
 		protected ItemsControl				_FocusElement;
 		protected FileDropHandler			_FileDrop = new FileDropHandler();
 		protected SimpleDragDataHandler	_AppTypeDrop;
+		protected SimpleDragDataHandler	_AppDrop;
 
 
 		public MainWindow(MainWorkItem workItem)
@@ -38,6 +38,14 @@ namespace AppManager
 			_Controller = new MainWindowController(workItem);
 			InitCommands(_Controller.WorkItem.Commands);
 
+			_AppDrop = new SimpleDragDataHandler(
+				ButtonListDrag.DragDataFormat, typeof(AppInfo));
+			_AppDrop.ObjectDroped += (s, e) =>
+				_Controller.AddApp(
+					(s as FrameworkElement).DataContext as AppType,
+					e.DropObject as AppInfo);
+			
+
 			_AppTypeDrop = new SimpleDragDataHandler(
 				AppTypeDrag.DragDataFormat, typeof(AppType));
 
@@ -46,63 +54,13 @@ namespace AppManager
 					e.DropObject as AppType, 
 					(s as FrameworkElement).DataContext as AppType);
 
+
 			_FileDrop.AddFiles += (s, e) => 
 				OnDropFiles(s as FrameworkElement, e);
 
 			workItem.Settings.PropertyChanged += Settings_PropertyChanged;
 		}
 
-
-		public void Init(bool first)
-		{
-			//_FocusElement = null;
-			//ContentPanel.Children.Clear();
-			//ContentPanel.RowDefinitions.Clear();
-
-			//var appData = _Controller.WorkItem.AppData;
-
-			//int maxApps = -1;
-			//if (first)
-			//   maxApps = appData.GetMaxAppCountPerType();
-
-			//int rowi = 0;
-			//// now for each app type we must create 
-			////  - row in ContentPanel
-			////  - GroupBox in row
-			////  - ButtonList in GroupBox
-			////  - row spliter
-			//foreach (var appType in appData.AppTypes)
-			//{
-			//   double rowHeight = first ? appType.AppInfos.Count * 100 / maxApps : 100.0;
-
-			//   ContentPanel.RowDefinitions.Add(new RowDefinition()
-			//      { 
-			//         Height = new GridLength(rowHeight, GridUnitType.Star),
-			//         MinHeight = 102.0
-			//      });
-
-			//   ButtonList groupContent = CreateButtonList(rowi, appType);
-			//   GroupBox group = CreateGroupBox(groupContent, appType);
-
-			//   if (_FocusElement == null)
-			//      _FocusElement = groupContent;
-
-			//   ContentPanel.Children.Add(group);
-			//   Grid.SetRow(group, rowi++);
-
-			//   if (rowi > 1)
-			//   {
-			//      var split = CreateGridSplitter(rowi);
-			//      ContentPanel.Children.Add(split);
-			//   }
-			//}
-			
-			//LoadRowHeight();
-
-			////ContentPanel.InvalidateVisual();
-			////UpdateLayout();
-			////InvalidateVisual();
-		}
 
 		public void SaveState()
 		{
@@ -206,32 +164,34 @@ namespace AppManager
 				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
 
 			drag.DragHandlers.Add(_FileDrop);
+			drag.DragHandlers.Add(_AppDrop);
+
 			drag.DragStart += (s, e) => OnDragStarted();
 			drag.DragEnd += (s, e) => OnDragEnded();
 			drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
 		}
 
-		protected ButtonList CreateButtonList(int rowi, AppType appType)
-		{
-			//ButtonList groupContent = new ButtonList()
-			//{
-			//   TabIndex = rowi,
-			//   AllowDrop = true,
-			//   SnapsToDevicePixels = true
-			//};
+		//protected ButtonList CreateButtonList(int rowi, AppType appType)
+		//{
+		//   //ButtonList groupContent = new ButtonList()
+		//   //{
+		//   //   TabIndex = rowi,
+		//   //   AllowDrop = true,
+		//   //   SnapsToDevicePixels = true
+		//   //};
 			
-			//groupContent.CommonMenu = CreateAppTypeContextMenu();
-			//groupContent.EditMenu = CreateAppContextMenu();
-			//groupContent.ContextMenuOpening += (s, e) =>
-			//   e.Handled = OnAppListContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
+		//   //groupContent.CommonMenu = CreateAppTypeContextMenu();
+		//   //groupContent.EditMenu = CreateAppContextMenu();
+		//   //groupContent.ContextMenuOpening += (s, e) =>
+		//   //   e.Handled = OnAppListContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
 
-			//groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
-			//groupContent.DataContext = appType;
+		//   //groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
+		//   //groupContent.DataContext = appType;
 
-			//return groupContent;
+		//   //return groupContent;
 
-			return null;
-		}
+		//   return null;
+		//}
 
 		protected ContextMenu CreateAppContextMenu()
 		{
@@ -304,34 +264,34 @@ namespace AppManager
 			return true;
 		}
 
-		protected GroupBox CreateGroupBox(object content, AppType appType)
-		{
-			GroupBox group = new GroupBox()
-			{
-				Margin = new Thickness(7.0),
-				SnapsToDevicePixels = true,
-				Content = content,
-				Foreground = Brushes.Blue,
-				Style = Resources["CustomGB"] as Style,
-				AllowDrop = true
-			};
+		//protected GroupBox CreateGroupBox(object content, AppType appType)
+		//{
+		//   GroupBox group = new GroupBox()
+		//   {
+		//      Margin = new Thickness(7.0),
+		//      SnapsToDevicePixels = true,
+		//      Content = content,
+		//      Foreground = Brushes.Blue,
+		//      Style = Resources["CustomGB"] as Style,
+		//      AllowDrop = true
+		//   };
 
-			group.ContextMenu = CreateAppTypeContextMenu();
-			group.ContextMenuOpening += (s, e) => 
-				e.Handled = OnAppTypeContextMenuOpening(s as FrameworkElement);
-			group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
-			group.DataContext = appType;
+		//   group.ContextMenu = CreateAppTypeContextMenu();
+		//   group.ContextMenuOpening += (s, e) => 
+		//      e.Handled = OnAppTypeContextMenuOpening(s as FrameworkElement);
+		//   group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
+		//   group.DataContext = appType;
 
-			var drag = new AppTypeDrag(group);
-			(drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped +=
-				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
-			drag.DragHandlers.Add(_FileDrop);
-			drag.DragStart += (s, e) => OnDragStarted();
-			drag.DragEnd += (s, e) => OnDragEnded();
-			drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
+		//   var drag = new AppTypeDrag(group);
+		//   (drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped +=
+		//      (s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
+		//   drag.DragHandlers.Add(_FileDrop);
+		//   drag.DragStart += (s, e) => OnDragStarted();
+		//   drag.DragEnd += (s, e) => OnDragEnded();
+		//   drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
 
-			return group;
-		}
+		//   return group;
+		//}
 
 		protected bool OnAppTypeContextMenuOpening(FrameworkElement sender)
 		{
@@ -347,23 +307,23 @@ namespace AppManager
 			return false;
 		}
 		
-		protected GridSplitter CreateGridSplitter(int rowi)
-		{
-			var split = new GridSplitter()
-			{
-				ResizeDirection = GridResizeDirection.Rows,
-				Height = 3,
-				VerticalAlignment = VerticalAlignment.Top,
-				HorizontalAlignment = HorizontalAlignment.Stretch,
-				ShowsPreview = true,
-				Background = Brushes.Transparent
-			};
+		//protected GridSplitter CreateGridSplitter(int rowi)
+		//{
+		//   var split = new GridSplitter()
+		//   {
+		//      ResizeDirection = GridResizeDirection.Rows,
+		//      Height = 3,
+		//      VerticalAlignment = VerticalAlignment.Top,
+		//      HorizontalAlignment = HorizontalAlignment.Stretch,
+		//      ShowsPreview = true,
+		//      Background = Brushes.Transparent
+		//   };
 
-			split.DragCompleted += (s, e) => SaveRowHeight();
-			Grid.SetRow(split, rowi - 1);
+		//   split.DragCompleted += (s, e) => SaveRowHeight();
+		//   Grid.SetRow(split, rowi - 1);
 
-			return split;
-		}
+		//   return split;
+		//}
 
 		protected void SaveRowHeight()
 		{
@@ -575,14 +535,14 @@ namespace AppManager
 			new Resizer(sender as Control, "ContentGrid", Brushes.Gray);
 		}
 
-		private void ButtonList_Initialized(object sender, EventArgs e)
-		{
-			InitButtonList(sender as ButtonList);
-		}
-
 		private void GroupBox_Initialized(object sender, EventArgs e)
 		{
 			InitAppTypeGroupBox(sender as GroupBox);
+		}
+
+		private void ButtonList_Loaded(object sender, RoutedEventArgs e)
+		{
+			InitButtonList(sender as ButtonList);
 		}
 	}
 

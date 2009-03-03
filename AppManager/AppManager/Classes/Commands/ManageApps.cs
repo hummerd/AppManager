@@ -33,7 +33,6 @@ namespace AppManager.Commands
 			if (appManager.ShowDialog() ?? false)
 			{
 				_WorkItem.AppData.MergeEntity(mangerData);
-				_WorkItem.MainWindow.Init(false);
 				_WorkItem.Commands.Save.Execute(null);
 			}
 		}
