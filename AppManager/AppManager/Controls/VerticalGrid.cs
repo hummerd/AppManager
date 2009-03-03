@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 
 namespace AppManager.Controls
@@ -14,7 +15,8 @@ namespace AppManager.Controls
 		}
 
 
-		public double MinRowHeight { get; set; }
+		public double MinRowHeight
+		{ get; set; }
 
 
 		protected override Size MeasureOverride(Size constraint)
@@ -34,6 +36,20 @@ namespace AppManager.Controls
 						});
 					SetRow(Children[ix], ix);
 					ix++;
+				}
+			}
+			else
+			{
+				int childCount = Children.Count;
+				var distRows = new Dictionary<int, object>();
+
+				for (int i = 0; i < childCount; i++)
+				{
+					int row = GetRow(Children[i]);
+					if (distRows.ContainsKey(row))
+						SetRow(Children[i], i);
+					else
+						distRows.Add(row, null);
 				}
 			}
 

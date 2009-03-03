@@ -52,7 +52,7 @@ namespace AppManager
 
 		public string AppTypeInfo
 		{
-			get { return "Приложений в групе: " + _AppInfos.Count; }
+			get { return Strings.APPS_IN_TYPE + " " + _AppInfos.Count; }
 		}
 
 		public AppInfoCollection AppInfos
