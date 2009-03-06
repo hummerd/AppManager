@@ -13,7 +13,7 @@ namespace CommonLib
 	{
 		protected Grid			_Target;
 		protected Control		_Resizer;
-		//protected UIElement	_TargetChild;
+		protected UIElement	_TargetChild;
 		protected int			_GridRow;
 		//protected Point		_InGridPos;
 		protected bool			_DoResize = false;
@@ -29,34 +29,37 @@ namespace CommonLib
 			_Target = UIHelper.FindAncestorOrSelf<Grid>(_Resizer, name);
 			_OriginalBackColor = resizer.Background;
 
-			UIElement targetChild = null;
 			var parent = VisualTreeHelper.GetParent(_Resizer);
 
 			while (parent != null)
 			{
 				if (_Target.Children.Contains(parent as UIElement))
 				{
-					targetChild = parent as UIElement;
+					_TargetChild = parent as UIElement;
 					break;				
 				}
 
 				parent = VisualTreeHelper.GetParent(parent);
 			}
 
-			_GridRow = Grid.GetRow(targetChild);
-
-			if (_GridRow == _Target.RowDefinitions.Count - 1)
-			{
-				var cont = VisualTreeHelper.GetParent(_Resizer) as Panel;
-				cont.Children.Remove(resizer);
-			}
+			_Target.LayoutUpdated += (s, e) => ChangeResizerVisibility();
+			ChangeResizerVisibility();
 
 			resizer.MouseDown += new MouseButtonEventHandler(resizer_MouseDown);
 			resizer.MouseUp += new MouseButtonEventHandler(resizer_MouseUp);
 			resizer.MouseMove += new MouseEventHandler(resizer_MouseMove);
 		}
+		
 
-
+		protected void ChangeResizerVisibility()
+		{
+			_GridRow = Grid.GetRow(_TargetChild);
+			if (_GridRow == _Target.RowDefinitions.Count - 1)
+				_Resizer.Visibility = Visibility.Hidden;
+			else
+				_Resizer.Visibility = Visibility.Visible;
+		}
+		
 		protected void ResizeRows(double dragHeight)
 		{
 			double topRowsHeight = GetRowsHeight(0, _GridRow - 1);
