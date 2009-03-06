@@ -21,35 +21,62 @@ namespace AppManager.Controls
 
 		protected override Size MeasureOverride(Size constraint)
 		{
-			int ch = Children.Count;
-			if (RowDefinitions.Count < ch)
+			UIElementCollection children = Children;
+			RowDefinitionCollection rowDefs = RowDefinitions;
+			int chCount = children.Count;
+			int rdCount = rowDefs.Count;
+
+			if (rdCount < chCount)
 			{
-				int d = Children.Count - RowDefinitions.Count;
-				int ix = Children.Count - d;
+				int d = chCount - rdCount;
+				int ix = chCount - d;
 
 				for (int i = 0; i < d; i++)
 				{
-					RowDefinitions.Add(new RowDefinition()
+					rowDefs.Add(new RowDefinition()
 						{
 							Height = new GridLength(100.0, GridUnitType.Star),
 							MinHeight = MinRowHeight
 						});
-					SetRow(Children[ix], ix);
+					SetRow(children[ix], ix);
 					ix++;
+				}
+			}
+			else if (rdCount > chCount)
+			{
+				int chIx = chCount - 1;
+
+				if (chIx < 0)
+					rowDefs.Clear();
+				else
+				{
+					for (int i = rdCount - 1; i >= 0; i--)
+					{
+						int row = GetRow(children[chIx]);
+						if (row != i)
+						{
+							rowDefs.RemoveAt(i);
+							continue;
+						}
+
+						chIx--;
+					}
+
+					for (int i = 0; i < chCount; i++)
+					{
+						int row = GetRow(children[i]);
+						if (row != i)
+							SetRow(children[i], i);
+					}
 				}
 			}
 			else
 			{
-				int childCount = Children.Count;
-				var distRows = new Dictionary<int, object>();
-
-				for (int i = 0; i < childCount; i++)
+				for (int i = 0; i < chCount; i++)
 				{
-					int row = GetRow(Children[i]);
-					if (distRows.ContainsKey(row))
-						SetRow(Children[i], i);
-					else
-						distRows.Add(row, null);
+					int row = GetRow(children[i]);
+					if (row != i)
+						SetRow(children[i], i);
 				}
 			}
 

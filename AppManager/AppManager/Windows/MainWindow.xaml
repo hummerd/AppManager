@@ -435,7 +435,7 @@
 				</Grid>
 			</Border>
 			<!--Window content-->
-			<Border 
+			<Border
 					x:Name="ClientAreaBorder"
 					Grid.Row="1" 
 					CornerRadius="0,0,4,4" 
@@ -447,10 +447,14 @@
 					Height="Auto"
 					SnapsToDevicePixels="True"
 					FlowDirection="LeftToRight">
-					<ItemsControl 
+					<ItemsControl
+						Background="Transparent"
 						Name="AppTypeContent"
 						SnapsToDevicePixels="True"
-						ItemsSource="{Binding Path=AppData.AppTypes}">
+						ItemsSource="{Binding Path=AppData.AppTypes}"
+						AllowDrop="True"
+						DragOver="ContentPanel_DragOver"
+						>
 						<ItemsControl.Width>
 							<Binding
 								Path="ActualWidth">
