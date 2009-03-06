@@ -329,6 +329,9 @@ namespace AppManager
 		{
 			var contentGrid = UIHelper.FindVisualChild<Grid>(AppTypeContent, "ContentGrid");
 
+			if (contentGrid == null)
+				return;
+
 			double[] h = new double[contentGrid.RowDefinitions.Count];
 			int i = 0;
 			foreach (var item in contentGrid.RowDefinitions)

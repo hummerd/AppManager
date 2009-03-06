@@ -52,6 +52,12 @@ namespace AppManager.Controls
 				{
 					for (int i = rdCount - 1; i >= 0; i--)
 					{
+						if (chIx < 0)
+						{
+							rowDefs.RemoveAt(i);
+							continue;							
+						}
+
 						int row = GetRow(children[chIx]);
 						if (row != i)
 						{
