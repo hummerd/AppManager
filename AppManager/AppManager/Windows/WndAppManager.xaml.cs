@@ -64,6 +64,7 @@ namespace AppManager
 		{
 			_Controller.AddType();
 			AppTypes.SelectedIndex = AppTypes.Items.Count - 1;
+			AppTypeName.Focus();
 		}
 
 		private void BtnRemoveAppType_Click(object sender, RoutedEventArgs e)

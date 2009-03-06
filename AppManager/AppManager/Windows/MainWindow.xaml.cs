@@ -487,11 +487,11 @@ namespace AppManager
 
 		private void ContentPanel_DragOver(object sender, DragEventArgs e)
 		{
-			//if (ContentPanel.Children.Count <= 0)
-			//   _Controller.CreateDefaultType();
+			if (AppTypeContent.Items.Count <= 0)
+				_Controller.CreateDefaultType();
 
-			//e.Effects = DragDropEffects.None;
-			//e.Handled = true;
+			e.Effects = DragDropEffects.None;
+			e.Handled = true;
 		}
 
 		private void Window_Closing(object sender, CancelEventArgs e)
