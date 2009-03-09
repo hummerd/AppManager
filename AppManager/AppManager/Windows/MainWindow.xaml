@@ -453,6 +453,7 @@
 						SnapsToDevicePixels="True"
 						ItemsSource="{Binding Path=AppData.AppTypes}"
 						AllowDrop="True"
+						Focusable="False"
 						DragOver="ContentPanel_DragOver"
 						>
 						<ItemsControl.Width>
@@ -483,12 +484,13 @@
 									IsItemsHost="True"
 									Margin="8"
 									MinRowHeight="92"
+									Focusable="False"
 									Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}" />
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-									<Grid SnapsToDevicePixels="True">
+									<Grid SnapsToDevicePixels="True" Focusable="False">
 										<Grid.RowDefinitions>
 											<RowDefinition Height="*"/>
 											<RowDefinition Height="6"/>
@@ -498,6 +500,7 @@
 											AllowDrop="True"
 											Header="{Binding Path=AppTypeName}"
 											Grid.Row="0"
+											Focusable="False"
 											Style="{DynamicResource CustomGB}"
 											Initialized="GroupBox_Initialized"
 											>
@@ -506,10 +509,11 @@
 												BorderBrush="Transparent"
 												Background="Transparent"
 												AllowDrop="True"
+												Focusable="False"
 												Loaded="ButtonList_Loaded"
 												ItemsSource="{Binding Path=AppInfos}"
 												/>
-										</GroupBox>											
+										</GroupBox>							
 										<Label
 											Grid.Row="1"
 											Cursor="SizeNS"
