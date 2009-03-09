@@ -39,6 +39,25 @@ namespace AppManager
 		}
 
 
+		public string GetDefaultTypeName()
+		{
+			string appTypeName = Strings.APPLICATIONS;
+			int i = 0;
+			while (AppTypeNameExists(appTypeName))
+				appTypeName = Strings.APPLICATIONS + i;  
+
+			return appTypeName;
+		}
+
+		public bool AppTypeNameExists(string appTypeName)
+		{
+			foreach (var item in AppTypes)
+				if (item.AppTypeInfo == appTypeName)
+					return true;
+
+			return false;
+		}
+		
 		public void RequestAppImage(AppInfo app)
 		{
 			app.NeedImage += (s, e) => RequestImage(s as AppInfo);
@@ -95,24 +114,16 @@ namespace AppManager
 			return null;
 		}
 
-		public void GroupByFolders()
+		public void GroupByFolders(AppType source)
 		{
 			if (_AppTypes.Count <= 0)
 				return;
 
-			string winDir = Environment.GetEnvironmentVariable("windir");
-			AppType winApps = new AppType() { AppTypeName = "Windows" };
-			var appSource = _AppTypes[0].AppInfos;
-			for (int i = appSource.Count - 1; i >= 0; i--)
-			{
-				if (appSource[i].AppPath.StartsWith(winDir, StringComparison.InvariantCultureIgnoreCase))
-				{
-					winApps.AppInfos.Add(appSource[i]);
-					appSource.RemoveAt(i);
-				}
-			}
+			var appSource = source.AppInfos;
 
-			_AppTypes.Add(winApps);
+			var winGroup = GroupToWindows(appSource);
+			if (winGroup.AppInfos.Count > 0)
+				_AppTypes.Add(winGroup);
 
 			string progFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 			var groupedApps = new List<int>(appSource.Count);
@@ -150,7 +161,7 @@ namespace AppManager
 				}
 				else
 					i--;
-			}			
+			}		
 		}
 
 		public AppInfo CreateNewAppInfo(AppType appType)
@@ -243,6 +254,28 @@ namespace AppManager
 
 		#endregion
 
+
+
+		protected AppType GroupToWindows(AppInfoCollection appSource)
+		{
+			var winApps = new AppType() { AppTypeName = "Windows" };
+
+			if (_AppTypes.Count <= 0)
+				return winApps;
+
+			string winDir = Environment.GetEnvironmentVariable("windir");
+			
+			for (int i = appSource.Count - 1; i >= 0; i--)
+			{
+				if (appSource[i].AppPath.StartsWith(winDir, StringComparison.InvariantCultureIgnoreCase))
+				{
+					winApps.AppInfos.Add(appSource[i]);
+					appSource.RemoveAt(i);
+				}
+			}
+
+			return winApps;
+		}
 
 		protected void RequestImage(AppInfo app)
 		{

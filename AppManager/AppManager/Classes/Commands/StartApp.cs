@@ -100,13 +100,6 @@ namespace AppManager.Commands
 				_WorkItem.Commands.Help.Execute(false);
 		}
 
-		protected bool InstanceExists()
-		{
-			bool isNew;
-			_Mutex = new Mutex(false, "AppManager.Commands.StartApp.Mutex", out isNew);
-			return !isNew;
-		}
-
 		protected bool FirstLoad()
 		{
 			if (_WorkItem.AppData.AppTypes.Count == 1 &&
@@ -125,14 +118,17 @@ namespace AppManager.Commands
 					{
 						var apps = ctrl.FindAppsInAllProgs();
 						_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
-						_WorkItem.AppData.GroupByFolders();
+						_WorkItem.AppData.GroupByFolders(_WorkItem.AppData.AppTypes[0]);
 					}
 
 					if (askScan.AddFromQickStart)
 					{
 						var apps = ctrl.FindAppsInQuickLaunch();
-						var quickAppType = new AppType(apps) { AppTypeName = Strings.QUICK_LAUNCH };
-						_WorkItem.AppData.AppTypes.Insert(0, quickAppType);
+						if (apps.Count > 0)
+						{
+							var quickAppType = new AppType(apps) { AppTypeName = Strings.QUICK_LAUNCH };
+							_WorkItem.AppData.AppTypes.Insert(0, quickAppType);
+						}
 					}
 
 					_WorkItem.Commands.Save.Execute(null);

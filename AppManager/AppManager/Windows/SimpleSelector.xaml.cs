@@ -43,6 +43,21 @@ namespace AppManager.Windows
 			}
 		}
 
+		public bool AutoGroup
+		{
+			get
+			{
+				return RadioAutoGroup.IsChecked ?? false;
+			}
+		}
+
+
+		protected void SetEnableState()
+		{
+			TxtNewTypeName.IsEnabled = RadioNew.IsChecked ?? false;
+			CbxInput.IsEnabled = RadioExisting.IsChecked ?? false;
+		}
+
 
 		private void Window_Activated(object sender, EventArgs e)
 		{
@@ -56,14 +71,19 @@ namespace AppManager.Windows
 
 		private void RadioNew_Click(object sender, RoutedEventArgs e)
 		{
-			TxtNewTypeName.IsEnabled = RadioNew.IsChecked ?? false;
-			CbxInput.IsEnabled = !(RadioNew.IsChecked ?? false);
+			SetEnableState();
+			TxtNewTypeName.Focus();
 		}
 
 		private void RadioExisting_Click(object sender, RoutedEventArgs e)
 		{
-			TxtNewTypeName.IsEnabled = RadioNew.IsChecked ?? false;
-			CbxInput.IsEnabled = !(RadioNew.IsChecked ?? false);
+			SetEnableState();
+			CbxInput.Focus();
+		}
+
+		private void RadioAutoGroup_Click(object sender, RoutedEventArgs e)
+		{
+			SetEnableState();
 		}
 	}
 }

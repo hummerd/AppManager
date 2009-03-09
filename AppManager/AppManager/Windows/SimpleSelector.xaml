@@ -49,11 +49,19 @@
 		<RadioButton
 			Content="{x:Static am:Strings.NEW}"
 			Height="16"
-			Margin="12,45,0,0"
+			Margin="12,45,12,0"
 			Name="RadioNew"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			TabIndex="3"
 			Click="RadioNew_Click" />
+		<RadioButton
+			Content="{x:Static am:Strings.AUTO_GROUP}"
+			Height="16"
+			Margin="12,74,12,0"
+			Name="RadioAutoGroup"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left"
+			TabIndex="3" Click="RadioAutoGroup_Click" />
 	</Grid>
 </cw:DialogWindow>
