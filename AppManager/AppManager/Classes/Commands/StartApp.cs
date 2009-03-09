@@ -78,7 +78,10 @@ namespace AppManager.Commands
 			_WorkItem.MainWindow.LoadState();
 
 			if (!_WorkItem.Settings.StartMinimized)
+			{
 				_WorkItem.MainWindow.Show();
+				_WorkItem.MainWindow.SetFocus();
+			}
 
 			OnMainWindowLoaded();
 

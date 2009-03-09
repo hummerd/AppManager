@@ -32,6 +32,7 @@ namespace AppManager
 		{
 			InitializeComponent();
 
+			_FocusElement = AppTypeContent;
 			//ContentPanel.Children.Clear();
 			//ContentPanel.RowDefinitions.Clear();
 
@@ -53,7 +54,6 @@ namespace AppManager
 				_Controller.InsertAppType(
 					e.DropObject as AppType, 
 					(s as FrameworkElement).DataContext as AppType);
-
 
 			_FileDrop.AddFiles += (s, e) => 
 				OnDropFiles(s as FrameworkElement, e);
@@ -98,8 +98,9 @@ namespace AppManager
 			if (_FocusElement != null && _FocusElement.Items.Count > 0)
 			{
 				var f = _FocusElement.ItemContainerGenerator.ContainerFromIndex(0) as FrameworkElement;
-				if (f != null)
-					f.Focus();
+				var b = UIHelper.FindVisualChild<ListBoxItem>(f, null);
+				if (b != null)
+					b.Focus();
 			}
 		}
 
