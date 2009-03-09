@@ -176,6 +176,10 @@ namespace AppManager.Commands
 				WinFrmMenuAdapter.CreateMenuItem(
 					Strings.MNU_MANAGEAPP, _WorkItem.Commands.ManageApps));
 
+			mnu.Items.Add(
+				WinFrmMenuAdapter.CreateMenuItem(
+				CommStr.ABOUT, _WorkItem.Commands.Help, true));
+
 			mnu.Items.Add( //-------
 				new WinForms.ToolStripSeparator());
 
