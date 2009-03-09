@@ -139,6 +139,23 @@ namespace AppManager
 			}
 		}
 
+		public void AddScned(List<AppInfoAdapter> list)
+		{
+			if (list == null)
+				return;
+
+			var appType = new AppType() { AppTypeName = _Data.GetDefaultTypeName() };
+			_Data.AppTypes.Add(appType);
+
+			foreach (AppInfoAdapter infoAdp in list)
+			{
+				if (infoAdp.Checked)
+					appType.AppInfos.Add(infoAdp.App);
+			}
+
+			_Data.GroupByFolders(appType);
+		}
+
 		public void SelectAllScan(IEnumerable appAdps, bool check)
 		{
 			var apps = appAdps as List<AppInfoAdapter>;

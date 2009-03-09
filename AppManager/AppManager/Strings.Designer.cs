@@ -151,6 +151,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto group.
+        /// </summary>
+        public static string AUTO_GROUP {
+            get {
+                return ResourceManager.GetString("AUTO_GROUP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Autostart.
         /// </summary>
         public static string AUTO_START {

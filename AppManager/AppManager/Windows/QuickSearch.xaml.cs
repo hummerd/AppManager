@@ -157,6 +157,8 @@ namespace AppManager.Windows
 				{
 					TxtSearch.Text = TxtSearch.Text + e.Text;
 					TxtSearch.Focus();
+					TxtSearch.SelectionStart = TxtSearch.Text.Length;
+					e.Handled = true;
 				}
 			}
 		}

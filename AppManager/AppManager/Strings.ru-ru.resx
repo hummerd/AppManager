@@ -147,6 +147,9 @@
   <data name="APP_TYPE_NAME" xml:space="preserve">
     <value>Имя группы</value>
   </data>
+  <data name="AUTO_GROUP" xml:space="preserve">
+    <value>Авто группировка</value>
+  </data>
   <data name="AUTO_START" xml:space="preserve">
     <value>Автостарт</value>
   </data>

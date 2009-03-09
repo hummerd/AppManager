@@ -177,10 +177,14 @@ namespace AppManager
 
 			if (ss.ShowDialog() ?? false)
 			{
-				_Controller.AddScned(
-					ss.SelectedItem as AppType,
-					ss.NewName,
-					AppScanList.ItemsSource as List<AppManager.AppManagerController.AppInfoAdapter>);
+				var foundApps = AppScanList.ItemsSource as List<AppManagerController.AppInfoAdapter>;
+				if (ss.AutoGroup)
+					_Controller.AddScned(foundApps);
+				else
+					_Controller.AddScned(
+						ss.SelectedItem as AppType,
+						ss.NewName,
+						foundApps);
 			}
 		}
 
