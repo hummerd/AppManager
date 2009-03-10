@@ -35,7 +35,14 @@ namespace DragDropLib
 			};
 			
 			WindowInteropHelper wndHelper = new WindowInteropHelper(FindAncestorOrSelf<Window>(element));
-			_DropTargetHelper.DragEnter(wndHelper.Handle, (ComIDataObject)e.Data, ref wp, (int)e.Effects);
+			try
+			{
+				//Some times we ve got an exception here, i don't know why
+				//It happens when drag from total commander
+				_DropTargetHelper.DragEnter(wndHelper.Handle, (ComIDataObject)e.Data, ref wp, (int)e.Effects);
+			}
+			catch(ArgumentException)
+			{ ; }
 		}
 
 		protected virtual void OnDragLeave(DragEventArgs e)
