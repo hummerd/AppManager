@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.IO;
+using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
 using Drawing = System.Drawing;
 using Imaging = System.Drawing.Imaging;
-using System.Collections.Generic;
 
 
 namespace DragDropLib
@@ -235,6 +231,16 @@ namespace DragDropLib
 		}
 
 
+		protected override void OnDragEnter(DragEventArgs e, FrameworkElement element)
+		{
+			base.OnDragEnter(e, element);
+
+			if (e.Handled)
+				return;
+
+			PrepareSupportedEffect(e);
+		}
+
 		protected override void OnDragOver(DragEventArgs e, FrameworkElement element)
 		{
 			base.OnDragOver(e, element);
@@ -242,12 +248,7 @@ namespace DragDropLib
 			if (e.Handled)
 				return;
 
-			DragDropEffects effect = DragDropEffects.None;
-			foreach (var item in _DragHandlers)
-				effect |= item.SupportDataFormat(e);
-
-			e.Effects = e.AllowedEffects & effect;
-			e.Handled = effect != DragDropEffects.None;
+			PrepareSupportedEffect(e);
 		}
 
 		protected override void OnDrop(DragEventArgs e, FrameworkElement element)
@@ -283,7 +284,16 @@ namespace DragDropLib
 			//}
 		}
 
-		//protected abstract void HandleDropedObject(FrameworkElement element, DragEventArgs e, object dragObject);
+
+		protected void PrepareSupportedEffect(DragEventArgs e)
+		{
+			DragDropEffects effect = DragDropEffects.None;
+			foreach (var item in _DragHandlers)
+				effect |= item.SupportDataFormat(e);
+
+			e.Effects = e.AllowedEffects & effect;
+			e.Handled = effect != DragDropEffects.None;
+		}
 		
 
 		private void PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

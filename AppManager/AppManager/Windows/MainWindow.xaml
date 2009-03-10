@@ -485,7 +485,8 @@
 									Margin="8"
 									MinRowHeight="92"
 									Focusable="False"
-									Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}" />
+									/>
+								<!--Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}"-->
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
@@ -498,6 +499,7 @@
 										<GroupBox 
 											SnapsToDevicePixels="True"
 											AllowDrop="True"
+											Background="Transparent"
 											Header="{Binding Path=AppTypeName}"
 											Grid.Row="0"
 											Focusable="False"

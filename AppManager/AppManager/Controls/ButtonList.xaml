@@ -23,7 +23,12 @@
 				<Setter.Value>
 					<ControlTemplate
 						TargetType="{x:Type ListBoxItem}">
-						<Border
+						<ContentPresenter
+							Name="Bd"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						<!--<Border
 							x:Name="Bd"
 							SnapsToDevicePixels="true"
 							Background="Transparent"
@@ -34,12 +39,12 @@
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-						</Border>
-						<ControlTemplate.Triggers>
+						</Border>-->
+						<!--<ControlTemplate.Triggers>
 							<Trigger
 								Property="IsSelected"
 								Value="true">
-								<!--<Setter Property="Foreground" Value="Red"/>-->
+								<Setter Property="Foreground" Value="Red"/>
 								<Setter
 									Property="Background"
 									TargetName="Bd"
@@ -69,7 +74,7 @@
 									Property="Foreground"
 									Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
 							</Trigger>
-						</ControlTemplate.Triggers>
+						</ControlTemplate.Triggers>-->
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
