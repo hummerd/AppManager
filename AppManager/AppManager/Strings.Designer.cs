@@ -169,7 +169,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open app data file.
+        ///   Looks up a localized string similar to Open application data file.
         /// </summary>
         public static string EDIT_APP_DATA {
             get {
@@ -178,11 +178,20 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter app name.
+        ///   Looks up a localized string similar to Enter application name.
         /// </summary>
         public static string ENTER_APP_NAME {
             get {
                 return ResourceManager.GetString("ENTER_APP_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter application group name.
+        /// </summary>
+        public static string ENTER_APP_TYPE_NAME {
+            get {
+                return ResourceManager.GetString("ENTER_APP_TYPE_NAME", resourceCulture);
             }
         }
         
@@ -219,6 +228,15 @@ namespace AppManager {
         public static string MNU_ADD_APP {
             get {
                 return ResourceManager.GetString("MNU_ADD_APP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add group....
+        /// </summary>
+        public static string MNU_ADD_APP_TYPE {
+            get {
+                return ResourceManager.GetString("MNU_ADD_APP_TYPE", resourceCulture);
             }
         }
         
@@ -331,7 +349,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show app data folder.
+        ///   Looks up a localized string similar to Show application data folder.
         /// </summary>
         public static string OPEN_APP_DATA {
             get {

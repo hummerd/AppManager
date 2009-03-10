@@ -221,6 +221,9 @@ namespace AppManager
 				_Controller.AddNewApp((s as FrameworkElement).DataContext as AppType);
 
 			((MenuItem)menu.Items[1]).Click += (s, ea) =>
+				_Controller.InsertAppType((s as FrameworkElement).DataContext as AppType);
+
+			((MenuItem)menu.Items[2]).Click += (s, ea) =>
 				_Controller.DeleteAppType((s as FrameworkElement).DataContext as AppType);
 
 			return menu;
@@ -252,13 +255,7 @@ namespace AppManager
 			else
 			{
 				var menu = buttonList.CommonMenu;
-				menu.DataContext = buttonList.DataContext;
-
-				((MenuItem)menu.Items[0]).Header = Strings.MNU_ADD_APP;
-				((MenuItem)menu.Items[1]).Header = String.Format(Strings.MNU_DELETE_TYPE, buttonList.DataContext);
-
-				//menu.Placement = PlacementMode.;
-				//menu.PlacementTarget = item;
+				PrepareAppTypeContextMenu(menu, buttonList.DataContext);
 				menu.IsOpen = true;
 			}
 
@@ -299,15 +296,18 @@ namespace AppManager
 			if (sender == null)
 				return false;
 
-			var menu = sender.ContextMenu;
-			menu.DataContext = sender.DataContext;
-
-			((MenuItem)menu.Items[0]).Header = Strings.MNU_ADD_APP;
-			((MenuItem)menu.Items[1]).Header = String.Format(Strings.MNU_DELETE_TYPE, sender.DataContext);
-
+			PrepareAppTypeContextMenu(sender.ContextMenu, sender.DataContext);
 			return false;
 		}
-		
+
+
+		protected void PrepareAppTypeContextMenu(ContextMenu menu, object dataContext)
+		{
+			menu.DataContext = dataContext;
+
+			((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_DELETE_TYPE, dataContext);
+		}
+
 		//protected GridSplitter CreateGridSplitter(int rowi)
 		//{
 		//   var split = new GridSplitter()
@@ -507,6 +507,11 @@ namespace AppManager
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			LoadRowHeight();
+
+			AppTypeContent.ContextMenu = MenuHelper.CopyMenu(App.Current.Resources["AddAppTypeMenu"] as ContextMenu);
+			((MenuItem)AppTypeContent.ContextMenu.Items[0]).Click += (s, ea) =>
+				_Controller.AddAppType();
+
 			//ContentPanel.InvalidateVisual();
 			//UpdateLayout();
 			//InvalidateVisual();

@@ -36,6 +36,39 @@ namespace AppManager
 			_WorkItem.AppData.AppTypes.Remove(appType);
 		}
 
+		public void AddAppType()
+		{
+			InputBox input = new InputBox(Strings.ENTER_APP_TYPE_NAME);
+			input.InputText = Strings.APPLICATIONS;
+			input.Owner = _WorkItem.MainWindow;
+			input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+			if (input.ShowDialog() ?? false)
+			{
+				InsertAppType(
+					new AppType() { AppTypeName = input.InputText },
+					null);
+			}
+		}
+
+		public void InsertAppType(AppType appType)
+		{
+			if (appType == null)
+				return;
+
+			InputBox input = new InputBox(Strings.ENTER_APP_TYPE_NAME);
+			input.InputText = Strings.APPLICATIONS;
+			input.Owner = _WorkItem.MainWindow;
+			input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+			if (input.ShowDialog() ?? false)
+			{
+				InsertAppType(
+					new AppType() { AppTypeName = input.InputText },
+					appType);
+			}
+		}
+
 		public void InsertAppType(AppType addAppType, AppType beforeAppType)
 		{
 			if (addAppType == null)
