@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\AutoStart.cs" />
     <Compile Include="MenuHelper.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="PathHelper.cs" />
@@ -75,7 +76,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Resizer.cs" />
-    <Compile Include="SingleInstance.cs" />
+    <Compile Include="Application\SingleInstance.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="ValueEventArgs.cs" />
     <Compile Include="Windows\DialogKeyDecorator.cs" />

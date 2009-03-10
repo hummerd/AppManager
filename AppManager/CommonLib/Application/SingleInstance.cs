@@ -5,7 +5,7 @@ using System.Runtime.Remoting.Channels.Ipc;
 using System.Windows;
 
 
-namespace CommonLib
+namespace CommonLib.Application
 {
 	public class SingleInstance
 	{
@@ -92,12 +92,12 @@ namespace CommonLib
 
 		public void ActivateApp()
 		{
-			Application.Current.Dispatcher.Invoke(new SingleTask(ActivateMainWnd));
+			System.Windows.Application.Current.Dispatcher.Invoke(new SingleTask(ActivateMainWnd));
 		}
 
 		protected void ActivateMainWnd()
-		{ 
-			var wnd = Application.Current.MainWindow;
+		{
+			var wnd = System.Windows.Application.Current.MainWindow;
 
 			bool top = wnd.Topmost;
 
