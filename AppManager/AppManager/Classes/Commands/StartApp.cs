@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using AppManager.Properties;
 using AppManager.Windows;
 using CommonLib;
+using CommonLib.Application;
 using CommonLib.PInvoke;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;

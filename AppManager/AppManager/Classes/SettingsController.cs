@@ -3,12 +3,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using WinSh = IWshRuntimeLibrary;
+using CommonLib.Application;
 
 
 namespace AppManager.Classes
 {
 	public class SettingsController : ControllerBase
 	{
+		protected AutoStart _AutoStart = new AutoStart("AppManager");
+
+
 		public SettingsController(MainWorkItem workItem)
 			: base(workItem)
 		{
@@ -37,30 +41,45 @@ namespace AppManager.Classes
 
 		public bool IsStartupFileExists()
 		{
-			return File.Exists(GetStartUpFile());
+			return _AutoStart.IsAutoStartSet();
 		}
 
 		public void SetStartUp(bool startUp)
 		{
-			string path = GetStartUpFile();
-			bool scExsist = File.Exists(path);
+			//clean for old method
+			if (File.Exists(GetStartUpFile()))
+				File.Delete(GetStartUpFile());
 
-			if (startUp)
-			{
-				WinSh.WshShellClass shell = new WinSh.WshShellClass();
-				WinSh.IWshShortcut lnk;
-
-				lnk = (WinSh.IWshShortcut)shell.CreateShortcut(path);
-				lnk.TargetPath = Assembly.GetExecutingAssembly().Location;
-				lnk.Save();
-			}
-			else
-			{
-				if (scExsist)
-					File.Delete(path);
-			}
+			_AutoStart.SetStartUp(startUp);
 		}
-		
+
+
+		//public bool IsStartupFileExists()
+		//{
+		//   return File.Exists(GetStartUpFile());
+		//}
+
+		//public void SetStartUp(bool startUp)
+		//{
+		//   string path = GetStartUpFile();
+		//   bool scExsist = File.Exists(path);
+
+		//   if (startUp)
+		//   {
+		//      WinSh.WshShellClass shell = new WinSh.WshShellClass();
+		//      WinSh.IWshShortcut lnk;
+
+		//      lnk = (WinSh.IWshShortcut)shell.CreateShortcut(path);
+		//      lnk.TargetPath = Assembly.GetExecutingAssembly().Location;
+		//      lnk.Save();
+		//   }
+		//   else
+		//   {
+		//      if (scExsist)
+		//         File.Delete(path);
+		//   }
+		//}
+
 		public string GetStartUpPath()
 		{
 			return Environment.GetFolderPath(Environment.SpecialFolder.Startup);
