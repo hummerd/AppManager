@@ -253,6 +253,9 @@ namespace DragDropLib
 
 		protected override void OnDrop(DragEventArgs e, FrameworkElement element)
 		{
+			PrepareSupportedEffect(e);
+			e.Handled = false;
+
 			base.OnDrop(e, element);
 
 			if (e.Handled)

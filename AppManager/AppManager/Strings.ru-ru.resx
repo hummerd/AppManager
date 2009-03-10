@@ -159,6 +159,9 @@
   <data name="ENTER_APP_NAME" xml:space="preserve">
     <value>Введите имя приложения</value>
   </data>
+  <data name="ENTER_APP_TYPE_NAME" xml:space="preserve">
+    <value>Введите имя группы</value>
+  </data>
   <data name="ERROR" xml:space="preserve">
     <value>Ошибка в Стартере</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="MNU_ADD_APP" xml:space="preserve">
     <value>Добавить новое приложение...</value>
+  </data>
+  <data name="MNU_ADD_APP_TYPE" xml:space="preserve">
+    <value>Добавить группу...</value>
   </data>
   <data name="MNU_CLOSE" xml:space="preserve">
     <value>Выход</value>

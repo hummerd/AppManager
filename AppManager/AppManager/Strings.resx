@@ -154,10 +154,13 @@
     <value>Autostart</value>
   </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
-    <value>Open app data file</value>
+    <value>Open application data file</value>
   </data>
   <data name="ENTER_APP_NAME" xml:space="preserve">
-    <value>Enter app name</value>
+    <value>Enter application name</value>
+  </data>
+  <data name="ENTER_APP_TYPE_NAME" xml:space="preserve">
+    <value>Enter application group name</value>
   </data>
   <data name="ERROR" xml:space="preserve">
     <value>AppManager error</value>
@@ -170,6 +173,9 @@
   </data>
   <data name="MNU_ADD_APP" xml:space="preserve">
     <value>Add new application...</value>
+  </data>
+  <data name="MNU_ADD_APP_TYPE" xml:space="preserve">
+    <value>Add group...</value>
   </data>
   <data name="MNU_CLOSE" xml:space="preserve">
     <value>Exit</value>
@@ -208,7 +214,7 @@
     <value>New application</value>
   </data>
   <data name="OPEN_APP_DATA" xml:space="preserve">
-    <value>Show app data folder</value>
+    <value>Show application data folder</value>
   </data>
   <data name="PAGE_ON_CP" xml:space="preserve">
     <value>StartUp's page on CodePlex</value>
