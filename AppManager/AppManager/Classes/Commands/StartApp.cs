@@ -37,7 +37,7 @@ namespace AppManager.Commands
 		{
 			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
-			_Single = new SingleInstance(10251);
+			_Single = new SingleInstance(10251, true);
 			if (!_Single.FirstInstance)
 				return;
 						
