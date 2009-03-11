@@ -12,8 +12,12 @@ namespace CommonLib.Application
 		protected RemoteSingleInstance _Single;
 		protected bool _FirstInstance = true;
 
-		public SingleInstance(int port)
+
+		public SingleInstance(int port, bool sessionUnique)
 		{
+			if (sessionUnique)
+				port += System.Diagnostics.Process.GetCurrentProcess().SessionId;
+
 			try
 			{
 				InitFirstInstance(port);
