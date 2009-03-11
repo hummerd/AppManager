@@ -328,7 +328,8 @@
 					IsSynchronizedWithCurrentItem="True"
 					x:Name="AppTypes"
 					Margin="8,0,8,8"
-					Grid.Row="1" />
+					Grid.Row="1"
+					SelectionChanged="AppTypes_SelectionChanged" />
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition

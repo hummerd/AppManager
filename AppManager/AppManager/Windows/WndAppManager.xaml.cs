@@ -230,5 +230,11 @@ namespace AppManager
 				_ItemToSelect = null;
 			}
 		}
+
+		private void AppTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			AppTypeName.Focus();
+			AppTypeName.SelectAll();
+		}
 	}
 }
