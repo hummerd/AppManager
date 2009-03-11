@@ -5,9 +5,9 @@ using System.Windows;
 
 namespace CommonLib.PInvoke
 {
-		/// <summary>
-		/// Functions and delegates used for performing PInvoke for Win32 calls in User32.dll
-		/// </summary>
+	/// <summary>
+	/// Functions and delegates used for performing PInvoke for Win32 calls in User32.dll
+	/// </summary>
 	public class User32
 	{
 		private User32() { }
@@ -74,9 +74,6 @@ namespace CommonLib.PInvoke
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern bool AttachThreadInput(int t, int tt, bool b);
 
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern int GetCurrentThreadId();
-
 
 		public static void ActivateWindow(Window wnd)
 		{
@@ -95,7 +92,7 @@ namespace CommonLib.PInvoke
 			if (idThreadAttachTo > 0)
 			{
 				bool r = User32.AttachThreadInput(
-					GetCurrentThreadId(),
+					Kernel32.GetCurrentThreadId(),
 					idThreadAttachTo, true);
 			}
 		}

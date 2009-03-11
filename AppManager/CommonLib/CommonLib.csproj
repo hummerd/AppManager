@@ -63,6 +63,7 @@
     <Compile Include="Pair.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="PInvoke\GDI32.cs" />
+    <Compile Include="PInvoke\Kernel32.cs" />
     <Compile Include="PInvoke\KeyHook.cs" />
     <Compile Include="PInvoke\MsiShortcutParser.cs" />
     <Compile Include="PInvoke\ScaleUI.cs" />
