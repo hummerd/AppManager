@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Windows;
 
 
 namespace CommonLib.PInvoke
@@ -57,7 +57,49 @@ namespace CommonLib.PInvoke
 		public static extern bool SetForegroundWindow(IntPtr hWnd);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern IntPtr GetForegroundWindow();
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern int GetWindowThreadProcessId(IntPtr hWnd, int f);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern bool BringWindowToTop(IntPtr hWnd);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndAfter, int l, int t, int r, int b, int flag);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern bool AttachThreadInput(int t, int tt, bool b);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern int GetCurrentThreadId();
+
+
+		public static void ActivateWindow(Window wnd)
+		{
+			AttachThreadInput();
+
+			var win = new System.Windows.Interop.WindowInteropHelper(wnd);
+			BringWindowToTop(win.Handle);
+			SetWindowPos(win.Handle, IntPtr.Zero, 0, 0, 0, 0, 0x0001 | 0x0002);
+			SetForegroundWindow(win.Handle);
+		}
+
+		public static void AttachThreadInput()
+		{
+			var hwndFrgnd = User32.GetForegroundWindow();
+			var idThreadAttachTo = hwndFrgnd.ToInt64() > 0 ? User32.GetWindowThreadProcessId(hwndFrgnd, 0) : 0;
+			if (idThreadAttachTo > 0)
+			{
+				bool r = User32.AttachThreadInput(
+					GetCurrentThreadId(),
+					idThreadAttachTo, true);
+			}
+		}
+		
 
 		#region User32 Enums
 		/// <summary>
