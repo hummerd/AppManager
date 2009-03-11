@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CommonLib.PInvoke;
+
 
 namespace AppManager.Commands
 {
@@ -19,15 +18,8 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			MainWindow wnd = _WorkItem.MainWindow;
-
-			bool top = wnd.Topmost;
-
 			wnd.Show();
-			wnd.Topmost = true;
-			wnd.Focus();
-			wnd.Topmost = top;
-			wnd.Activate();
-			wnd.InvalidateVisual();
+			User32.ActivateWindow(wnd);
 			wnd.SetFocus();
 		}
 	}
