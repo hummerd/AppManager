@@ -106,7 +106,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to App group name.
+        ///   Looks up a localized string similar to Group name.
         /// </summary>
         public static string APP_TYPE_NAME {
             get {

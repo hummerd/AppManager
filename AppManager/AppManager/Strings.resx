@@ -145,7 +145,7 @@
     <value>Application groups</value>
   </data>
   <data name="APP_TYPE_NAME" xml:space="preserve">
-    <value>App group name</value>
+    <value>Group name</value>
   </data>
   <data name="AUTO_GROUP" xml:space="preserve">
     <value>Auto group</value>
