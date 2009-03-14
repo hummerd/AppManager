@@ -12,6 +12,23 @@ namespace DragDropLib
 {
 	public abstract class DragHelperBase : DropTargetHelper
 	{
+		public static void InitDragHelper()
+		{
+			try
+			{
+				DataObject dataObject = new DataObject();
+				var data = new System.Windows.DataObject(dataObject);
+
+				DragDrop.DoDragDrop(
+					null,
+					data,
+					DragDropEffects.Copy | DragDropEffects.Move);
+			}
+			catch
+			{ ; }
+		}
+		
+
 		public event EventHandler DragStart;
 		public event EventHandler<DragEndEventArgs> DragEnd;
 
