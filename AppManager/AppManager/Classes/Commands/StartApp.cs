@@ -37,6 +37,8 @@ namespace AppManager.Commands
 		{
 			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
+			ThreadPool.QueueUserWorkItem(InitDrag);
+
 			_Single = new SingleInstance(10251, true);
 			if (!_Single.FirstInstance)
 				return;
@@ -57,9 +59,6 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
 
-			//_WorkItem.MainWindow.Init(first);
-			//System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Init");
-
 			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
 			kbrdHook.KeyDown += KbrdHook_KeyDown;
 
@@ -70,10 +69,6 @@ namespace AppManager.Commands
 			tray.ContextMenuStrip = CreateTrayMenu();
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
-
-			Assembly.Load("DragDropLib");
-
-			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " DragDropLib");
 
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
@@ -230,6 +225,15 @@ namespace AppManager.Commands
 				_WorkItem.Commands.Activate.Execute(null);
 		}
 
+		protected void InitDrag(object state)
+		{
+			try
+			{
+				DragDropLib.DragHelperBase.InitDragHelper();
+			}
+			catch
+			{ ; }
+		}
 		
 		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
