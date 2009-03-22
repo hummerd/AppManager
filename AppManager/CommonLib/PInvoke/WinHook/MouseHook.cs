@@ -29,6 +29,16 @@ namespace CommonLib.PInvoke.WinHook
 			(IntPtr)User32.WindowMessage.WM_RBUTTONUP
 		};
 
+        protected IntPtr[] _MouseLeftEvents = new IntPtr[] { 
+			(IntPtr)User32.WindowMessage.WM_LBUTTONDOWN,
+			(IntPtr)User32.WindowMessage.WM_LBUTTONUP
+		};
+
+        protected IntPtr[] _MouseRightEvents = new IntPtr[] { 
+			(IntPtr)User32.WindowMessage.WM_RBUTTONDOWN,
+			(IntPtr)User32.WindowMessage.WM_RBUTTONUP
+		};
+
 
 		// events
 		public event EventHandler<MouseHookEventArgs> MouseDown;
@@ -43,27 +53,36 @@ namespace CommonLib.PInvoke.WinHook
 
 		protected override bool ProcessHook(IntPtr wParam, MouseHook.MSLLHOOKSTRUCT param)
 		{
-			var hookEA = new MouseHookEventArgs(new Point(param.pt.X, param.pt.Y));
+            bool handled = false;
 
 			if ((param.flags & 0x80) == 0)
 			{
+                var hookEA = new MouseHookEventArgs(
+                    new Point(param.pt.X, param.pt.Y),
+                    Array.IndexOf(_MouseLeftEvents, wParam) >= 0,
+                    Array.IndexOf(_MouseRightEvents, wParam) >= 0);
+
 				if (Array.IndexOf(_MouseDownEvents, wParam) >= 0 && MouseDown != null)
 					MouseDown(this, hookEA);
 
 				if (Array.IndexOf(_MouseUpEvents, wParam) >= 0 && MouseUp != null)
 					MouseUp(this, hookEA);
+
+                handled = hookEA.Handled;
 			}
 
-			return !hookEA.Handled;
+			return !handled;
 		}
 	}
 
 	public class MouseHookEventArgs : EventArgs
 	{
-		public MouseHookEventArgs(Point position)
+		public MouseHookEventArgs(Point position, bool leftButton, bool rightButton)
 		{
 			Handled = false;
 			Position = position;
+            LeftButton = leftButton;
+            RightButton = rightButton;
 		}
 
 
@@ -78,5 +97,11 @@ namespace CommonLib.PInvoke.WinHook
 			get;
 			set;
 		}
+
+        public bool LeftButton
+        { get; set; }
+
+        public bool RightButton
+        { get; set; }
 	}
 }

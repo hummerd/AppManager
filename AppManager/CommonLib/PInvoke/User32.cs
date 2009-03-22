@@ -12,8 +12,8 @@ namespace CommonLib.PInvoke
 	{
 		public struct POINT
 		{
-			public Int64 X;
-			public Int64 Y;
+			public Int32 X;
+			public Int32 Y;
 		}
 		
 

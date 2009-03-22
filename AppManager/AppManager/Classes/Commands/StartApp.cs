@@ -60,8 +60,8 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
 
-			KeyboardHook kbrdHook = _WorkItem.KbrdHook;
-			kbrdHook.KeyDown += KbrdHook_KeyDown;
+			_WorkItem.KbrdHook.KeyDown += KbrdHook_KeyDown;
+            _WorkItem.MsHook.MouseUp += MsHook_MouseUp;
 
 			WinForms.NotifyIcon tray = _WorkItem.TrayIcon;
 			tray.Icon = Resources.leftarrow;
@@ -272,5 +272,14 @@ namespace AppManager.Commands
 				e.Handled = true;
 			}
 		}
+
+        private void MsHook_MouseUp(object sender, MouseHookEventArgs e)
+        {
+            if (e.LeftButton && e.Position.X <= 0.1)
+            {
+                ChangeActiveState(false);
+                e.Handled = true;            
+            }
+        }
 	}
 }
