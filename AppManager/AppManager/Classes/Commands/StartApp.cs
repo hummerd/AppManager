@@ -126,7 +126,9 @@ namespace AppManager.Commands
 						var apps = ctrl.FindAppsInQuickLaunch();
 						if (apps.Count > 0)
 						{
-							var quickAppType = new AppType(apps) { AppTypeName = Strings.QUICK_LAUNCH };
+							var quickAppType = new AppType() 
+                                { AppTypeName = Strings.QUICK_LAUNCH };
+                            quickAppType.AppInfos.AddRange(apps);
 							_WorkItem.AppData.AppTypes.Insert(0, quickAppType);
 						}
 					}

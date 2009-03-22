@@ -18,12 +18,12 @@ namespace AppManager.EntityCollection
 			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
 		}
 
-		public EntityCollection(IEnumerable<TEntity> collection)
-			: base(collection)
-		{
-			_Deleted = new List<TEntity>();
-			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
-		}
+        //public EntityCollection(IEnumerable<TEntity> collection)
+        //    : base(collection)
+        //{
+        //    _Deleted = new List<TEntity>();
+        //    _DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
+        //}
 
 
 		public ReadOnlyCollection<TEntity> DeletedItems
@@ -32,6 +32,12 @@ namespace AppManager.EntityCollection
 			set { _DeletedItems = value; }
 		}
 
+
+        public void AddRange(IEnumerable<TEntity> items)
+        {
+            foreach (var item in items)
+                Add(item);
+        }
 
 		public TEntity FindBySource(TEntity search)
 		{
