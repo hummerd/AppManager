@@ -11,12 +11,13 @@ namespace AppManager
 	public class MainWorkItem
 	{
 		protected AppGroup		_AppData;
-		protected MainWindow		_MainWindow;
-		protected App				_Application;
+		protected MainWindow	_MainWindow;
+		protected App			_Application;
 		protected KeyboardHook	_KbrdHook;
-		protected WinForms.NotifyIcon _TrayIcon;
-		protected AppCommands	_Commands;
-		protected AppManagerSettings _Settings;
+        protected MouseHook     _MsHook;
+		protected WinForms.NotifyIcon   _TrayIcon;
+		protected AppCommands	        _Commands;
+		protected AppManagerSettings    _Settings;
 
 
 		public MainWorkItem()
@@ -25,6 +26,7 @@ namespace AppManager
 			_Settings = AMSetttingsFactory.DefaultSettingsBag.Settings;
 			_Commands = new AppCommands(this);
 			_KbrdHook = new KeyboardHook();
+            _MsHook = new MouseHook();
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
@@ -54,6 +56,14 @@ namespace AppManager
 				return _KbrdHook;
 			}
 		}
+
+        public MouseHook MsHook
+        {
+            get
+            {
+                return _MsHook;
+            }
+        }
 
 		public WinForms.NotifyIcon TrayIcon
 		{
