@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using AppManager.Commands;
-using WinForms = System.Windows.Forms;
-using CommonLib.PInvoke;
 using AppManager.Settings;
+using CommonLib.PInvoke.WinHook;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager

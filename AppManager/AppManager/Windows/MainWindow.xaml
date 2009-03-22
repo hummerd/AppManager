@@ -393,22 +393,28 @@
 						ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
 						Grid.Column="1" />
 					<TextBlock
-							FontSize="14"
-							Foreground="#FFFBD888"
-							TextAlignment="Center"
-							TextWrapping="Wrap" Text="{x:Static am:Strings.APP_TITLE}"
-							d:IsStaticText="True"
-							Grid.Column="2"
-							Margin="8,4,6,2">
-						<TextBlock.Effect>
-							<DropShadowEffect
-									Direction="325"
-									Opacity="1"
-									ShadowDepth="8" />
-						</TextBlock.Effect>
-						<Run
-								FontWeight="Bold"
-								Foreground="#FFFFDC8F" />
+						Name="CaptionTextShadow"
+						FontSize="14"
+						Foreground="Black"
+						TextAlignment="Center"
+						TextWrapping="Wrap" 
+						Text="{x:Static am:Strings.APP_TITLE}"
+						d:IsStaticText="True"
+						Grid.Column="2"
+						Margin="12,6,6,2" Opacity="0.75">
+						<Run FontWeight="Bold"/>
+					</TextBlock>
+					<TextBlock
+						Name="CaptionText"
+						FontSize="14"
+						Foreground="#FFFBD888"
+						TextAlignment="Center"
+						TextWrapping="Wrap" 
+						Text="{x:Static am:Strings.APP_TITLE}"
+						d:IsStaticText="True"
+						Grid.Column="2"
+						Margin="8,4,6,2" Opacity="1">
+						<Run FontWeight="Bold" Foreground="#FFFFDC8F"/>
 					</TextBlock>
 					<Button
 						Name="ButtonHelp"
