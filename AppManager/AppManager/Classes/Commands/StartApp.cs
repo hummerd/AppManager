@@ -12,6 +12,7 @@ using CommonLib.Application;
 using CommonLib.PInvoke;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
+using CommonLib.PInvoke.WinHook;
 
 
 namespace AppManager.Commands
@@ -261,7 +262,7 @@ namespace AppManager.Commands
 			}
 		}
 
-		private void KbrdHook_KeyDown(object sender, HookEventArgs e)
+		private void KbrdHook_KeyDown(object sender, KbrdHookEventArgs e)
 		{
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{

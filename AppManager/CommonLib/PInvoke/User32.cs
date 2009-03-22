@@ -10,7 +10,12 @@ namespace CommonLib.PInvoke
 	/// </summary>
 	public class User32
 	{
-		private User32() { }
+		public struct POINT
+		{
+			public Int64 X;
+			public Int64 Y;
+		}
+		
 
 		/// <summary>
 		/// See MSDN documentation for the Win32 function GetDC.
@@ -323,10 +328,32 @@ namespace CommonLib.PInvoke
 		public enum WindowMessage : int
 		{
 			WM_SYSCOMMAND = 274,
-			WM_LBUTTONUP = 514,
 			WM_ACTIVATE	= 0x0006,
 			WM_ACTIVATEAPP	= 0x001C,
-			WM_CHANGEUISTATE = 0x0127
+			WM_CHANGEUISTATE = 0x0127,
+
+			WM_KEYFIRST = 0x0100,
+			WM_KEYDOWN  = 0x0100,
+			WM_KEYUP    = 0x0101,
+			WM_CHAR     = 0x0102,
+			WM_DEADCHAR = 0x0103,
+			WM_SYSKEYDOWN = 0x0104,
+			WM_SYSKEYUP = 0x0105,
+			WM_KEYLAST	= 0x108,
+
+			WM_MOUSEFIRST = 0x200,
+			WM_MOUSEMOVE = 0x200,
+			WM_LBUTTONDOWN = 0x201,
+			WM_LBUTTONUP = 0x202,
+			WM_LBUTTONDBLCLK = 0x203,
+			WM_RBUTTONDOWN = 0x204,
+			WM_RBUTTONUP = 0x205,
+			WM_RBUTTONDBLCLK = 0x206,
+			WM_MBUTTONDOWN = 0x207,
+			WM_MBUTTONUP = 0x208,
+			WM_MBUTTONDBLCLK = 0x209,
+			WM_MOUSEWHEEL = 0x20A,
+			WM_MOUSEHWHEEL = 0x20E
 		}
 
 		/// <summary>
