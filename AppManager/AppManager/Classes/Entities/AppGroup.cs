@@ -20,10 +20,10 @@ namespace AppManager
 			_AppTypes = new AppTypeCollection();
 		}
 
-		public AppGroup(IEnumerable<AppType> collection)
-		{
-			_AppTypes = new AppTypeCollection(collection);
-		}
+        //public AppGroup(IEnumerable<AppType> collection)
+        //{
+        //    _AppTypes = new AppTypeCollection(collection);
+        //}
 
 
 		public string AppGroupName
@@ -222,7 +222,8 @@ namespace AppManager
 
 		public AppGroup CloneEntity()
 		{
-			AppGroup clone = new AppGroup(AppTypes.Copy());
+			AppGroup clone = new AppGroup();
+            clone.AppTypes.AddRange(AppTypes.Copy());
 			clone.AppGroupName = AppGroupName;
 			clone._LastAppInfoID = _LastAppInfoID;
 			clone.CloneSource = this;

@@ -19,18 +19,11 @@ namespace AppManager
 
 		}
 
-		public AppInfoCollection(IEnumerable<AppInfo> collection)
-			: base(collection)
-		{
+        //public AppInfoCollection(IEnumerable<AppInfo> collection)
+        //    : base(collection)
+        //{
 
-		}
-
-
-		public void AddRange(IEnumerable<AppInfo> items)
-		{
-			foreach (var item in items)
-				Add(item);
-		}
+        //}
 	}
 
 	[Serializable]

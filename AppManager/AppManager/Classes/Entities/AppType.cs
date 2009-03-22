@@ -14,11 +14,11 @@ namespace AppManager
 
 		}
 
-		public AppTypeCollection(IEnumerable<AppType> collection)
-			: base(collection)
-		{
+        //public AppTypeCollection(IEnumerable<AppType> collection)
+        //    : base(collection)
+        //{
 
-		}
+        //}
 	}
 
 	[Serializable]
@@ -37,11 +37,11 @@ namespace AppManager
 			_AppInfos.CollectionChanged += AppInfos_CollectionChanged;
 		}
 
-		public AppType(IEnumerable<AppInfo> collection)
-		{
-			_AppInfos = new AppInfoCollection(collection);
-			_AppInfos.CollectionChanged += AppInfos_CollectionChanged;
-		}
+        //public AppType(IEnumerable<AppInfo> collection)
+        //{
+        //    _AppInfos = new AppInfoCollection(collection);
+        //    _AppInfos.CollectionChanged += AppInfos_CollectionChanged;
+        //}
 
 		
 		public string AppTypeName
@@ -69,7 +69,8 @@ namespace AppManager
 
 		public AppType CloneEntity()
 		{
-			AppType clone = new AppType(AppInfos.Copy());
+			AppType clone = new AppType();
+            clone.AppInfos.AddRange(AppInfos.Copy());
 			clone.AppTypeName = AppTypeName;
 			clone.CloneSource = this;
 			return clone;
