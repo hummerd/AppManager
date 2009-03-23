@@ -378,13 +378,14 @@ namespace AppManager
 		protected void OnDragStarted()
 		{
 			var anim = Resources["TrashMarkShow"] as Storyboard;
-			anim.Begin();
+			anim.Begin(TrashMark, HandoffBehavior.Compose, true);
 		}
 
 		protected void OnDragEnded()
 		{
 			var anim = Resources["TrashMarkHide"] as Storyboard;
-			anim.Begin();
+			anim.Begin(TrashMark, HandoffBehavior.Compose, true);
+			//anim.Begin();
 		}
 
 		protected void OnAppTypeDragEnded(DragDropEffects effects, AppType appType)
