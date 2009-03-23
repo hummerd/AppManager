@@ -43,9 +43,9 @@ namespace AppManager.Commands
 			_Single = new SingleInstance(10251, true);
 			if (!_Single.FirstInstance)
 				return;
-						
+
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
-			
+
 			App app = new App();
 			app.InitializeComponent();
 
@@ -61,7 +61,7 @@ namespace AppManager.Commands
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
 
 			_WorkItem.KbrdHook.KeyDown += KbrdHook_KeyDown;
-            _WorkItem.MsHook.MouseUp += MsHook_MouseUp;
+			_WorkItem.MsHook.MouseUp += MsHook_MouseUp;
 
 			WinForms.NotifyIcon tray = _WorkItem.TrayIcon;
 			tray.Icon = Resources.leftarrow;
@@ -126,9 +126,8 @@ namespace AppManager.Commands
 						var apps = ctrl.FindAppsInQuickLaunch();
 						if (apps.Count > 0)
 						{
-							var quickAppType = new AppType() 
-                                { AppTypeName = Strings.QUICK_LAUNCH };
-                            quickAppType.AppInfos.AddRange(apps);
+							var quickAppType = new AppType() { AppTypeName = Strings.QUICK_LAUNCH };
+							quickAppType.AppInfos.AddRange(apps);
 							_WorkItem.AppData.AppTypes.Insert(0, quickAppType);
 						}
 					}
@@ -152,7 +151,7 @@ namespace AppManager.Commands
 			mnu.Items.Add(
 				WinFrmMenuAdapter.CreateMenuItem(
 					Strings.MNU_HIDE, _WorkItem.Commands.Deactivate));
-			
+
 			mnu.Items.Add( //-------
 				new WinForms.ToolStripSeparator());
 
@@ -162,7 +161,7 @@ namespace AppManager.Commands
 
 			var tsmi = new System.Windows.Forms.ToolStripMenuItem(Strings.ALWAYS_ON_TOP);
 			tsmi.Checked = _WorkItem.Settings.AlwaysOnTop;
-			
+
 			tsmi.Click += (s, e) =>
 				_WorkItem.Settings.AlwaysOnTop = !(s as System.Windows.Forms.ToolStripMenuItem).Checked;
 
@@ -219,7 +218,7 @@ namespace AppManager.Commands
 				_WorkItem.AppData.AppTypes.Add(new AppType() { AppTypeName = Strings.APPLICATIONS });
 			}
 		}
-		
+
 		protected void ChangeActiveState(bool focus)
 		{
 			if (_WorkItem.MainWindow.IsVisible && (focus || _WorkItem.MainWindow.IsKeyboardFocusWithin))
@@ -237,7 +236,7 @@ namespace AppManager.Commands
 			catch
 			{ ; }
 		}
-		
+
 		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (e.ExceptionObject != null)
@@ -273,13 +272,13 @@ namespace AppManager.Commands
 			}
 		}
 
-        private void MsHook_MouseUp(object sender, MouseHookEventArgs e)
-        {
-            if (e.LeftButton && e.Position.X <= 0.1)
-            {
-                ChangeActiveState(false);
-                e.Handled = true;            
-            }
-        }
+		private void MsHook_MouseUp(object sender, MouseHookEventArgs e)
+		{
+			if (e.LeftButton && e.Position.X <= 0.1)
+			{
+				ChangeActiveState(false);
+				//e.Handled = true;
+			}
+		}
 	}
 }

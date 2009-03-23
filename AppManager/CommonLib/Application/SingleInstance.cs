@@ -3,6 +3,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Windows;
+using System.Windows.Threading;
 
 
 namespace CommonLib.Application
@@ -96,7 +97,8 @@ namespace CommonLib.Application
 
 		public void ActivateApp()
 		{
-			System.Windows.Application.Current.Dispatcher.Invoke(new SingleTask(ActivateMainWnd));
+			System.Windows.Application.Current.Dispatcher.Invoke(
+				DispatcherPriority.Normal, new SingleTask(ActivateMainWnd));
 		}
 
 		protected void ActivateMainWnd()
