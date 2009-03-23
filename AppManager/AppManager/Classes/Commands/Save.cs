@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 using AppManager.Settings;
+using CommonLib;
 
 
 namespace AppManager.Commands
@@ -20,25 +21,12 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			SaveData();
+			XmlSerializeHelper.SerializeItem(
+				_WorkItem.AppData,
+				_WorkItem.DataPath);
 
 			_WorkItem.MainWindow.SaveState();
 			AMSetttingsFactory.DefaultSettingsBag.SaveSettings("appsettings.xml");
-		}
-
-
-		protected void SaveData()
-		{
-			XmlDocument xmlDoc = new XmlDocument();
-			XmlSerializer xser = new XmlSerializer(_WorkItem.AppData.GetType());
-
-			using (StringWriter sr = new StringWriter())
-			{
-				xser.Serialize(sr, _WorkItem.AppData);
-				xmlDoc.LoadXml(sr.ToString());
-			}
-
-			xmlDoc.Save(_WorkItem.DataPath);
 		}
 	}
 }

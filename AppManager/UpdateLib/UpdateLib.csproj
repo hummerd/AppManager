@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileDownloader\FileDownloaderBase.cs" />
     <Compile Include="FileDownloader\FileDownloadHelper.cs" />
-    <Compile Include="FileDownloader\WebFileDownloader.cs" />
+    <Compile Include="WebUpdate\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
     <Compile Include="Install\InstallAction.cs" />
     <Compile Include="Install\InstallHelper.cs" />
@@ -52,6 +53,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="ShareUpdate\ShareFileDownloader.cs" />
+    <Compile Include="ShareUpdate\ShareVNP.cs" />
     <Compile Include="UI\IUIAskDownload.cs" />
     <Compile Include="UI\IUIDownloadProgress.cs" />
     <Compile Include="VersionNumberProvider\IVersionNumberProvider.cs" />
@@ -69,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Updater.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
+      <Project>{76677F13-784E-4FA4-A739-45D22C8DEE09}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

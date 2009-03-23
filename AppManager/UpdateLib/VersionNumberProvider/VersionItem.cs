@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UpdateLib.Install;
+
 
 namespace UpdateLib.VersionNumberProvider
 {
-    public class VersionItemList : List<VersionItem>
-    { 
-    
-    }
+	[Serializable]
+	public class VersionItemList : List<VersionItem>
+	{
+
+	}
 
 	[Serializable]
 	public class VersionItem
 	{
-		public Uri Location { get; set; }
-        public string Path { get; set; }
-		public int InstallAction { get; set; }
+		public string Location { get; set; }
+		public string Path { get; set; }
+		public InstallAction InstallAction { get; set; }
 	}
 }

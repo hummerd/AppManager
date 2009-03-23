@@ -9,7 +9,7 @@ using UpdateLib.VersionNumberProvider;
 
 namespace UpdateLib.Install
 {
-    [Serializable]
+	[Serializable]
 	public class InstallManifest
 	{
 		public const string FileName = "instman.xml";
@@ -36,22 +36,22 @@ namespace UpdateLib.Install
 
 		public InstallManifest(string appDir, string tempDir, VersionManifest versionManifest)
 		{
-            InstallItems = new InstallItemList();
+			InstallItems = new InstallItemList();
 
-            foreach (var item in versionManifest.VersionItems)
-            {
-                InstallItem ii = new InstallItem()
-                {
-                    SrcPath = Path.Combine(tempDir, item.Path),
-                    DstPath = Path.Combine(appDir, item.Path)
-                };
+			foreach (var item in versionManifest.VersionItems)
+			{
+				InstallItem ii = new InstallItem()
+				{
+					SrcPath = Path.Combine(tempDir, item.Path),
+					DstPath = Path.Combine(appDir, item.Path)
+				};
 
-                InstallItems.Add(ii);
-            }
+				InstallItems.Add(ii);
+			}
 		}
 
 
-        public InstallItemList InstallItems { get; set; }
+		public InstallItemList InstallItems { get; set; }
 
 
 		public void Save(string path)

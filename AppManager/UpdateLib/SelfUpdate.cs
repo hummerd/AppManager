@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using UpdateLib.FileDownloader;
+using UpdateLib.Install;
 using UpdateLib.UI;
 using UpdateLib.VersionNumberProvider;
-using UpdateLib.Install;
 
 
 namespace UpdateLib
@@ -30,34 +30,34 @@ namespace UpdateLib
 		public void UpdateApp()
 		{
 			Version currentVersion = null;
-			UpdateApp(currentVersion);
+			UpdateApp(currentVersion, String.Empty, String.Empty);
 		}
 
-		public void UpdateApp(Version currentVersion)
+		public void UpdateApp(Version currentVersion, string location, string appName)
 		{
 			_Downloader = new FileDownloadHelper(FileDownloader);
 
-			Version lastVersion = GetLatestVersion();
+			Version lastVersion = GetLatestVersion(location);
 			if (lastVersion > currentVersion)
-			{ 
-				VersionInfo versionInfo = VersionNumberProvider.GetLatestVersionInfo();
+			{
+				VersionInfo versionInfo = VersionNumberProvider.GetLatestVersionInfo(location);
 				if (AskUserForDownload(versionInfo, lastVersion))
 				{
-					VersionManifest verManifest = VersionNumberProvider.GetLatestVersionManifest();
+					VersionManifest verManifest = VersionNumberProvider.GetLatestVersionManifest(location);
 					string tempPath = CreateTempDir();
 
-					_Downloader.DownloadVersion(verManifest, lastVersion);
+					_Downloader.DownloadVersion(verManifest, lastVersion, appName, tempPath);
 
 					if (AskUserForInstall(versionInfo, lastVersion))
-                        _Installer.InstallVersion(tempPath, verManifest, lastVersion);
+						_Installer.InstallVersion(tempPath, verManifest, lastVersion);
 				}
 			}
 		}
 
 		
-		protected Version GetLatestVersion()
+		protected Version GetLatestVersion(string location)
 		{
-			return VersionNumberProvider.GetLatestVersion();
+			return VersionNumberProvider.GetLatestVersionInfo(location).VersionNumber;
 		}
 
 		protected bool AskUserForDownload(VersionInfo versionInfo, Version version)

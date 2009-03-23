@@ -9,7 +9,7 @@ namespace UpdateLib.UI
 	public interface IUIDownloadProgress
 	{
 		void SetDownloadInfo(VersionManifest manifest, Version version);
-		void SetDownloadProgress(int major, int minor);
+		void SetDownloadProgress(string location, long total, long progress);
 		void Close();
 	}
 }
