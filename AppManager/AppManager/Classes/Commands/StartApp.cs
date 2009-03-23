@@ -276,7 +276,7 @@ namespace AppManager.Commands
 		{
 			if (e.LeftButton && e.Position.X <= 0.1)
 			{
-				ChangeActiveState(false);
+				ChangeActiveState(true);
 				//e.Handled = true;
 			}
 		}
