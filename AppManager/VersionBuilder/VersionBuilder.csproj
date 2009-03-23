@@ -76,6 +76,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="VersionFactory.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -87,9 +88,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
+      <Project>{76677F13-784E-4FA4-A739-45D22C8DEE09}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DragDropLib\DragDropLib.csproj">
       <Project>{44298D97-06A4-47CF-B59C-AE731BD52684}</Project>
       <Name>DragDropLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UpdateLib\UpdateLib.csproj">
+      <Project>{9B99CDFE-01E4-4D3D-A50B-73B5B6BAB1F3}</Project>
+      <Name>UpdateLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

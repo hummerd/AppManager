@@ -1,26 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using CommonLib.Windows;
+
 
 namespace VersionBuilder
 {
 	/// <summary>
-	/// Interaction logic for Window1.xaml
+	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class Window1 : Window
+	public partial class MainWindow : Window
 	{
-		public Window1()
+		protected VersionFactory _VesionFactory = new VersionFactory();
+
+
+		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+
+		private void btnCreateVersion_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				Version ver = new Version(TxtVersion.Text);
+				_VesionFactory.CreateVersion(TxtSourceDir.Text, ver, @"http://localhost/AppManagerVersion");
+			}
+			catch(Exception exc)
+			{
+				ErrorBox.Show("Error", exc.Message, exc.ToString());
+			}
 		}
 	}
 }
