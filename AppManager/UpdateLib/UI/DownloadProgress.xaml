@@ -1,0 +1,21 @@
+﻿<Window x:Class="UpdateLib.UI.DownloadProgress"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="DownloadProgress" Height="172" Width="300">
+    <Grid>
+		<ProgressBar
+			Height="21"
+			Margin="12,55,12,0"
+			Name="PrgFile"
+			VerticalAlignment="Top" />
+		<ProgressBar
+			Height="20"
+			Margin="12,82,12,0"
+			Name="PrgTotal"
+			VerticalAlignment="Top" />
+		<Label
+			Margin="12,12,138,0"
+			Name="LblFile"
+			VerticalAlignment="Top">Label</Label>
+	</Grid>
+</Window>

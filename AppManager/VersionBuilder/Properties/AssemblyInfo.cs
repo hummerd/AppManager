@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("VersionBuilder")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SITRONICS")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("VersionBuilder")]
-[assembly: AssemblyCopyright("Copyright © SITRONICS 2009")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

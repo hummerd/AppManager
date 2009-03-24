@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\AutoStart.cs" />
+    <Compile Include="Application\DispatcherHelper.cs" />
     <Compile Include="MenuHelper.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="PathHelper.cs" />

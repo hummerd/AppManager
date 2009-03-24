@@ -8,7 +8,6 @@
 	Height="174"
 	Width="355"
 	WindowStartupLocation="CenterScreen"
-	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	MinWidth="280"
 	MinHeight="150">
 	<Grid>

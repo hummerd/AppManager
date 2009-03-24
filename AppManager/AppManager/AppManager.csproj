@@ -289,6 +289,10 @@
       <Project>{44298D97-06A4-47CF-B59C-AE731BD52684}</Project>
       <Name>DragDropLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UpdateLib\UpdateLib.csproj">
+      <Project>{9B99CDFE-01E4-4D3D-A50B-73B5B6BAB1F3}</Project>
+      <Name>UpdateLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\down_16.png" />
@@ -313,9 +317,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\1leftarrow_1159_32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Controls\DragDropLib.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

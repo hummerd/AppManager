@@ -31,9 +31,16 @@ namespace VersionBuilder
 				if (!Directory.Exists(newDir))
 					Directory.CreateDirectory(newDir);
 
-				var itemPath = newDir.Substring(versionDir.Length, newDir.Length - versionDir.Length);
-				if (String.IsNullOrEmpty(itemPath))
-					itemPath = "\\";
+				string itemPath;
+				if (newDir.Length <= versionDir.Length)
+					itemPath = String.Empty;
+				else
+				{
+					itemPath = newDir.Substring(versionDir.Length + 1, newDir.Length - versionDir.Length - 1);
+
+					if (String.IsNullOrEmpty(itemPath))
+						itemPath = String.Empty;
+				}
 
 				verManifest.VersionItems.Add(new VersionItem()
 					{

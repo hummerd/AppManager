@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.IO;
+using CommonLib;
 using UpdateLib.VersionNumberProvider;
+using CommonLib.Application;
 
 
 namespace UpdateLib.FileDownloader
 {
-	public abstract class FileDownloaderBase : IDisposable
+	public abstract class FileDownloaderBase : IFileDownloader, IDisposable
 	{
 		protected BackgroundWorker _Downloader = new BackgroundWorker();
 
 
 		public event EventHandler<FileDownloadProgress> DownloadFileStarted;
-		public event EventHandler DownloadFileSetCompleted;
+		public event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
 
 
 		public FileDownloaderBase()
@@ -22,24 +23,28 @@ namespace UpdateLib.FileDownloader
 			_Downloader.WorkerReportsProgress = true;
 			_Downloader.WorkerSupportsCancellation = true;
 
-			_Downloader.DoWork += (s, e) => DownloadAsync(
+			_Downloader.DoWork += (s, e) => e.Result = DownloadAsync(
 				(e.Argument as object[])[0] as IEnumerable<VersionItem>,
 				(e.Argument as object[])[1] as string
 				);
-			_Downloader.RunWorkerCompleted += (s, e) => OnDownloadFileSetCompleted();
+			_Downloader.RunWorkerCompleted += (s, e) => OnDownloadFileSetCompleted((bool)e.Result);
 			_Downloader.ProgressChanged += (s, e) => OnDownloadFileStarted(
 				new FileDownloadProgress()
 					{ 
 						FilePath = (string)(e.UserState as object[])[1],
-						DownloadedSize = (long)(e.UserState as object[])[0],
-						ToltalSize = e.ProgressPercentage
+						DownloadedSize = e.ProgressPercentage,
+						ToltalSize = (long)(e.UserState as object[])[0]
 					});
 		}
 
 
-		public void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath)
+		public void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath, bool waitFor)
 		{
 			_Downloader.RunWorkerAsync(new object[] { fileLocation, tempPath });
+			if (waitFor)
+				while (_Downloader.IsBusy)
+					System.Windows.Forms.Application.DoEvents();
+					//DispatcherHelper.DoEvents();
 		}
 
 
@@ -52,8 +57,17 @@ namespace UpdateLib.FileDownloader
 			{
 				foreach (var item in fileLocation)
 				{
-					using (var stream = GetFileStream(new Uri(item.Location)))
-					using (var tempStream = GetTempStream(Path.Combine(tempPath, item.Location)))
+					var location = new Uri(item.Location);
+					var tempDir = Path.Combine(tempPath, item.Path);
+					var tempFile = Path.Combine(
+						tempDir,
+						location.Segments[location.Segments.Length - 1]);
+
+					if (!Directory.Exists(tempDir))
+						Directory.CreateDirectory(tempDir);
+
+					using (var stream = GetFileStream(location))
+					using (var tempStream = GetTempStream(tempFile))
 					{
 						var fileSize = GetFileSize(new Uri(item.Location));
 
@@ -65,10 +79,7 @@ namespace UpdateLib.FileDownloader
 						while ((int)(readCount = stream.Read(buff, 0, buffSize)) > 0)
 						{
 							if (_Downloader.CancellationPending)
-							{
-								stream.Close();
 								return false;
-							}
 
 							totalRead += readCount;
 							tempStream.Write(buff, 0, readCount);
@@ -104,10 +115,10 @@ namespace UpdateLib.FileDownloader
 				DownloadFileStarted(this, e);
 		}
 
-		protected virtual void OnDownloadFileSetCompleted()
+		protected virtual void OnDownloadFileSetCompleted(bool succeded)
 		{
 			if (DownloadFileSetCompleted != null)
-				DownloadFileSetCompleted(this, EventArgs.Empty);
+				DownloadFileSetCompleted(this, new ValueEventArgs<bool>(succeded));
 		}
 
 		#region IDisposable Members

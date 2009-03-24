@@ -13,6 +13,7 @@ using CommonLib.PInvoke;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
 using CommonLib.PInvoke.WinHook;
+using UpdateLib;
 
 
 namespace AppManager.Commands
@@ -48,7 +49,7 @@ namespace AppManager.Commands
 
 			App app = new App();
 			app.InitializeComponent();
-
+			
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " InitializeComponent");
 
 			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -56,13 +57,14 @@ namespace AppManager.Commands
 
 			LoadData();
 			_FirstStart = FirstLoad();
-			_WorkItem.AppData.StartLoadImages();
+			
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
 
 			_WorkItem.KbrdHook.KeyDown += KbrdHook_KeyDown;
+#if RELEASE
 			_WorkItem.MsHook.MouseUp += MsHook_MouseUp;
-
+#endif
 			WinForms.NotifyIcon tray = _WorkItem.TrayIcon;
 			tray.Icon = Resources.leftarrow;
 			tray.MouseUp += TrayIcon_MouseUp;
@@ -71,6 +73,18 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
 
+			app.Startup += App_Startup;
+			app.MainWindow = _WorkItem.MainWindow;
+			app.Run();
+		}
+
+
+		protected void App_Startup(object sender, StartupEventArgs e)
+		{
+			var updater = SelfUpdate.CreateShareUpdate();
+			updater.UpdateApp(new Version("1.0.0.0"), @"\\msk-0438\Common\AppManagerUpdate", "AppManager");
+
+			_WorkItem.AppData.StartLoadImages();
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
 
@@ -81,12 +95,8 @@ namespace AppManager.Commands
 			}
 
 			OnMainWindowLoaded();
-
-			app.MainWindow = _WorkItem.MainWindow;
-			app.Run();
 		}
-
-
+		
 		protected void OnMainWindowLoaded()
 		{
 			//_WorkItem.MainWindow.LoadState();
