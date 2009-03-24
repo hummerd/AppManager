@@ -11,14 +11,28 @@ namespace UpdateLib.ShareUpdate
 
 		public VersionInfo GetLatestVersionInfo(string location)
 		{
-			return XmlSerializeHelper.DeserializeItem(typeof(VersionInfo), 
-				Path.Combine(location, VersionManifest.VersionFileName)) as VersionInfo;
+			try
+			{
+				return XmlSerializeHelper.DeserializeItem(typeof(VersionInfo),
+					Path.Combine(location, VersionManifest.VersionFileName)) as VersionInfo;
+			}
+			catch
+			{ ; }
+
+			return null;
 		}
 
 		public VersionManifest GetLatestVersionManifest(string location)
 		{
-			return XmlSerializeHelper.DeserializeItem(typeof(VersionManifest),
-				Path.Combine(location, VersionManifest.VersionManifestFileName)) as VersionManifest;
+			try
+			{
+				return XmlSerializeHelper.DeserializeItem(typeof(VersionManifest),
+					Path.Combine(location, VersionManifest.VersionManifestFileName)) as VersionManifest;
+			}
+			catch
+			{ ; }
+
+			return null;
 		}
 
 		#endregion

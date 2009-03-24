@@ -59,9 +59,7 @@ namespace UpdateLib.FileDownloader
 				{
 					var location = new Uri(item.Location);
 					var tempDir = Path.Combine(tempPath, item.Path);
-					var tempFile = Path.Combine(
-						tempDir,
-						location.Segments[location.Segments.Length - 1]);
+					var tempFile = Path.Combine(tempPath, item.GetItemFullPath());
 
 					if (!Directory.Exists(tempDir))
 						Directory.CreateDirectory(tempDir);

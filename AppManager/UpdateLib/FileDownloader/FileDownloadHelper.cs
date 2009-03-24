@@ -87,5 +87,7 @@ namespace UpdateLib.FileDownloader
 		{ get; set; }
 		public string TempPath
 		{ get; set; }
+		public VersionManifest LatestVersionManifest
+		{ get; set; }
 	}
 }
