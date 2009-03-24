@@ -97,8 +97,9 @@ namespace CommonLib.Application
 
 		public void ActivateApp()
 		{
-			System.Windows.Application.Current.Dispatcher.Invoke(
-				DispatcherPriority.Normal, new SingleTask(ActivateMainWnd));
+			DispatcherHelper.Invoke(new SingleTask(ActivateMainWnd));
+			//System.Windows.Application.Current.Dispatcher.Invoke(
+			//   DispatcherPriority.Normal, new SingleTask(ActivateMainWnd));
 		}
 
 		protected void ActivateMainWnd()

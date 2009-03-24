@@ -8,6 +8,6 @@ namespace UpdateLib.UI
 {
 	public interface IUIAskDownload
 	{
-		bool AskDownload(VersionInfo versionInfo, Version version);
+		bool AskForDownload(VersionInfo versionInfo);
 	}
 }

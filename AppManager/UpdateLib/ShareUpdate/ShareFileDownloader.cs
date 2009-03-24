@@ -11,7 +11,7 @@ namespace UpdateLib.ShareUpdate
 	{
 		protected override Stream GetFileStream(Uri location)
 		{
-			return new FileStream(location.AbsolutePath, FileMode.Open, FileAccess.Read);
+			return new FileStream(location.LocalPath, FileMode.Open, FileAccess.Read);
 		}
 
 		protected override long GetFileSize(Uri location)

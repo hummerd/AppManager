@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommonLib;
 using UpdateLib.VersionNumberProvider;
 
 
@@ -8,11 +9,8 @@ namespace UpdateLib.FileDownloader
     public interface IFileDownloader
     {
 		 event EventHandler<FileDownloadProgress> DownloadFileStarted;
-		 //event EventHandler DownloadFileCompleted;
-		 event EventHandler DownloadFileSetCompleted;
+		 event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
 
-
-		 void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath);
-		 //void DownloadFileAsync(Uri fileLocation);
+		 void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath, bool waitFor);
     }
 }

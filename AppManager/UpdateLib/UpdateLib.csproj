@@ -12,6 +12,7 @@
     <AssemblyName>UpdateLib</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -35,13 +36,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileDownloader\FileDownloaderBase.cs" />
     <Compile Include="FileDownloader\FileDownloadHelper.cs" />
+    <Compile Include="UI\AskDownload.xaml.cs">
+      <DependentUpon>AskDownload.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DownloadProgress.xaml.cs">
+      <DependentUpon>DownloadProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\IUIAskInstall.cs" />
     <Compile Include="WebUpdate\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
     <Compile Include="Install\InstallAction.cs" />
@@ -78,6 +96,16 @@
       <Project>{76677F13-784E-4FA4-A739-45D22C8DEE09}</Project>
       <Name>CommonLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\AskDownload.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DownloadProgress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

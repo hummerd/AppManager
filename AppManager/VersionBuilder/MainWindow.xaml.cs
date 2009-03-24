@@ -24,7 +24,7 @@ namespace VersionBuilder
 			try
 			{
 				Version ver = new Version(TxtVersion.Text);
-				_VesionFactory.CreateVersion(TxtSourceDir.Text, ver, @"http://localhost/AppManagerVersion");
+				_VesionFactory.CreateVersion(TxtSourceDir.Text, ver, TxtLocation.Text);
 			}
 			catch(Exception exc)
 			{
