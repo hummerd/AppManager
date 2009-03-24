@@ -4,6 +4,8 @@ using System.IO.Compression;
 using CommonLib;
 using UpdateLib.Install;
 using UpdateLib.VersionNumberProvider;
+using System.Reflection;
+using CommonLib.IO;
 
 
 namespace VersionBuilder
@@ -42,14 +44,27 @@ namespace VersionBuilder
 						itemPath = String.Empty;
 				}
 
+				//For assemblies version in manifest is assembly version
+				//for another files version is system version
+				AssemblyName an;
+				try
+				{
+					an = AssemblyName.GetAssemblyName(item);
+				}
+				catch
+				{
+					an = null;
+				}
+
 				verManifest.VersionItems.Add(new VersionItem()
 					{
 						InstallAction = InstallAction.Copy,
 						Location = location + newPath.Replace(versionDir, String.Empty),
-						Path = itemPath
+						Path = itemPath,
+						VersionNumber = an == null ? version : an.Version
 					});
 				
-				CompressFile(item, newPath);
+				GZipCompression.CompressFile(item, newPath);
 			}
 
 			XmlSerializeHelper.SerializeItem(
@@ -62,21 +77,6 @@ namespace VersionBuilder
 		}
 		
 
-		protected void CompressFile(string path, string outPath)
-		{
-			if (!File.Exists(path))
-				return;
 
-			var buff = File.ReadAllBytes(path);
-
-			if (File.Exists(outPath))
-				File.Delete(outPath);
-
-			using (FileStream compressedFile = new FileStream(outPath, FileMode.CreateNew, FileAccess.Write))
-			using (GZipStream compressedzipStream = new GZipStream(compressedFile, CompressionMode.Compress, false))
-			{
-				compressedzipStream.Write(buff, 0, buff.Length);
-			}
-		}
 	}
 }

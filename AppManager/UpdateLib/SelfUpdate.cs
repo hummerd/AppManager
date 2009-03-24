@@ -5,6 +5,7 @@ using UpdateLib.Install;
 using UpdateLib.UI;
 using UpdateLib.VersionNumberProvider;
 using UpdateLib.ShareUpdate;
+using System.Threading;
 
 
 namespace UpdateLib
@@ -26,6 +27,7 @@ namespace UpdateLib
 		}
 
 
+		protected Mutex _UpdatingFlag;
 		protected FileDownloadHelper _Downloader;
 		protected InstallHelper _Installer;
 
@@ -58,39 +60,62 @@ namespace UpdateLib
 		//   UpdateApp(currentVersion, String.Empty, String.Empty);
 		//}
 
-		public void UpdateApp(Version currentVersion, string location, string appName)
+		public bool UpdateApp(Version currentVersion, VersionManifest currentManifest, string location, string appName)
 		{
-			_Downloader = new FileDownloadHelper(FileDownloader, UIDownloadProgress);
+			bool notAlredyRunning;
+			_UpdatingFlag = new Mutex(true, "Global\\UpdateLib_" + appName, out alredyRunning);
+			if (!notAlredyRunning)
+				return false;
 
-			Version lastVersion = GetLatestVersion(location);
-			if (lastVersion > currentVersion)
+			try
 			{
-				VersionInfo versionInfo = VersionNumberProvider.GetLatestVersionInfo(location);
-				if (AskUserForDownload(versionInfo))
+				Version lastVersion = GetLatestVersion(location);
+				if (lastVersion > currentVersion)
 				{
-					VersionManifest verManifest = VersionNumberProvider.GetLatestVersionManifest(location);
-					string tempPath = CreateTempDir();
+					_Downloader = new FileDownloadHelper(FileDownloader, UIDownloadProgress);
 
-					_Downloader.DownloadCompleted += (s, e) => OnVersionDownloadCompleted(
-						e.Succeded, e.DownloadedVersionManifest, e.DownloadedVersionInfo, e.LatestVersion, e.AppName, e.TempPath);
-					_Downloader.DownloadVersion(verManifest, versionInfo, lastVersion, appName, tempPath);
+					VersionInfo versionInfo = VersionNumberProvider.GetLatestVersionInfo(location);
+					if (versionInfo == null)
+					{
+						_UpdatingFlag.ReleaseMutex();
+						return false;
+					}
+
+					if (AskUserForDownload(versionInfo))
+					{
+						VersionManifest verManifest = VersionNumberProvider.GetLatestVersionManifest(location);
+						if (versionInfo == null)
+						{
+							_UpdatingFlag.ReleaseMutex();
+							return false;
+						}
+
+						string tempPath = CreateTempDir(appName, versionInfo);
+
+						VersionManifest updateManifest = verManifest.GetUpdateManifest(currentManifest);
+
+						_Downloader.DownloadCompleted += (s, e) => OnVersionDownloadCompleted(
+							e.Succeded, 
+							e.DownloadedVersionManifest, 
+							e.DownloadedVersionInfo, 
+							e.LatestVersion, 
+							e.AppName, 
+							e.TempPath);
+
+						_Downloader.DownloadVersion(updateManifest, versionInfo, lastVersion, appName, tempPath);
+					}
 				}
 			}
+			catch
+			{
+				_UpdatingFlag.ReleaseMutex();
+				return false;
+			}
+
+			return true;
 		}
 
 
-		protected void OnVersionDownloadCompleted(
-			bool succeded, 
-			VersionManifest manifest, 
-			VersionInfo versionInfo, 
-			Version latestVersion, 
-			string appName, 
-			string tempPath)
-		{
-			if (succeded && AskUserForInstall(versionInfo))
-				_Installer.InstallVersion(tempPath, manifest, latestVersion);
-		}
-				
 		protected Version GetLatestVersion(string location)
 		{
 			return VersionNumberProvider.GetLatestVersionInfo(location).VersionNumber;
@@ -101,12 +126,11 @@ namespace UpdateLib
 			return UIAskDownload.AskForDownload(versionInfo);
 		}
 
-		protected string CreateTempDir()
+		protected string CreateTempDir(string appName, VersionInfo latestVersionInfo)
 		{
-			string path =  Path.GetTempPath();
+			string path = Path.GetTempPath();
 			path = Path.Combine(path, "UpdateLib");
-			string currentTemp = DateTime.Now.Ticks.ToString().Substring(0, 10);
-			path = Path.Combine(path, currentTemp);
+			path = Path.Combine(path, appName + "_" + latestVersionInfo);
 
 			if (Directory.Exists(path))
 				Directory.Delete(path, true);
@@ -120,5 +144,18 @@ namespace UpdateLib
 		{
 			return UIAskInstall.AskForInstall(versionInfo);
 		}
+
+		protected void OnVersionDownloadCompleted(VersionDownloadInfo versionDownLoad)
+		{
+			if (versionDownLoad.Succeded && AskUserForInstall(versionDownLoad.DownloadedVersionInfo))
+				_Installer.InstallVersion(
+					versionDownLoad.TempPath, 
+					versionDownLoad.DownloadedVersionManifest,
+					versionDownLoad.LatestVersionManifest
+					);
+
+			_UpdatingFlag.ReleaseMutex();
+		}
+				
 	}
 }

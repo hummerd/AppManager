@@ -60,9 +60,10 @@
   <ItemGroup>
     <Compile Include="Application\AutoStart.cs" />
     <Compile Include="Application\DispatcherHelper.cs" />
+    <Compile Include="IO\GZipCompression.cs" />
     <Compile Include="MenuHelper.cs" />
     <Compile Include="Pair.cs" />
-    <Compile Include="PathHelper.cs" />
+    <Compile Include="IO\PathHelper.cs" />
     <Compile Include="PInvoke\GDI32.cs" />
     <Compile Include="PInvoke\WinHook\HookAPI.cs" />
     <Compile Include="PInvoke\WinHook\HookBase.cs" />

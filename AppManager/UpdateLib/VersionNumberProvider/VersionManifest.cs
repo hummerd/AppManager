@@ -11,6 +11,7 @@ namespace UpdateLib.VersionNumberProvider
 	{
 		public const string VersionFileName = "AppVersion.xml";
 		public const string VersionManifestFileName = "VersionManifest.xml";
+		public const string DownloadedVersionManifestFileName = "DownloadedVersionManifest.xml";
 
 
 		public VersionManifest()
@@ -38,5 +39,23 @@ namespace UpdateLib.VersionNumberProvider
 
 		public VersionItemList VersionItems
 		{ get; set; }
+
+
+		public VersionManifest GetUpdateManifest(VersionManifest currentVersionManifest)
+		{
+			VersionManifest result = new VersionManifest();
+			result.VersionNumberString = VersionNumberString;
+
+			foreach (var item in VersionItems)
+			{
+				var existing = currentVersionManifest.VersionItems.Find(
+					vi => String.Equals(item.GetItemFullPath(), vi.GetItemFullPath()));
+
+				if (existing == null || item.VersionNumber > existing.VersionNumber)
+					result.VersionItems.Add(item);
+			}
+
+			return result;
+		}
 	}
 }

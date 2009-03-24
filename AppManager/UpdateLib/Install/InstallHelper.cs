@@ -5,6 +5,8 @@ using UpdateLib.VersionNumberProvider;
 using System.Reflection;
 using System.IO;
 using System.Diagnostics;
+using CommonLib.IO;
+using CommonLib;
 
 
 namespace UpdateLib.Install
@@ -17,28 +19,31 @@ namespace UpdateLib.Install
 		}
 
 
-		public void InstallVersion(string tempDir, VersionManifest verManifest, Version lastVersion)
+		public void InstallVersion(string tempPath, VersionManifest downloadedManifest, VersionManifest latestManifest)
 		{
-			//TODO Unzip
+			//Unzip
+			foreach (var item in downloadedManifest.VersionItems)
+			{
+				var tempFile = Path.Combine(tempPath, item.GetItemFullPath());
+				var tempFileUnzip = tempFile.Substring(0, tempFile.Length - Path.GetExtension(tempFile).Length);
 
-			InstallManifest install = new InstallManifest(
-                Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
-                tempDir,
-                verManifest);
+				GZipCompression.DecompressFile(tempFile, tempFileUnzip);
+			}
 
-            string installerTemp = tempDir.TrimEnd('\\') + "_inst";
-            if (!Directory.Exists(installerTemp))
-                Directory.CreateDirectory(installerTemp);
+			//Saving latest manifest
+			XmlSerializeHelper.SerializeItem(
+				latestManifest,
+				Path.Combine(tempPath, VersionManifest.VersionManifestFileName));
 
-            install.Save(installerTemp);
+			//Saving downloaded manifest
+			XmlSerializeHelper.SerializeItem(
+				downloadedManifest,
+				Path.Combine(tempPath, VersionManifest.DownloadedVersionManifestFileName));
 
-            string updaterPath = Assembly.GetExecutingAssembly().Location;
-            File.Copy(updaterPath, Path.Combine(installerTemp, Path.GetFileName(updaterPath)));
+			string installerPath = Path.Combine(tempPath, "Updater.exe");
+			File.WriteAllBytes(installerPath, Resource.Updater);
 
-            string installerPath = Path.Combine(installerTemp, "Updater.exe");
-            File.WriteAllBytes(updaterPath, Resource.Updater);
-
-            Process.Start(installerPath, "-pid" + Process.GetCurrentProcess().Id);
+			Process.Start(installerPath, "-pn" + Process.GetCurrentProcess().ProcessName);
 		}
 	}
 }
