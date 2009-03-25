@@ -120,6 +120,9 @@
   <data name="ASK_FOR_INSTALL" xml:space="preserve">
     <value>Do you want to install {1} new version {2}?</value>
   </data>
+  <data name="DOWNLOADING" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
   <data name="NEW_VER_AVIALABLE" xml:space="preserve">
     <value>New version {0} of {1} is avialable.
 {2}

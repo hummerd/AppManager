@@ -70,6 +70,15 @@ namespace UpdateLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading.
+        /// </summary>
+        internal static string DOWNLOADING {
+            get {
+                return ResourceManager.GetString("DOWNLOADING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New version {0} of {1} is avialable.
         ///{2}
         ///Do you want to download it?.
