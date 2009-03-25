@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using UpdateLib.VersionInfo;
+using System;
 
 
 namespace UpdateLib.UI
@@ -12,6 +13,8 @@ namespace UpdateLib.UI
 		public DownloadProgress()
 		{
 			InitializeComponent();
+			LblDownload.Content = UpdStr.DOWNLOADING;
+			Title = UpdStr.UPDATER;
 		}
 
 		#region IUIDownloadProgress Members
@@ -26,9 +29,9 @@ namespace UpdateLib.UI
 			if (progress == 0)
 				PrgTotal.Value += 1;
 
-			//PrgFile.Maximum = total;
 			PrgFile.Value = progress;
-			LblFile.Content = location;
+			var loc = new Uri(location);
+			LblFile.Content = loc.Segments[loc.Segments.Length - 1];
 		}
 
 		#endregion
