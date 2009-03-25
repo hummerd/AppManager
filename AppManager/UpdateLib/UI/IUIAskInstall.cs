@@ -5,6 +5,6 @@ namespace UpdateLib.UI
 {
 	public interface IUIAskInstall
 	{
-		bool AskForInstall(VersionData versionInfo);
+		bool AskForInstall(string appName, VersionData versionInfo);
 	}
 }

@@ -27,9 +27,9 @@ namespace AppManager
 			_Commands = new AppCommands(this);
 			_KbrdHook = new KeyboardHook();
 
-#if RELEASE
+//#if RELEASE
 			//_MsHook = new MouseHook();
-#endif
+//#endif
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
