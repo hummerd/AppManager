@@ -62,11 +62,6 @@
     <Compile Include="UI\IUIAskInstall.cs" />
     <Compile Include="WebUpdate\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
-    <Compile Include="Resource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
     <Compile Include="ShareUpdate\ShareFileDownloader.cs" />
     <Compile Include="ShareUpdate\ShareVNP.cs" />
     <Compile Include="UI\IUIAskDownload.cs" />
@@ -77,15 +72,6 @@
     <Compile Include="VersionInfo\VersionInfo.cs" />
     <Compile Include="VersionInfo\VersionItem.cs" />
     <Compile Include="VersionInfo\VersionManifest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Updater.exe" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLib\CommonLib.csproj">
@@ -102,6 +88,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Updater.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

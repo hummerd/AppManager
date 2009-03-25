@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 
 
-namespace UpdateLib.VersionNumberProvider
+namespace UpdateLib.VersionInfo
 {
 	[Serializable]
 	public class VersionManifest

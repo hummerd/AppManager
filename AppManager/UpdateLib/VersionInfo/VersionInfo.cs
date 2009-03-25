@@ -4,16 +4,16 @@ using System.Text;
 using System.Xml.Serialization;
 
 
-namespace UpdateLib.VersionNumberProvider
+namespace UpdateLib.VersionInfo
 {
 	[Serializable]
-	public class VersionInfo
+	public class VersionData
 	{
-		public VersionInfo()
+		public VersionData()
 		{
 		}
 
-		public VersionInfo(Version ver)
+		public VersionData(Version ver)
 		{
 			VersionNumber = ver;
 		}

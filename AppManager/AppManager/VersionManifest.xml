@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<VersionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <VersionNumberString>1.0.0.0</VersionNumberString>
+  <VersionItems>
+    <VersionItem>
+      <Location>\\msk-0438\Common\AppManagerUpdate\AppManager.exe.gzip</Location>
+      <Path />
+      <InstallAction>Copy</InstallAction>
+      <VersionNumberString>1.0.0.22787</VersionNumberString>
+      <Base64Hash>BXRP4SnPlYA3V6p1lA0Q4w==</Base64Hash>
+    </VersionItem>
+    <VersionItem>
+      <Location>\\msk-0438\Common\AppManagerUpdate\AppManager.exe.config.gzip</Location>
+      <Path />
+      <InstallAction>Copy</InstallAction>
+      <VersionNumberString>1.0.0.0</VersionNumberString>
+      <Base64Hash>IwJfqf1k8QDOQT0+OJktbg==</Base64Hash>
+    </VersionItem>
+    <VersionItem>
+      <Location>\\msk-0438\Common\AppManagerUpdate\CommonLib.dll.gzip</Location>
+      <Path />
+      <InstallAction>Copy</InstallAction>
+      <VersionNumberString>1.0.0.0</VersionNumberString>
+      <Base64Hash>UCMFe1QCkaMrutIr+AjCOw==</Base64Hash>
+    </VersionItem>
+    <VersionItem>
+      <Location>\\msk-0438\Common\AppManagerUpdate\DragDropLib.dll.gzip</Location>
+      <Path />
+      <InstallAction>Copy</InstallAction>
+      <VersionNumberString>1.0.0.0</VersionNumberString>
+      <Base64Hash>BEBkQF4tCxXnQ8pKvq2U4A==</Base64Hash>
+    </VersionItem>
+    <VersionItem>
+      <Location>\\msk-0438\Common\AppManagerUpdate\Interop.IWshRuntimeLibrary.dll.gzip</Location>
+      <Path />
+      <InstallAction>Copy</InstallAction>
+      <VersionNumberString>1.0.0.0</VersionNumberString>
+      <Base64Hash>lhO4VizcqJ5yStCWHioZ2w==</Base64Hash>
+    </VersionItem>
+    <VersionItem>
+      <Location>\\msk-0438\Common\AppManagerUpdate\ru-ru\AppManager.resources.dll.gzip</Location>
+      <Path>ru-ru</Path>
+      <InstallAction>Copy</InstallAction>
+      <VersionNumberString>1.0.0.22787</VersionNumberString>
+      <Base64Hash>VgxD/crChdsJOlpNSav+Bw==</Base64Hash>
+    </VersionItem>
+    <VersionItem>
+      <Location>\\msk-0438\Common\AppManagerUpdate\ru-ru\CommonLib.resources.dll.gzip</Location>
+      <Path>ru-ru</Path>
+      <InstallAction>Copy</InstallAction>
+      <VersionNumberString>1.0.0.0</VersionNumberString>
+      <Base64Hash>fD1cww5zD4JGUJvMIcGYfw==</Base64Hash>
+    </VersionItem>
+  </VersionItems>
+</VersionManifest>

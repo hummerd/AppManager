@@ -94,6 +94,21 @@ namespace CommonLib
 				return path.Substring(ix + 1, ixe - ix - 1);
 		}
 
+		public static string GetUpperPath(string path)
+		{
+			if (String.IsNullOrEmpty(path))
+				return path;
+
+			int ix = path.LastIndexOf(Path.DirectorySeparatorChar);
+			if (ix < 0)
+				return path;
+
+			int ixe = ix >= path.Length - 1 ?
+				path.LastIndexOf(Path.DirectorySeparatorChar, 0, path.Length - 1) : ix;
+
+			return path.Substring(0, ix);
+		}
+
 		public static bool IsPathUNC(string path)
 		{
 			Uri uri;

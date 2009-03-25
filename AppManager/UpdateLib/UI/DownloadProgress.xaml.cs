@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using UpdateLib.VersionNumberProvider;
+using UpdateLib.VersionInfo;
 
 
 namespace UpdateLib.UI

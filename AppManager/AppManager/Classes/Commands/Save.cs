@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
-using AppManager.Settings;
+﻿using AppManager.Settings;
 using CommonLib;
 
 

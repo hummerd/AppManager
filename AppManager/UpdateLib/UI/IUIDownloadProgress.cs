@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using UpdateLib.VersionNumberProvider;
+using UpdateLib.VersionInfo;
 
 
 namespace UpdateLib.UI
