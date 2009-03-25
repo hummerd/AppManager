@@ -13,6 +13,7 @@ using UpdateLib.VersionInfo;
 using System.Resources;
 using System.Globalization;
 using System.Collections.Generic;
+using CommonLib.Windows;
 
 
 namespace UpdateLib
@@ -25,8 +26,8 @@ namespace UpdateLib
 			{
 				FileDownloader = new ShareFileDownloader(),
 				VersionNumberProvider = new ShareVNP(),
-				UIAskDownload = new AskDownload(),
-				UIAskInstall = new AskDownload(),
+				UIAskDownload = new UIAsk(),
+				UIAskInstall = new UIAsk(),
 				UIDownloadProgress = new DownloadProgress()
 			};
 
@@ -77,19 +78,28 @@ namespace UpdateLib
 			string[] executePaths,
 			string[] lockProcesses)
 		{
-			var currentManifest = XmlSerializeHelper.DeserializeItem(
-				typeof(VersionManifest),
-				Path.Combine(appPath, VersionManifest.VersionManifestFileName)
-				) as VersionManifest;
+			try
+			{
+				var currentManifest = XmlSerializeHelper.DeserializeItem(
+					typeof(VersionManifest),
+					Path.Combine(appPath, VersionManifest.VersionManifestFileName)
+					) as VersionManifest;
 
-			return UpdateApp(
-				currentManifest,
-				newVersionLocation,
-				appName,
-				appPath,
-				executePaths,
-				lockProcesses
-				);
+				return UpdateApp(
+					currentManifest,
+					newVersionLocation,
+					appName,
+					appPath,
+					executePaths,
+					lockProcesses
+					);
+			}
+			catch(Exception exc)
+			{
+				ErrorBox.Show(UpdStr.UPDATER, exc);
+			}
+
+			return false;
 		}
 
 		public bool UpdateApp(
@@ -133,7 +143,7 @@ namespace UpdateLib
 						return false;
 					}
 					
-					if (AskUserForDownload(latestVersionInfo))
+					if (AskUserForDownload(appName, latestVersionInfo))
 					{
 						VersionManifest latestManifest = VersionNumberProvider.GetLatestVersionManifest(newVersionLocation);
 						if (latestVersionInfo == null)
@@ -192,9 +202,9 @@ namespace UpdateLib
 			return VersionNumberProvider.GetLatestVersionInfo(location).VersionNumber;
 		}
 
-		protected bool AskUserForDownload(VersionData versionInfo)
+		protected bool AskUserForDownload(string appName, VersionData versionInfo)
 		{
-			return UIAskDownload.AskForDownload(versionInfo);
+			return UIAskDownload.AskForDownload(appName, versionInfo);
 		}
 
 		protected string GetTempDir(string appName, Version latestVersion)
@@ -227,14 +237,14 @@ namespace UpdateLib
 			return installerDir;
 		}
 
-		protected bool AskUserForInstall(VersionData versionInfo)
+		protected bool AskUserForInstall(string appName, VersionData versionInfo)
 		{
-			return UIAskInstall.AskForInstall(versionInfo);
+			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
 		protected void OnVersionDownloadCompleted(VersionDownloadInfo versionDownLoad)
 		{
-			if (versionDownLoad.Succeded && AskUserForInstall(versionDownLoad.LatestVersionInfo))
+			if (versionDownLoad.Succeded && AskUserForInstall(versionDownLoad.AppName, versionDownLoad.LatestVersionInfo))
 			{
 				//Unzip
 				foreach (var item in versionDownLoad.DownloadedVersionManifest.VersionItems)
