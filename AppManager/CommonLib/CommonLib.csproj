@@ -123,7 +123,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommStr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommStr.ru-ru.resx" />
+    <EmbeddedResource Include="CommStr.ru.resx" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Error.png" />

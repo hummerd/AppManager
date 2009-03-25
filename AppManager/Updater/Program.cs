@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 
 namespace Updater
@@ -12,12 +13,18 @@ namespace Updater
 		[STAThread]
 		static void Main(string[] args)
 		{
-			MainWorkItem mwi = new MainWorkItem();
-			mwi.Run(args);
-
 			//Application.EnableVisualStyles();
 			//Application.SetCompatibleTextRenderingDefault(false);
-			//Application.Run();
+			var app = new Application();
+			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+			app.Startup += new StartupEventHandler(Current_Startup);
+			app.Run();
+		}
+
+		static void Current_Startup(object sender, StartupEventArgs e)
+		{
+			MainWorkItem mwi = new MainWorkItem();
+			mwi.Run();			
 		}
 	}
 }

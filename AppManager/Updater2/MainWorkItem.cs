@@ -10,7 +10,6 @@ using CommonLib.IO;
 using CommonLib.Windows;
 using UpdateLib;
 using UpdateLib.VersionInfo;
-using System.Windows.Threading;
 
 
 namespace Updater
@@ -121,7 +120,9 @@ namespace Updater
 				{
 					var prs = GetWaitProcccesses(lockProcesses);
 					WaitForProcces wait = new WaitForProcces(prs);
+					//wait.Show();
 					var dr = wait.ShowDialog();
+					wait.Close();
 					if (!(dr ?? false))
 						return false;
 				}

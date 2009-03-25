@@ -19,14 +19,18 @@ namespace AppManager.Commands
 {
 	public class StartApp : CommandBase
 	{
-		protected Mutex _Mutex;
-		protected bool _FirstStart = false;
-		protected SingleInstance _Single;
+		//protected Mutex				_Mutex;
+		protected bool					_FirstStart = false;
+		protected SingleInstance	_Single;
+		protected SelfUpdate			_Updater;
 
 
 		public StartApp(MainWorkItem workItem)
 			: base(workItem)
-		{ ; }
+		{ 
+			_Updater = SelfUpdate.CreateShareUpdate();
+			_Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
+		}
 
 
 		public override bool CanExecute(object parameter)
@@ -57,12 +61,11 @@ namespace AppManager.Commands
 			LoadData();
 			_FirstStart = FirstLoad();
 			
-
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
 
 			_WorkItem.KbrdHook.KeyDown += KbrdHook_KeyDown;
 #if RELEASE
-			_WorkItem.MsHook.MouseUp += MsHook_MouseUp;
+			//_WorkItem.MsHook.MouseUp += MsHook_MouseUp;
 #endif
 			WinForms.NotifyIcon tray = _WorkItem.TrayIcon;
 			tray.Icon = Resources.leftarrow;
@@ -80,19 +83,18 @@ namespace AppManager.Commands
 
 		protected void App_Startup(object sender, StartupEventArgs e)
 		{
-			var updater = SelfUpdate.CreateShareUpdate();
-			updater.UpdateApp(
+			_WorkItem.AppData.StartLoadImages();
+			_WorkItem.MainWindow.DataContext = _WorkItem;
+			_WorkItem.MainWindow.LoadState();
+
+			_Updater.UpdateApp(
 				@"\\msk-0438\Common\AppManagerUpdate",
 				"AppManager",
 				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 				new string[] { Assembly.GetExecutingAssembly().Location },
 				new string[] { Process.GetCurrentProcess().ProcessName }
 				);
-
-			_WorkItem.AppData.StartLoadImages();
-			_WorkItem.MainWindow.DataContext = _WorkItem;
-			_WorkItem.MainWindow.LoadState();
-
+			
 			if (!_WorkItem.Settings.StartMinimized)
 			{
 				_WorkItem.MainWindow.Show();
@@ -248,6 +250,7 @@ namespace AppManager.Commands
 			catch
 			{ ; }
 		}
+
 
 		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
