@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using CommonLib;
-using UpdateLib.VersionNumberProvider;
+using UpdateLib.VersionInfo;
 using CommonLib.Application;
 
 

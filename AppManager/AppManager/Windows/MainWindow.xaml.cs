@@ -98,9 +98,12 @@ namespace AppManager
 			if (_FocusElement != null && _FocusElement.Items.Count > 0)
 			{
 				var f = _FocusElement.ItemContainerGenerator.ContainerFromIndex(0) as FrameworkElement;
-				var b = UIHelper.FindVisualChild<ListBoxItem>(f, null);
-				if (b != null)
-					b.Focus();
+				if (f != null)
+				{
+					var b = UIHelper.FindVisualChild<ListBoxItem>(f, null);
+					if (b != null)
+						b.Focus();
+				}
 			}
 		}
 

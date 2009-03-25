@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using UpdateLib.Install;
 
 
-namespace UpdateLib.VersionNumberProvider
+namespace UpdateLib.VersionInfo
 {
+	public enum InstallAction
+	{
+		Copy,
+		CopyAndRun
+	}
+	
 	[Serializable]
 	public class VersionItemList : List<VersionItem>
 	{
@@ -47,6 +52,27 @@ namespace UpdateLib.VersionNumberProvider
 		{
 			var location = new Uri(Location);
 			return System.IO.Path.Combine(Path, location.Segments[location.Segments.Length - 1]);
+		}
+
+		public string GetUnzipItemFullPath()
+		{
+			var itemFullPath = GetItemFullPath();
+			return itemFullPath.Substring(
+				0, 
+				itemFullPath.Length - System.IO.Path.GetExtension(itemFullPath).Length);
+		}
+
+		public bool NeedCopyItem()
+		{
+			return
+				InstallAction == InstallAction.Copy ||
+				InstallAction == InstallAction.CopyAndRun;
+		}
+
+		public bool NeedRunItem()
+		{
+			return
+				InstallAction == InstallAction.CopyAndRun;
 		}
 	}
 }

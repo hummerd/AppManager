@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CommonLib;
-using UpdateLib.VersionNumberProvider;
+using UpdateLib.VersionInfo;
 
 
 namespace UpdateLib.FileDownloader

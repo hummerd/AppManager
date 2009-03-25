@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using UpdateLib.VersionNumberProvider;
+using UpdateLib.VersionInfo;
 
 
 namespace UpdateLib.UI
@@ -16,7 +16,7 @@ namespace UpdateLib.UI
 
 		#region IUIAskDownload Members
 
-		public bool AskForDownload(VersionInfo versionInfo)
+		public bool AskForDownload(VersionData versionInfo)
 		{
 			return ShowDialog() ?? false;
 		}
@@ -25,7 +25,7 @@ namespace UpdateLib.UI
 
 		#region IUIAskInstall Members
 
-		public bool AskForInstall(VersionInfo versionInfo)
+		public bool AskForInstall(VersionData versionInfo)
 		{
 			return ShowDialog() ?? false;
 		}

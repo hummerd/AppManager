@@ -1,10 +1,10 @@
 ﻿
 
-namespace UpdateLib.VersionNumberProvider
+namespace UpdateLib.VersionInfo
 {
 	public interface IVersionNumberProvider
 	{
-		VersionInfo GetLatestVersionInfo(string location);
+		VersionData GetLatestVersionInfo(string location);
 		VersionManifest GetLatestVersionManifest(string location);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System;
 
 
 namespace CommonLib.Windows
@@ -11,6 +12,12 @@ namespace CommonLib.Windows
 		public static void Show(string title, string message, string details)
 		{
 			var eb = new ErrorBox(title, message, details);
+			eb.ShowDialog();
+		}
+
+		public static void Show(string title, Exception exc)
+		{
+			var eb = new ErrorBox(title, exc.Message, exc.ToString());
 			eb.ShowDialog();
 		}
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using UpdateLib.UI;
-using UpdateLib.VersionNumberProvider;
+using UpdateLib.VersionInfo;
 using CommonLib;
 
 
@@ -77,7 +77,7 @@ namespace UpdateLib.FileDownloader
 		{ get; set; }
 		public VersionManifest LatestVersionManifest
 		{ get; set; }
-		public VersionInfo LatestVersionInfo
+		public VersionData LatestVersionInfo
 		{ get; set; }
 		public VersionManifest CurrentVersionManifest
 		{ get; set; }

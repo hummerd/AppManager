@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
-using CommonLib;
-using UpdateLib.Install;
-using UpdateLib.VersionNumberProvider;
 using System.Reflection;
+using CommonLib;
 using CommonLib.IO;
+using UpdateLib.VersionInfo;
 
 
 namespace VersionBuilder
@@ -61,7 +59,8 @@ namespace VersionBuilder
 						InstallAction = InstallAction.Copy,
 						Location = location + newPath.Replace(versionDir, String.Empty),
 						Path = itemPath,
-						VersionNumber = an == null ? version : an.Version
+						VersionNumber = an == null ? version : an.Version,
+						Base64Hash = FileHash.GetBase64FileHash(item)
 					});
 				
 				GZipCompression.CompressFile(item, newPath);
@@ -72,7 +71,7 @@ namespace VersionBuilder
 				Path.Combine(versionDir, VersionManifest.VersionManifestFileName));
 
 			XmlSerializeHelper.SerializeItem(
-				new VersionInfo(version),
+				new VersionData(version),
 				Path.Combine(versionDir, VersionManifest.VersionFileName));
 		}
 		

@@ -1,19 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
-using System.Xml;
-using System.Xml.Serialization;
 using AppManager.Properties;
 using AppManager.Windows;
 using CommonLib;
 using CommonLib.Application;
-using CommonLib.PInvoke;
-using CommonLib.Windows;
-using WinForms = System.Windows.Forms;
 using CommonLib.PInvoke.WinHook;
+using CommonLib.Windows;
 using UpdateLib;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager.Commands
@@ -82,7 +81,13 @@ namespace AppManager.Commands
 		protected void App_Startup(object sender, StartupEventArgs e)
 		{
 			var updater = SelfUpdate.CreateShareUpdate();
-			updater.UpdateApp(new Version("1.0.0.0"), @"\\msk-0438\Common\AppManagerUpdate", "AppManager");
+			updater.UpdateApp(
+				@"\\msk-0438\Common\AppManagerUpdate",
+				"AppManager",
+				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+				new string[] { Assembly.GetExecutingAssembly().Location },
+				new string[] { Process.GetCurrentProcess().ProcessName }
+				);
 
 			_WorkItem.AppData.StartLoadImages();
 			_WorkItem.MainWindow.DataContext = _WorkItem;
@@ -207,12 +212,9 @@ namespace AppManager.Commands
 
 			try
 			{
-				XmlSerializer xser = new XmlSerializer(_WorkItem.AppData.GetType());
-
-				using (XmlReader xr = XmlReader.Create(_WorkItem.DataPath))
-				{
-					apps = xser.Deserialize(xr) as AppGroup;
-				}
+				apps = XmlSerializeHelper.DeserializeItem(
+					_WorkItem.AppData.GetType(),
+					_WorkItem.DataPath) as AppGroup;
 			}
 			catch
 			{ ; }
