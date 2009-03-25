@@ -62,9 +62,6 @@
     <Compile Include="UI\IUIAskInstall.cs" />
     <Compile Include="WebUpdate\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
-    <Compile Include="Install\InstallAction.cs" />
-    <Compile Include="Install\InstallHelper.cs" />
-    <Compile Include="Install\InstallItem.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,12 +71,12 @@
     <Compile Include="ShareUpdate\ShareVNP.cs" />
     <Compile Include="UI\IUIAskDownload.cs" />
     <Compile Include="UI\IUIDownloadProgress.cs" />
-    <Compile Include="VersionNumberProvider\IVersionNumberProvider.cs" />
+    <Compile Include="VersionInfo\IVersionNumberProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelfUpdate.cs" />
-    <Compile Include="VersionNumberProvider\VersionInfo.cs" />
-    <Compile Include="VersionNumberProvider\VersionItem.cs" />
-    <Compile Include="VersionNumberProvider\VersionManifest.cs" />
+    <Compile Include="VersionInfo\VersionInfo.cs" />
+    <Compile Include="VersionInfo\VersionItem.cs" />
+    <Compile Include="VersionInfo\VersionManifest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">
