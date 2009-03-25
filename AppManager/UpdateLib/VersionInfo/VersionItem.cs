@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using UpdateLib.Install;
 using System.Xml.Serialization;
+using UpdateLib.Install;
 
 
 namespace UpdateLib.VersionNumberProvider
@@ -38,7 +37,11 @@ namespace UpdateLib.VersionNumberProvider
 				VersionNumber = new Version(value);
 			}
 		}
-
+		public string Base64Hash
+		{
+			get;
+			set;
+		}
 
 		public string GetItemFullPath()
 		{

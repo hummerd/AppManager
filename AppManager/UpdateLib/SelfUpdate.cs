@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using UpdateLib.FileDownloader;
-using UpdateLib.Install;
 using UpdateLib.UI;
 using UpdateLib.VersionNumberProvider;
 using UpdateLib.ShareUpdate;
 using System.Threading;
+using System.Diagnostics;
+using CommonLib.IO;
+using CommonLib;
+using System.Windows;
 
 
 namespace UpdateLib
@@ -29,7 +32,6 @@ namespace UpdateLib
 
 		protected Mutex _UpdatingFlag;
 		protected FileDownloadHelper _Downloader;
-		protected InstallHelper _Installer;
 
 
 		public SelfUpdate()
@@ -60,49 +62,60 @@ namespace UpdateLib
 		//   UpdateApp(currentVersion, String.Empty, String.Empty);
 		//}
 
-		public bool UpdateApp(Version currentVersion, VersionManifest currentManifest, string location, string appName)
+		public bool UpdateApp(
+			VersionManifest currentManifest, 
+			string newVersionLocation, 
+			string appName,
+			string appPath,
+			string[] executePaths,
+			string[] lockProcesses)
 		{
 			bool notAlredyRunning;
-			_UpdatingFlag = new Mutex(true, "Global\\UpdateLib_" + appName, out alredyRunning);
+			_UpdatingFlag = new Mutex(true, "Global\\UpdateLib_" + appName, out notAlredyRunning);
 			if (!notAlredyRunning)
 				return false;
 
 			try
 			{
-				Version lastVersion = GetLatestVersion(location);
-				if (lastVersion > currentVersion)
+				Version lastVersion = GetLatestVersion(newVersionLocation);
+				if (lastVersion > currentManifest.VersionNumber)
 				{
 					_Downloader = new FileDownloadHelper(FileDownloader, UIDownloadProgress);
 
-					VersionInfo versionInfo = VersionNumberProvider.GetLatestVersionInfo(location);
-					if (versionInfo == null)
+					VersionInfo latestVersionInfo = VersionNumberProvider.GetLatestVersionInfo(newVersionLocation);
+					if (latestVersionInfo == null)
 					{
 						_UpdatingFlag.ReleaseMutex();
 						return false;
 					}
 
-					if (AskUserForDownload(versionInfo))
+					if (AskUserForDownload(latestVersionInfo))
 					{
-						VersionManifest verManifest = VersionNumberProvider.GetLatestVersionManifest(location);
-						if (versionInfo == null)
+						VersionManifest latestManifest = VersionNumberProvider.GetLatestVersionManifest(newVersionLocation);
+						if (latestVersionInfo == null)
 						{
 							_UpdatingFlag.ReleaseMutex();
 							return false;
 						}
 
-						string tempPath = CreateTempDir(appName, versionInfo);
+						string tempPath = CreateTempDir(appName, latestVersionInfo);
 
-						VersionManifest updateManifest = verManifest.GetUpdateManifest(currentManifest);
+						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
-						_Downloader.DownloadCompleted += (s, e) => OnVersionDownloadCompleted(
-							e.Succeded, 
-							e.DownloadedVersionManifest, 
-							e.DownloadedVersionInfo, 
-							e.LatestVersion, 
-							e.AppName, 
-							e.TempPath);
-
-						_Downloader.DownloadVersion(updateManifest, versionInfo, lastVersion, appName, tempPath);
+						_Downloader.DownloadCompleted += (s, e) => OnVersionDownloadCompleted(e);
+						_Downloader.DownloadVersion(
+							new VersionDownloadInfo()
+							{
+								AppName = appName,
+								AppPath = appPath,
+								ExecutePaths = executePaths,
+								LockProcesses = lockProcesses,
+								DownloadedVersionManifest = updateManifest,
+								LatestVersionManifest = latestManifest,
+								LatestVersionInfo = latestVersionInfo,
+								CurrentVersionManifest = currentManifest,
+								TempPath = tempPath
+							});
 					}
 				}
 			}
@@ -147,15 +160,68 @@ namespace UpdateLib
 
 		protected void OnVersionDownloadCompleted(VersionDownloadInfo versionDownLoad)
 		{
-			if (versionDownLoad.Succeded && AskUserForInstall(versionDownLoad.DownloadedVersionInfo))
-				_Installer.InstallVersion(
-					versionDownLoad.TempPath, 
+			if (versionDownLoad.Succeded && AskUserForInstall(versionDownLoad.LatestVersionInfo))
+			{
+				//Unzip
+				foreach (var item in versionDownLoad.DownloadedVersionManifest.VersionItems)
+				{
+					var tempFile = Path.Combine(versionDownLoad.TempPath, item.GetItemFullPath());
+					var tempFileUnzip = tempFile.Substring(0, tempFile.Length - Path.GetExtension(tempFile).Length);
+
+					GZipCompression.DecompressFile(tempFile, tempFileUnzip);
+				}
+
+				//Saving latest manifest
+				XmlSerializeHelper.SerializeItem(
+					versionDownLoad.LatestVersionManifest,
+					Path.Combine(versionDownLoad.TempPath, VersionManifest.VersionManifestFileName));
+
+				//Saving downloaded manifest
+				XmlSerializeHelper.SerializeItem(
 					versionDownLoad.DownloadedVersionManifest,
-					versionDownLoad.LatestVersionManifest
-					);
+					Path.Combine(versionDownLoad.TempPath, VersionManifest.DownloadedVersionManifestFileName));
+
+				//Saving install info
+				XmlSerializeHelper.SerializeItem(
+					new InstallInfo(versionDownLoad),
+					Path.Combine(versionDownLoad.TempPath, InstallInfo.InstallInfoFileName));
+
+				string installerPath = Path.Combine(versionDownLoad.TempPath, "Updater.exe");
+				File.WriteAllBytes(installerPath, Resource.Updater);
+				
+				//Start installing
+				Process.Start(installerPath);
+				_UpdatingFlag.ReleaseMutex();
+				Application.Current.Shutdown();
+			}
 
 			_UpdatingFlag.ReleaseMutex();
 		}
-				
+	}
+
+	[Serializable]
+	public class InstallInfo
+	{
+		public const string InstallInfoFileName = "InstallInfo.xml";
+
+
+		public InstallInfo()
+		{
+
+		}
+
+		public InstallInfo(VersionDownloadInfo versionInfo)
+		{
+			LockProcess = versionInfo.LockProcesses;
+			InstallPath = versionInfo.AppPath;
+			ExecutePaths = versionInfo.ExecutePaths;
+		}
+
+		public string[] LockProcess
+		{ get; set; }
+		public string InstallPath
+		{ get; set; }
+		public string[] ExecutePaths
+		{ get; set; }
 	}
 }

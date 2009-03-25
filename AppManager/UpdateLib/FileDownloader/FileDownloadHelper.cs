@@ -23,20 +23,13 @@ namespace UpdateLib.FileDownloader
 		}
 
 
-		public void DownloadVersion(VersionManifest manifest, VersionInfo versionInfo, Version latestVersion, string appName, string tempPath)
+		public void DownloadVersion(VersionDownloadInfo downloadInfo)
 		{
-			//string tempFolder = Path.Combine(Path.GetTempPath(), appName + "_" + manifest.VersionNumber);
-
-			_FileDownloader.DownloadFileSetCompleted += (s, e) => FileDownloadCompleted(
-				new VersionDownloadInfo() 
+			_FileDownloader.DownloadFileSetCompleted += delegate(object s, ValueEventArgs<bool> e)
 				{
-					Succeded = e.Value,
-					DownloadedVersionManifest = manifest,
-					DownloadedVersionInfo = versionInfo,
-					LatestVersion = latestVersion,
-					AppName = appName,
-					TempPath = tempPath
-				});
+					downloadInfo.Succeded = e.Value;
+					FileDownloadCompleted(downloadInfo);
+				};
 
 			_FileDownloader.DownloadFileStarted += (s, e) => FileDownloadStarted(
 				e.FilePath, e.ToltalSize, e.DownloadedSize);
@@ -44,10 +37,13 @@ namespace UpdateLib.FileDownloader
 			if (_UIDownloadProgress != null)
 			{
 				_UIDownloadProgress.Show();
-				_UIDownloadProgress.SetDownloadInfo(manifest);
+				_UIDownloadProgress.SetDownloadInfo(downloadInfo.DownloadedVersionManifest);
 			}
 
-			_FileDownloader.DownloadFileSetAsync(manifest.VersionItems, tempPath, true);
+			_FileDownloader.DownloadFileSetAsync(
+				downloadInfo.DownloadedVersionManifest.VersionItems, 
+				downloadInfo.TempPath,
+				true);
 		}
 
 
@@ -79,15 +75,21 @@ namespace UpdateLib.FileDownloader
 		{ get; set; }
 		public VersionManifest DownloadedVersionManifest
 		{ get; set; }
-		public VersionInfo DownloadedVersionInfo
+		public VersionManifest LatestVersionManifest
 		{ get; set; }
-		public Version LatestVersion
+		public VersionInfo LatestVersionInfo
+		{ get; set; }
+		public VersionManifest CurrentVersionManifest
 		{ get; set; }
 		public string AppName
 		{ get; set; }
-		public string TempPath
+		public string AppPath
 		{ get; set; }
-		public VersionManifest LatestVersionManifest
+		public string[] ExecutePaths
+		{ get; set; }
+		public string[] LockProcesses
+		{ get; set; }
+		public string TempPath
 		{ get; set; }
 	}
 }
