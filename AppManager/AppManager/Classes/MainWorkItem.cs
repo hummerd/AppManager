@@ -10,14 +10,14 @@ namespace AppManager
 {
 	public class MainWorkItem
 	{
-		protected AppGroup		_AppData;
-		protected MainWindow	_MainWindow;
-		protected App			_Application;
-		protected KeyboardHook	_KbrdHook;
-        protected MouseHook     _MsHook;
-		protected WinForms.NotifyIcon   _TrayIcon;
-		protected AppCommands	        _Commands;
-		protected AppManagerSettings    _Settings;
+		protected AppGroup _AppData;
+		protected MainWindow _MainWindow;
+		protected App _Application;
+		protected KeyboardHook _KbrdHook;
+		protected MouseHook _MsHook;
+		protected WinForms.NotifyIcon _TrayIcon;
+		protected AppCommands _Commands;
+		protected AppManagerSettings _Settings;
 
 
 		public MainWorkItem()
@@ -26,7 +26,10 @@ namespace AppManager
 			_Settings = AMSetttingsFactory.DefaultSettingsBag.Settings;
 			_Commands = new AppCommands(this);
 			_KbrdHook = new KeyboardHook();
-            _MsHook = new MouseHook();
+
+#if RELEASE
+			//_MsHook = new MouseHook();
+#endif
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
@@ -57,13 +60,13 @@ namespace AppManager
 			}
 		}
 
-        public MouseHook MsHook
-        {
-            get
-            {
-                return _MsHook;
-            }
-        }
+		public MouseHook MsHook
+		{
+			get
+			{
+				return _MsHook;
+			}
+		}
 
 		public WinForms.NotifyIcon TrayIcon
 		{
@@ -75,7 +78,7 @@ namespace AppManager
 
 		public AppManagerSettings Settings
 		{
-			get 
+			get
 			{
 				return _Settings;
 			}
@@ -110,7 +113,7 @@ namespace AppManager
 		public string DataPath
 		{
 			get
-			{ 
+			{
 #if DEBUG
 				return Path.Combine(DataDir, "appdata.xml");
 #else

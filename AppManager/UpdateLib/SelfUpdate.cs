@@ -12,6 +12,7 @@ using UpdateLib.UI;
 using UpdateLib.VersionInfo;
 using System.Resources;
 using System.Globalization;
+using System.Collections.Generic;
 
 
 namespace UpdateLib
@@ -33,7 +34,11 @@ namespace UpdateLib
 		}
 
 
+		public event EventHandler NeedCloseApp;
+
+
 		protected Mutex _UpdatingFlag;
+		protected Mutex _InstUpdatingFlag;
 		protected FileDownloadHelper _Downloader;
 
 
@@ -100,6 +105,12 @@ namespace UpdateLib
 			if (!notAlredyRunning)
 				return false;
 
+			bool notInstAlredyRunning;
+			_InstUpdatingFlag = new Mutex(true, InstallInfo.InstallInfoMutexPrefix + appName, out notInstAlredyRunning);
+			//Installer alredy runninig
+			if (!notInstAlredyRunning)
+				return false;
+
 			try
 			{
 				CleanUp(appName, currentManifest);
@@ -116,6 +127,12 @@ namespace UpdateLib
 						return false;
 					}
 
+					if (!notInstAlredyRunning)
+					{
+						_UpdatingFlag.Close();
+						return false;
+					}
+					
 					if (AskUserForDownload(latestVersionInfo))
 					{
 						VersionManifest latestManifest = VersionNumberProvider.GetLatestVersionManifest(newVersionLocation);
@@ -158,11 +175,16 @@ namespace UpdateLib
 
 		protected void CleanUp(string appName, VersionManifest currentManifest)
 		{
-			var tempPath = GetTempDir(appName, currentManifest.VersionNumber);
-			var instDir = GetInstallerDir(tempPath, appName, currentManifest.VersionNumber);
+			try
+			{
+				var tempPath = GetTempDir(appName, currentManifest.VersionNumber);
+				var instDir = GetInstallerDir(tempPath, appName, currentManifest.VersionNumber);
 
-			if (Directory.Exists(instDir))
-				Directory.Delete(instDir, true);
+				if (Directory.Exists(instDir))
+					Directory.Delete(instDir, true);
+			}
+			catch
+			{ ; }
 		}
 
 		protected Version GetLatestVersion(string location)
@@ -238,7 +260,9 @@ namespace UpdateLib
 				//Start installing
 				Process.Start(installerPath);
 				_UpdatingFlag.Close();
-				Application.Current.Shutdown();
+
+				OnNeedCloseApp();
+				//Application.Current.Shutdown();
 			}
 
 			_UpdatingFlag.Close();
@@ -265,14 +289,16 @@ namespace UpdateLib
 			}
 			
 			//Copy CommonLib
-			string commonLibPath = Assembly.GetAssembly(typeof(XmlSerializeHelper)).Location;
-			string temp = Path.Combine(installerDir, Path.GetFileName(commonLibPath));
-			File.Copy(commonLibPath, temp, true);
+			CopyAssembly(installerDir, Assembly.GetAssembly(typeof(XmlSerializeHelper)));
+			//string commonLibPath = Assembly.GetAssembly(typeof(XmlSerializeHelper)).Location;
+			//string temp = Path.Combine(installerDir, Path.GetFileName(commonLibPath));
+			//File.Copy(commonLibPath, temp, true);
 
 			//Copy UpdateLib
-			string updateLibPath = Assembly.GetExecutingAssembly().Location;
-			temp = Path.Combine(installerDir, Path.GetFileName(updateLibPath));
-			File.Copy(updateLibPath, temp, true);
+			CopyAssembly(installerDir, Assembly.GetExecutingAssembly());
+			//string updateLibPath = Assembly.GetExecutingAssembly().Location;
+			//temp = Path.Combine(installerDir, Path.GetFileName(updateLibPath));
+			//File.Copy(updateLibPath, temp, true);
 
 			//Saving install info
 			XmlSerializeHelper.SerializeItem(
@@ -281,12 +307,60 @@ namespace UpdateLib
 
 			return installerPath;
 		}
+
+		protected void CopyAssembly(string destDir, Assembly asm)
+		{
+			string asmDir = Path.GetDirectoryName(asm.Location);
+			File.Copy(asm.Location, asm.Location.Replace(asmDir, destDir), true);
+
+			var sats = GetSateliteAsms(asm);
+			foreach (var item in sats)
+			{
+				//asmDir = Path.GetDirectoryName(item.Location);
+				var destPath = item.Location.Replace(asmDir, destDir);
+				var destAsmDir = Path.GetDirectoryName(destPath);
+				if (!Directory.Exists(destAsmDir))
+					Directory.CreateDirectory(destAsmDir);
+
+				File.Copy(item.Location, destPath, true);
+			}
+		}
+
+		protected List<Assembly> GetSateliteAsms(Assembly asm)
+		{
+			var result = new List<Assembly>();
+
+			try
+			{
+				var cults = CultureInfo.GetCultureInfo("ru");
+				var sa = asm.GetSatelliteAssembly(cults);
+				result.Add(sa);
+			}
+			catch
+			{ ; }
+			//foreach (var item in cults)
+			//{
+			//   var sa = asm.GetSatelliteAssembly(item);
+			//   if (sa != null)
+			//      result.Add(sa);
+			//}
+
+			return result;
+
+		}
+	
+		protected virtual void OnNeedCloseApp()
+		{
+			if (NeedCloseApp != null)
+				NeedCloseApp(this, EventArgs.Empty);
+		}
 	}
 
 	[Serializable]
 	public class InstallInfo
 	{
 		public const string InstallInfoFileName = "InstallInfo.xml";
+		public const string InstallInfoMutexPrefix = "Global\\UpdateLibInst_";
 
 
 		public InstallInfo()
@@ -300,6 +374,7 @@ namespace UpdateLib
 			InstallPath = versionInfo.AppPath;
 			TempPath = versionInfo.TempPath;
 			ExecutePaths = versionInfo.ExecutePaths;
+			AppName = versionInfo.AppName;
 		}
 
 		public string[] LockProcess
@@ -307,6 +382,8 @@ namespace UpdateLib
 		public string InstallPath
 		{ get; set; }
 		public string TempPath
+		{ get; set; }
+		public string AppName
 		{ get; set; }
 		public string[] ExecutePaths
 		{ get; set; }
