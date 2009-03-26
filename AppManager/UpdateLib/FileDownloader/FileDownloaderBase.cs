@@ -71,42 +71,7 @@ namespace UpdateLib.FileDownloader
 					if (!Directory.Exists(tempDir))
 						Directory.CreateDirectory(tempDir);
 
-					using (var stream = GetFileStream(location))
-					using (var tempStream = GetTempStream(tempFile))
-					{
-						var fileSize = GetFileSize(new Uri(item.Location));
-
-						int readCount = 0;
-						int totalRead = 0;
-
-						OnDownloadFileStarted(new FileDownloadProgress()
-						{
-							FilePath = item.Location,
-							DownloadedSize = 0,
-							ToltalSize = fileSize
-						});
-						//_Downloader.ReportProgress(0, new object[] { fileSize, item.Location });
-
-						while ((int)(readCount = stream.Read(buff, 0, buffSize)) > 0)
-						{
-							if (_Cancel)
-								return false;
-
-							totalRead += readCount;
-							tempStream.Write(buff, 0, readCount);
-
-							// send progress info
-							int progress = (int)((((double)totalRead) / fileSize) * 100);
-							OnDownloadFileStarted(new FileDownloadProgress()
-								{
-									FilePath = item.Location,
-									DownloadedSize = progress,
-									ToltalSize = fileSize
-								});
-
-							//_Downloader.ReportProgress(progress, new object[] { fileSize, item.Location });
-						}
-					}
+					DownloadFile(location, tempFile);
 				}
 			}
 			catch(Exception)
@@ -118,7 +83,56 @@ namespace UpdateLib.FileDownloader
 		}
 
 
-		protected Stream GetTempStream(string tempPath)
+		protected bool DownloadFile(Uri fileLocation, string tempFile)
+		{
+			int buffSize = 4096;
+			byte[] buff = new byte[buffSize];
+
+			try
+			{
+				using (var stream = GetFileStream(fileLocation))
+				using (var tempStream = GetTempStream(tempFile))
+				{
+					var fileSize = GetFileSize(fileLocation);
+
+					int readCount = 0;
+					int totalRead = 0;
+
+					OnDownloadFileStarted(new FileDownloadProgress()
+					{
+						FilePath = fileLocation.AbsolutePath,
+						DownloadedSize = 0,
+						ToltalSize = fileSize
+					});
+
+					while ((int)(readCount = stream.Read(buff, 0, buffSize)) > 0)
+					{
+						if (_Cancel)
+							return false;
+
+						totalRead += readCount;
+						tempStream.Write(buff, 0, readCount);
+
+						// send progress info
+						int progress = (int)((((double)totalRead) / fileSize) * 100);
+						OnDownloadFileStarted(new FileDownloadProgress()
+						{
+							FilePath = fileLocation.AbsolutePath,
+							DownloadedSize = progress,
+							ToltalSize = fileSize
+						});
+					}
+				}
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		protected virtual Stream GetTempStream(string tempPath)
 		{
 			return new FileStream(tempPath, FileMode.Create, FileAccess.Write);
 		}
