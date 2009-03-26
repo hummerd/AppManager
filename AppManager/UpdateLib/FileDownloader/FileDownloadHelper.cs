@@ -101,6 +101,8 @@ namespace UpdateLib.FileDownloader
 		{ get; set; }
 		public string AppName
 		{ get; set; }
+		public string DisplayAppName
+		{ get; set; }
 		public string AppPath
 		{ get; set; }
 		public string[] ExecutePaths

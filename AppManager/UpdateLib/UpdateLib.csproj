@@ -75,7 +75,7 @@
     <Compile Include="VersionInfo\VersionInfo.cs" />
     <Compile Include="VersionInfo\VersionItem.cs" />
     <Compile Include="VersionInfo\VersionManifest.cs" />
-    <Compile Include="WebUpdate\WebVPN.cs" />
+    <Compile Include="WebUpdate\WebVNP.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLib\CommonLib.csproj">

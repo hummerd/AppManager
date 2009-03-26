@@ -28,7 +28,7 @@ namespace AppManager.Commands
 		public StartApp(MainWorkItem workItem)
 			: base(workItem)
 		{ 
-			_Updater = SelfUpdate.CreateShareUpdate();
+			_Updater = SelfUpdate.CreateWebUpdate();
 			_Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
 		}
 
@@ -40,8 +40,6 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
-
 			ThreadPool.QueueUserWorkItem(InitDrag);
 
 			_Single = new SingleInstance(10251, true);
@@ -49,14 +47,6 @@ namespace AppManager.Commands
 				return;
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
-
-			App app = new App();
-			app.InitializeComponent();
-			
-			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " InitializeComponent");
-
-			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-			app.SessionEnding += App_SessionEnding;
 
 			LoadData();
 			_FirstStart = FirstLoad();
@@ -75,47 +65,28 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
 
-			app.Startup += App_Startup;
-			app.MainWindow = _WorkItem.MainWindow;
-			app.Run();
-		}
-
-
-		protected void App_Startup(object sender, StartupEventArgs e)
-		{
 			_WorkItem.AppData.StartLoadImages();
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
 
 			_Updater.UpdateAppAsync(
-				@"\\msk-0438\Common\AppManagerUpdate",
 				"AppManager",
+				Strings.APP_TITLE,
 				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 				new string[] { Assembly.GetExecutingAssembly().Location },
 				new string[] { Process.GetCurrentProcess().ProcessName }
 				);
-			
+
 			if (!_WorkItem.Settings.StartMinimized)
 			{
 				_WorkItem.MainWindow.Show();
 				_WorkItem.MainWindow.SetFocus();
 			}
 
-			OnMainWindowLoaded();
-		}
-		
-		protected void OnMainWindowLoaded()
-		{
-			//_WorkItem.MainWindow.LoadState();
-			///_WorkItem.MainWindow.Init(_FirstStart);
-
-			//_WorkItem.MainWindow.ContentPanel.InvalidateVisual();
-			//System.Threading.Thread.Sleep(500);
-			//_WorkItem.MainWindow.ContentPanel.InvalidateVisual();
-
 			if (_FirstStart)
 				_WorkItem.Commands.Help.Execute(false);
 		}
+
 
 		protected bool FirstLoad()
 		{
@@ -251,23 +222,6 @@ namespace AppManager.Commands
 			{ ; }
 		}
 
-
-		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			if (e.ExceptionObject != null)
-			{
-				var exc = e.ExceptionObject as Exception;
-				if (exc != null)
-					ErrorBox.Show(Strings.ERROR, exc.Message, exc.ToString());
-				else
-					ErrorBox.Show(Strings.ERROR, Strings.ERROR_OCCUR, String.Empty);
-			}
-		}
-
-		private void App_SessionEnding(object sender, SessionEndingCancelEventArgs e)
-		{
-			_WorkItem.Commands.Quit.Execute(null);
-		}
 
 		private void TrayIcon_MouseUp(object sender, WinForms.MouseEventArgs e)
 		{
