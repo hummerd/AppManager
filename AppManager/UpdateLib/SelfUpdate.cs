@@ -6,13 +6,13 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using CommonLib;
+using CommonLib.Application;
 using CommonLib.IO;
 using CommonLib.Windows;
 using UpdateLib.FileDownloader;
 using UpdateLib.ShareUpdate;
 using UpdateLib.UI;
 using UpdateLib.VersionInfo;
-using CommonLib.Application;
 
 
 namespace UpdateLib

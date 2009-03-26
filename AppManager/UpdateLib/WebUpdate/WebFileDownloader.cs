@@ -7,15 +7,18 @@ namespace UpdateLib.FileDownloader
 {
 	public class WebFileDownloader : FileDownloaderBase
 	{
-		protected ICredentials _Credentials;
-		protected bool _PreAuthenticate;
-		protected IWebProxy _Proxy;
-		protected string _UserAgent = null;
+		protected ICredentials	_Credentials;
+		protected bool				_PreAuthenticate;
+		protected IWebProxy		_Proxy;
+		protected string			_UserAgent = null;
 
 
 		public WebFileDownloader()
 		{
-
+			_Credentials = null;
+			_PreAuthenticate = false;
+			_Proxy = WebRequest.DefaultWebProxy;
+			_UserAgent = null;
 		}
 
 
