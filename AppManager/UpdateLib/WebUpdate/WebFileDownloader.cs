@@ -11,6 +11,7 @@ namespace UpdateLib.FileDownloader
 		protected bool				_PreAuthenticate;
 		protected IWebProxy		_Proxy;
 		protected string			_UserAgent = null;
+		protected WebResponse _DownloadResponse;
 
 
 		public WebFileDownloader()
@@ -24,10 +25,8 @@ namespace UpdateLib.FileDownloader
 
 		protected override Stream GetFileStream(Uri location)
 		{
-			using (WebResponse response = GetRequest(location).GetResponse())
-			{
-				return response.GetResponseStream();
-			}
+			_DownloadResponse = GetRequest(location).GetResponse();
+			return _DownloadResponse.GetResponseStream();
 		}
 
 		protected override long GetFileSize(Uri location)

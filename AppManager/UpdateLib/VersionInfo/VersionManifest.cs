@@ -40,6 +40,9 @@ namespace UpdateLib.VersionInfo
 		public VersionItemList VersionItems
 		{ get; set; }
 
+		public string UpdateUri
+		{ get; set; }
+
 
 		public VersionManifest GetUpdateManifest(VersionManifest currentVersionManifest)
 		{

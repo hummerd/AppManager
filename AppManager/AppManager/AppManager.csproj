@@ -14,7 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <StartupObject>AppManager.Classes.Program</StartupObject>
+    <StartupObject>AppManager.App</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
     <ApplicationIcon>Resources\1leftarrow_1159.ico</ApplicationIcon>
     <TargetFrameworkSubset>
@@ -177,7 +177,6 @@
     <Compile Include="Classes\HelpBoxController.cs" />
     <Compile Include="Classes\MainWindowController.cs" />
     <Compile Include="Classes\MainWorkItem.cs" />
-    <Compile Include="Classes\Program.cs" />
     <Compile Include="Classes\SettingsController.cs" />
     <Compile Include="Classes\Settings\AppManagerSettings.cs" />
     <Compile Include="Classes\Settings\ControlAdapterBase.cs" />

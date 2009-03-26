@@ -4,7 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	xmlns:am="clr-namespace:AppManager"
-	xmlns:с="clr-namespace:CommonLib;assembly=CommonLib">
+	xmlns:с="clr-namespace:CommonLib;assembly=CommonLib"
+   ShutdownMode="OnExplicitShutdown">
 
 	<Application.Resources>
 		<Style

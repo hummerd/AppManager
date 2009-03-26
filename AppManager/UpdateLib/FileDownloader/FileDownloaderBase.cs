@@ -88,45 +88,52 @@ namespace UpdateLib.FileDownloader
 			int buffSize = 4096;
 			byte[] buff = new byte[buffSize];
 
+			Stream downloadStream = null;
+			Stream tempStream = null;
+
 			try
 			{
-				using (var stream = GetFileStream(fileLocation))
-				using (var tempStream = GetTempStream(tempFile))
+				downloadStream = GetFileStream(fileLocation);
+				tempStream = GetTempStream(tempFile);
+
+				var fileSize = GetFileSize(fileLocation);
+
+				int readCount = 0;
+				int totalRead = 0;
+
+				OnDownloadFileStarted(new FileDownloadProgress()
 				{
-					var fileSize = GetFileSize(fileLocation);
+					FilePath = fileLocation.AbsoluteUri,
+					DownloadedSize = 0,
+					ToltalSize = fileSize
+				});
 
-					int readCount = 0;
-					int totalRead = 0;
+				while ((int)(readCount = downloadStream.Read(buff, 0, buffSize)) > 0)
+				{
+					if (_Cancel)
+						return false;
 
+					totalRead += readCount;
+					tempStream.Write(buff, 0, readCount);
+
+					// send progress info
+					int progress = (int)((((double)totalRead) / fileSize) * 100);
 					OnDownloadFileStarted(new FileDownloadProgress()
 					{
-						FilePath = fileLocation.AbsolutePath,
-						DownloadedSize = 0,
+						FilePath = fileLocation.AbsoluteUri,
+						DownloadedSize = progress,
 						ToltalSize = fileSize
 					});
-
-					while ((int)(readCount = stream.Read(buff, 0, buffSize)) > 0)
-					{
-						if (_Cancel)
-							return false;
-
-						totalRead += readCount;
-						tempStream.Write(buff, 0, readCount);
-
-						// send progress info
-						int progress = (int)((((double)totalRead) / fileSize) * 100);
-						OnDownloadFileStarted(new FileDownloadProgress()
-						{
-							FilePath = fileLocation.AbsolutePath,
-							DownloadedSize = progress,
-							ToltalSize = fileSize
-						});
-					}
 				}
 			}
 			catch (Exception)
 			{
 				return false;
+			}
+			finally
+			{
+				CloseDownloadStream(downloadStream);
+				CloseTempStream(tempStream);
 			}
 
 			return true;
@@ -140,6 +147,18 @@ namespace UpdateLib.FileDownloader
 		protected abstract Stream GetFileStream(Uri location);
 
 		protected abstract long GetFileSize(Uri url);
+
+		protected virtual void CloseDownloadStream(Stream downloadStream)
+		{
+			if (downloadStream != null)
+				downloadStream.Dispose();
+		}
+
+		protected virtual void CloseTempStream(Stream tempStream)
+		{
+			if (tempStream != null)
+				tempStream.Dispose();
+		}
 
 
 		protected virtual void OnDownloadFileStarted(FileDownloadProgress e)
