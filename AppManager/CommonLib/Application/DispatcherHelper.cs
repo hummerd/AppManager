@@ -25,7 +25,23 @@ namespace CommonLib.Application
 
 		public static void Invoke(Delegate method)
 		{
-			Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, method);
+			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method);
+			//Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, method);
+		}
+
+		public static void Invoke(Delegate method, object arg)
+		{
+			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method, arg);
+		}
+
+		public static void Invoke(Delegate method, object arg0, object arg1)
+		{
+			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method, arg0, arg1);
+		}
+
+		public static void Invoke(Delegate method, object arg0, object arg1, object arg2)
+		{
+			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method, arg0, arg1, arg2);
 		}
 	}
 }

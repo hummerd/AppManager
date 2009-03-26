@@ -1,19 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using System.Windows;
 using CommonLib;
 using CommonLib.IO;
+using CommonLib.Windows;
 using UpdateLib.FileDownloader;
 using UpdateLib.ShareUpdate;
 using UpdateLib.UI;
 using UpdateLib.VersionInfo;
-using System.Resources;
-using System.Globalization;
-using System.Collections.Generic;
-using CommonLib.Windows;
+using CommonLib.Application;
 
 
 namespace UpdateLib
@@ -38,14 +37,17 @@ namespace UpdateLib
 		public event EventHandler NeedCloseApp;
 
 
-		protected Mutex _UpdatingFlag;
-		protected Mutex _InstUpdatingFlag;
+		protected delegate void SimpleMathod();
+
+
+		protected Mutex	_UpdatingFlag;
+		protected Mutex	_InstUpdatingFlag;
 		protected FileDownloadHelper _Downloader;
+		protected Thread	_UpdateThread;
 
 
 		public SelfUpdate()
 		{
-
 		}
 
 
@@ -182,6 +184,43 @@ namespace UpdateLib
 			return true;
 		}
 
+		public bool UpdateAppAsync(
+			string newVersionLocation,
+			string appName,
+			string appPath,
+			string[] executePaths,
+			string[] lockProcesses)
+		{
+			if (_UpdateThread != null && _UpdateThread.IsAlive)
+				return false;
+
+			_UpdateThread = new Thread(UpdateAppThread);
+			_UpdateThread.SetApartmentState(ApartmentState.STA);
+			_UpdateThread.IsBackground = true;
+			_UpdateThread.Start(new object[]
+				{
+				newVersionLocation,
+				appName,
+				appPath,
+				executePaths,
+				lockProcesses
+				});
+			return true;
+		}
+
+
+		protected void UpdateAppThread(object prm)
+		{
+			var prms = prm as object[];
+
+			UpdateApp(
+				(string)prms[0],
+				(string)prms[1],
+				(string)prms[2],
+				(string[])prms[3],
+				(string[])prms[4]
+				);
+		}
 
 		protected void CleanUp(string appName, VersionManifest currentManifest)
 		{
@@ -271,7 +310,9 @@ namespace UpdateLib
 				Process.Start(installerPath);
 				_UpdatingFlag.Close();
 
-				OnNeedCloseApp();
+				DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
+				//OnNeedCloseApp();
+
 				//Application.Current.Shutdown();
 			}
 

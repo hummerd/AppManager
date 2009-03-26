@@ -11,44 +11,51 @@ namespace UpdateLib.FileDownloader
 {
 	public abstract class FileDownloaderBase : IFileDownloader, IDisposable
 	{
-		protected BackgroundWorker _Downloader = new BackgroundWorker();
-
-
 		public event EventHandler<FileDownloadProgress> DownloadFileStarted;
 		public event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
 
 
+		//protected BackgroundWorker _Downloader = new BackgroundWorker();
+		protected volatile bool _Cancel;
+
+
 		public FileDownloaderBase()
 		{
-			_Downloader.WorkerReportsProgress = true;
-			_Downloader.WorkerSupportsCancellation = true;
+			//_Downloader.WorkerReportsProgress = true;
+			//_Downloader.WorkerSupportsCancellation = true;
 
-			_Downloader.DoWork += (s, e) => e.Result = DownloadAsync(
-				(e.Argument as object[])[0] as IEnumerable<VersionItem>,
-				(e.Argument as object[])[1] as string
-				);
-			_Downloader.RunWorkerCompleted += (s, e) => OnDownloadFileSetCompleted((bool)e.Result);
-			_Downloader.ProgressChanged += (s, e) => OnDownloadFileStarted(
-				new FileDownloadProgress()
-					{ 
-						FilePath = (string)(e.UserState as object[])[1],
-						DownloadedSize = e.ProgressPercentage,
-						ToltalSize = (long)(e.UserState as object[])[0]
-					});
+			//_Downloader.DoWork += (s, e) => e.Result = DownloadAsync(
+			//   (e.Argument as object[])[0] as IEnumerable<VersionItem>,
+			//   (e.Argument as object[])[1] as string
+			//   );
+			//_Downloader.RunWorkerCompleted += (s, e) => OnDownloadFileSetCompleted((bool)e.Result);
+			//_Downloader.ProgressChanged += (s, e) => OnDownloadFileStarted(
+			//   new FileDownloadProgress()
+			//      { 
+			//         FilePath = (string)(e.UserState as object[])[1],
+			//         DownloadedSize = e.ProgressPercentage,
+			//         ToltalSize = (long)(e.UserState as object[])[0]
+			//      });
+		}
+
+
+		public bool Cancel
+		{ 
+			get { return _Cancel; }
+			set { _Cancel = value; } 
 		}
 
 
 		public void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath, bool waitFor)
 		{
-			_Downloader.RunWorkerAsync(new object[] { fileLocation, tempPath });
-			if (waitFor)
-				while (_Downloader.IsBusy)
-					System.Windows.Forms.Application.DoEvents();
-					//DispatcherHelper.DoEvents();
+			//_Downloader.RunWorkerAsync(new object[] { fileLocation, tempPath });
+			//if (waitFor)
+			//   while (_Downloader.IsBusy)
+			//      System.Windows.Forms.Application.DoEvents();
+			//      //DispatcherHelper.DoEvents();
 		}
 
-
-		protected bool DownloadAsync(IEnumerable<VersionItem> fileLocation, string tempPath)
+		public bool DownloadFileSet(IEnumerable<VersionItem> fileLocation, string tempPath)
 		{
 			int buffSize = 4096;
 			byte[] buff = new byte[buffSize];
@@ -72,11 +79,17 @@ namespace UpdateLib.FileDownloader
 						int readCount = 0;
 						int totalRead = 0;
 
-						_Downloader.ReportProgress(0, new object[] { fileSize, item.Location });
+						OnDownloadFileStarted(new FileDownloadProgress()
+						{
+							FilePath = item.Location,
+							DownloadedSize = 0,
+							ToltalSize = fileSize
+						});
+						//_Downloader.ReportProgress(0, new object[] { fileSize, item.Location });
 
 						while ((int)(readCount = stream.Read(buff, 0, buffSize)) > 0)
 						{
-							if (_Downloader.CancellationPending)
+							if (_Cancel)
 								return false;
 
 							totalRead += readCount;
@@ -84,7 +97,14 @@ namespace UpdateLib.FileDownloader
 
 							// send progress info
 							int progress = (int)((((double)totalRead) / fileSize) * 100);
-							_Downloader.ReportProgress(progress, new object[] { fileSize, item.Location });
+							OnDownloadFileStarted(new FileDownloadProgress()
+								{
+									FilePath = item.Location,
+									DownloadedSize = progress,
+									ToltalSize = fileSize
+								});
+
+							//_Downloader.ReportProgress(progress, new object[] { fileSize, item.Location });
 						}
 					}
 				}
@@ -96,6 +116,7 @@ namespace UpdateLib.FileDownloader
 
 			return true;
 		}
+
 
 		protected Stream GetTempStream(string tempPath)
 		{
@@ -123,7 +144,7 @@ namespace UpdateLib.FileDownloader
 
 		public void Dispose()
 		{
-			_Downloader.Dispose();
+			//_Downloader.Dispose();
 		}
 
 		#endregion

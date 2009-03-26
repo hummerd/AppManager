@@ -87,7 +87,7 @@ namespace AppManager.Commands
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
 
-			_Updater.UpdateApp(
+			_Updater.UpdateAppAsync(
 				@"\\msk-0438\Common\AppManagerUpdate",
 				"AppManager",
 				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
