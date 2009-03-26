@@ -32,5 +32,15 @@ namespace CommonLib.Windows
 
 			new DialogKeyDecorator(this, BtnOk, null, false);
 		}
+
+		private void ExpDetails_Expanded(object sender, RoutedEventArgs e)
+		{
+			Height = 250;
+		}
+
+		private void ExpDetails_Collapsed(object sender, RoutedEventArgs e)
+		{
+			Height = 175;
+		}
 	}
 }

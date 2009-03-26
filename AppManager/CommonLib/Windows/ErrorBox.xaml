@@ -5,7 +5,7 @@
 	xmlns:cw="clr-namespace:CommonLib.Windows"
 	xmlns:c="clr-namespace:CommonLib"
 	Title="ErrorBox"
-	Height="174"
+	Height="175"
 	Width="355"
 	WindowStartupLocation="CenterScreen"
 	MinWidth="280"
@@ -46,12 +46,21 @@
 			VerticalAlignment="Top"
 			Grid.Column="1"
 			Grid.Row="1"
-			BorderBrush="SteelBlue">
-			<TextBlock
+			BorderBrush="SteelBlue"
+			Expanded="ExpDetails_Expanded"
+			Collapsed="ExpDetails_Collapsed">
+			<TextBox
+				Name="TxtDetails"
+				TextWrapping="NoWrap" 
+				VerticalScrollBarVisibility="Visible"
+				IsReadOnly="True">
+				Some text Some text Some text Some text Some text Some text Some text Some text
+			</TextBox>
+			<!--<TextBlock
 				Name="TxtDetails"
 				Text="Some text Some text Some text Some text Some text Some text Some text Some text"
 				TextAlignment="Left"
-				TextWrapping="Wrap" />
+				TextWrapping="Wrap" />-->
 		</Expander>
 		<TextBlock
 			Margin="8,8,8,0"

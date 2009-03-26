@@ -3,6 +3,7 @@ using System.IO;
 using UpdateLib.UI;
 using UpdateLib.VersionInfo;
 using CommonLib;
+using CommonLib.Application;
 
 
 namespace UpdateLib.FileDownloader
@@ -10,6 +11,12 @@ namespace UpdateLib.FileDownloader
 	public class FileDownloadHelper
 	{
 		public event EventHandler<VersionDownloadInfo> DownloadCompleted;
+
+
+		protected delegate void UpdateDownloadProgress(string location, long total, long progress);
+		protected delegate void ShowDownloadProgress();
+		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
+		protected delegate void DoClose();
 
 
 		protected IFileDownloader _FileDownloader;
@@ -25,32 +32,41 @@ namespace UpdateLib.FileDownloader
 
 		public void DownloadVersion(VersionDownloadInfo downloadInfo)
 		{
-			_FileDownloader.DownloadFileSetCompleted += delegate(object s, ValueEventArgs<bool> e)
-				{
-					downloadInfo.Succeded = e.Value;
-					FileDownloadCompleted(downloadInfo);
-				};
+			//_FileDownloader.DownloadFileSetCompleted += delegate(object s, ValueEventArgs<bool> e)
+			//   {
+			//      downloadInfo.Succeded = e.Value;
+			//      FileDownloadCompleted(downloadInfo);
+			//   };
 
 			_FileDownloader.DownloadFileStarted += (s, e) => FileDownloadStarted(
 				e.FilePath, e.ToltalSize, e.DownloadedSize);
 
 			if (_UIDownloadProgress != null)
 			{
-				_UIDownloadProgress.Show();
-				_UIDownloadProgress.SetDownloadInfo(downloadInfo.DownloadedVersionManifest);
+				DispatcherHelper.Invoke(new ShowDownloadProgress(_UIDownloadProgress.Show));
+				DispatcherHelper.Invoke(new SetDownloadProgressInfo(_UIDownloadProgress.SetDownloadInfo),
+					downloadInfo.DownloadedVersionManifest);
 			}
 
-			_FileDownloader.DownloadFileSetAsync(
+			downloadInfo.Succeded = _FileDownloader.DownloadFileSet(
 				downloadInfo.DownloadedVersionManifest.VersionItems, 
-				downloadInfo.TempPath,
-				true);
+				downloadInfo.TempPath);
+
+			FileDownloadCompleted(downloadInfo);
+			
+			//_FileDownloader.DownloadFileSetAsync(
+			//   downloadInfo.DownloadedVersionManifest.VersionItems, 
+			//   downloadInfo.TempPath,
+			//   true);
 		}
 
 
 		protected void FileDownloadCompleted(VersionDownloadInfo e)
 		{
 			if (_UIDownloadProgress != null)
-				_UIDownloadProgress.Close();
+				DispatcherHelper.Invoke(
+					new DoClose(_UIDownloadProgress.Close));
+				//_UIDownloadProgress.Close();
 
 			OnDownloadCompleted(e);
 		}
@@ -58,9 +74,11 @@ namespace UpdateLib.FileDownloader
 		protected void FileDownloadStarted(string fileLocation, long total, long progress)
 		{
 			if (_UIDownloadProgress != null)
-				_UIDownloadProgress.SetDownloadProgress(fileLocation, total, progress);
+				DispatcherHelper.Invoke(
+					new UpdateDownloadProgress(_UIDownloadProgress.SetDownloadProgress),
+					fileLocation, total, progress);
+				//_UIDownloadProgress.SetDownloadProgress(fileLocation, total, progress);
 		}
-
 
 		protected virtual void OnDownloadCompleted(VersionDownloadInfo e)
 		{
