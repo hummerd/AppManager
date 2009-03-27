@@ -165,8 +165,7 @@ namespace UpdateLib
 
 				//if there is now cuurent version info supose we have first version
 				if (currentManifest == null)
-					currentManifest = new VersionManifest() 
-						{ VersionNumberString = "1.0.0.0" };
+					currentManifest = new VersionManifest() { VersionNumberString = "1.0.0.0", UpdateUri = "http://hummerd.com/AppManagerUpdate" };
 
 				//clean up older install
 				CleanUp(appName, currentManifest);

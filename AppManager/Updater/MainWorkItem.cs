@@ -87,6 +87,9 @@ namespace Updater
 		{
 			foreach (var item in versionItems)
 			{
+				if (item.InstallAction == InstallAction.Delete)
+					continue;
+
 				if (FileHash.GetBase64FileHash(Path.Combine(tempPath, item.GetUnzipItemFullPath())) != 
 					item.Base64Hash)
 				return false;
@@ -160,6 +163,15 @@ namespace Updater
 						Path.Combine(tempPath, item.GetUnzipItemFullPath()),
 						Path.Combine(appPath, item.GetUnzipItemFullPath()),
 						true);
+
+				if (item.InstallAction == InstallAction.Delete)
+				{
+					var path = Path.Combine(appPath, item.GetUnzipItemFullPath());
+					if (File.Exists(path))
+						File.Delete(path);
+					else if (Directory.Exists(path))
+						Directory.Delete(path, true);
+				}
 			}
 		}
 

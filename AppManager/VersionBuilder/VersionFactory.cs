@@ -22,7 +22,7 @@ namespace VersionBuilder
 			
 			var files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories);
 			var verManifest = new VersionManifest() 
-				{ VersionNumber = version, UpdateUri = location };
+				{ VersionNumber = version, UpdateUri = location, UpdateUriAlt = location };
 
 			foreach (var item in files)
 			{

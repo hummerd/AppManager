@@ -8,7 +8,8 @@ namespace UpdateLib.VersionInfo
 	public enum InstallAction
 	{
 		Copy,
-		CopyAndRun
+		CopyAndRun,
+		Delete
 	}
 	
 	[Serializable]
@@ -25,9 +26,12 @@ namespace UpdateLib.VersionInfo
 			VersionNumber = new Version();
 		}
 
-		public string Location { get; set; }
-		public string Path { get; set; }
-		public InstallAction InstallAction { get; set; }
+		public string Location
+		{ get; set; }
+		public string Path
+		{ get; set; }
+		public InstallAction InstallAction
+		{ get; set; }
 		[XmlIgnore]
 		public Version VersionNumber
 		{ get; set; }
@@ -57,9 +61,13 @@ namespace UpdateLib.VersionInfo
 		public string GetUnzipItemFullPath()
 		{
 			var itemFullPath = GetItemFullPath();
-			return itemFullPath.Substring(
-				0, 
-				itemFullPath.Length - System.IO.Path.GetExtension(itemFullPath).Length);
+
+			if (itemFullPath.EndsWith(".gzip", StringComparison.InvariantCultureIgnoreCase))
+				return itemFullPath.Substring(
+					0,
+					itemFullPath.Length - System.IO.Path.GetExtension(itemFullPath).Length);
+			else
+				return itemFullPath;
 		}
 
 		public bool NeedCopyItem()
