@@ -301,7 +301,7 @@ namespace UpdateLib
 		{
 			var installerDir = PathHelper.GetUpperPath(tempPath);
 			installerDir = Path.Combine(installerDir,
-				appName + "_" + latestVersion + "_Inst");
+				latestVersion + "_Inst");
 
 			return installerDir;
 		}
