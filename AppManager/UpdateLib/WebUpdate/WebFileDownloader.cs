@@ -9,7 +9,7 @@ namespace UpdateLib.FileDownloader
 	{
 		protected ICredentials	_Credentials;
 		protected bool				_PreAuthenticate;
-		protected IWebProxy		_Proxy;
+		//protected IWebProxy		_Proxy;
 		protected string			_UserAgent = null;
 		protected WebResponse _DownloadResponse;
 
@@ -19,10 +19,10 @@ namespace UpdateLib.FileDownloader
 			_Credentials = null;
 			_PreAuthenticate = true;
 
-			WebProxy proxyObject = new WebProxy(WebProxy.GetDefaultProxy().Address);
-			proxyObject.UseDefaultCredentials = true;
+			//WebProxy proxyObject = new WebProxy(WebProxy.GetDefaultProxy().Address);
+			//proxyObject.UseDefaultCredentials = true;
 
-			_Proxy = proxyObject;
+			//_Proxy = proxyObject;
 			_UserAgent = null;
 		}
 
@@ -64,7 +64,9 @@ namespace UpdateLib.FileDownloader
 				}
 			}
 
-			request.Proxy = _Proxy;
+			var prx = new WebProxy(WebRequest.DefaultWebProxy.GetProxy(url));
+			prx.UseDefaultCredentials = true;
+			request.Proxy = prx;
 			return request;
 		}
 	}

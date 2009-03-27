@@ -61,6 +61,7 @@ namespace AppManager.Commands
 			tray.Icon = Resources.leftarrow;
 			tray.MouseUp += TrayIcon_MouseUp;
 			tray.Visible = true;
+			tray.Text = Strings.APP_TITLE;
 			tray.ContextMenuStrip = CreateTrayMenu();
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");

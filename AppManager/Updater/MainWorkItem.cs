@@ -10,7 +10,6 @@ using CommonLib.IO;
 using CommonLib.Windows;
 using UpdateLib;
 using UpdateLib.VersionInfo;
-using System.Windows.Threading;
 
 
 namespace Updater
@@ -30,9 +29,9 @@ namespace Updater
 		{
 			try
 			{
-//#if DEBUG
-//            MessageBox.Show(null, "AttachDebug", "");
-//#endif
+#if DEBUG
+            CommonLib.Windows.MessageBox.Show(null, "AttachDebug", "");
+#endif
 				
 
 				string installerPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

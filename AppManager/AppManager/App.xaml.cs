@@ -54,7 +54,7 @@ namespace AppManager
 			{
 				var exc = e.ExceptionObject as Exception;
 				if (exc != null)
-					ErrorBox.Show(Strings.ERROR, exc.Message, exc.ToString());
+					ErrorBox.Show(Strings.ERROR, exc);
 				else
 					ErrorBox.Show(Strings.ERROR, Strings.ERROR_OCCUR, String.Empty);
 			}

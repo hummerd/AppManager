@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileDownloader\FileDownloaderBase.cs" />
-    <Compile Include="FileDownloader\FileDownloadHelper.cs" />
     <Compile Include="UI\DownloadProgress.xaml.cs">
       <DependentUpon>DownloadProgress.xaml</DependentUpon>
     </Compile>
@@ -63,6 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpdStr.resx</DependentUpon>
     </Compile>
+    <Compile Include="VersionInfo\VersionDownloadInfo.cs" />
     <Compile Include="WebUpdate\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
     <Compile Include="ShareUpdate\ShareFileDownloader.cs" />
@@ -90,12 +90,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Updater.exe" />
     <EmbeddedResource Include="UpdStr.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UpdStr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdStr.ru.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Updater.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -26,6 +26,12 @@ namespace VersionBuilder
 
 			foreach (var item in files)
 			{
+				if (String.Equals(
+						Path.GetFileName(item), 
+						VersionManifest.VersionManifestFileName, 
+						StringComparison.InvariantCultureIgnoreCase))
+					continue;
+
 				string newPath = item.Replace(dir, versionDir) + ".gzip";
 				string newDir = Path.GetDirectoryName(newPath);
 				if (!Directory.Exists(newDir))
