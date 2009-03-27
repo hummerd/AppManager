@@ -30,10 +30,9 @@ namespace Updater
 			try
 			{
 #if DEBUG
-            CommonLib.Windows.MessageBox.Show(null, "AttachDebug", "");
+				CommonLib.Windows.MessageBox.Show(null, "AttachDebug", "");
 #endif
-				
-
+			
 				string installerPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 				var installInfo = XmlSerializeHelper.DeserializeItem(
@@ -45,7 +44,7 @@ namespace Updater
 				_UpdatingFlag = new Mutex(true, InstallInfo.InstallInfoMutexPrefix + installInfo.AppName, out notAlredyRunning);
 				if (!notAlredyRunning)
 				{
-					RunExecutables(installInfo.InstallPath, installInfo.ExecutePaths, null);
+					//RunExecutables(installInfo.InstallPath, installInfo.ExecutePaths, null);
 					return;
 				}
 				//_UpdatingFlag.WaitOne();

@@ -54,6 +54,9 @@ namespace UpdateLib.VersionInfo
 
 		public string GetItemFullPath()
 		{
+			if (Location == null)
+				return Path;
+
 			var location = new Uri(Location);
 			return System.IO.Path.Combine(Path, location.Segments[location.Segments.Length - 1]);
 		}

@@ -79,8 +79,9 @@ namespace UpdateLib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New version {0} of {1} is avialable.
-        ///{2}
+        ///   Looks up a localized string similar to New version {0} of {1} is avialable at
+        ///{2}.
+        ///{3}
         ///Do you want to download it?.
         /// </summary>
         internal static string NEW_VER_AVIALABLE {

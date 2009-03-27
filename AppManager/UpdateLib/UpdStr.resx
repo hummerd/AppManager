@@ -124,8 +124,9 @@
     <value>Downloading</value>
   </data>
   <data name="NEW_VER_AVIALABLE" xml:space="preserve">
-    <value>New version {0} of {1} is avialable.
-{2}
+    <value>New version {0} of {1} is avialable at
+{2}.
+{3}
 Do you want to download it?</value>
   </data>
   <data name="UPDATER" xml:space="preserve">
