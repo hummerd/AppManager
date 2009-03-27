@@ -11,7 +11,7 @@ namespace UpdateLib.UI
 	{
 		#region IUIAskDownload Members
 
-		public bool AskForDownload(string appName, VersionData versionInfo)
+		public bool AskForDownload(string appName, VersionData versionInfo, string sourceUri)
 		{
 			var msgb = new MessageBox();
 
@@ -21,6 +21,7 @@ namespace UpdateLib.UI
 				UpdStr.NEW_VER_AVIALABLE, 
 				versionInfo.VersionNumber,
 				appName,
+				sourceUri,
 				versionInfo.Description);
 			msgb.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 			return msgb.ShowDialog() ?? false;

@@ -57,9 +57,7 @@ namespace UpdateLib
 		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
 
 
-		protected Mutex	_UpdatingFlag;
-		//protected Mutex	_InstUpdatingFlag;
-		//protected FileDownloadHelper _Downloader;
+		protected Mutex		_UpdatingFlag;
 		protected Thread	_UpdateThread;
 
 
@@ -170,38 +168,42 @@ namespace UpdateLib
 				//clean up older install
 				CleanUp(appName, currentManifest);
 
-				Version lastVersion = GetLatestVersion(currentManifest.UpdateUri);
+				var updateUri = currentManifest.UpdateUri;
+				Version lastVersion = GetLatestVersion(updateUri);
+				if (lastVersion == null)
+				{
+					updateUri = currentManifest.UpdateUriAlt;
+					lastVersion = GetLatestVersion(updateUri);				
+				}
+
 				if (lastVersion > currentManifest.VersionNumber)
 				{
-					VersionData latestVersionInfo = VersionNumberProvider.GetLatestVersionInfo(currentManifest.UpdateUri);
+					VersionData latestVersionInfo = VersionNumberProvider.GetLatestVersionInfo(updateUri);
 					if (latestVersionInfo == null)
 						return false;
 
-					if (AskUserForDownload(displayAppName, latestVersionInfo))
+					if (AskUserForDownload(displayAppName, latestVersionInfo, updateUri))
 					{
-						VersionManifest latestManifest = VersionNumberProvider.GetLatestVersionManifest(currentManifest.UpdateUri);
+						VersionManifest latestManifest = VersionNumberProvider.GetLatestVersionManifest(updateUri);
 						//failed to download latest version manifest
 						if (latestVersionInfo == null)
 							return false;
 
-							VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
+						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
-						var versionDownload = new VersionDownloadInfo()
-							{
-								AppName = appName,
-								DisplayAppName = displayAppName,
-								AppPath = appPath,
-								ExecutePaths = executePaths,
-								LockProcesses = lockProcesses,
-								DownloadedVersionManifest = updateManifest,
-								LatestVersionManifest = latestManifest,
-								LatestVersionInfo = latestVersionInfo,
-								CurrentVersionManifest = currentManifest,
-								TempPath = CreateTempDir(appName, latestManifest.VersionNumber)
-							};
-
-						DownloadVersion(versionDownload);
-						VersionDownloadCompleted(versionDownload);
+						var tempPath = CreateTempDir(appName, latestManifest.VersionNumber);
+						if (DownloadVersion(updateManifest, tempPath))
+							VersionDownloadCompleted(
+								displayAppName,
+								updateManifest,
+								latestManifest,
+								latestVersionInfo,
+								new InstallInfo() { 
+									AppName = appName,
+									ExecutePaths = executePaths,
+									InstallPath = appPath,
+									LockProcess = lockProcesses,
+									TempPath = tempPath});
 					}
 				}
 			}
@@ -268,16 +270,17 @@ namespace UpdateLib
 			return VersionNumberProvider.GetLatestVersionInfo(location).VersionNumber;
 		}
 
-		protected bool AskUserForDownload(string appName, VersionData versionInfo)
+		protected bool AskUserForDownload(string appName, VersionData versionInfo, string sourecUri)
 		{
-			return UIAskDownload.AskForDownload(appName, versionInfo);
+			return UIAskDownload.AskForDownload(appName, versionInfo, sourecUri);
 		}
 
 		protected string GetTempDir(string appName, Version latestVersion)
 		{
 			string path = Path.GetTempPath();
 			path = Path.Combine(path, "UpdateLib");
-			path = Path.Combine(path, appName + "_" + latestVersion);
+			path = Path.Combine(path, appName);
+			path = Path.Combine(path, latestVersion.ToString());
 
 			return path;
 		}
@@ -308,67 +311,75 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected void DownloadVersion(VersionDownloadInfo versionDownLoad)
+		protected bool DownloadVersion(VersionManifest downloadManifest, string tempPath)
 		{
 			if (UIDownloadProgress != null)
 			{
 			   DispatcherHelper.Invoke(new SimpleMathod(UIDownloadProgress.Show));
 			   DispatcherHelper.Invoke(new SetDownloadProgressInfo(UIDownloadProgress.SetDownloadInfo),
-					versionDownLoad.DownloadedVersionManifest);
+					downloadManifest);
 			}
 
 			FileDownloader.DownloadFileStarted += (s, e) =>
 				DispatcherHelper.Invoke(new UpdateDownloadProgress(
 					UIDownloadProgress.SetDownloadProgress), e.FilePath, e.ToltalSize, e.DownloadedSize);
 
-			versionDownLoad.Succeded = FileDownloader.DownloadFileSet(
-				versionDownLoad.DownloadedVersionManifest.VersionItems,
-				versionDownLoad.TempPath);
+			var result = FileDownloader.DownloadFileSet(
+				downloadManifest.VersionItems,
+				tempPath);
 
 			if (UIDownloadProgress != null)
 				DispatcherHelper.Invoke(
 					new SimpleMathod(UIDownloadProgress.Close));
+
+			return result;
 		}
 
-		protected void VersionDownloadCompleted(VersionDownloadInfo versionDownLoad)
+		protected void VersionDownloadCompleted(
+			string displayAppName, 
+			VersionManifest downloadManifest,
+			VersionManifest latestManifest,
+			VersionData latestVersionInfo,
+			InstallInfo installInfo)
 		{
-			if (versionDownLoad.Succeded && AskUserForInstall(versionDownLoad.DisplayAppName, versionDownLoad.LatestVersionInfo))
+			if (!AskUserForInstall(displayAppName, latestVersionInfo))
+				return;
+			
+			//Unzip
+			foreach (var item in downloadManifest.VersionItems)
 			{
-				//Unzip
-				foreach (var item in versionDownLoad.DownloadedVersionManifest.VersionItems)
-				{
-					var tempFile = Path.Combine(versionDownLoad.TempPath, item.GetItemFullPath());
-					var tempFileUnzip = Path.Combine(versionDownLoad.TempPath, item.GetUnzipItemFullPath());
+				var tempFile = Path.Combine(installInfo.TempPath, item.GetItemFullPath());
+				var tempFileUnzip = Path.Combine(installInfo.TempPath, item.GetUnzipItemFullPath());
 
-					GZipCompression.DecompressFile(tempFile, tempFileUnzip);
-				}
-
-				//Saving latest manifest
-				XmlSerializeHelper.SerializeItem(
-					versionDownLoad.LatestVersionManifest,
-					Path.Combine(versionDownLoad.TempPath, VersionManifest.VersionManifestFileName));
-
-				//Saving downloaded manifest
-				XmlSerializeHelper.SerializeItem(
-					versionDownLoad.DownloadedVersionManifest,
-					Path.Combine(versionDownLoad.TempPath, VersionManifest.DownloadedVersionManifestFileName));
-
-				var installerPath = CopyInstaller(versionDownLoad);
-				
-				//Start installing
-				Process.Start(installerPath);
-				//_UpdatingFlag.Close();
-
-				DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
-				//OnNeedCloseApp();
-
-				//Application.Current.Shutdown();
+				GZipCompression.DecompressFile(tempFile, tempFileUnzip);
 			}
+
+			//Saving latest manifest
+			XmlSerializeHelper.SerializeItem(
+				latestManifest,
+				Path.Combine(installInfo.TempPath, VersionManifest.VersionManifestFileName));
+
+			//Saving downloaded manifest
+			XmlSerializeHelper.SerializeItem(
+				downloadManifest,
+				Path.Combine(installInfo.TempPath, VersionManifest.DownloadedVersionManifestFileName));
+
+			var installerPath = CopyInstaller(installInfo.TempPath, installInfo.AppName, latestManifest.VersionNumber, installInfo);
+			
+			//Start installing
+			Process.Start(installerPath);
+			//_UpdatingFlag.Close();
+
+			DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
 		}
 
-		protected string CopyInstaller(VersionDownloadInfo versionDownLoad)
+		protected string CopyInstaller(
+			string tempPath, 
+			string appName, 
+			Version latestVersion, 
+			InstallInfo installInfo)
 		{
-			var installerDir = GetInstallerDir(versionDownLoad.TempPath, versionDownLoad.AppName, versionDownLoad.LatestVersionManifest.VersionNumber);
+			var installerDir = GetInstallerDir(tempPath, appName, latestVersion);
 
 			if (Directory.Exists(installerDir))
 				Directory.Delete(installerDir, true);
@@ -400,7 +411,7 @@ namespace UpdateLib
 
 			//Saving install info
 			XmlSerializeHelper.SerializeItem(
-				new InstallInfo(versionDownLoad),
+				installInfo,
 				Path.Combine(installerDir, InstallInfo.InstallInfoFileName));
 
 			return installerPath;
@@ -464,15 +475,6 @@ namespace UpdateLib
 		public InstallInfo()
 		{
 
-		}
-
-		public InstallInfo(VersionDownloadInfo versionInfo)
-		{
-			LockProcess = versionInfo.LockProcesses;
-			InstallPath = versionInfo.AppPath;
-			TempPath = versionInfo.TempPath;
-			ExecutePaths = versionInfo.ExecutePaths;
-			AppName = versionInfo.AppName;
 		}
 
 		public string[] LockProcess
