@@ -17,8 +17,12 @@ namespace UpdateLib.FileDownloader
 		public WebFileDownloader()
 		{
 			_Credentials = null;
-			_PreAuthenticate = false;
-			_Proxy = WebRequest.DefaultWebProxy;
+			_PreAuthenticate = true;
+
+			WebProxy proxyObject = new WebProxy(WebProxy.GetDefaultProxy().Address);
+			proxyObject.UseDefaultCredentials = true;
+
+			_Proxy = proxyObject;
 			_UserAgent = null;
 		}
 
