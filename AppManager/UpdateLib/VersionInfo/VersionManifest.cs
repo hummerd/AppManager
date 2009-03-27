@@ -43,6 +43,9 @@ namespace UpdateLib.VersionInfo
 		public string UpdateUri
 		{ get; set; }
 
+		public string UpdateUriAlt
+		{ get; set; }
+
 
 		public VersionManifest GetUpdateManifest(VersionManifest currentVersionManifest)
 		{
