@@ -12,7 +12,7 @@ namespace AppManager
 		public const string DragDataFormat = "AM_AppInfoDataFormat";
 
 
-		public event EventHandler<ValueEventArgs<string[]>> AddFiles;
+		//public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
 
 		public ButtonListDrag(ItemsControl control, Type dataType)

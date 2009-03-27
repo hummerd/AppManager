@@ -53,11 +53,13 @@ namespace UpdateLib
 
 
 		protected delegate void SimpleMathod();
+		protected delegate void UpdateDownloadProgress(string location, long total, long progress);
+		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
 
 
 		protected Mutex	_UpdatingFlag;
 		//protected Mutex	_InstUpdatingFlag;
-		protected FileDownloadHelper _Downloader;
+		//protected FileDownloadHelper _Downloader;
 		protected Thread	_UpdateThread;
 
 
@@ -88,6 +90,30 @@ namespace UpdateLib
 		//   UpdateApp(currentVersion, String.Empty, String.Empty);
 		//}
 
+		public bool UpdateAppAsync(
+			string appName,
+			string displayAppName,
+			string appPath,
+			string[] executePaths,
+			string[] lockProcesses)
+		{
+			if (_UpdateThread != null && _UpdateThread.IsAlive)
+				return false;
+
+			_UpdateThread = new Thread(UpdateAppThread);
+			_UpdateThread.SetApartmentState(ApartmentState.STA);
+			_UpdateThread.IsBackground = true;
+			_UpdateThread.Start(new object[]
+				{
+				appName,
+				displayAppName,
+				appPath,
+				executePaths,
+				lockProcesses
+				});
+			return true;
+		}
+
 		public bool UpdateApp(
 			string appName,
 			string displayAppName,
@@ -97,10 +123,14 @@ namespace UpdateLib
 		{
 			try
 			{
-				var currentManifest = XmlSerializeHelper.DeserializeItem(
-					typeof(VersionManifest),
-					Path.Combine(appPath, VersionManifest.VersionManifestFileName)
-					) as VersionManifest;
+				var manifestPath = Path.Combine(appPath, VersionManifest.VersionManifestFileName);
+				VersionManifest currentManifest = null;
+
+				if (File.Exists(manifestPath))
+					currentManifest = XmlSerializeHelper.DeserializeItem(
+						typeof(VersionManifest),
+						manifestPath
+						) as VersionManifest;
 
 				return UpdateApp(
 					currentManifest,
@@ -129,45 +159,35 @@ namespace UpdateLib
 		{
 			try
 			{
-				bool notAlredyRunning;
-				_UpdatingFlag = new Mutex(true, "Global\\UpdateLib_" + appName, out notAlredyRunning);
-				if (!notAlredyRunning)
+				//if update alredy running quit
+				if (!CheckOtherProccesses(appName))
 					return false;
 
-				bool notInstAlredyRunning;
-				var instUpdatingFlag = new Mutex(true, InstallInfo.InstallInfoMutexPrefix + appName, out notInstAlredyRunning);
-				instUpdatingFlag.Close();
-				//Installer alredy runninig
-				if (!notInstAlredyRunning)
-					return false;
+				//if there is now cuurent version info supose we have first version
+				if (currentManifest == null)
+					currentManifest = new VersionManifest() 
+						{ VersionNumberString = "1.0.0.0" };
 
+				//clean up older install
 				CleanUp(appName, currentManifest);
 
 				Version lastVersion = GetLatestVersion(currentManifest.UpdateUri);
 				if (lastVersion > currentManifest.VersionNumber)
 				{
-					_Downloader = new FileDownloadHelper(FileDownloader, UIDownloadProgress);
-
 					VersionData latestVersionInfo = VersionNumberProvider.GetLatestVersionInfo(currentManifest.UpdateUri);
 					if (latestVersionInfo == null)
-						return false;
-
-					if (!notInstAlredyRunning)
 						return false;
 
 					if (AskUserForDownload(displayAppName, latestVersionInfo))
 					{
 						VersionManifest latestManifest = VersionNumberProvider.GetLatestVersionManifest(currentManifest.UpdateUri);
+						//failed to download latest version manifest
 						if (latestVersionInfo == null)
 							return false;
 
-						string tempPath = CreateTempDir(appName, latestManifest.VersionNumber);
+							VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
-						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
-
-						_Downloader.DownloadCompleted += (s, e) => OnVersionDownloadCompleted(e);
-						_Downloader.DownloadVersion(
-							new VersionDownloadInfo()
+						var versionDownload = new VersionDownloadInfo()
 							{
 								AppName = appName,
 								DisplayAppName = displayAppName,
@@ -178,8 +198,11 @@ namespace UpdateLib
 								LatestVersionManifest = latestManifest,
 								LatestVersionInfo = latestVersionInfo,
 								CurrentVersionManifest = currentManifest,
-								TempPath = tempPath
-							});
+								TempPath = CreateTempDir(appName, latestManifest.VersionNumber)
+							};
+
+						DownloadVersion(versionDownload);
+						VersionDownloadCompleted(versionDownload);
 					}
 				}
 			}
@@ -195,30 +218,6 @@ namespace UpdateLib
 			return true;
 		}
 
-		public bool UpdateAppAsync(
-			string appName,
-			string displayAppName,
-			string appPath,
-			string[] executePaths,
-			string[] lockProcesses)
-		{
-			if (_UpdateThread != null && _UpdateThread.IsAlive)
-				return false;
-
-			_UpdateThread = new Thread(UpdateAppThread);
-			_UpdateThread.SetApartmentState(ApartmentState.STA);
-			_UpdateThread.IsBackground = true;
-			_UpdateThread.Start(new object[]
-				{
-				appName,
-				displayAppName,
-				appPath,
-				executePaths,
-				lockProcesses
-				});
-			return true;
-		}
-
 
 		protected void UpdateAppThread(object prm)
 		{
@@ -231,6 +230,24 @@ namespace UpdateLib
 				(string[])prms[3],
 				(string[])prms[4]
 				);
+		}
+
+		protected bool CheckOtherProccesses(string appName)
+		{
+			//Updating in progress do not interfere
+			bool notAlredyRunning;
+			_UpdatingFlag = new Mutex(true, "Global\\UpdateLib_" + appName, out notAlredyRunning);
+			if (!notAlredyRunning)
+				return false;
+
+			//Install in progress do not interfere
+			bool notInstAlredyRunning;
+			var instUpdatingFlag = new Mutex(true, InstallInfo.InstallInfoMutexPrefix + appName, out notInstAlredyRunning);
+			instUpdatingFlag.Close();
+			if (!notInstAlredyRunning)
+				return false;
+
+			return true;
 		}
 
 		protected void CleanUp(string appName, VersionManifest currentManifest)
@@ -292,7 +309,29 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected void OnVersionDownloadCompleted(VersionDownloadInfo versionDownLoad)
+		protected void DownloadVersion(VersionDownloadInfo versionDownLoad)
+		{
+			if (UIDownloadProgress != null)
+			{
+			   DispatcherHelper.Invoke(new SimpleMathod(UIDownloadProgress.Show));
+			   DispatcherHelper.Invoke(new SetDownloadProgressInfo(UIDownloadProgress.SetDownloadInfo),
+					versionDownLoad.DownloadedVersionManifest);
+			}
+
+			FileDownloader.DownloadFileStarted += (s, e) =>
+				DispatcherHelper.Invoke(new UpdateDownloadProgress(
+					UIDownloadProgress.SetDownloadProgress), e.FilePath, e.ToltalSize, e.DownloadedSize);
+
+			versionDownLoad.Succeded = FileDownloader.DownloadFileSet(
+				versionDownLoad.DownloadedVersionManifest.VersionItems,
+				versionDownLoad.TempPath);
+
+			if (UIDownloadProgress != null)
+				DispatcherHelper.Invoke(
+					new SimpleMathod(UIDownloadProgress.Close));
+		}
+
+		protected void VersionDownloadCompleted(VersionDownloadInfo versionDownLoad)
 		{
 			if (versionDownLoad.Succeded && AskUserForInstall(versionDownLoad.DisplayAppName, versionDownLoad.LatestVersionInfo))
 			{
