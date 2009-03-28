@@ -4,6 +4,7 @@ using AppManager.Commands;
 using AppManager.Settings;
 using CommonLib.PInvoke.WinHook;
 using WinForms = System.Windows.Forms;
+using UpdateLib;
 
 
 namespace AppManager
@@ -18,6 +19,7 @@ namespace AppManager
 		protected WinForms.NotifyIcon _TrayIcon;
 		protected AppCommands _Commands;
 		protected AppManagerSettings _Settings;
+		protected SelfUpdate _Updater;
 
 
 		public MainWorkItem()
@@ -33,6 +35,8 @@ namespace AppManager
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
+			_Updater = new SelfUpdate();
+			_Updater.NeedCloseApp += (s, e) => Commands.Quit.Execute(null);
 		}
 
 
@@ -81,6 +85,14 @@ namespace AppManager
 			get
 			{
 				return _Settings;
+			}
+		}
+
+		public SelfUpdate Updater
+		{
+			get
+			{
+				return _Updater;
 			}
 		}
 

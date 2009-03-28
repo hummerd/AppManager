@@ -10,7 +10,7 @@ namespace UpdateLib.FileDownloader
 	public abstract class FileDownloaderBase : IFileDownloader, IDisposable
 	{
 		public event EventHandler<FileDownloadProgress> DownloadFileStarted;
-		public event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
+		//public event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
 
 
 		//protected BackgroundWorker _Downloader = new BackgroundWorker();
@@ -62,6 +62,9 @@ namespace UpdateLib.FileDownloader
 			{
 				foreach (var item in fileLocation)
 				{
+					if (item.InstallAction == InstallAction.Delete)
+						continue;
+
 					var location = new Uri(item.Location);
 					var tempDir = Path.Combine(tempPath, item.Path);
 					var tempFile = Path.Combine(tempPath, item.GetItemFullPath());
@@ -165,11 +168,11 @@ namespace UpdateLib.FileDownloader
 				DownloadFileStarted(this, e);
 		}
 
-		protected virtual void OnDownloadFileSetCompleted(bool succeded)
-		{
-			if (DownloadFileSetCompleted != null)
-				DownloadFileSetCompleted(this, new ValueEventArgs<bool>(succeded));
-		}
+		//protected virtual void OnDownloadFileSetCompleted(bool succeded)
+		//{
+		//   if (DownloadFileSetCompleted != null)
+		//      DownloadFileSetCompleted(this, new ValueEventArgs<bool>(succeded));
+		//}
 
 		#region IDisposable Members
 

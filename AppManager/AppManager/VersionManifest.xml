@@ -4,10 +4,6 @@
   <UpdateUri>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUri>
   <VersionItems>
     <VersionItem>
-      <Path>ru-ru</Path>
-      <InstallAction>Delete</InstallAction>
-    </VersionItem>    
-    <VersionItem>
       <Location>\\msk-0438\Common\AppManagerUpdate\AppManager.exe.gzip</Location>
       <Path />
       <InstallAction>Copy</InstallAction>
