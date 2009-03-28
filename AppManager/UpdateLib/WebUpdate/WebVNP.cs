@@ -1,8 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CommonLib;
-using UpdateLib.FileDownloader;
 using UpdateLib.VersionInfo;
-using System;
 
 
 namespace UpdateLib.WebUpdate
@@ -27,7 +26,10 @@ namespace UpdateLib.WebUpdate
 			catch
 			{ ; }
 			finally
-			{ _TempStream.Dispose(); }
+			{
+				if (_TempStream != null)
+					_TempStream.Dispose(); 
+			}
 
 			return null;
 		}
@@ -47,7 +49,10 @@ namespace UpdateLib.WebUpdate
 				catch
 				{ ; }
 				finally
-				{ _TempStream.Dispose(); }
+				{
+					if (_TempStream != null)
+						_TempStream.Dispose();
+				}
 
 				return null;
 			}

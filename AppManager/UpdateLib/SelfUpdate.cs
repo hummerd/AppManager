@@ -193,9 +193,9 @@ namespace UpdateLib
 				//clean up older install
 				CleanUp(appName, currentManifest);
 
-				var vnp = VNPFactory.GetVNP(Uri.UriSchemeHttp);
-
 				var updateUri = currentManifest.UpdateUri;
+				var vnp = VNPFactory.GetVNP(new Uri(updateUri).Scheme);
+								
 				Version lastVersion = vnp.GetLatestVersionInfo(updateUri).VersionNumber;
 				if (lastVersion == null)
 				{
@@ -360,7 +360,7 @@ namespace UpdateLib
 					downloadManifest);
 			}
 
-			var fileDownloader = FileDownloaderFactory.GetFileDownloader(Uri.UriSchemeHttp);
+			var fileDownloader = FileDownloaderFactory.GetFileDownloader(new Uri(updateUri).Scheme);
 			fileDownloader.DownloadFileStarted += (s, e) =>
 				DispatcherHelper.Invoke(new UpdateDownloadProgress(
 					UIDownloadProgress.SetDownloadProgress), e.FilePath, e.ToltalSize, e.DownloadedSize);
