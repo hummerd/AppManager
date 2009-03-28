@@ -51,7 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileDownloaderFactory.cs" />
     <Compile Include="FileDownloader\FileDownloaderBase.cs" />
+    <Compile Include="IFileDownloaderFactory.cs" />
+    <Compile Include="IVersionNumberFactory.cs" />
     <Compile Include="UI\DownloadProgress.xaml.cs">
       <DependentUpon>DownloadProgress.xaml</DependentUpon>
     </Compile>
@@ -62,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpdStr.resx</DependentUpon>
     </Compile>
+    <Compile Include="VersionNumberFactory.cs" />
     <Compile Include="WebUpdate\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
     <Compile Include="ShareUpdate\ShareFileDownloader.cs" />

@@ -20,33 +20,33 @@ namespace UpdateLib
 {
 	public class SelfUpdate
 	{
-		public static SelfUpdate CreateShareUpdate()
-		{
-			var updater = new SelfUpdate()
-			{
-				FileDownloader = new ShareFileDownloader(),
-				VersionNumberProvider = new ShareVNP(),
-				UIAskDownload = new UIAsk(),
-				UIAskInstall = new UIAsk(),
-				UIDownloadProgress = new DownloadProgress()
-			};
+		//public static SelfUpdate CreateShareUpdate()
+		//{
+		//   var updater = new SelfUpdate()
+		//   {
+		//      FileDownloader = new ShareFileDownloader(),
+		//      VersionNumberProvider = new ShareVNP(),
+		//      UIAskDownload = new UIAsk(),
+		//      UIAskInstall = new UIAsk(),
+		//      UIDownloadProgress = new DownloadProgress()
+		//   };
 
-			return updater;
-		}
+		//   return updater;
+		//}
 
-		public static SelfUpdate CreateWebUpdate()
-		{
-			var updater = new SelfUpdate()
-			{
-				FileDownloader = new WebFileDownloader(),
-				VersionNumberProvider = new WebVNP(),
-				UIAskDownload = new UIAsk(),
-				UIAskInstall = new UIAsk(),
-				UIDownloadProgress = new DownloadProgress()
-			};
+		//public static SelfUpdate CreateWebUpdate()
+		//{
+		//   var updater = new SelfUpdate()
+		//   {
+		//      FileDownloader = new WebFileDownloader(),
+		//      VersionNumberProvider = new WebVNP(),
+		//      UIAskDownload = new UIAsk(),
+		//      UIAskInstall = new UIAsk(),
+		//      UIDownloadProgress = new DownloadProgress()
+		//   };
 
-			return updater;
-		}
+		//   return updater;
+		//}
 
 
 		public event EventHandler NeedCloseApp;
@@ -57,19 +57,45 @@ namespace UpdateLib
 		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
 
 
-		protected Mutex		_UpdatingFlag;
+		protected Mutex	_UpdatingFlag;
 		protected Thread	_UpdateThread;
 
 
 		public SelfUpdate()
 		{
+			FileDownloaderFactory = new FileDownloaderFactory();
+			VNPFactory = new VersionNumberFactory();
+			UIAskDownload = new UIAsk();
+			UIAskInstall = new UIAsk();
+			UIDownloadProgress = new DownloadProgress();
 		}
 
+		public SelfUpdate(
+			IFileDownloaderFactory fileDownloadFactory, 
+			IVersionNumberFactory vnpFactory,
+			IUIAskDownload uiAskDownload,
+			IUIAskInstall uiAskInstall,
+			IUIDownloadProgress uiDownloadProgress
+			)
+		{
+			FileDownloaderFactory = fileDownloadFactory;
+			VNPFactory = vnpFactory;
+			UIAskDownload = uiAskDownload;
+			UIAskInstall = uiAskInstall;
+			UIDownloadProgress = uiDownloadProgress;
+		}
+		
 
-		public IFileDownloader FileDownloader
+		//public IFileDownloader FileDownloader
+		//{ get; set; }
+
+		//public IVersionNumberProvider VersionNumberProvider
+		//{ get; set; }
+
+		public IFileDownloaderFactory FileDownloaderFactory
 		{ get; set; }
 
-		public IVersionNumberProvider VersionNumberProvider
+		public IVersionNumberFactory VNPFactory
 		{ get; set; }
 
 		public IUIAskDownload UIAskDownload
@@ -87,6 +113,12 @@ namespace UpdateLib
 		//   Version currentVersion = null;
 		//   UpdateApp(currentVersion, String.Empty, String.Empty);
 		//}
+
+		public Version GetCurrentVersion(string appPath)
+		{
+			VersionManifest currentManifest = GetCurrentVersionManifest(appPath);
+			return currentManifest == null ? null : currentManifest.VersionNumber;
+		}
 
 		public bool UpdateAppAsync(
 			string appName,
@@ -121,14 +153,7 @@ namespace UpdateLib
 		{
 			try
 			{
-				var manifestPath = Path.Combine(appPath, VersionManifest.VersionManifestFileName);
-				VersionManifest currentManifest = null;
-
-				if (File.Exists(manifestPath))
-					currentManifest = XmlSerializeHelper.DeserializeItem(
-						typeof(VersionManifest),
-						manifestPath
-						) as VersionManifest;
+				VersionManifest currentManifest = GetCurrentVersionManifest(appPath);
 
 				return UpdateApp(
 					currentManifest,
@@ -168,23 +193,25 @@ namespace UpdateLib
 				//clean up older install
 				CleanUp(appName, currentManifest);
 
+				var vnp = VNPFactory.GetVNP(Uri.UriSchemeHttp);
+
 				var updateUri = currentManifest.UpdateUri;
-				Version lastVersion = GetLatestVersion(updateUri);
+				Version lastVersion = vnp.GetLatestVersionInfo(updateUri).VersionNumber;
 				if (lastVersion == null)
 				{
 					updateUri = currentManifest.UpdateUriAlt;
-					lastVersion = GetLatestVersion(updateUri);				
+					lastVersion = vnp.GetLatestVersionInfo(updateUri).VersionNumber;
 				}
-
+				
 				if (lastVersion > currentManifest.VersionNumber)
 				{
-					VersionData latestVersionInfo = VersionNumberProvider.GetLatestVersionInfo(updateUri);
+					VersionData latestVersionInfo = vnp.GetLatestVersionInfo(updateUri);
 					if (latestVersionInfo == null)
 						return false;
 
 					if (AskUserForDownload(displayAppName, latestVersionInfo, updateUri))
 					{
-						VersionManifest latestManifest = VersionNumberProvider.GetLatestVersionManifest(updateUri);
+						VersionManifest latestManifest = vnp.GetLatestVersionManifest(updateUri);
 						//failed to download latest version manifest
 						if (latestVersionInfo == null)
 							return false;
@@ -192,7 +219,7 @@ namespace UpdateLib
 						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
 						var tempPath = CreateTempDir(appName, latestManifest.VersionNumber);
-						if (DownloadVersion(updateManifest, tempPath))
+						if (DownloadVersion(updateManifest, tempPath, updateUri))
 							VersionDownloadCompleted(
 								displayAppName,
 								updateManifest,
@@ -219,6 +246,24 @@ namespace UpdateLib
 			return true;
 		}
 
+
+		protected VersionManifest GetCurrentVersionManifest(string appPath)
+		{
+			try
+			{
+				var manifestPath = Path.Combine(appPath, VersionManifest.VersionManifestFileName);
+
+				if (File.Exists(manifestPath))
+					return XmlSerializeHelper.DeserializeItem(
+						typeof(VersionManifest),
+						manifestPath
+						) as VersionManifest;
+			}
+			catch 
+			{ ; }
+
+			return null;
+		}
 
 		protected void UpdateAppThread(object prm)
 		{
@@ -265,11 +310,6 @@ namespace UpdateLib
 			{ ; }
 		}
 
-		protected Version GetLatestVersion(string location)
-		{
-			return VersionNumberProvider.GetLatestVersionInfo(location).VersionNumber;
-		}
-
 		protected bool AskUserForDownload(string appName, VersionData versionInfo, string sourecUri)
 		{
 			return UIAskDownload.AskForDownload(appName, versionInfo, sourecUri);
@@ -311,7 +351,7 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected bool DownloadVersion(VersionManifest downloadManifest, string tempPath)
+		protected bool DownloadVersion(VersionManifest downloadManifest, string tempPath, string updateUri)
 		{
 			if (UIDownloadProgress != null)
 			{
@@ -320,11 +360,12 @@ namespace UpdateLib
 					downloadManifest);
 			}
 
-			FileDownloader.DownloadFileStarted += (s, e) =>
+			var fileDownloader = FileDownloaderFactory.GetFileDownloader(Uri.UriSchemeHttp);
+			fileDownloader.DownloadFileStarted += (s, e) =>
 				DispatcherHelper.Invoke(new UpdateDownloadProgress(
 					UIDownloadProgress.SetDownloadProgress), e.FilePath, e.ToltalSize, e.DownloadedSize);
 
-			var result = FileDownloader.DownloadFileSet(
+			var result = fileDownloader.DownloadFileSet(
 				downloadManifest.VersionItems,
 				tempPath);
 

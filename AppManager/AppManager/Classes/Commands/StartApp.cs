@@ -22,14 +22,12 @@ namespace AppManager.Commands
 		//protected Mutex				_Mutex;
 		protected bool					_FirstStart = false;
 		protected SingleInstance	_Single;
-		protected SelfUpdate			_Updater;
 
 
 		public StartApp(MainWorkItem workItem)
 			: base(workItem)
 		{ 
-			_Updater = SelfUpdate.CreateWebUpdate();
-			_Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
+			
 		}
 
 
@@ -70,7 +68,7 @@ namespace AppManager.Commands
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
 
-			_Updater.UpdateAppAsync(
+			_WorkItem.Updater.UpdateAppAsync(
 				"AppManager",
 				Strings.APP_TITLE,
 				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),

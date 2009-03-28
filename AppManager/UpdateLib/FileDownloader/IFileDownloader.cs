@@ -9,7 +9,7 @@ namespace UpdateLib.FileDownloader
     public interface IFileDownloader
     {
 		 event EventHandler<FileDownloadProgress> DownloadFileStarted;
-		 event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
+		 //event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
 
 		 bool Cancel
 		 { get; set; }

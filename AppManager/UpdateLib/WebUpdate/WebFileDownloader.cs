@@ -1,17 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using UpdateLib.FileDownloader;
 
 
-namespace UpdateLib.FileDownloader
+namespace UpdateLib.WebUpdate
 {
 	public class WebFileDownloader : FileDownloaderBase
 	{
 		protected ICredentials	_Credentials;
 		protected bool				_PreAuthenticate;
-		//protected IWebProxy		_Proxy;
 		protected string			_UserAgent = null;
-		protected WebResponse _DownloadResponse;
+		protected WebResponse	_DownloadResponse;
 
 
 		public WebFileDownloader()
