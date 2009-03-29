@@ -153,6 +153,9 @@
   <data name="AUTO_START" xml:space="preserve">
     <value>Автостарт</value>
   </data>
+  <data name="CHECK_FOR_UPDATE" xml:space="preserve">
+    <value>Проверить обновления</value>
+  </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Редактировать файл приложений</value>
   </data>

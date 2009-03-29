@@ -24,16 +24,19 @@
 			<TabItem
 				x:Name="TabAbout"
 				Header="{x:Static c:CommStr.ABOUT}">
-				<StackPanel>
+				<Grid>
 					<TextBlock Margin="8,8,8,0" TextWrapping="Wrap">
 						<InlineUIContainer>
 							<Image Height="48" Width="48" Source="/AppManager;component/Resources/1leftarrow_1159_32.png" />
 						</InlineUIContainer>
-						<Run FontSize="26" Foreground="#FF24A1F9" Text="  " BaselineAlignment="Center"/>
+						<Run FontSize="26" Text="  " BaselineAlignment="Center"/>
 						<Run FontSize="26" Foreground="#FF24A1F9" Text="{x:Static am:Strings.APP_TITLE}" BaselineAlignment="Center"/>
 						<LineBreak/>
 						<LineBreak/>
 						<Run Name="RunVersion" Text="AppManager v1.0.0.*"/>
+						<InlineUIContainer Block.TextAlignment="Right" BaselineAlignment="Center">
+							<Button Content="{x:Static am:Strings.CHECK_FOR_UPDATE}" Click="Button_Click" />
+						</InlineUIContainer>
 						<LineBreak/>
 						<LineBreak/>
 						<Hyperlink Click="Hyperlink_Click">
@@ -43,7 +46,7 @@
 						<LineBreak/>
 						<Run Name="TbThanks" Text="{x:Static am:Strings.SPECIAL_THANKS}"/>
 					</TextBlock>
-				</StackPanel>
+				</Grid>
 			</TabItem>
 			<TabItem
 				x:Name="TabHelp"

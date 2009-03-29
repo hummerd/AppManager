@@ -153,6 +153,9 @@
   <data name="AUTO_START" xml:space="preserve">
     <value>Autostart</value>
   </data>
+  <data name="CHECK_FOR_UPDATE" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Open application data file</value>
   </data>

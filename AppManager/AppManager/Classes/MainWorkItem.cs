@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using AppManager.Commands;
 using AppManager.Settings;
 using CommonLib.PInvoke.WinHook;
-using WinForms = System.Windows.Forms;
 using UpdateLib;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager
@@ -93,6 +94,14 @@ namespace AppManager
 			get
 			{
 				return _Updater;
+			}
+		}
+
+		public string AppPath
+		{
+			get
+			{
+				return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			}
 		}
 
