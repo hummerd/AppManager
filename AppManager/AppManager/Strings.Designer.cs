@@ -169,6 +169,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check for updates.
+        /// </summary>
+        public static string CHECK_FOR_UPDATE {
+            get {
+                return ResourceManager.GetString("CHECK_FOR_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open application data file.
         /// </summary>
         public static string EDIT_APP_DATA {

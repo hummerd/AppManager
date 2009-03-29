@@ -34,5 +34,10 @@ namespace AppManager.Windows
 		{
 			_Controller.GoToAppPage();
 		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.CheckNewVersion();
+		}
 	}
 }

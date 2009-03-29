@@ -17,8 +17,11 @@ namespace AppManager
 
 		public string GetVersionString()
 		{
-			return Strings.APP_TITLE + " " +
-				Assembly.GetEntryAssembly().GetName().Version;
+			var ver = _WorkItem.Updater.GetCurrentVersion(_WorkItem.AppPath);
+			if (ver == null)
+				ver = Assembly.GetEntryAssembly().GetName().Version;
+
+			return Strings.APP_TITLE + " " + ver;
 		}
 
 		public void GoToAppPage()
@@ -35,6 +38,17 @@ namespace AppManager
 			tb.Load(res.Stream, DataFormats.Rtf);
 
 			return fd;
+		}
+
+		public void CheckNewVersion()
+		{
+			_WorkItem.Updater.UpdateAppAsync(
+				"AppManager",
+				Strings.APP_TITLE,
+				_WorkItem.AppPath,
+				new string[] { Assembly.GetExecutingAssembly().Location },
+				new string[] { Process.GetCurrentProcess().ProcessName }
+				);
 		}
 	}
 }

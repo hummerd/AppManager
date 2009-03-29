@@ -71,7 +71,7 @@ namespace AppManager.Commands
 			_WorkItem.Updater.UpdateAppAsync(
 				"AppManager",
 				Strings.APP_TITLE,
-				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+				_WorkItem.AppPath,
 				new string[] { Assembly.GetExecutingAssembly().Location },
 				new string[] { Process.GetCurrentProcess().ProcessName }
 				);
