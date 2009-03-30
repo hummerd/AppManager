@@ -33,14 +33,22 @@ namespace VersionBuilder
 				}
 				catch (Exception exc)
 				{
+					string args = String.Empty;
+					foreach (var item in e.Args)
+					{
+						args += Environment.NewLine + item;
+					}
+
+					ErrorBox.Show("Error", args, String.Empty);
 					ErrorBox.Show("Error", exc);
-					Shutdown(-1);
+					Shutdown(-1 * e.Args.Length);
 				}
 			}
 			else
 			{
 				MainWindow mw = new MainWindow();
 				MainWindow = mw;
+				mw.Closed += (s, ea) => Shutdown();
 				mw.Show();
 			}
 		}
