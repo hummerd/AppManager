@@ -332,7 +332,6 @@
   -->
   <Import Project="SubsetFont.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>$(SolutionDir)VersionBuilder\$(OutDir)VersionBuilder.exe -$(TargetDir) -1.0.0.1 -http://hummerd.selfip.com:10080/AppManagerUpdate -pdb,manifest,application</PostBuildEvent>
   </PropertyGroup>
 </Project>

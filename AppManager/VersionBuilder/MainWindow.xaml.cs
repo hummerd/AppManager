@@ -24,11 +24,11 @@ namespace VersionBuilder
 			try
 			{
 				Version ver = new Version(TxtVersion.Text);
-				_VesionFactory.CreateVersion(TxtSourceDir.Text, ver, TxtLocation.Text);
+				_VesionFactory.CreateVersion(TxtSourceDir.Text, ver, TxtLocation.Text, TxtExcludeExt.Text);
 			}
 			catch(Exception exc)
 			{
-				ErrorBox.Show("Error", exc.Message, exc.ToString());
+				ErrorBox.Show("Error", exc);
 			}
 		}
 	}

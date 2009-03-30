@@ -40,6 +40,7 @@
 		<Expander
 			Header="{x:Static c:CommStr.DETAILS}"
 			HorizontalAlignment="Stretch"
+			HorizontalContentAlignment="Stretch"
 			Margin="8,8,8,0"
 			Name="ExpDetails"
 			IsExpanded="False"

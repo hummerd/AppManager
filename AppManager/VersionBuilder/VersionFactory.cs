@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using CommonLib;
@@ -10,28 +11,30 @@ namespace VersionBuilder
 {
 	public class VersionFactory
 	{
-		public void CreateVersion(string dir, Version version, string location)
+		public void CreateVersion(string dir, Version version, string location, string excludeExt)
 		{
 			if (!Directory.Exists(dir))
 				return;
+
+			if (dir.EndsWith("\\"))
+				dir = dir.Substring(0, dir.Length - 1);
 
 			string versionDir = dir + "_" + version;
 
 			if (Directory.Exists(versionDir))
 				Directory.Delete(versionDir, true);
-			
-			var files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories);
+
+			var files = GetVersionFiles(dir, excludeExt);
 			var verManifest = new VersionManifest() 
 				{ VersionNumber = version, UpdateUri = location, UpdateUriAlt = location };
 
+			var locationUri = new Uri(location);
+			string delim = "\\";
+			if (locationUri.Scheme != Uri.UriSchemeFile)
+				delim = "/";
+
 			foreach (var item in files)
 			{
-				if (String.Equals(
-						Path.GetFileName(item), 
-						VersionManifest.VersionManifestFileName, 
-						StringComparison.InvariantCultureIgnoreCase))
-					continue;
-
 				string newPath = item.Replace(dir, versionDir) + ".gzip";
 				string newDir = Path.GetDirectoryName(newPath);
 				if (!Directory.Exists(newDir))
@@ -63,7 +66,7 @@ namespace VersionBuilder
 				verManifest.VersionItems.Add(new VersionItem()
 					{
 						InstallAction = InstallAction.Copy,
-						Location = location + newPath.Replace(versionDir, String.Empty),
+						Location = location + newPath.Replace(versionDir, String.Empty).Replace("\\", delim),
 						Path = itemPath,
 						VersionNumber = an == null ? version : an.Version,
 						Base64Hash = FileHash.GetBase64FileHash(item)
@@ -79,6 +82,32 @@ namespace VersionBuilder
 			XmlSerializeHelper.SerializeItem(
 				new VersionData(version),
 				Path.Combine(versionDir, VersionManifest.VersionFileName));
+		}
+
+
+		protected List<string> GetVersionFiles(string dir, string excludeExt)
+		{
+			var files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories);
+			var result = new List<string>(files.Length);
+
+			foreach (var item in files)
+			{
+				if (String.Equals(
+						Path.GetFileName(item),
+						VersionManifest.VersionManifestFileName,
+						StringComparison.InvariantCultureIgnoreCase))
+					continue;
+
+				string ext = Path.GetExtension(item);
+				ext = ext.Substring(1, ext.Length - 1);
+
+				if (excludeExt.IndexOf(ext, StringComparison.CurrentCultureIgnoreCase) >= 0)
+					continue;
+
+				result.Add(item);
+			}
+
+			return result;
 		}
 	}
 }
