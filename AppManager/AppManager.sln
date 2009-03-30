@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppManager", "AppManager\AppManager.csproj", "{84BCE999-E9A9-4649-8297-9C31AFA13BF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A48F4FA2-23E7-4630-BC21-FAF40A08D4B8} = {A48F4FA2-23E7-4630-BC21-FAF40A08D4B8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragDropLib", "DragDropLib\DragDropLib.csproj", "{44298D97-06A4-47CF-B59C-AE731BD52684}"
 EndProject
