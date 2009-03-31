@@ -23,7 +23,7 @@ namespace AppManager.Windows
 			InitializeComponent();
 
 			AppTabs.SelectedIndex = about ? 0 : 1;
-			RunVersion.Text = _Controller.GetVersionString();
+			RunVersion.Content = _Controller.GetVersionString();
 			HelpText.Document = _Controller.GetHelpText();
 
 			new DialogKeyDecorator(this, BtnOk, null, false);
