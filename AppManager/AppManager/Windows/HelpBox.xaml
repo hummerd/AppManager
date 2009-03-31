@@ -1,36 +1,94 @@
 ﻿<Window
-   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:am="clr-namespace:AppManager" 
-	xmlns:c="clr-namespace:CommonLib;assembly=CommonLib" 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:am="clr-namespace:AppManager"
+	xmlns:c="clr-namespace:CommonLib;assembly=CommonLib"
 	x:Class="AppManager.Windows.HelpBox"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	Title="{x:Static am:Strings.APP_TITLE}"
-	MinHeight="220" MinWidth="280"
-	Height="610" Width="510" 
-	WindowStartupLocation="CenterOwner"
-	>
+	MinHeight="220"
+	MinWidth="280"
+	Height="610"
+	Width="510"
+	WindowStartupLocation="CenterOwner">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="44" />
+			<RowDefinition
+				Height="*" />
+			<RowDefinition
+				Height="44" />
 		</Grid.RowDefinitions>
 		<TabControl
 			x:Name="AppTabs"
-			IsSynchronizedWithCurrentItem="True"
-			>
+			IsSynchronizedWithCurrentItem="True">
 			<TabItem
 				x:Name="TabAbout"
 				Header="{x:Static c:CommStr.ABOUT}">
-				<Grid>
-					<TextBlock Margin="8,8,8,0" TextWrapping="Wrap">
+				<Grid Margin="8,8">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="Auto" />
+						<ColumnDefinition
+							Width="300*" />
+						<ColumnDefinition
+							Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" MinHeight="24" />
+						<RowDefinition
+							Height="373.34*" />
+					</Grid.RowDefinitions>
+					<Image
+						Height="48"
+						Source="/AppManager;component/Resources/1leftarrow_1159_32.png"
+						VerticalAlignment="Top" />
+					<Label
+						Margin="8,0,0,0"
+						Grid.Column="1"
+						FontSize="26"
+						Foreground="#FF24A1F9"
+						Content="{x:Static am:Strings.APP_TITLE}"
+						Grid.ColumnSpan="2"></Label>
+					<Label
+						Grid.Row="1"
+						Grid.ColumnSpan="2"
+						Name="RunVersion"
+						Content="AppManager v1.0.0.*" />
+					<Button
+						Grid.Row="1"
+						Grid.Column="2"
+						Grid.ColumnSpan="2"
+						Click="Button_Click"
+						Content="{x:Static am:Strings.CHECK_FOR_UPDATE}"/>
+					<TextBlock
+						Grid.Row="2"
+						Grid.Column="0"
+						Grid.ColumnSpan="3"
+						Margin="4,4">
+						  <Hyperlink>
+							  <Run Text="{x:Static am:Strings.PAGE_ON_CP}" />
+						  </Hyperlink>
+					 </TextBlock>
+					<TextBlock
+						Grid.Row="3"
+						Grid.Column="0"
+						Grid.ColumnSpan="3"
+						Margin="4,4"
+						Text="{x:Static am:Strings.SPECIAL_THANKS}"
+						TextWrapping="Wrap" />
+					<!--<TextBlock Margin="8,8,8,0" TextWrapping="Wrap">
 						<InlineUIContainer>
 							<Image Height="48" Width="48" Source="/AppManager;component/Resources/1leftarrow_1159_32.png" />
 						</InlineUIContainer>
 						<Run FontSize="26" Text="  " BaselineAlignment="Center"/>
-						<Run FontSize="26" Foreground="#FF24A1F9" Text="{x:Static am:Strings.APP_TITLE}" BaselineAlignment="Center"/>
+						<Run FontSize="26" Foreground="#FF24A1F9" Text="{x:Static am:Strings.APP_TITLE}" BaselineAlignment="Center"/>		
 						<LineBreak/>
 						<LineBreak/>
 						<Run Name="RunVersion" Text="AppManager v1.0.0.*"/>
@@ -44,28 +102,45 @@
 						</Hyperlink>
 						<LineBreak/>
 						<LineBreak/>
+						<Run Text="Test Test Test" />
+						<LineBreak />
 						<Run Name="TbThanks" Text="{x:Static am:Strings.SPECIAL_THANKS}"/>
-					</TextBlock>
+					</TextBlock>-->
+					<!--<RichTextBox
+						BorderThickness="0"
+						IsDocumentEnabled="True"
+						IsReadOnly="True">
+						<FlowDocument>
+							<Paragraph TextAlignment="Left"><InlineUIContainer>
+								<Image
+									Height="48"
+									Width="48"
+									Source="/AppManager;component/Resources/1leftarrow_1159_32.png" />
+								</InlineUIContainer><Run Text="       "/><Run BaselineAlignment="Center" FontSize="26" Foreground="#FF24A1F9" Text="StartUp"/><LineBreak/><LineBreak/><Figure Background="#FF00FFFF" VerticalAnchor="ParagraphTop" VerticalOffset="-300" Width="120" WrapDirection="Both" Padding="0,0,0,0">
+									<BlockUIContainer TextAlignment="Right">
+										<Button HorizontalAlignment="Right" Content="Check for updates" Background="#FFF0FFFF"/>
+									</BlockUIContainer>
+								</Figure><Run x:Name="RunVersion" Text="AppManager v1.0.0.*"/><LineBreak/><LineBreak/><Hyperlink><Run Text="StartUp's page on CodePlex"/></Hyperlink><LineBreak/><LineBreak/><Run x:Name="TbThanks" Text="Special thanks to my friends for testing, feature requests and help with translating into english."/></Paragraph>
+						</FlowDocument>
+					</RichTextBox>-->
 				</Grid>
 			</TabItem>
 			<TabItem
 				x:Name="TabHelp"
-				Header="{x:Static c:CommStr.HELP}"
-				>
+				Header="{x:Static c:CommStr.HELP}">
 				<Grid>
-					<RichTextBox 
+					<RichTextBox
 						x:Name="HelpText"
 						IsReadOnly="True" />
 				</Grid>
 			</TabItem>
 		</TabControl>
-		<Button 
+		<Button
 			x:Name="BtnOk"
-			Grid.Row="1" 
-			HorizontalAlignment="Right" 
-			Margin="0,8,8,8" 
+			Grid.Row="1"
+			HorizontalAlignment="Right"
+			Margin="0,8,8,8"
 			Width="80"
-			Content="{x:Static c:CommStr.OK}"
-			/>
+			Content="{x:Static c:CommStr.OK}" />
 	</Grid>
 </Window>
