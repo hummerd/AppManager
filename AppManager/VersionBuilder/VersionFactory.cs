@@ -14,7 +14,7 @@ namespace VersionBuilder
 		public void CreateVersion(string dir, Version version, string location, string excludeExt)
 		{
 			if (!Directory.Exists(dir))
-				return;
+				throw new Exception("Source dir " + dir + " does not exist");
 
 			if (dir.EndsWith("\\"))
 				dir = dir.Substring(0, dir.Length - 1);
@@ -62,13 +62,19 @@ namespace VersionBuilder
 				{
 					an = null;
 				}
+				
+				var ver = new Version(
+					version.Major, 
+					version.Minor, 
+					version.Build, 
+					(an == null ? version : an.Version).Revision);
 
 				verManifest.VersionItems.Add(new VersionItem()
 					{
 						InstallAction = InstallAction.Copy,
 						Location = location + newPath.Replace(versionDir, String.Empty).Replace("\\", delim),
 						Path = itemPath,
-						VersionNumber = an == null ? version : an.Version,
+						VersionNumber = ver,
 						Base64Hash = FileHash.GetBase64FileHash(item)
 					});
 				
