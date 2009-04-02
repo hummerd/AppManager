@@ -216,6 +216,9 @@
   <data name="NEW_APP" xml:space="preserve">
     <value>Новое приложение</value>
   </data>
+  <data name="NO_NEW_VERSION" xml:space="preserve">
+    <value>Вы пользуетесь последней версией программы {0}.</value>
+  </data>
   <data name="OPEN_APP_DATA" xml:space="preserve">
     <value>Перейти к папке с файлом приложений</value>
   </data>
@@ -267,5 +270,8 @@
   </data>
   <data name="START_MINIMIZED" xml:space="preserve">
     <value>Запускаться свенрнутым</value>
+  </data>
+  <data name="UPDATE_CHECK_FAILED" xml:space="preserve">
+    <value>Не удалось проверить наличие новой версии. Попробуйте проверить позже.</value>
   </data>
 </root>
