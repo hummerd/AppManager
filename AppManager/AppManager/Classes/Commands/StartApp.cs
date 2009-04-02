@@ -68,12 +68,16 @@ namespace AppManager.Commands
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
 
+			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCompleted(e.SuccessfulCheck, e.HasNewVersion);
+			_WorkItem.Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
+
 			_WorkItem.Updater.UpdateAppAsync(
 				"AppManager",
 				Strings.APP_TITLE,
 				_WorkItem.AppPath,
 				new string[] { Assembly.GetExecutingAssembly().Location },
-				new string[] { Process.GetCurrentProcess().ProcessName }
+				new string[] { Process.GetCurrentProcess().ProcessName },
+				"http://hummerd.com/AppManagerUpdate"
 				);
 
 			if (!_WorkItem.Settings.StartMinimized)
@@ -219,6 +223,27 @@ namespace AppManager.Commands
 			}
 			catch
 			{ ; }
+		}
+
+		protected void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion)
+		{
+			if (!successfulCheck)
+			{
+				MsgBox.Show(
+					_WorkItem.MainWindow, 
+					Strings.APP_TITLE, 
+					Strings.UPDATE_CHECK_FAILED, 
+					false);
+			}
+
+			if (!hasNewVersion)
+			{
+				MsgBox.Show(
+					_WorkItem.MainWindow, 
+					Strings.APP_TITLE, 
+					String.Format(Strings.NO_NEW_VERSION, Strings.APP_TITLE),
+					false);
+			}
 		}
 
 

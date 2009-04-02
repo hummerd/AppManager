@@ -102,7 +102,7 @@ namespace AppManager
 			if (appType == null)
 				return;
 
-			if (!CommonLib.Windows.MessageBox.Show(
+			if (!MsgBox.Show(
 					_WorkItem.MainWindow,
 					Strings.APP_TITLE,
 					string.Format(Strings.QUEST_DEL_APP_TYPE, appType.AppTypeName)
@@ -181,7 +181,7 @@ namespace AppManager
 			if (appInfo == null)
 				return;
 
-			if (!CommonLib.Windows.MessageBox.Show(
+			if (!MsgBox.Show(
 					_WorkItem.MainWindow,
 					Strings.APP_TITLE,
 					string.Format(Strings.QUEST_DEL_APP, appInfo.AppName)

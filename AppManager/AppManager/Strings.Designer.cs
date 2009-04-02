@@ -358,6 +358,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You use {0} latest version..
+        /// </summary>
+        public static string NO_NEW_VERSION {
+            get {
+                return ResourceManager.GetString("NO_NEW_VERSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show application data folder.
         /// </summary>
         public static string OPEN_APP_DATA {
@@ -376,7 +385,9 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete application {0} ?.
+        ///   Looks up a localized string similar to Remove link to
+        ///{0}
+        ///?.
         /// </summary>
         public static string QUEST_DEL_APP {
             get {
@@ -500,6 +511,15 @@ namespace AppManager {
         public static string START_MINIMIZED {
             get {
                 return ResourceManager.GetString("START_MINIMIZED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not check for updates now. Try to check later..
+        /// </summary>
+        public static string UPDATE_CHECK_FAILED {
+            get {
+                return ResourceManager.GetString("UPDATE_CHECK_FAILED", resourceCulture);
             }
         }
     }

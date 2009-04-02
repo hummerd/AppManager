@@ -72,7 +72,7 @@
 						Grid.Column="0"
 						Grid.ColumnSpan="3"
 						Margin="4,4">
-						  <Hyperlink>
+						  <Hyperlink Click="Hyperlink_Click">
 							  <Run Text="{x:Static am:Strings.PAGE_ON_CP}" />
 						  </Hyperlink>
 					 </TextBlock>

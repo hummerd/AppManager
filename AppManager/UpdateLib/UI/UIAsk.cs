@@ -13,7 +13,7 @@ namespace UpdateLib.UI
 
 		public bool AskForDownload(string appName, VersionData versionInfo, string sourceUri)
 		{
-			var msgb = new MessageBox();
+			var msgb = new MsgBox();
 
 			msgb.Topmost = true;
 			msgb.Title = UpdStr.UPDATER;
@@ -33,7 +33,7 @@ namespace UpdateLib.UI
 
 		public bool AskForInstall(string appName, VersionData versionInfo)
 		{
-			var msgb = new MessageBox();
+			var msgb = new MsgBox();
 
 			msgb.Topmost = true;
 			msgb.Title = UpdStr.UPDATER;

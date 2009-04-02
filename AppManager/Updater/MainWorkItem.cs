@@ -30,7 +30,7 @@ namespace Updater
 			try
 			{
 #if DEBUG
-				CommonLib.Windows.MessageBox.Show(null, "AttachDebug", "");
+				CommonLib.Windows.MsgBox.Show(null, "AttachDebug", "");
 #endif
 			
 				string installerPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
