@@ -37,7 +37,6 @@ namespace AppManager
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
 			_Updater = new SelfUpdate();
-			_Updater.NeedCloseApp += (s, e) => Commands.Quit.Execute(null);
 		}
 
 

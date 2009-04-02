@@ -47,7 +47,8 @@ namespace AppManager
 				Strings.APP_TITLE,
 				_WorkItem.AppPath,
 				new string[] { Assembly.GetExecutingAssembly().Location },
-				new string[] { Process.GetCurrentProcess().ProcessName }
+				new string[] { Process.GetCurrentProcess().ProcessName },
+				"http://hummerd.com/AppManagerUpdate"
 				);
 		}
 	}

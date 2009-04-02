@@ -50,9 +50,11 @@ namespace UpdateLib
 
 
 		public event EventHandler NeedCloseApp;
+		public event EventHandler<UpdateCompleteInfo> UpdateCompleted;
 
 
 		protected delegate void SimpleMathod();
+		protected delegate void UpdateCompletedResult(bool successfulCheck, bool hasNewVersion);
 		protected delegate void UpdateDownloadProgress(string location, long total, long progress);
 		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
 
@@ -125,7 +127,8 @@ namespace UpdateLib
 			string displayAppName,
 			string appPath,
 			string[] executePaths,
-			string[] lockProcesses)
+			string[] lockProcesses,
+			string defaultUpdateUri)
 		{
 			if (_UpdateThread != null && _UpdateThread.IsAlive)
 				return false;
@@ -139,7 +142,8 @@ namespace UpdateLib
 				displayAppName,
 				appPath,
 				executePaths,
-				lockProcesses
+				lockProcesses,
+				defaultUpdateUri
 				});
 			return true;
 		}
@@ -149,7 +153,8 @@ namespace UpdateLib
 			string displayAppName,
 			string appPath,
 			string[] executePaths,
-			string[] lockProcesses)
+			string[] lockProcesses,
+			string defaultUpdateUri)
 		{
 			try
 			{
@@ -161,7 +166,8 @@ namespace UpdateLib
 					displayAppName,
 					appPath,
 					executePaths,
-					lockProcesses
+					lockProcesses,
+					defaultUpdateUri
 					);
 			}
 			catch(Exception exc)
@@ -178,7 +184,8 @@ namespace UpdateLib
 			string displayAppName,
 			string appPath,
 			string[] executePaths,
-			string[] lockProcesses)
+			string[] lockProcesses,
+			string defaultUpdateUri)
 		{
 			try
 			{
@@ -187,8 +194,8 @@ namespace UpdateLib
 					return false;
 
 				//if there is now cuurent version info supose we have first version
-				if (currentManifest == null)
-					currentManifest = new VersionManifest() { VersionNumberString = "1.0.0.0", UpdateUri = "http://hummerd.com/AppManagerUpdate" };
+				if (currentManifest == null && !String.IsNullOrEmpty(defaultUpdateUri))
+					currentManifest = new VersionManifest() { VersionNumberString = "1.0.0.0", UpdateUri = defaultUpdateUri };
 
 				//clean up older install
 				CleanUp(appName, currentManifest);
@@ -233,9 +240,14 @@ namespace UpdateLib
 									TempPath = tempPath});
 					}
 				}
+				else if (lastVersion == null) //failed to get new version
+					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false);
+				else //there is no new version
+					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false);
 			}
 			catch
 			{
+				DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false);
 				return false;
 			}
 			finally
@@ -274,7 +286,8 @@ namespace UpdateLib
 				(string)prms[1],
 				(string)prms[2],
 				(string[])prms[3],
-				(string[])prms[4]
+				(string[])prms[4],
+				(string)prms[5]
 				);
 		}
 
@@ -411,6 +424,7 @@ namespace UpdateLib
 			Process.Start(installerPath);
 			//_UpdatingFlag.Close();
 
+			DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, true);
 			DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
 		}
 
@@ -499,10 +513,21 @@ namespace UpdateLib
 
 		}
 	
+
 		protected virtual void OnNeedCloseApp()
 		{
 			if (NeedCloseApp != null)
 				NeedCloseApp(this, EventArgs.Empty);
+		}
+
+		protected virtual void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion)
+		{
+			if (UpdateCompleted != null)
+				UpdateCompleted(this, new UpdateCompleteInfo()
+					{ 
+						SuccessfulCheck = successfulCheck,
+						HasNewVersion = hasNewVersion
+					});
 		}
 	}
 
@@ -528,5 +553,12 @@ namespace UpdateLib
 		{ get; set; }
 		public string[] ExecutePaths
 		{ get; set; }
+	}
+
+
+	public class UpdateCompleteInfo : EventArgs
+	{
+		public bool SuccessfulCheck { get; set; }
+		public bool HasNewVersion { get; set; }
 	}
 }

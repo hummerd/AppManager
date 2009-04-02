@@ -6,13 +6,22 @@ namespace CommonLib.Windows
 	/// <summary>
 	/// Interaction logic for MessageBox.xaml
 	/// </summary>
-	public partial class MessageBox : Window
+	public partial class MsgBox : Window
 	{
 		public static bool Show(Window owner, string title, string message)
 		{
-			var msg = new MessageBox();
+			return Show(owner, title, message, true);
+		}
+
+		public static bool Show(Window owner, string title, string message, bool yesNo)
+		{
+			var msg = new MsgBox();
 			msg.Title = title;
 			msg.Message = message;
+
+			msg.BtnYes.Visibility = yesNo ? Visibility.Visible : Visibility.Collapsed;
+			msg.BtnNo.Visibility = yesNo ? Visibility.Visible : Visibility.Collapsed;
+			msg.BtnOk.Visibility = yesNo ? Visibility.Collapsed : Visibility.Visible;
 
 			msg.Owner = owner;
 			msg.WindowStartupLocation = owner == null ?
@@ -23,7 +32,7 @@ namespace CommonLib.Windows
 		}
 
 
-		public MessageBox()
+		public MsgBox()
 		{
 			InitializeComponent();
 
@@ -31,10 +40,16 @@ namespace CommonLib.Windows
 		}
 
 
-		public string Message 
+		public string Message
 		{
 			get { return LblHeader.Text as string; }
 			set { LblHeader.Text = value; } 
+		}
+
+
+		private void BtnOk_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = true;
 		}
 	}
 }

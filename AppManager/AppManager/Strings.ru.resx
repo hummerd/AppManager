@@ -223,7 +223,7 @@
     <value>Страница Стартер'а на CodePlex</value>
   </data>
   <data name="QUEST_DEL_APP" xml:space="preserve">
-    <value>Удалить приложение
+    <value>Удалить ссылку на
 {0}
 ?</value>
   </data>

@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using CommonLib.Windows;
+
 
 namespace AppManager.Commands
 {
@@ -16,11 +18,18 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			_WorkItem.TrayIcon.Dispose();
-			_WorkItem.KbrdHook.Dispose();
+			try
+			{
+				_WorkItem.TrayIcon.Dispose();
+				_WorkItem.KbrdHook.Dispose();
 
-			_WorkItem.Commands.Save.Execute(null);
-
+				_WorkItem.Commands.Save.Execute(null);
+			}
+			catch(Exception exc)
+			{
+				ErrorBox.Show(Strings.APP_TITLE, exc);
+			}
+			
 			App.Current.Shutdown();
 		}
 	}
