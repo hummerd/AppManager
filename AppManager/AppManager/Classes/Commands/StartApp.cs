@@ -22,6 +22,7 @@ namespace AppManager.Commands
 		//protected Mutex				_Mutex;
 		protected bool					_FirstStart = false;
 		protected SingleInstance	_Single;
+		protected bool					_SilentUpdate = true;
 
 
 		public StartApp(MainWorkItem workItem)
@@ -71,14 +72,16 @@ namespace AppManager.Commands
 			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCompleted(e.SuccessfulCheck, e.HasNewVersion);
 			_WorkItem.Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
 
-			_WorkItem.Updater.UpdateAppAsync(
-				"AppManager",
-				Strings.APP_TITLE,
-				_WorkItem.AppPath,
-				new string[] { Assembly.GetExecutingAssembly().Location },
-				new string[] { Process.GetCurrentProcess().ProcessName },
-				"http://hummerd.com/AppManagerUpdate"
-				);
+			var noupdate = (bool)parameter;
+			if (!noupdate)
+				_WorkItem.Updater.UpdateAppAsync(
+					"AppManager",
+					Strings.APP_TITLE,
+					_WorkItem.AppPath,
+					new string[] { Assembly.GetExecutingAssembly().Location },
+					new string[] { Process.GetCurrentProcess().ProcessName },
+					"http://hummerd.com/AppManagerUpdate"
+					);
 
 			if (!_WorkItem.Settings.StartMinimized)
 			{
@@ -236,7 +239,7 @@ namespace AppManager.Commands
 					false);
 			}
 
-			if (!hasNewVersion)
+			if (!_SilentUpdate && !hasNewVersion)
 			{
 				MsgBox.Show(
 					_WorkItem.MainWindow, 
@@ -244,6 +247,8 @@ namespace AppManager.Commands
 					String.Format(Strings.NO_NEW_VERSION, Strings.APP_TITLE),
 					false);
 			}
+
+			_SilentUpdate = false;
 		}
 
 

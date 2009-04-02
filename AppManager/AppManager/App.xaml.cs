@@ -37,7 +37,12 @@ namespace AppManager
 
 			_WorkItem = new MainWorkItem();
 			MainWindow = _WorkItem.MainWindow;
-			_WorkItem.Commands.Start.Execute(null);			
+
+			bool noupdate = false;
+			if (e.Args.Length > 0 && e.Args[0] == "-noupdate")
+				noupdate = true;
+
+			_WorkItem.Commands.Start.Execute(noupdate);
 		}
 
 		protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
