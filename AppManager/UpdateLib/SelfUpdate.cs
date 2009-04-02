@@ -20,35 +20,6 @@ namespace UpdateLib
 {
 	public class SelfUpdate
 	{
-		//public static SelfUpdate CreateShareUpdate()
-		//{
-		//   var updater = new SelfUpdate()
-		//   {
-		//      FileDownloader = new ShareFileDownloader(),
-		//      VersionNumberProvider = new ShareVNP(),
-		//      UIAskDownload = new UIAsk(),
-		//      UIAskInstall = new UIAsk(),
-		//      UIDownloadProgress = new DownloadProgress()
-		//   };
-
-		//   return updater;
-		//}
-
-		//public static SelfUpdate CreateWebUpdate()
-		//{
-		//   var updater = new SelfUpdate()
-		//   {
-		//      FileDownloader = new WebFileDownloader(),
-		//      VersionNumberProvider = new WebVNP(),
-		//      UIAskDownload = new UIAsk(),
-		//      UIAskInstall = new UIAsk(),
-		//      UIDownloadProgress = new DownloadProgress()
-		//   };
-
-		//   return updater;
-		//}
-
-
 		public event EventHandler NeedCloseApp;
 		public event EventHandler<UpdateCompleteInfo> UpdateCompleted;
 
@@ -241,13 +212,13 @@ namespace UpdateLib
 					}
 				}
 				else if (lastVersion == null) //failed to get new version
-					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false);
+					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false);
 				else //there is no new version
-					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false);
+					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, false);
 			}
 			catch
 			{
-				DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false);
+				DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false);
 				return false;
 			}
 			finally

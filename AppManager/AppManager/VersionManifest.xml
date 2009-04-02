@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <VersionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <VersionNumberString>1.0.0.0</VersionNumberString>
+  <VersionNumberString>1.0.3.14</VersionNumberString>
   <UpdateUri>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUri>
   <VersionItems>
     <VersionItem>
