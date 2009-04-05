@@ -11,11 +11,13 @@ namespace UpdateLib.VersionInfo
 	{
 		public VersionData()
 		{
+			Description = " ";
 		}
 
 		public VersionData(Version ver)
 		{
 			VersionNumber = ver;
+			Description = " ";
 		}
 
 

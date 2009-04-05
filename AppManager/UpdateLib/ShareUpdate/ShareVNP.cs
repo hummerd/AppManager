@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using CommonLib;
 using UpdateLib.VersionInfo;
+using System;
 
 
 namespace UpdateLib.ShareUpdate
@@ -9,12 +10,12 @@ namespace UpdateLib.ShareUpdate
 	{
 		#region IVersionNumberProvider Members
 
-		public VersionData GetLatestVersionInfo(string location)
+		public VersionData GetLatestVersionInfo(Uri location)
 		{
 			try
 			{
 				return XmlSerializeHelper.DeserializeItem(typeof(VersionData),
-					Path.Combine(location, VersionManifest.VersionFileName)) as VersionData;
+					location.LocalPath) as VersionData;
 			}
 			catch
 			{ ; }
@@ -22,12 +23,12 @@ namespace UpdateLib.ShareUpdate
 			return null;
 		}
 
-		public VersionManifest GetLatestVersionManifest(string location)
+		public VersionManifest GetLatestVersionManifest(Uri location)
 		{
 			try
 			{
 				return XmlSerializeHelper.DeserializeItem(typeof(VersionManifest),
-					Path.Combine(location, VersionManifest.VersionManifestFileName)) as VersionManifest;
+					location.LocalPath) as VersionManifest;
 			}
 			catch
 			{ ; }

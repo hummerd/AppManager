@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using System.Globalization;
+using CommonLib;
 
 
 namespace UpdateLib.VersionInfo
@@ -9,7 +11,7 @@ namespace UpdateLib.VersionInfo
 	[Serializable]
 	public class VersionManifest
 	{
-		public const string VersionFileName = "AppVersion.xml";
+		public const string VersionFileName = "AppVersion.{0}.xml";
 		public const string VersionManifestFileName = "VersionManifest.xml";
 		public const string DownloadedVersionManifestFileName = "DownloadedVersionManifest.xml";
 
@@ -62,6 +64,25 @@ namespace UpdateLib.VersionInfo
 			}
 
 			return result;
+		}
+
+		public Uri GetUpdateUriLocal()
+		{
+			return GetLocalUri(UpdateUri);
+		}
+
+		public Uri GetUpdateUriAltLocal()
+		{
+			return GetLocalUri(UpdateUriAlt);
+		}
+
+
+		protected Uri GetLocalUri(string uri)
+		{
+			return new Uri(PathHelper.ConcatUri(
+				uri, 
+				String.Format(VersionFileName, CultureInfo.CurrentCulture.Parent.Name)
+				));
 		}
 	}
 }
