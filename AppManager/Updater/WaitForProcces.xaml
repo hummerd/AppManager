@@ -12,13 +12,14 @@
 				Height="44" />
 		</Grid.RowDefinitions>
 		<ListBox
-			Margin="12,41,12,10"
+			Margin="12,50,12,10"
 			Name="LBProccesses" />
-		<Label
+		<TextBlock
 			Margin="12,11,12,0"
 			Name="LblMessage"
-			VerticalAlignment="Top"
-			Height="23.277">Proccesses</Label>
+			TextWrapping="Wrap" 
+			Height="33" 
+			VerticalAlignment="Top">Proccesses</TextBlock>
 		<Button
 			Name="BtnRetry"
 			Grid.Row="1"
