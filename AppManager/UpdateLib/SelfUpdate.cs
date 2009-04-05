@@ -171,21 +171,25 @@ namespace UpdateLib
 				//clean up older install
 				CleanUp(appName, currentManifest);
 
+				bool altUri = false;
 				var updateUri = currentManifest.GetUpdateUriLocal();
 				var vnp = VNPFactory.GetVNP(updateUri.Scheme);
-								
+				
 				var lastVersion = vnp.GetLatestVersionInfo(updateUri);
 				if (lastVersion == null)
 				{
+					altUri = true;
 					updateUri = currentManifest.GetUpdateUriAltLocal();
 					lastVersion = vnp.GetLatestVersionInfo(updateUri);
 				}
 
 				if (lastVersion != null && lastVersion.VersionNumber > currentManifest.VersionNumber)
 				{
-					if (AskUserForDownload(displayAppName, lastVersion, updateUri.LocalPath))
+					if (AskUserForDownload(displayAppName, lastVersion, updateUri.Authority))
 					{
-						VersionManifest latestManifest = vnp.GetLatestVersionManifest(updateUri);
+						var manifestUri = currentManifest.GetManifestUri(altUri);
+
+						VersionManifest latestManifest = vnp.GetLatestVersionManifest(manifestUri);
 						//failed to download latest version manifest
 						if (latestManifest == null)
 							return false;
@@ -193,7 +197,7 @@ namespace UpdateLib
 						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
 						var tempPath = CreateTempDir(appName, latestManifest.VersionNumber);
-						if (DownloadVersion(updateManifest, tempPath, updateUri.LocalPath))
+						if (DownloadVersion(updateManifest, tempPath, updateUri.AbsoluteUri))
 							VersionDownloadCompleted(
 								displayAppName,
 								updateManifest,
