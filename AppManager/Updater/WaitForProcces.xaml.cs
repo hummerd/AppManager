@@ -24,7 +24,7 @@ namespace Updater
 			Title = UIStrings.Str("UPDATER");
 			BtnRetry.Content = UIStrings.Str("RETRY");
 			BtnCancel.Content = UIStrings.Str("CANCEL");
-			LblMessage.Content = UIStrings.Str("WAIT_MSG");
+			LblMessage.Text = UIStrings.Str("WAIT_MSG");
 
 			LBProccesses.ItemsSource = prs;
 		}
