@@ -16,7 +16,7 @@ namespace UpdateLib.ShareUpdate
 
 		protected override long GetFileSize(Uri location)
 		{
-			return new FileInfo(location.AbsolutePath).Length;
+			return new FileInfo(location.LocalPath).Length;
 		}
 	}
 }

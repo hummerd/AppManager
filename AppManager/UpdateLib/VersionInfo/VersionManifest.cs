@@ -76,6 +76,14 @@ namespace UpdateLib.VersionInfo
 			return GetLocalUri(UpdateUriAlt);
 		}
 
+		public Uri GetManifestUri(bool alt)
+		{
+			return new Uri(PathHelper.ConcatUri(
+				alt ? UpdateUriAlt : UpdateUri,
+				VersionManifestFileName
+				));
+		}
+
 
 		protected Uri GetLocalUri(string uri)
 		{
