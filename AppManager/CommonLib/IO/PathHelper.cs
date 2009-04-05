@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 
 namespace CommonLib
@@ -141,6 +142,43 @@ namespace CommonLib
 				Char.IsLetter(path[0]) && 
 				path.Length == 3 && 
 				path.EndsWith(":\\");
+		}
+
+		public static string ConcatUri(string uri1, string uri2)
+		{
+			if (String.IsNullOrEmpty(uri1))
+				return uri2;
+
+			if (String.IsNullOrEmpty(uri2))
+				return uri1;
+
+			StringBuilder buffer = new StringBuilder(uri1.Length + uri2.Length + 10);
+
+			char delim = GetPathSeparator(uri1);
+
+			buffer.Append(uri1);
+
+			if (uri1[uri1.Length - 1] == delim &&
+				 uri2[0] == delim)
+				return buffer.Append(uri2, 1, uri2.Length - 1).ToString();
+
+			if (uri1[uri1.Length - 1] != delim &&
+				uri2[0] != delim)
+			{
+				buffer.Append(delim);
+			}
+
+			buffer.Append(uri2);
+			return buffer.ToString();
+		}
+
+		public static char GetPathSeparator(string uri1)
+		{
+			if (String.IsNullOrEmpty(uri1))
+				return Path.DirectorySeparatorChar;
+
+			Uri u1 = new Uri(uri1);
+			return u1.Scheme == Uri.UriSchemeFile ? Path.DirectorySeparatorChar : '/';
 		}
 	}
 }

@@ -13,12 +13,16 @@ namespace UpdateLib.WebUpdate
 
 		#region IVersionNumberProvider Members
 
-		public VersionData GetLatestVersionInfo(string location)
+		public VersionData GetLatestVersionInfo(Uri location)
 		{
 			try
 			{
-				var loc = new Uri(location + "/" + VersionManifest.VersionFileName);
-				DownloadFile(loc, null);
+				//var loc = new Uri(location + "/" + VersionManifest.VersionFileName);
+				DownloadFile(location, null);
+
+				if (_TempStream == null)
+					return null;
+
 				_TempStream.Position = 0;
 				StreamReader sr = new StreamReader(_TempStream);
 				return XmlSerializeHelper.DeserializeItem(sr.ReadToEnd(), typeof(VersionData)) as VersionData;
@@ -34,14 +38,18 @@ namespace UpdateLib.WebUpdate
 			return null;
 		}
 
-		public VersionManifest GetLatestVersionManifest(string location)
+		public VersionManifest GetLatestVersionManifest(Uri location)
 		{
 			try
 			{
 				try
 				{
-					var loc = new Uri(location + "/" + VersionManifest.VersionManifestFileName);
-					DownloadFile(loc, null);
+					//var loc = new Uri(PathHelper.ConcatUri(location, VersionManifest.VersionManifestFileName));
+					DownloadFile(location, null);
+
+					if (_TempStream == null)
+						return null;
+
 					_TempStream.Position = 0;
 					StreamReader sr = new StreamReader(_TempStream);
 					return XmlSerializeHelper.DeserializeItem(sr.ReadToEnd(), typeof(VersionManifest)) as VersionManifest;

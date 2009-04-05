@@ -11,7 +11,7 @@ namespace VersionBuilder
 {
 	public class VersionFactory
 	{
-		public void CreateVersion(string dir, Version version, string location, string excludeExt)
+		public void CreateVersion(string dir, Version version, string location, string excludeExt, string locales)
 		{
 			if (!Directory.Exists(dir))
 				throw new Exception("Source dir " + dir + " does not exist");
@@ -28,10 +28,7 @@ namespace VersionBuilder
 			var verManifest = new VersionManifest() 
 				{ VersionNumber = version, UpdateUri = location, UpdateUriAlt = location };
 
-			var locationUri = new Uri(location);
-			string delim = "\\";
-			if (locationUri.Scheme != Uri.UriSchemeFile)
-				delim = "/";
+			char delim = PathHelper.GetPathSeparator(location);
 
 			foreach (var item in files)
 			{
@@ -72,7 +69,7 @@ namespace VersionBuilder
 				verManifest.VersionItems.Add(new VersionItem()
 					{
 						InstallAction = InstallAction.Copy,
-						Location = location + newPath.Replace(versionDir, String.Empty).Replace("\\", delim),
+						Location = location + newPath.Replace(versionDir, String.Empty).Replace('\\', delim),
 						Path = itemPath,
 						VersionNumber = ver,
 						Base64Hash = FileHash.GetBase64FileHash(item)
@@ -85,9 +82,20 @@ namespace VersionBuilder
 				verManifest, 
 				Path.Combine(versionDir, VersionManifest.VersionManifestFileName));
 
-			XmlSerializeHelper.SerializeItem(
-				new VersionData(version),
-				Path.Combine(versionDir, VersionManifest.VersionFileName));
+			string[] locs;
+			if (String.IsNullOrEmpty(locales))
+				locs = new string[] { "en" };
+			else
+				locs = locales.Split(',');
+
+
+			foreach (var item in locs)
+			{
+				XmlSerializeHelper.SerializeItem(
+					new VersionData(version),
+					Path.Combine(versionDir, String.Format(VersionManifest.VersionFileName, item))
+					);
+			}
 		}
 
 

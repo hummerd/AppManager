@@ -1,17 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.Threading;
-using System.Windows;
 using AppManager.Properties;
 using AppManager.Windows;
 using CommonLib;
 using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
 using CommonLib.Windows;
-using UpdateLib;
 using WinForms = System.Windows.Forms;
 
 
@@ -230,6 +227,12 @@ namespace AppManager.Commands
 
 		protected void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion)
 		{
+			if (_SilentUpdate)
+			{
+				_SilentUpdate = false;
+				return;
+			}
+
 			if (!successfulCheck)
 			{
 				MsgBox.Show(
@@ -237,9 +240,11 @@ namespace AppManager.Commands
 					Strings.APP_TITLE, 
 					Strings.UPDATE_CHECK_FAILED, 
 					false);
+
+				return;
 			}
 
-			if (!_SilentUpdate && !hasNewVersion)
+			if (!hasNewVersion)
 			{
 				MsgBox.Show(
 					_WorkItem.MainWindow, 
@@ -247,8 +252,6 @@ namespace AppManager.Commands
 					String.Format(Strings.NO_NEW_VERSION, Strings.APP_TITLE),
 					false);
 			}
-
-			_SilentUpdate = false;
 		}
 
 

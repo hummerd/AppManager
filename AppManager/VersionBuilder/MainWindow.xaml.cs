@@ -24,7 +24,12 @@ namespace VersionBuilder
 			try
 			{
 				Version ver = new Version(TxtVersion.Text);
-				_VesionFactory.CreateVersion(TxtSourceDir.Text, ver, TxtLocation.Text, TxtExcludeExt.Text);
+				_VesionFactory.CreateVersion(
+					TxtSourceDir.Text, 
+					ver, 
+					TxtLocation.Text, 
+					TxtExcludeExt.Text,
+					TxtLocales.Text);
 			}
 			catch(Exception exc)
 			{
