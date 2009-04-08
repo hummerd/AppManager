@@ -65,6 +65,7 @@
 						Grid.Row="1"
 						Grid.Column="2"
 						Grid.ColumnSpan="2"
+						Name="BtnCheckNewVersion"
 						Click="BtnCheckNewVersion_Click"
 						Content="{x:Static am:Strings.CHECK_FOR_UPDATE}"/>
 					<TextBlock

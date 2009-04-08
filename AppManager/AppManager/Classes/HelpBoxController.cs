@@ -10,9 +10,14 @@ namespace AppManager
 {
 	public class HelpBoxController : ControllerBase
 	{
+		public event EventHandler UpdateCheckCompleted;
+
+
 		public HelpBoxController(MainWorkItem workItem)
 			: base(workItem)
-		{ }
+		{
+			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCheckCompleted();
+		}
 
 
 		public string GetVersionString()
@@ -50,6 +55,13 @@ namespace AppManager
 				new string[] { Process.GetCurrentProcess().ProcessName },
 				"http://hummerd.com/AppManagerUpdate"
 				);
+		}
+
+
+		protected virtual void OnUpdateCheckCompleted()
+		{
+			if (UpdateCheckCompleted != null)
+				UpdateCheckCompleted(this, EventArgs.Empty);
 		}
 	}
 }
