@@ -19,6 +19,7 @@ namespace AppManager.Windows
 		public HelpBox(MainWorkItem workItem, bool about)
 		{
 			_Controller = new HelpBoxController(workItem);
+			_Controller.UpdateCheckCompleted += (s, e) => BtnCheckNewVersion.IsEnabled = true;
 
 			InitializeComponent();
 
@@ -37,6 +38,7 @@ namespace AppManager.Windows
 
 		private void BtnCheckNewVersion_Click(object sender, RoutedEventArgs e)
 		{
+			BtnCheckNewVersion.IsEnabled = false;
 			_Controller.CheckNewVersion();
 		}
 	}
