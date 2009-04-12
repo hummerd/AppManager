@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using CommonLib;
+using CommonLib.UI;
 
 
 namespace AppManager.Controls
@@ -26,7 +27,7 @@ namespace AppManager.Controls
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
-			new Resizer(this, TargetGridName, ResizeBackColor);
+			new GridRowResizer(this, TargetGridName, ResizeBackColor);
 		}
 	}
 }

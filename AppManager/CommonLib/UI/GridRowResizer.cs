@@ -7,27 +7,24 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-namespace CommonLib
+namespace CommonLib.UI
 {
-	public class Resizer
+	public class GridRowResizer : ResizerBase
 	{
 		protected Grid			_Target;
-		protected Control		_Resizer;
 		protected UIElement	_TargetChild;
 		protected int			_GridRow;
-		//protected Point		_InGridPos;
-		protected bool			_DoResize = false;
 		protected Brush		_ResizeBackColor;
 		protected Brush		_OriginalBackColor;
-		protected double		_AccY;
 
 
-		public Resizer(Control resizer, string name, Brush resizeBackColor)
+		public GridRowResizer(Control resizer, string name, Brush resizeBackColor)
+			: base(resizer)
 		{
 			_ResizeBackColor = resizeBackColor;
-			_Resizer = resizer;
-			_Target = UIHelper.FindAncestorOrSelf<Grid>(_Resizer, name);
 			_OriginalBackColor = resizer.Background;
+			_Target = UIHelper.FindAncestorOrSelf<Grid>(_Resizer, name);
+			_Relative = _Target;
 
 			var parent = VisualTreeHelper.GetParent(_Resizer);
 
@@ -44,10 +41,6 @@ namespace CommonLib
 
 			_Target.LayoutUpdated += (s, e) => ChangeResizerVisibility();
 			ChangeResizerVisibility();
-
-			resizer.MouseDown += new MouseButtonEventHandler(resizer_MouseDown);
-			resizer.MouseUp += new MouseButtonEventHandler(resizer_MouseUp);
-			resizer.MouseMove += new MouseEventHandler(resizer_MouseMove);
 		}
 		
 
@@ -145,29 +138,22 @@ namespace CommonLib
 		}
 
 
-		private void resizer_MouseMove(object sender, MouseEventArgs e)
+		protected override void PrepareResize(Point pos)
 		{
-			if (_DoResize)
-			{
-				ResizeRows(e.GetPosition(_Target).Y + _AccY);
-				e.Handled = true;
-			}
-		}
-		
-		private void resizer_MouseDown(object sender, MouseButtonEventArgs e)
-		{
-			_Resizer.CaptureMouse();
-			//_InGridPos = e.GetPosition(_Target);
-			_DoResize = true;
-			_Resizer.Background = _ResizeBackColor;
-			_AccY = _Resizer.ActualHeight - e.GetPosition(_Resizer).Y;
+			base.PrepareResize(pos);
+			(_Resizer as Control).Background = _ResizeBackColor;
 		}
 
-		private void resizer_MouseUp(object sender, MouseButtonEventArgs e)
+		protected override void DoResize(Point pos)
 		{
-			_Resizer.ReleaseMouseCapture();
-			_DoResize = false;
-			_Resizer.Background = _OriginalBackColor;
+			base.DoResize(pos);
+			ResizeRows(pos.Y + _AccY);
+		}
+
+		protected override void EndResize()
+		{
+			base.EndResize();
+			(_Resizer as Control).Background = _OriginalBackColor;
 		}
 	}
 }

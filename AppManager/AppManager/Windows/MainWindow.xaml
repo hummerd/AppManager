@@ -366,7 +366,7 @@
 					SnapsToDevicePixels="True"
 					>
 				<Grid
-						MouseLeftButtonDown="DockPanel_MouseLeftButtonDown"
+						MouseLeftButtonDown="CaptionGrid_MouseLeftButtonDown"
 						SnapsToDevicePixels="True"
 						>
 					<Grid.ColumnDefinitions>

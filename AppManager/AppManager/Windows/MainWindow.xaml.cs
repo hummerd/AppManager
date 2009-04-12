@@ -11,6 +11,7 @@ using AppManager.Commands;
 using AppManager.Settings;
 using CommonLib;
 using CommonLib.PInvoke;
+using CommonLib.UI;
 using DragDropLib;
 
 
@@ -59,6 +60,8 @@ namespace AppManager
 				OnDropFiles(s as FrameworkElement, e);
 
 			workItem.Settings.PropertyChanged += Settings_PropertyChanged;
+
+			new BorderResizer(MainContentBorder);
 		}
 
 
@@ -454,9 +457,10 @@ namespace AppManager
 				Topmost = _Controller.WorkItem.Settings.AlwaysOnTop;
 		}
 
-		private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void CaptionGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			this.DragMove();
+			e.Handled = true;
 		}
 
 		private void Resizer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -545,7 +549,7 @@ namespace AppManager
 
 		private void Resizer_Initialized(object sender, EventArgs e)
 		{
-			new Resizer(sender as Control, "ContentGrid", Brushes.Gray);
+			new GridRowResizer(sender as Control, "ContentGrid", Brushes.Gray);
 		}
 
 		private void GroupBox_Initialized(object sender, EventArgs e)

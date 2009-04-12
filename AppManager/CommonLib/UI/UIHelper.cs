@@ -6,6 +6,24 @@ namespace CommonLib
 {
 	public class UIHelper
 	{
+		public static T FindLogicalAncestorOrSelf<T>(DependencyObject obj, string name)
+			where T : FrameworkElement
+		{
+			while (obj != null)
+			{
+				T objTest = obj as T;
+
+				if (name == null && objTest != null)
+					return objTest;
+				else if (name != null && objTest != null && objTest.Name == name)
+					return objTest;
+
+				obj = LogicalTreeHelper.GetParent(obj);
+			}
+
+			return null;
+		}
+
 		public static T FindAncestorOrSelf<T>(DependencyObject obj, string name)
 			where T : FrameworkElement
 		{
