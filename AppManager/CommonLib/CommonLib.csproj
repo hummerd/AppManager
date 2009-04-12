@@ -62,7 +62,8 @@
     <Compile Include="Application\DispatcherHelper.cs" />
     <Compile Include="IO\FileHash.cs" />
     <Compile Include="IO\GZipCompression.cs" />
-    <Compile Include="MenuHelper.cs" />
+    <Compile Include="UI\BorderResizer.cs" />
+    <Compile Include="UI\MenuHelper.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="IO\PathHelper.cs" />
     <Compile Include="PInvoke\GDI32.cs" />
@@ -82,9 +83,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Resizer.cs" />
+    <Compile Include="UI\Resizer.cs" />
     <Compile Include="Application\SingleInstance.cs" />
-    <Compile Include="UIHelper.cs" />
+    <Compile Include="UI\UIHelper.cs" />
     <Compile Include="ValueEventArgs.cs" />
     <Compile Include="Windows\DialogKeyDecorator.cs" />
     <Compile Include="Windows\DialogWindow.cs" />
