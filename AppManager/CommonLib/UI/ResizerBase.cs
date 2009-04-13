@@ -13,10 +13,12 @@ namespace CommonLib.UI
 	{
 		protected FrameworkElement	_Resizer;
 		protected IInputElement		_Relative;
-		protected bool			_DoResize = false;
+		protected bool				_DoResize = false;
 
-		protected double		_AccY;
-		protected double		_AccX;
+		protected double _AccY;
+		protected double _AccX;
+
+		protected Cursor _OriginalCursor;
 
 
 		public ResizerBase(FrameworkElement resizer)
@@ -24,9 +26,11 @@ namespace CommonLib.UI
 			_Resizer = resizer;
 			_Relative = resizer;
 
+			resizer.MouseEnter += new MouseEventHandler(resizer_MouseEnter);
 			resizer.MouseDown += new MouseButtonEventHandler(resizer_MouseDown);
 			resizer.MouseUp += new MouseButtonEventHandler(resizer_MouseUp);
 			resizer.MouseMove += new MouseEventHandler(resizer_MouseMove);
+			resizer.MouseLeave += new MouseEventHandler(resizer_MouseLeave);
 		}
 		
 
@@ -55,6 +59,11 @@ namespace CommonLib.UI
 		}
 
 
+		private void resizer_MouseLeave(object sender, MouseEventArgs e)
+		{
+			_Resizer.Cursor = _OriginalCursor;
+		}
+
 		private void resizer_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.Source == _Resizer)
@@ -77,6 +86,11 @@ namespace CommonLib.UI
 		private void resizer_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			EndResize();
+		}
+
+		private void resizer_MouseEnter(object sender, MouseEventArgs e)
+		{
+			_OriginalCursor = _Resizer.Cursor;
 		}
 	}
 }
