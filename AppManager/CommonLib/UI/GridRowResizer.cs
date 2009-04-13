@@ -144,6 +144,11 @@ namespace CommonLib.UI
 			(_Resizer as Control).Background = _ResizeBackColor;
 		}
 
+		protected override void PrepareCursor(Point pos)
+		{ 
+			_Resizer.Cursor = Cursors.SizeNS;
+		}
+
 		protected override void DoResize(Point pos)
 		{
 			base.DoResize(pos);

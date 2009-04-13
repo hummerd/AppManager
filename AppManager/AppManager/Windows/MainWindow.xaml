@@ -524,7 +524,6 @@
 										</GroupBox>							
 										<Label
 											Grid.Row="1"
-											Cursor="SizeNS"
 											Initialized="Resizer_Initialized"
 											/>
 									</Grid>						
