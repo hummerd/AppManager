@@ -61,7 +61,7 @@ namespace AppManager
 
 			workItem.Settings.PropertyChanged += Settings_PropertyChanged;
 
-			new BorderResizer(MainContentBorder, 5);
+			new BorderResizer(MainContentBorder, 8);
 		}
 
 
