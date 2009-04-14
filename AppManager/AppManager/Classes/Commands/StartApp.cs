@@ -10,6 +10,7 @@ using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
+using System.Windows;
 
 
 namespace AppManager.Commands
@@ -20,6 +21,7 @@ namespace AppManager.Commands
 		protected bool					_FirstStart = false;
 		protected SingleInstance	_Single;
 		protected bool					_SilentUpdate = true;
+		protected DateTime			_LostTime = DateTime.Now;
 
 
 		public StartApp(MainWorkItem workItem)
@@ -40,7 +42,10 @@ namespace AppManager.Commands
 
 			_Single = new SingleInstance(10251, true);
 			if (!_Single.FirstInstance)
+			{
+				App.Current.Shutdown();
 				return;
+			}
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
@@ -80,6 +85,9 @@ namespace AppManager.Commands
 					"http://hummerd.com/AppManagerUpdate"
 					);
 
+			_WorkItem.MainWindow.Deactivated += (s, e) => 
+				_LostTime = DateTime.Now;
+
 			if (!_WorkItem.Settings.StartMinimized)
 			{
 				_WorkItem.MainWindow.Show();
@@ -88,6 +96,8 @@ namespace AppManager.Commands
 
 			if (_FirstStart)
 				_WorkItem.Commands.Help.Execute(false);
+
+			CreateActivationPanel();
 		}
 
 
@@ -207,9 +217,12 @@ namespace AppManager.Commands
 			}
 		}
 
-		protected void ChangeActiveState(bool focus)
+		protected void ChangeActiveState()
 		{
-			if (_WorkItem.MainWindow.IsVisible && (focus || _WorkItem.MainWindow.IsKeyboardFocusWithin))
+			var lostDelta = DateTime.Now - _LostTime;
+			bool deactivate = lostDelta.TotalMilliseconds < 500;
+
+			if (_WorkItem.MainWindow.IsVisible && (deactivate || _WorkItem.MainWindow.IsKeyboardFocusWithin))
 				_WorkItem.Commands.Deactivate.Execute(null);
 			else
 				_WorkItem.Commands.Activate.Execute(null);
@@ -254,13 +267,29 @@ namespace AppManager.Commands
 			}
 		}
 
+		protected void CreateActivationPanel()
+		{
+			Window wndActivate = new Window();
+			wndActivate.AllowsTransparency = true;
+			//wndActivate.Background = System.Windows.Media.Brushes.Transparent;
+			wndActivate.Opacity = 0.05;
+			wndActivate.Left = 0;
+			wndActivate.Top = 0;
+			wndActivate.Width = 1;
+			wndActivate.Height = System.Windows.Forms.SystemInformation.WorkingArea.Height;
+			wndActivate.WindowStyle = WindowStyle.None;
+			wndActivate.Topmost = true;
+			wndActivate.ShowInTaskbar = false;
+			wndActivate.MouseDown += (s, e) => ChangeActiveState();
+			wndActivate.Show();
+		}
+
 
 		private void TrayIcon_MouseUp(object sender, WinForms.MouseEventArgs e)
 		{
 			if (e.Button == WinForms.MouseButtons.Left)
 			{
-				//WinForms.Application.DoEvents();
-				ChangeActiveState(true);
+				ChangeActiveState();
 			}
 		}
 
@@ -268,7 +297,7 @@ namespace AppManager.Commands
 		{
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{
-				ChangeActiveState(false);
+				ChangeActiveState();
 				e.Handled = true;
 			}
 		}
@@ -277,8 +306,7 @@ namespace AppManager.Commands
 		{
 			if (e.LeftButton && e.Position.X <= 0.1)
 			{
-				ChangeActiveState(true);
-				//e.Handled = true;
+				ChangeActiveState();
 			}
 		}
 	}
