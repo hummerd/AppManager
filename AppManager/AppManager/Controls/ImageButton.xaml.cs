@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonLib.UI;
 
 namespace AppManager
 {
@@ -26,11 +27,13 @@ namespace AppManager
 
 
 		protected TextBlock _ButtonText = null;
-		
+		protected FadeAnimarion _Animation = null;
+
 
 		public ImageButton()
 		{
 			this.InitializeComponent();
+			_Animation = new FadeAnimarion(ButtonImage);
 		}
 
 
@@ -65,7 +68,15 @@ namespace AppManager
 			else if (e.Property == ButtonImageSourceProperty)
 			{
 				if (e.NewValue != null)
-					ButtonImage.Source = (BitmapSource)e.NewValue;
+				{
+					if (ButtonImage.Source == null)
+						ButtonImage.Source = (BitmapSource)e.NewValue;
+					else
+					{
+						_Animation.SetLoadingState(true);
+						_Animation.ElementHidden += (s, ea) => ButtonImage.Source = (BitmapSource)e.NewValue;
+					}
+				}
 			}
 		}
 				
