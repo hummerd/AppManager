@@ -63,6 +63,7 @@
     <Compile Include="IO\FileHash.cs" />
     <Compile Include="IO\GZipCompression.cs" />
     <Compile Include="UI\BorderResizer.cs" />
+    <Compile Include="UI\FadeAnimation.cs" />
     <Compile Include="UI\MenuHelper.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="IO\PathHelper.cs" />
