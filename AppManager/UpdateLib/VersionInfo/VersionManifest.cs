@@ -87,6 +87,9 @@ namespace UpdateLib.VersionInfo
 
 		protected Uri GetLocalUri(string uri)
 		{
+			if (!Uri.IsWellFormedUriString(uri, UriKind.Absolute))
+				return null;
+
 			return new Uri(PathHelper.ConcatUri(
 				uri, 
 				String.Format(VersionFileName, CultureInfo.CurrentCulture.Parent.Name)
