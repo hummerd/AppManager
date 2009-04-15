@@ -232,6 +232,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Looking for new version....
+        /// </summary>
+        public static string LOOK_FOR_NEW_VER {
+            get {
+                return ResourceManager.GetString("LOOK_FOR_NEW_VER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add new application....
         /// </summary>
         public static string MNU_ADD_APP {

@@ -19,16 +19,25 @@ namespace AppManager.Windows
 		public HelpBox(MainWorkItem workItem, bool about)
 		{
 			_Controller = new HelpBoxController(workItem);
-			_Controller.UpdateCheckCompleted += (s, e) => BtnCheckNewVersion.IsEnabled = true;
+			_Controller.UpdateCheckCompleted += (s, e) => SetUpdateState(true);
 
 			InitializeComponent();
 
 			AppTabs.SelectedIndex = about ? 0 : 1;
 			RunVersion.Content = _Controller.GetVersionString();
 			HelpText.Document = _Controller.GetHelpText();
-			BtnCheckNewVersion.IsEnabled = !_Controller.WorkItem.Updater.UpdateRunning;
+			SetUpdateState(!_Controller.WorkItem.Updater.UpdateRunning);
 
 			new DialogKeyDecorator(this, BtnOk, null, false);
+		}
+
+
+		protected void SetUpdateState(bool enabled)
+		{
+			BtnCheckNewVersion.IsEnabled = enabled;
+			BtnCheckNewVersion.Content = enabled ?
+				Strings.CHECK_FOR_UPDATE :
+				Strings.LOOK_FOR_NEW_VER;
 		}
 
 
@@ -39,7 +48,7 @@ namespace AppManager.Windows
 
 		private void BtnCheckNewVersion_Click(object sender, RoutedEventArgs e)
 		{
-			BtnCheckNewVersion.IsEnabled = false;
+			SetUpdateState(false);
 			_Controller.CheckNewVersion();
 		}
 	}
