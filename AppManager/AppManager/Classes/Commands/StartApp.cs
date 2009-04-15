@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using System.Windows;
 using AppManager.Properties;
 using AppManager.Windows;
 using CommonLib;
@@ -10,7 +11,6 @@ using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
-using System.Windows;
 
 
 namespace AppManager.Commands
@@ -220,7 +220,7 @@ namespace AppManager.Commands
 		protected void ChangeActiveState()
 		{
 			var lostDelta = DateTime.Now - _LostTime;
-			bool deactivate = lostDelta.TotalMilliseconds < 500;
+			bool deactivate = lostDelta.TotalMilliseconds < 200;
 
 			if (_WorkItem.MainWindow.IsVisible && (deactivate || _WorkItem.MainWindow.IsKeyboardFocusWithin))
 				_WorkItem.Commands.Deactivate.Execute(null);
