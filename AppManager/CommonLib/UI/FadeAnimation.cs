@@ -7,8 +7,8 @@ namespace CommonLib.UI
 {
 	public class FadeAnimarion
 	{
-		protected UIElement _LoadingElement;
-		protected UIElement _PrimaryElement;
+		protected FrameworkElement _LoadingElement;
+		protected FrameworkElement _PrimaryElement;
 		protected bool _IsLoading;
 
 		protected Storyboard _FadeIn;
@@ -18,13 +18,13 @@ namespace CommonLib.UI
 		public event EventHandler<ValueEventArgs<UIElement>> ElementHidden;
 
 
-		public FadeAnimarion(UIElement loadingElement)
+		public FadeAnimarion(FrameworkElement loadingElement)
 		{
 			_LoadingElement = loadingElement;
 			_PrimaryElement = loadingElement;
 		}
 
-		public FadeAnimarion(UIElement loadingElement, UIElement primaryElement)
+		public FadeAnimarion(FrameworkElement loadingElement, FrameworkElement primaryElement)
 		{
 			_LoadingElement = loadingElement;
 			_PrimaryElement = primaryElement;
@@ -41,12 +41,13 @@ namespace CommonLib.UI
 			if (_FadeIn == null)
 				_FadeIn = CreateStoryBoard(true);
 
-			_FadeOut.Stop();
-			_FadeIn.Stop();
+			_FadeOut.Stop(_PrimaryElement);
+			_FadeIn.Stop(_LoadingElement);
 
 			SetStoryTargets(_IsLoading);
 
-			_FadeOut.Begin();
+			_FadeOut.Begin(_PrimaryElement, HandoffBehavior.Compose, true);
+			//_FadeOut.Begin();
 		}
 
 
@@ -55,7 +56,8 @@ namespace CommonLib.UI
 			if (ElementHidden != null)
 				ElementHidden(this, e);
 
-			_FadeIn.Begin();
+			_FadeIn.Begin(_LoadingElement, HandoffBehavior.Compose, true);
+			//_FadeIn.Begin();
 		}
 
 		protected Storyboard CreateStoryBoard(bool fadeIn)
