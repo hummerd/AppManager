@@ -52,6 +52,7 @@ namespace UpdateLib.WebUpdate
 			HttpWebRequest webRequest = request as HttpWebRequest;
 			if (webRequest != null)
 			{
+				webRequest.Timeout = 10000;
 				request.Credentials = _Credentials;
 				request.PreAuthenticate = _PreAuthenticate;
 

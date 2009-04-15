@@ -33,6 +33,8 @@ namespace UpdateLib
 		protected Mutex	_UpdatingFlag;
 		protected Thread	_UpdateThread;
 
+		protected volatile bool _UpdateRunning = false;
+
 
 		public SelfUpdate()
 		{
@@ -65,6 +67,14 @@ namespace UpdateLib
 		//public IVersionNumberProvider VersionNumberProvider
 		//{ get; set; }
 
+		public bool UpdateRunning
+		{
+			get
+			{
+				return _UpdateRunning;
+			}
+		}
+		
 		public IFileDownloaderFactory FileDownloaderFactory
 		{ get; set; }
 
@@ -160,6 +170,8 @@ namespace UpdateLib
 		{
 			try
 			{
+				_UpdateRunning = true;
+
 				//if update alredy running quit
 				if (!CheckOtherProccesses(appName))
 					return false;
@@ -224,6 +236,7 @@ namespace UpdateLib
 			finally
 			{
 				_UpdatingFlag.Close();
+				_UpdateRunning = false;
 			}
 
 			return true;

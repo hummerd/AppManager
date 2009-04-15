@@ -26,6 +26,7 @@ namespace AppManager.Windows
 			AppTabs.SelectedIndex = about ? 0 : 1;
 			RunVersion.Content = _Controller.GetVersionString();
 			HelpText.Document = _Controller.GetHelpText();
+			BtnCheckNewVersion.IsEnabled = !_Controller.WorkItem.Updater.UpdateRunning;
 
 			new DialogKeyDecorator(this, BtnOk, null, false);
 		}

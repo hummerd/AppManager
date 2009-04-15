@@ -246,10 +246,12 @@ namespace AppManager.Commands
 				return;
 			}
 
+			var wnd = FindActiveWindow();
+
 			if (!successfulCheck)
 			{
 				MsgBox.Show(
-					_WorkItem.MainWindow, 
+					wnd, 
 					Strings.APP_TITLE, 
 					Strings.UPDATE_CHECK_FAILED, 
 					false);
@@ -260,7 +262,7 @@ namespace AppManager.Commands
 			if (!hasNewVersion)
 			{
 				MsgBox.Show(
-					_WorkItem.MainWindow, 
+					wnd, 
 					Strings.APP_TITLE, 
 					String.Format(Strings.NO_NEW_VERSION, Strings.APP_TITLE),
 					false);
@@ -282,6 +284,18 @@ namespace AppManager.Commands
 			wndActivate.ShowInTaskbar = false;
 			wndActivate.MouseDown += (s, e) => ChangeActiveState();
 			wndActivate.Show();
+		}
+
+		protected Window FindActiveWindow()
+		{
+			Window result = null;
+			foreach (Window item in App.Current.Windows)
+			{
+				if (item.IsActive)
+					result = item;
+			}
+
+			return result == null ? _WorkItem.MainWindow : result;
 		}
 
 
