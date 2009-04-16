@@ -275,13 +275,14 @@ namespace AppManager.Commands
 			wndActivate.AllowsTransparency = true;
 			//wndActivate.Background = System.Windows.Media.Brushes.Transparent;
 			wndActivate.Opacity = 0.05;
+			wndActivate.WindowStyle = WindowStyle.None;
+			wndActivate.ResizeMode = ResizeMode.NoResize;
+			wndActivate.Topmost = true;
+			wndActivate.ShowInTaskbar = false;
 			wndActivate.Left = 0;
 			wndActivate.Top = 0;
 			wndActivate.Width = 1;
 			wndActivate.Height = System.Windows.Forms.SystemInformation.WorkingArea.Height;
-			wndActivate.WindowStyle = WindowStyle.None;
-			wndActivate.Topmost = true;
-			wndActivate.ShowInTaskbar = false;
 			wndActivate.MouseDown += (s, e) => ChangeActiveState();
 			wndActivate.Show();
 		}

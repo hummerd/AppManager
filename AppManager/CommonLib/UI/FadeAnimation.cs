@@ -89,16 +89,16 @@ namespace CommonLib.UI
 		{
 			if (loading)
 			{
-				Storyboard.SetTarget(_FadeIn.Children[0], _LoadingElement);
-				Storyboard.SetTarget(_FadeOut.Children[0], _PrimaryElement);
+				//Storyboard.SetTarget(_FadeIn.Children[0], _LoadingElement);
+				//Storyboard.SetTarget(_FadeOut.Children[0], _PrimaryElement);
 
 				Storyboard.SetTargetProperty(_FadeIn.Children[0], new PropertyPath("(UIElement.Opacity)"));
 				Storyboard.SetTargetProperty(_FadeOut.Children[0], new PropertyPath("(UIElement.Opacity)"));
 			}
 			else
 			{
-				Storyboard.SetTarget(_FadeOut.Children[0], _LoadingElement);
-				Storyboard.SetTarget(_FadeIn.Children[0], _PrimaryElement);
+				//Storyboard.SetTarget(_FadeOut.Children[0], _LoadingElement);
+				//Storyboard.SetTarget(_FadeIn.Children[0], _PrimaryElement);
 
 				Storyboard.SetTargetProperty(_FadeOut.Children[0], new PropertyPath("(UIElement.Opacity)"));
 				Storyboard.SetTargetProperty(_FadeIn.Children[0], new PropertyPath("(UIElement.Opacity)"));
