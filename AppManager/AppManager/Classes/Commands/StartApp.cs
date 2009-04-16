@@ -22,6 +22,7 @@ namespace AppManager.Commands
 		protected SingleInstance	_Single;
 		protected bool					_SilentUpdate = true;
 		protected DateTime			_LostTime = DateTime.Now;
+		protected Window				_WndActivation = null;
 
 
 		public StartApp(MainWorkItem workItem)
@@ -55,39 +56,18 @@ namespace AppManager.Commands
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
 
 			_WorkItem.KbrdHook.KeyDown += KbrdHook_KeyDown;
-#if RELEASE
-			//_WorkItem.MsHook.MouseUp += MsHook_MouseUp;
-#endif
-			WinForms.NotifyIcon tray = _WorkItem.TrayIcon;
-			tray.Icon = Resources.leftarrow;
-			tray.MouseUp += TrayIcon_MouseUp;
-			tray.Visible = true;
-			tray.Text = Strings.APP_TITLE;
-			tray.ContextMenuStrip = CreateTrayMenu();
+			CreateTrayIcon();
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
+
+			SetupUpdater((bool)parameter);
 
 			_WorkItem.AppData.StartLoadImages();
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
-
-			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCompleted(e.SuccessfulCheck, e.HasNewVersion);
-			_WorkItem.Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
-
-			var noupdate = (bool)parameter;
-			if (!noupdate)
-				_WorkItem.Updater.UpdateAppAsync(
-					"AppManager",
-					Strings.APP_TITLE,
-					_WorkItem.AppPath,
-					new string[] { Assembly.GetExecutingAssembly().Location },
-					new string[] { Process.GetCurrentProcess().ProcessName },
-					"http://hummerd.com/AppManagerUpdate"
-					);
-
-			_WorkItem.MainWindow.Deactivated += (s, e) => 
+			_WorkItem.MainWindow.Deactivated += (s, e) =>
 				_LostTime = DateTime.Now;
-
+			
 			if (!_WorkItem.Settings.StartMinimized)
 			{
 				_WorkItem.MainWindow.Show();
@@ -98,6 +78,7 @@ namespace AppManager.Commands
 				_WorkItem.Commands.Help.Execute(false);
 
 			CreateActivationPanel();
+			_WorkItem.Settings.PropertyChanged += (s, e) => OnSettingsChanged(e.PropertyName);
 		}
 
 
@@ -140,6 +121,16 @@ namespace AppManager.Commands
 			}
 			else
 				return false;
+		}
+
+		protected void CreateTrayIcon()
+		{
+			WinForms.NotifyIcon tray = _WorkItem.TrayIcon;
+			tray.Icon = Resources.leftarrow;
+			tray.MouseUp += TrayIcon_MouseUp;
+			tray.Visible = true;
+			tray.Text = Strings.APP_TITLE;
+			tray.ContextMenuStrip = CreateTrayMenu();
 		}
 
 		protected WinForms.ContextMenuStrip CreateTrayMenu()
@@ -217,6 +208,22 @@ namespace AppManager.Commands
 			}
 		}
 
+		protected void SetupUpdater(bool noupdate)
+		{
+			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCompleted(e.SuccessfulCheck, e.HasNewVersion);
+			_WorkItem.Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
+
+			if (!noupdate)
+				_WorkItem.Updater.UpdateAppAsync(
+					"AppManager",
+					Strings.APP_TITLE,
+					_WorkItem.AppPath,
+					new string[] { Assembly.GetExecutingAssembly().Location },
+					new string[] { Process.GetCurrentProcess().ProcessName },
+					"http://hummerd.com/AppManagerUpdate"
+					);
+		}
+
 		protected void ChangeActiveState()
 		{
 			var lostDelta = DateTime.Now - _LostTime;
@@ -269,22 +276,41 @@ namespace AppManager.Commands
 			}
 		}
 
+		protected void OnSettingsChanged(string settName)
+		{
+			if (settName == "EnableActivationPanel" || settName == "UseShortActivationPanel")
+				CreateActivationPanel();
+		}
+
 		protected void CreateActivationPanel()
 		{
-			Window wndActivate = new Window();
-			wndActivate.AllowsTransparency = true;
-			//wndActivate.Background = System.Windows.Media.Brushes.Transparent;
-			wndActivate.Opacity = 0.05;
-			wndActivate.WindowStyle = WindowStyle.None;
-			wndActivate.ResizeMode = ResizeMode.NoResize;
-			wndActivate.Topmost = true;
-			wndActivate.ShowInTaskbar = false;
-			wndActivate.Left = 0;
-			wndActivate.Top = 0;
-			wndActivate.Width = 1;
-			wndActivate.Height = System.Windows.Forms.SystemInformation.WorkingArea.Height;
-			wndActivate.MouseDown += (s, e) => ChangeActiveState();
-			wndActivate.Show();
+			if (!_WorkItem.Settings.EnableActivationPanel)
+			{
+				if (_WndActivation != null)
+					_WndActivation.Hide();
+
+				return;
+			}
+
+			if (_WndActivation == null)
+			{
+				_WndActivation = new Window();
+				_WndActivation.AllowsTransparency = true;
+				//wndActivate.Background = System.Windows.Media.Brushes.Transparent;
+				_WndActivation.Opacity = 0.05;
+				_WndActivation.WindowStyle = WindowStyle.None;
+				_WndActivation.ResizeMode = ResizeMode.NoResize;
+				_WndActivation.Topmost = true;
+				_WndActivation.ShowInTaskbar = false;
+				_WndActivation.Left = 0;
+				_WndActivation.Top = 0;
+				_WndActivation.Width = 1;
+				_WndActivation.MouseDown += (s, e) => ChangeActiveState();
+			}
+
+			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
+				24 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
+			_WndActivation.Show();
 		}
 
 		protected Window FindActiveWindow()

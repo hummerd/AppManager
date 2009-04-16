@@ -23,6 +23,9 @@ namespace AppManager.Windows
 			ChkAutoStart.IsChecked = _Controller.IsStartupFileExists();
 			ChkAlwaysOnTop.IsChecked = workItem.Settings.AlwaysOnTop;
 			ChkStartMinimized.IsChecked = workItem.Settings.StartMinimized;
+			ChkEnableAcivationPanel.IsChecked = workItem.Settings.EnableActivationPanel;
+			ChkUseShortActivationPanel.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
+			ChkUseShortActivationPanel.IsChecked =workItem.Settings.UseShortActivationPanel;
 		}
 
 
@@ -43,7 +46,19 @@ namespace AppManager.Windows
 				_Controller.SetStartUp(ChkAutoStart.IsChecked ?? false);
 				_Controller.WorkItem.Settings.AlwaysOnTop = ChkAlwaysOnTop.IsChecked ?? false;
 				_Controller.WorkItem.Settings.StartMinimized = ChkStartMinimized.IsChecked ?? false;
+				_Controller.WorkItem.Settings.EnableActivationPanel = ChkEnableAcivationPanel.IsChecked ?? false;
+				_Controller.WorkItem.Settings.UseShortActivationPanel = ChkUseShortActivationPanel.IsChecked ?? false;
 			}
+		}
+
+		private void ChkEnableAcivationPanel_Checked(object sender, RoutedEventArgs e)
+		{
+			ChkUseShortActivationPanel.IsEnabled = true;
+		}
+
+		private void ChkEnableAcivationPanel_Unchecked(object sender, RoutedEventArgs e)
+		{
+			ChkUseShortActivationPanel.IsEnabled = false;
 		}
 	}
 }

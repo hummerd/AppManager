@@ -159,6 +159,9 @@
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Open application data file</value>
   </data>
+  <data name="ENABLE_ACT_PANEL" xml:space="preserve">
+    <value>Enable mouse activation</value>
+  </data>
   <data name="ENTER_APP_NAME" xml:space="preserve">
     <value>Enter application name</value>
   </data>
@@ -276,5 +279,8 @@ group?</value>
   </data>
   <data name="UPDATE_CHECK_FAILED" xml:space="preserve">
     <value>Can not check for updates now. Try to check later.</value>
+  </data>
+  <data name="USE_SHORT_ACT_PANEL" xml:space="preserve">
+    <value>Mouse activation only in corner</value>
   </data>
 </root>

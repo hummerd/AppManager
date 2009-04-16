@@ -187,6 +187,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable mouse activation.
+        /// </summary>
+        public static string ENABLE_ACT_PANEL {
+            get {
+                return ResourceManager.GetString("ENABLE_ACT_PANEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter application name.
         /// </summary>
         public static string ENTER_APP_NAME {
@@ -529,6 +538,15 @@ namespace AppManager {
         public static string UPDATE_CHECK_FAILED {
             get {
                 return ResourceManager.GetString("UPDATE_CHECK_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mouse activation only in corner.
+        /// </summary>
+        public static string USE_SHORT_ACT_PANEL {
+            get {
+                return ResourceManager.GetString("USE_SHORT_ACT_PANEL", resourceCulture);
             }
         }
     }
