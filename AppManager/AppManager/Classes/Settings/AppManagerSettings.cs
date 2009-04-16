@@ -7,11 +7,15 @@ namespace AppManager.Settings
 	{
 		protected bool _AlwaysOnTop;
 		protected bool _StartMinimized;
+		protected bool _EnableActivationPanel;
+		protected bool _UseShortActivationPanel;
 
 
 		public AppManagerSettings()
 		{
 			MainFormSett = WndSettings.Empty;
+			_EnableActivationPanel = true;
+			_UseShortActivationPanel = true;
 		}
 
 
@@ -44,6 +48,32 @@ namespace AppManager.Settings
 			{
 				_AlwaysOnTop = value;
 				OnPropertyChanged("AlwaysOnTop");
+			}
+		}
+
+		public bool EnableActivationPanel
+		{
+			get
+			{
+				return _EnableActivationPanel;
+			}
+			set
+			{
+				_EnableActivationPanel = value;
+				OnPropertyChanged("EnableActivationPanel");
+			}
+		}
+
+		public bool UseShortActivationPanel
+		{
+			get
+			{
+				return _UseShortActivationPanel;
+			}
+			set
+			{
+				_UseShortActivationPanel = value;
+				OnPropertyChanged("UseShortActivationPanel");
 			}
 		}
 

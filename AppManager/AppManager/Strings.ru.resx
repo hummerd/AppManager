@@ -159,6 +159,9 @@
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Редактировать файл приложений</value>
   </data>
+  <data name="ENABLE_ACT_PANEL" xml:space="preserve">
+    <value>Включить активацию мышью</value>
+  </data>
   <data name="ENTER_APP_NAME" xml:space="preserve">
     <value>Введите имя приложения</value>
   </data>
@@ -276,5 +279,8 @@
   </data>
   <data name="UPDATE_CHECK_FAILED" xml:space="preserve">
     <value>Не удалось проверить наличие новой версии. Попробуйте проверить позже.</value>
+  </data>
+  <data name="USE_SHORT_ACT_PANEL" xml:space="preserve">
+    <value>Активация мышью только в углу экрана</value>
   </data>
 </root>
