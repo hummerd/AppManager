@@ -37,6 +37,9 @@ namespace CommonLib.UI
 
 		protected override void PrepareCursor(Point pos)
 		{
+			if (_DoResize)
+				return;
+
 			double xr = _Resizer.ActualWidth - _Corner;
 			double yb = _Resizer.ActualHeight - _Corner;
 
@@ -122,31 +125,59 @@ namespace CommonLib.UI
 			if (_DoResize)
 			{
 				if ((_ResizeDir & ResizeDirect.Right) == ResizeDirect.Right)
-					_Target.Width = pos.X + _AccX;
+				{
+					if (pos.X >= _AccX)
+						_Target.Width = pos.X + _AccX;
+				}
 				else if ((_ResizeDir & ResizeDirect.Left) == ResizeDirect.Left)
 				{
-					var scPos = _Resizer.PointToScreen(pos);	
-					var r = _Target.Left + _Target.ActualWidth;
+					var scPos = _Resizer.PointToScreen(pos);
+					var right = _Target.Left + _Target.ActualWidth;
+					var newLeft = scPos.X - _StartX;
+					var newWidth = right - newLeft;
 
-					if (r - _Target.Left >= _Target.MinWidth && r - _Target.Left <= _Target.MaxWidth)
+					if (newWidth <= _Target.MinWidth)
 					{
-						_Target.Left = scPos.X - _StartX;
-						_Target.Width = r - _Target.Left;
+						newWidth = _Target.MinWidth;
+						newLeft = right - newWidth;
 					}
+
+					if (newWidth >= _Target.MaxWidth)
+					{
+						newWidth = _Target.MaxWidth;
+						newLeft = right - newWidth;
+					}
+
+					_Target.Left = newLeft;
+					_Target.Width = newWidth;
 				}
 
 				if ((_ResizeDir & ResizeDirect.Bottom) == ResizeDirect.Bottom)
-					_Target.Height = pos.Y + _AccY;
+				{
+					if (pos.Y > _AccY)
+						_Target.Height = pos.Y + _AccY;
+				}
 				else if ((_ResizeDir & ResizeDirect.Top) == ResizeDirect.Top)
 				{
 					var scPos = _Resizer.PointToScreen(pos);
-					var b = _Target.Top + _Target.ActualHeight;
+					var bottom = _Target.Top + _Target.ActualHeight;
+					var newTop = scPos.Y - _StartY;
+					var newHeight = bottom - newTop;
 
-					if (b - _Target.Top >= _Target.MinHeight && b - _Target.Top <= _Target.MaxHeight)
+					if (newHeight <= _Target.MinHeight)
 					{
-						_Target.Top = scPos.Y - _StartY;
-						_Target.Height = b - _Target.Top;
+						newHeight = _Target.MinHeight;
+						newTop = bottom - newHeight;
 					}
+
+					if (newHeight >= _Target.MaxHeight)
+					{
+						newHeight = _Target.MaxHeight;
+						newTop = bottom - newHeight;
+					}
+
+					_Target.Top = newTop;
+					_Target.Height = newHeight;
 				}
 			}
 		}
