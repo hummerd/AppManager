@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ADD_TO_AUTO_GROUPS" xml:space="preserve">
+    <value>(Add to auto generated groups)</value>
+  </data>
   <data name="ADD_TO_TYPE" xml:space="preserve">
     <value>Add to group</value>
   </data>
@@ -254,10 +257,10 @@ group?</value>
     <value>Scan</value>
   </data>
   <data name="SCAN_ALL_PROGS" xml:space="preserve">
-    <value>Scan All Programs menu</value>
+    <value>Scan "All Programs" menu</value>
   </data>
   <data name="SCAN_QUICK_LAUNCH" xml:space="preserve">
-    <value>Scan Quick Launch menu</value>
+    <value>Scan "Quick Launch" menu</value>
   </data>
   <data name="SEARCH" xml:space="preserve">
     <value>Search</value>

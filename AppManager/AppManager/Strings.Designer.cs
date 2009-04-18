@@ -61,6 +61,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Add to auto generated groups).
+        /// </summary>
+        public static string ADD_TO_AUTO_GROUPS {
+            get {
+                return ResourceManager.GetString("ADD_TO_AUTO_GROUPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add to group.
         /// </summary>
         public static string ADD_TO_TYPE {
@@ -461,7 +470,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scan All Programs menu.
+        ///   Looks up a localized string similar to Scan &quot;All Programs&quot; menu.
         /// </summary>
         public static string SCAN_ALL_PROGS {
             get {
@@ -470,7 +479,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scan Quick Launch menu.
+        ///   Looks up a localized string similar to Scan &quot;Quick Launch&quot; menu.
         /// </summary>
         public static string SCAN_QUICK_LAUNCH {
             get {
