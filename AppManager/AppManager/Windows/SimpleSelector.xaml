@@ -5,7 +5,7 @@
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:cw="clr-namespace:CommonLib.Windows;assembly=CommonLib"
 	Title="SimpleSelector"
-	Height="165"
+	Height="201"
 	Width="385"
 	ShowInTaskbar="False"
 	ResizeMode="NoResize"
@@ -36,13 +36,13 @@
 			Height="24"
 			VerticalAlignment="Top"
 			Grid.ColumnSpan="2" />
-		<Label
+		<TextBlock
 			Grid.Column="1"
-			Margin="0,70,12,0" 
-			Height="24" 
-			VerticalAlignment="Top"
-			Content="(Add to auto generated groups)"
-			/>
+			Margin="0,74,12,0" 
+			Height="32"
+			Text="{x:Static am:Strings.ADD_TO_AUTO_GROUPS}"
+			VerticalAlignment="Top" 
+			TextWrapping="Wrap" />
 		<RadioButton
 			Content="{x:Static am:Strings.SELECT}"
 			Height="16"
