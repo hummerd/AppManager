@@ -489,7 +489,7 @@
 									Name="ContentGrid"
 									IsItemsHost="True"
 									Margin="8"
-									MinRowHeight="92"
+									MinRowHeight="94"
 									Focusable="False"
 									/>
 								<!--Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}"-->
