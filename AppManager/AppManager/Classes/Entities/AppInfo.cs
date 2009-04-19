@@ -34,9 +34,10 @@ namespace AppManager
 
 
 		[XmlIgnore]
-		protected BitmapSource _BlankImage;
+		private static BitmapSource _BlankImage;
 		[XmlIgnore]
-		protected BitmapSource _FolderImage;
+		private static BitmapSource _FolderImage;
+
 		[XmlIgnore]
 		protected BitmapSource _AppImage;
 
@@ -254,16 +255,19 @@ namespace AppManager
 			_AppImage = src;
 		}
 
-		protected BitmapSource GetBlankImage()
+
+		private static BitmapSource GetBlankImage()
 		{
 			if (_BlankImage == null)
 			{
-				_BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-					AppManager.Properties.Resources.Window.GetHbitmap(),
-					IntPtr.Zero,
-					Int32Rect.Empty,
-					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-
+				using (var bmp = AppManager.Properties.Resources.Window)
+				{
+					_BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+						bmp.GetHbitmap(),
+						IntPtr.Zero,
+						Int32Rect.Empty,
+						System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+				}
 				//in all other cases we've got size {5, 5} instead of {16, 16}
 
 				//Uri pngSrc = new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute);
@@ -289,19 +293,23 @@ namespace AppManager
 			return _BlankImage;
 		}
 
-		protected BitmapSource GetFolderImage()
+		private static BitmapSource GetFolderImage()
 		{
 			if (_FolderImage == null)
 			{
+				using (var bmp = AppManager.Properties.Resources.folder)
+				{
 				_FolderImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-					AppManager.Properties.Resources.folder.GetHbitmap(),
+					bmp.GetHbitmap(),
 					IntPtr.Zero,
 					Int32Rect.Empty,
 					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+				}
 			}
 
 			return _FolderImage;
 		}
+
 
 		#region IClonableEntity<AppInfo> Members
 

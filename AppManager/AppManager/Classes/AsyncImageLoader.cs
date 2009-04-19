@@ -53,10 +53,14 @@ namespace AppManager
 				{
 					var pair = _LoadedImages.Dequeue();
 					if (pair.Second != null)
+					{
 						pair.First.AppImage = Imaging.CreateBitmapSourceFromHIcon(
 							pair.Second.Handle,
 							Int32Rect.Empty,
 							BitmapSizeOptions.FromEmptyOptions());
+
+						pair.Second.Dispose();
+					}
 				}
 			}
 		}
