@@ -39,7 +39,7 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			ThreadPool.QueueUserWorkItem(InitDrag);
+			//ThreadPool.QueueUserWorkItem(InitDrag);
 
 			_Single = new SingleInstance(10251, true);
 			if (!_Single.FirstInstance)
@@ -227,7 +227,7 @@ namespace AppManager.Commands
 		protected void ChangeActiveState()
 		{
 			var lostDelta = DateTime.Now - _LostTime;
-			bool deactivate = lostDelta.TotalMilliseconds < 200;
+			bool deactivate = lostDelta.TotalMilliseconds < 300;
 
 			if (_WorkItem.MainWindow.IsVisible && (deactivate || _WorkItem.MainWindow.IsKeyboardFocusWithin))
 				_WorkItem.Commands.Deactivate.Execute(null);
