@@ -58,24 +58,25 @@ namespace CommonLib.UI
 			double topRowsHeight = GetRowsHeight(0, _GridRow - 1);
 			double bottomRowsHeight = GetRowsHeight(_GridRow + 2, _Target.RowDefinitions.Count - 1);
 
-			if (dragHeight < topRowsHeight + _Target.RowDefinitions[_GridRow].MinHeight)
-				dragHeight = topRowsHeight + _Target.RowDefinitions[_GridRow].MinHeight;
+			var curRowDef = _Target.RowDefinitions[_GridRow];
+			if (dragHeight < topRowsHeight + curRowDef.MinHeight)
+				dragHeight = topRowsHeight + curRowDef.MinHeight;
 
-			if (dragHeight > _Target.ActualHeight - bottomRowsHeight - _Target.RowDefinitions[_GridRow + 1].MinHeight)
-				dragHeight = _Target.ActualHeight - bottomRowsHeight - _Target.RowDefinitions[_GridRow + 1].MinHeight;
+			var nextRowDef = _Target.RowDefinitions[_GridRow + 1];
+			if (dragHeight > _Target.ActualHeight - bottomRowsHeight - nextRowDef.MinHeight)
+				dragHeight = _Target.ActualHeight - bottomRowsHeight - nextRowDef.MinHeight;
 
 			double totalRel = GetTotalRelativeHeight(0, _Target.RowDefinitions.Count - 1);
 			double newHeight = dragHeight - topRowsHeight;
-			double newNextHeight = _Target.RowDefinitions[_GridRow + 1].ActualHeight + 
-				_Target.RowDefinitions[_GridRow].ActualHeight - newHeight;
+			double newNextHeight = nextRowDef.ActualHeight + curRowDef.ActualHeight - newHeight;
 	
 			newHeight = totalRel * newHeight / _Target.ActualHeight;
 			newNextHeight = totalRel * newNextHeight / _Target.ActualHeight;
 
-			_Target.RowDefinitions[_GridRow].Height = new GridLength(
+			curRowDef.Height = new GridLength(
 				newHeight, GridUnitType.Star);
 
-			_Target.RowDefinitions[_GridRow + 1].Height = new GridLength(
+			nextRowDef.Height = new GridLength(
 				newNextHeight, GridUnitType.Star);
 		}
 
