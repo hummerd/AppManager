@@ -213,6 +213,9 @@
   <data name="MNU_RENAME" xml:space="preserve">
     <value>Rename {0}...</value>
   </data>
+  <data name="MNU_RENAME_APP_TYPE" xml:space="preserve">
+    <value>Rename {0} group...</value>
+  </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
     <value>Preferences...</value>
   </data>

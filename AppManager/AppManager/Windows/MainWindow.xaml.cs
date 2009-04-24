@@ -230,6 +230,9 @@ namespace AppManager
 				_Controller.InsertAppType((s as FrameworkElement).DataContext as AppType);
 
 			((MenuItem)menu.Items[2]).Click += (s, ea) =>
+				_Controller.RenameAppType((s as FrameworkElement).DataContext as AppType);
+
+			((MenuItem)menu.Items[3]).Click += (s, ea) =>
 				_Controller.DeleteAppType((s as FrameworkElement).DataContext as AppType);
 
 			return menu;
@@ -311,7 +314,8 @@ namespace AppManager
 		{
 			menu.DataContext = dataContext;
 
-			((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_DELETE_TYPE, dataContext);
+			((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_RENAME_APP_TYPE, dataContext);
+			((MenuItem)menu.Items[3]).Header = String.Format(Strings.MNU_DELETE_TYPE, dataContext);
 		}
 
 		//protected GridSplitter CreateGridSplitter(int rowi)

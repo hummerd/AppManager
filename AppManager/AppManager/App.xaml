@@ -712,6 +712,7 @@
 			>
 			<MenuItem Name="AddNewApp" Header="{x:Static am:Strings.MNU_ADD_APP}" />
 			<MenuItem Name="AddAppType" Header="{x:Static am:Strings.MNU_ADD_APP_TYPE}" />
+			<MenuItem Name="RenameAppType" Header="{x:Static am:Strings.MNU_ADD_APP_TYPE}" />
 			<MenuItem Name="DeleteAppType" />
 			<Separator />
 			<MenuItem Name="Cancel"	Header="{x:Static с:CommStr.CANCEL}" />

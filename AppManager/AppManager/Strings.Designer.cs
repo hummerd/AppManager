@@ -349,6 +349,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rename {0} group....
+        /// </summary>
+        public static string MNU_RENAME_APP_TYPE {
+            get {
+                return ResourceManager.GetString("MNU_RENAME_APP_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferences....
         /// </summary>
         public static string MNU_SETTINGS {
