@@ -97,6 +97,22 @@ namespace AppManager
 				);
 		}
 
+		public void RenameAppType(AppType appType)
+		{
+			if (appType == null)
+				return;
+
+			InputBox input = new InputBox(Strings.ENTER_APP_TYPE_NAME);
+			input.InputText = appType.AppTypeName;
+			input.Owner = _WorkItem.MainWindow;
+			input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+			if (input.ShowDialog() ?? false)
+			{
+				appType.AppTypeName = input.InputText;
+			}
+		}
+
 		public void DeleteAppType(AppType appType)
 		{
 			if (appType == null)
