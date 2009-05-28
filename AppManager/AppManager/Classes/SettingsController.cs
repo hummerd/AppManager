@@ -31,6 +31,9 @@ namespace AppManager.Classes
 
 		public void EditAppData()
 		{
+			if (!File.Exists(_WorkItem.DataPath))
+				return;
+
 			ProcessStartInfo psi = new ProcessStartInfo()
 			{
 				FileName = _WorkItem.DataPath,
