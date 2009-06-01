@@ -23,7 +23,9 @@ namespace CommonLib
 
 			while (true)
 			{
-				int lix = tempPath.LastIndexOf(' ');
+				int lix = Math.Max(
+					tempPath.LastIndexOf(' '),
+					tempPath.LastIndexOf(Path.DirectorySeparatorChar));
 				if (lix < 0)
 					break;
 
