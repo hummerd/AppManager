@@ -149,18 +149,31 @@ namespace AppManager
 
 		public void OpenFolder()
 		{
-			string dir = Path.GetDirectoryName(AppPath);
+			string appPath = AppPath;
+			string dir = Path.GetDirectoryName(appPath);
 
 			if (String.IsNullOrEmpty(dir))
 				return;
 
-			if (Directory.Exists(dir))
+			Process p = new Process();
+
+			if (Directory.Exists(appPath))
 			{
-				Process p = new Process();
+				p.StartInfo.FileName = appPath;
+				p.StartInfo.WorkingDirectory = appPath;
+			}
+			else if (File.Exists(appPath))
+			{
+				p.StartInfo.Arguments = "/select, " + appPath;
+				p.StartInfo.FileName = "explorer";
+			}
+			else if (Directory.Exists(dir))
+			{
 				p.StartInfo.FileName = dir;
 				p.StartInfo.WorkingDirectory = dir;
-				p.Start();
 			}
+
+			p.Start();
 		}
 
 		public void RunApp()
