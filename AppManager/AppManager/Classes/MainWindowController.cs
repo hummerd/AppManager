@@ -249,6 +249,9 @@ namespace AppManager
 		protected void SearchSucceded()
 		{
 			object si = _QuickSearchWnd.SelectedItem;
+			if (si == null)
+				return;
+
 			_QuickSearchWnd.Close();
 			_WorkItem.Commands.RunApp.Execute(si);
 		}
