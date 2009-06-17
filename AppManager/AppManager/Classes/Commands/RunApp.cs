@@ -21,6 +21,10 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			AppInfo app = parameter as AppInfo;
+
+			if (app == null)
+				return;
+
 			bool altPressed = (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
 
 			string appPath = app.AppPath;
