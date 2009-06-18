@@ -223,6 +223,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter command line arguments.
+        /// </summary>
+        public static string ENTER_CMD_ARGS {
+            get {
+                return ResourceManager.GetString("ENTER_CMD_ARGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AppManager error.
         /// </summary>
         public static string ERROR {
@@ -354,6 +363,15 @@ namespace AppManager {
         public static string MNU_RENAME_APP_TYPE {
             get {
                 return ResourceManager.GetString("MNU_RENAME_APP_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run {0} with arguments....
+        /// </summary>
+        public static string MNU_RUN_WITH_ARGS {
+            get {
+                return ResourceManager.GetString("MNU_RUN_WITH_ARGS", resourceCulture);
             }
         }
         

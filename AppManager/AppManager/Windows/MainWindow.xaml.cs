@@ -216,6 +216,9 @@ namespace AppManager
 			((MenuItem)menu.Items[3]).Click += (s, ea) =>
 				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
 
+			((MenuItem)menu.Items[4]).Click += (s, ea) =>
+				_Controller.RunAppWithArgs((s as FrameworkElement).DataContext as AppInfo);
+
 			return menu;
 		}
 
@@ -256,6 +259,7 @@ namespace AppManager
 				((MenuItem)menu.Items[1]).Header = String.Format(Strings.MNU_RENAME, item.DataContext);
 				((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_DELETE, item.DataContext);
 				((MenuItem)menu.Items[3]).Header = String.Format(Strings.MNU_GOTO, item.DataContext);
+				((MenuItem)menu.Items[4]).Header = String.Format(Strings.MNU_RUN_WITH_ARGS, item.DataContext);
 
 				menu.Placement = PlacementMode.Right;
 				menu.PlacementTarget = item;
@@ -372,17 +376,32 @@ namespace AppManager
 			}
 		}
 
-		protected void OnDropFiles(FrameworkElement target, ValueEventArgs<string[]> e)
+		protected void OnDropFiles(FrameworkElement target, FileDropEventArgs e)
 		{
 			if (target == null)
 				return;
 
-			var appType = target.DataContext as AppType;
-				
-			if (appType == null)
-				return;
+			//File dropped on app, so start it with such argument
+			if ((e.KeyState & DragDropKeyStates.AltKey) == DragDropKeyStates.AltKey)
+			{
+				var input = (target as ItemsControl).InputHitTest(e.DropPoint) as FrameworkElement;
+				if (input != null)
+				{
+					var appInfo = input.DataContext as AppInfo;
+					if (appInfo != null)
+						_Controller.WorkItem.Commands.RunApp.Execute(
+							new object[] { appInfo, e.Files[0] });
+				}
+			}
+			else // add new application
+			{
+			
+				var appType = target.DataContext as AppType;
+				if (appType == null)
+					return;
 
-			_Controller.AddFiles(appType, e.Value);
+				_Controller.AddFiles(appType, e.Files);
+			}
 		}
 
 		protected void OnDragStarted()
@@ -567,7 +586,7 @@ namespace AppManager
 		}
 	}
 
-	public class TrashMarkAlighner : IValueConverter
+	public class TrashMarkAligner : IValueConverter
 	{
 		#region IValueConverter Members
 

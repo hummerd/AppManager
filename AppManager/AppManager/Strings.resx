@@ -171,6 +171,9 @@
   <data name="ENTER_APP_TYPE_NAME" xml:space="preserve">
     <value>Enter application group name</value>
   </data>
+  <data name="ENTER_CMD_ARGS" xml:space="preserve">
+    <value>Enter command line arguments</value>
+  </data>
   <data name="ERROR" xml:space="preserve">
     <value>AppManager error</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="MNU_RENAME_APP_TYPE" xml:space="preserve">
     <value>Rename {0} group...</value>
+  </data>
+  <data name="MNU_RUN_WITH_ARGS" xml:space="preserve">
+    <value>Run {0} with arguments...</value>
   </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
     <value>Preferences...</value>
