@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 using CommonLib;
@@ -18,9 +19,27 @@ namespace AppManager.Commands
 			return true;
 		}
 
+		/// <summary>
+		/// Starts specified application
+		/// </summary>
+		/// <param name="parameter">Can be either AppInfo or objetc[] {AppInfo app, string appArgs}</param>
 		public override void Execute(object parameter)
 		{
-			AppInfo app = parameter as AppInfo;
+			if (parameter == null)
+				return;
+
+			string appArgs = String.Empty;
+			AppInfo app = null;
+
+			object[] prms = parameter as object[];
+
+			if (prms != null && prms.Length >= 2)
+			{
+				app = prms[0] as AppInfo;
+				appArgs = prms[1] as string;
+			}
+			else
+				app = parameter as AppInfo;
 
 			if (app == null)
 				return;
@@ -37,7 +56,7 @@ namespace AppManager.Commands
 					Process p = new Process();
 					p.StartInfo.FileName = app.AppPath;
 					p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
-					p.StartInfo.Arguments = app.AppArgs;
+					p.StartInfo.Arguments = String.IsNullOrEmpty(appArgs) ? app.AppArgs : appArgs;
 					p.Start();
 				}
 				catch

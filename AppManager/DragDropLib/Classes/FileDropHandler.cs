@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using CommonLib;
 
 
 namespace DragDropLib
 {
 	public class FileDropHandler : IDragHandler
 	{
-		public event EventHandler<ValueEventArgs<string[]>> AddFiles;
+		public event EventHandler<FileDropEventArgs> AddFiles;
 
 
 		#region IDragHandler Members
@@ -29,7 +26,15 @@ namespace DragDropLib
 
 			string[] files = dragData.Data.GetData(DataFormats.FileDrop, true) as string[];
 			if (AddFiles != null)
-				AddFiles(element, new ValueEventArgs<string[]>(files));
+			{
+				var fdea = new FileDropEventArgs()
+				{
+					DropPoint = dragData.GetPosition(element),
+					Files = files,
+					KeyState = dragData.KeyStates
+				};
+				AddFiles(element, fdea);
+			}
 
 			return true;
 		}
@@ -38,5 +43,13 @@ namespace DragDropLib
 		{ ; }
 
 		#endregion
+	}
+
+
+	public class FileDropEventArgs : EventArgs
+	{
+		public string[] Files { get; set; }
+		public Point DropPoint { get; set; }
+		public DragDropKeyStates KeyState { get; set; }
 	}
 }

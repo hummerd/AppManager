@@ -692,18 +692,13 @@
 			Style="{DynamicResource SpecialContextMenu}"
 			ItemContainerStyle="{DynamicResource SpecialMenuItem}"
 			>
-			<MenuItem
-				Name="Edit" />
-			<MenuItem
-				Name="Rename" />
-			<MenuItem
-				Name="Delete" />
-			<MenuItem
-				Name="GoTo" />
-			<Separator />
-			<MenuItem
-				Name="Cancel"
-				Header="{x:Static с:CommStr.CANCEL}" />
+			<MenuItem Name="Edit" />
+			<MenuItem Name="Rename" />
+			<MenuItem Name="Delete" />
+			<MenuItem Name="GoTo" />
+            <MenuItem Name="RunWithArgs" />
+            <Separator />
+			<MenuItem Name="Cancel" Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
 		<ContextMenu
 			x:Key="AppTypeMenu"

@@ -171,6 +171,9 @@
   <data name="ENTER_APP_TYPE_NAME" xml:space="preserve">
     <value>Введите имя группы</value>
   </data>
+  <data name="ENTER_CMD_ARGS" xml:space="preserve">
+    <value>Введите аргументы командной строки</value>
+  </data>
   <data name="ERROR" xml:space="preserve">
     <value>Ошибка в Стартере</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="MNU_RENAME_APP_TYPE" xml:space="preserve">
     <value>Переименовать группу {0}...</value>
+  </data>
+  <data name="MNU_RUN_WITH_ARGS" xml:space="preserve">
+    <value>Запустить {0} с аргументами...</value>
   </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
     <value>Настройки...</value>

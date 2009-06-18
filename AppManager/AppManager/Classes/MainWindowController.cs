@@ -245,6 +245,23 @@ namespace AppManager
 			_WorkItem.Commands.Save.Execute(null);
 		}
 
+		public void RunAppWithArgs(AppInfo appInfo)
+		{
+			if (appInfo == null)
+				return;
+
+			InputBox input = new InputBox(Strings.ENTER_CMD_ARGS);
+			input.InputText = appInfo.AppArgs;
+			input.Owner = _WorkItem.MainWindow;
+			input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+			if (input.ShowDialog() ?? false)
+			{
+				_WorkItem.Commands.RunApp.Execute(
+					new object[] {appInfo, input.InputText});
+			}
+		}
+
 
 		protected void SearchSucceded()
 		{

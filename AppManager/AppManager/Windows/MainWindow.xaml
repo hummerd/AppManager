@@ -596,7 +596,7 @@
 							<Binding
 								Path="ActualWidth">
 								<Binding.Converter>
-									<am:TrashMarkAlighner />
+									<am:TrashMarkAligner />
 								</Binding.Converter>
 								<Binding.RelativeSource>
 									<RelativeSource
@@ -609,7 +609,7 @@
 							<Binding
 								Path="ActualHeight">
 								<Binding.Converter>
-									<am:TrashMarkAlighner />
+									<am:TrashMarkAligner />
 								</Binding.Converter>
 								<Binding.RelativeSource>
 									<RelativeSource
