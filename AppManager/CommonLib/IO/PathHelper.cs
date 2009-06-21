@@ -21,6 +21,8 @@ namespace CommonLib
 			if (!tempPath.Contains("\"") && (File.Exists(tempPath) || Directory.Exists(tempPath)))
 				return tempPath;
 
+			string trimPath = tempPath;
+
 			while (true)
 			{
 				int lix = Math.Max(
@@ -32,7 +34,10 @@ namespace CommonLib
 				tempPath = tempPath.Substring(0, lix);
 				tempPath = tempPath.Trim('\"');
 
-				if (!tempPath.Contains("\"") && (File.Exists(tempPath) || Directory.Exists(tempPath)))
+				if (Directory.Exists(tempPath))
+					return trimPath;
+
+				if (!tempPath.Contains("\"") && File.Exists(tempPath))
 					break;
 			}
 
@@ -40,6 +45,9 @@ namespace CommonLib
 			argsTemp = argsTemp.Substring(tempPath.Length, argsTemp.Length - tempPath.Length);
 			argsTemp = argsTemp.Trim(' ', '\"');
 			args = argsTemp;
+
+			if (!Directory.Exists(tempPath) && !File.Exists(tempPath))
+				return trimPath;
 
 			return tempPath;
 
