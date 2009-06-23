@@ -17,6 +17,9 @@ namespace AppManager.Commands
 {
 	public class StartApp : CommandBase
 	{
+		protected delegate void ActivateTask();
+
+
 		//protected Mutex				_Mutex;
 		protected bool					_FirstStart = false;
 		protected SingleInstance	_Single;
@@ -41,7 +44,16 @@ namespace AppManager.Commands
 		{
 			//ThreadPool.QueueUserWorkItem(InitDrag);
 
-			_Single = new SingleInstance(10251, true);
+			_Single = new SingleInstance(10251, true, delegate()
+				{
+					ActivateTask act = delegate() 
+						{
+							_WorkItem.Commands.Activate.Execute(null);
+						};
+
+					DispatcherHelper.Invoke(act);
+				});
+
 			if (!_Single.FirstInstance)
 			{
 				App.Current.Shutdown();

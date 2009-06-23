@@ -4,24 +4,28 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Windows;
 using System.Windows.Threading;
+using System.Runtime.Serialization.Formatters;
 
 
 namespace CommonLib.Application
 {
+	public delegate void ActivateApp();
+
+
 	public class SingleInstance
 	{
 		protected RemoteSingleInstance _Single;
 		protected bool _FirstInstance = true;
 
 
-		public SingleInstance(int port, bool sessionUnique)
+		public SingleInstance(int port, bool sessionUnique, ActivateApp activator)
 		{
 			if (sessionUnique)
 				port += System.Diagnostics.Process.GetCurrentProcess().SessionId;
 
 			try
 			{
-				InitFirstInstance(port);
+				InitFirstInstance(port, activator);
 				return;
 			}
 			catch(RemotingException)
@@ -52,22 +56,15 @@ namespace CommonLib.Application
 		}
 
 
-		protected void InitFirstInstance(int port)
+		protected void InitFirstInstance(int port, ActivateApp activator)
 		{
-			IpcChannel serverChannel = new IpcChannel("localhost:" + port);
+			IpcChannel serverChannel = new IpcChannel("localhost" + ":" + port);
+			ChannelServices.RegisterChannel(serverChannel, false);
 
-			// Register the server channel.
-			ChannelServices.RegisterChannel(
-				 serverChannel, false);
-
-			// Show the URIs associated with the channel.
-			ChannelDataStore channelData = (ChannelDataStore)serverChannel.ChannelData;
-
-			// Expose an object for remote calls.
-			RemotingConfiguration.
-				 RegisterWellKnownServiceType(
-					  typeof(RemoteSingleInstance), "RemoteObject.rem",
-					  WellKnownObjectMode.Singleton);
+			//init and publish remote singletone object
+			RemoteSingleInstance inst = new RemoteSingleInstance();
+			inst.Activator = activator;
+			RemotingServices.Marshal(inst, "RemoteObject.rem");
 		}
 
 		protected void ActivateFirstInstance(int port)
@@ -87,33 +84,18 @@ namespace CommonLib.Application
 
 	public class RemoteSingleInstance : MarshalByRefObject
 	{
-		protected delegate void SingleTask();
-
-
 		public RemoteSingleInstance()
 		{
 		}
 
 
+		public ActivateApp Activator
+		{ get; set; }
+
+
 		public void ActivateApp()
 		{
-			DispatcherHelper.Invoke(new SingleTask(ActivateMainWnd));
-			//System.Windows.Application.Current.Dispatcher.Invoke(
-			//   DispatcherPriority.Normal, new SingleTask(ActivateMainWnd));
-		}
-
-		protected void ActivateMainWnd()
-		{
-			var wnd = System.Windows.Application.Current.MainWindow;
-
-			bool top = wnd.Topmost;
-
-			wnd.Show();
-			wnd.Topmost = true;
-			wnd.Focus();
-			wnd.Topmost = top;
-			wnd.Activate();
-			wnd.InvalidateVisual();
+			Activator();
 		}
 	}
 }
