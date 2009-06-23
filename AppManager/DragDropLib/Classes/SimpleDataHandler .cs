@@ -26,7 +26,7 @@ namespace DragDropLib
 
 		#region IDragHandler Members
 
-		public DragDropEffects SupportDataFormat(DragEventArgs dragData)
+		public DragDropEffects SupportDataFormat(FrameworkElement element, DragEventArgs dragData)
 		{
 			if (!dragData.Data.GetDataPresent(_DataFormat))
 				return DragDropEffects.None;

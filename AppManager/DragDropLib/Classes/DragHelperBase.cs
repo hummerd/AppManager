@@ -255,7 +255,7 @@ namespace DragDropLib
 			if (e.Handled)
 				return;
 
-			PrepareSupportedEffect(e);
+			PrepareSupportedEffect(e, element);
 		}
 
 		protected override void OnDragOver(DragEventArgs e, FrameworkElement element)
@@ -265,12 +265,16 @@ namespace DragDropLib
 			if (e.Handled)
 				return;
 
-			PrepareSupportedEffect(e);
+			PrepareSupportedEffect(e, element);
+
+			//foreach (var item in _DragHandlers)
+			//   if (item.SupportDataFormat(e) != DragDropEffects.None)
+			//      item.DataDragOver(element, e);
 		}
 
 		protected override void OnDrop(DragEventArgs e, FrameworkElement element)
 		{
-			PrepareSupportedEffect(e);
+			PrepareSupportedEffect(e, element);
 			e.Handled = false;
 
 			base.OnDrop(e, element);
@@ -305,11 +309,11 @@ namespace DragDropLib
 		}
 
 
-		protected void PrepareSupportedEffect(DragEventArgs e)
+		protected void PrepareSupportedEffect(DragEventArgs e, FrameworkElement element)
 		{
 			DragDropEffects effect = DragDropEffects.None;
 			foreach (var item in _DragHandlers)
-				effect |= item.SupportDataFormat(e);
+				effect |= item.SupportDataFormat(element, e);
 
 			e.Effects = e.AllowedEffects & effect;
 			e.Handled = effect != DragDropEffects.None;
