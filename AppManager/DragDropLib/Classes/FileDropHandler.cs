@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 
 
 namespace DragDropLib
@@ -11,7 +12,7 @@ namespace DragDropLib
 
 		#region IDragHandler Members
 
-		public System.Windows.DragDropEffects SupportDataFormat(System.Windows.DragEventArgs dragData)
+		public virtual DragDropEffects SupportDataFormat(FrameworkElement element, DragEventArgs dragData)
 		{
 			if (!dragData.Data.GetDataPresent(DataFormats.FileDrop))
 				return DragDropEffects.None;
@@ -19,7 +20,7 @@ namespace DragDropLib
 			return DragDropEffects.Copy;
 		}
 
-		public bool HandleDragData(FrameworkElement element, DragEventArgs dragData)
+		public virtual bool HandleDragData(FrameworkElement element, DragEventArgs dragData)
 		{
 			if (!dragData.Data.GetDataPresent(DataFormats.FileDrop))
 				return false;
@@ -39,7 +40,7 @@ namespace DragDropLib
 			return true;
 		}
 
-		public void SetDragData(DataObject dragData, object dragObject)
+		public virtual void SetDragData(DataObject dragData, object dragObject)
 		{ ; }
 
 		#endregion

@@ -8,8 +8,9 @@ namespace DragDropLib
 {
 	public interface IDragHandler
 	{
-		DragDropEffects SupportDataFormat(DragEventArgs dragData);
+		DragDropEffects SupportDataFormat(FrameworkElement element, DragEventArgs dragData);
 		bool HandleDragData(FrameworkElement element, DragEventArgs dragData);
 		void SetDragData(DataObject dragData, object dragObject);
+		//void DataDragOver(FrameworkElement element, DragEventArgs dragData);
 	}
 }
