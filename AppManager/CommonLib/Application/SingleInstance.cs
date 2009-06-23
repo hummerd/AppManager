@@ -59,9 +59,9 @@ namespace CommonLib.Application
 			ChannelServices.RegisterChannel(serverChannel, false);
 
 			//init and publish remote singletone object
-			RemoteSingleInstance inst = new RemoteSingleInstance();
-			inst.Activator = activator;
-			RemotingServices.Marshal(inst, "RemoteObject.rem");
+			_Single = new RemoteSingleInstance();
+			_Single.Activator = activator;
+			RemotingServices.Marshal(_Single, "RemoteObject.rem");
 		}
 
 		protected void ActivateFirstInstance(int port)
@@ -93,6 +93,12 @@ namespace CommonLib.Application
 		public void ActivateApp()
 		{
 			Activator();
+		}
+
+
+		public override Object InitializeLifetimeService()
+		{
+			return null;
 		}
 	}
 }
