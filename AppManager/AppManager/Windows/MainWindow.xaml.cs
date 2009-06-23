@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using AppManager.Commands;
+using AppManager.DragDrop;
 using AppManager.Settings;
 using CommonLib;
 using CommonLib.PInvoke;
@@ -24,7 +25,7 @@ namespace AppManager
 	{
 		protected MainWindowController	_Controller;
 		protected ItemsControl				_FocusElement;
-		protected FileDropHandler			_FileDrop = new FileDropHandler();
+		protected FileAppDropHandler		_FileDrop = new FileAppDropHandler();
 		protected SimpleDragDataHandler	_AppTypeDrop;
 		protected SimpleDragDataHandler	_AppDrop;
 

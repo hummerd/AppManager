@@ -5,7 +5,7 @@ using DragDropLib;
 using System.Windows;
 
 
-namespace AppManager
+namespace AppManager.DragDrop
 {
 	public class AppTypeDrag : SimpleDragHelper
 	{

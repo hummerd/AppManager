@@ -5,14 +5,11 @@ using DragDropLib;
 using CommonLib;
 
 
-namespace AppManager
+namespace AppManager.DragDrop
 {
 	public class ButtonListDrag : ItemsDragHelper
 	{
 		public const string DragDataFormat = "AM_AppInfoDataFormat";
-
-
-		//public event EventHandler<ValueEventArgs<string[]>> AddFiles;
 
 
 		public ButtonListDrag(ItemsControl control, Type dataType)

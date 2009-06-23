@@ -150,9 +150,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AppTypeDrag.cs" />
+    <Compile Include="Classes\DragDrop\AppTypeDrag.cs" />
     <Compile Include="Classes\AsyncImageLoader.cs" />
-    <Compile Include="Classes\ButtonListDrag.cs" />
+    <Compile Include="Classes\DragDrop\ButtonListDrag.cs" />
     <Compile Include="Classes\CommandKeyBinding.cs" />
     <Compile Include="Classes\Commands\Activate.cs" />
     <Compile Include="Classes\Commands\AppCommands.cs" />
@@ -166,6 +166,7 @@
     <Compile Include="Classes\Commands\Settings.cs" />
     <Compile Include="Classes\Commands\StartApp.cs" />
     <Compile Include="Classes\ControllerBase.cs" />
+    <Compile Include="Classes\DragDrop\FileAppDropHandler.cs" />
     <Compile Include="Classes\Entities\AppGroup.cs" />
     <Compile Include="Classes\Entities\AppInfo.cs" />
     <Compile Include="Classes\AppManagerController.cs" />
