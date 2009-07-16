@@ -53,11 +53,13 @@ namespace AppManager.Commands
 			{
 				try
 				{
-					Process p = new Process();
-					p.StartInfo.FileName = app.AppPath;
-					p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
-					p.StartInfo.Arguments = String.IsNullOrEmpty(appArgs) ? app.AppArgs : appArgs;
-					p.Start();
+					using (Process p = new Process())
+					{
+						p.StartInfo.FileName = app.AppPath;
+						p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
+						p.StartInfo.Arguments = String.IsNullOrEmpty(appArgs) ? app.AppArgs : appArgs;
+						p.Start();
+					}
 				}
 				catch
 				{ ; }

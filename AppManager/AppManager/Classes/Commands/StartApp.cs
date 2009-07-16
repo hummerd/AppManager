@@ -44,13 +44,8 @@ namespace AppManager.Commands
 		{
 			//ThreadPool.QueueUserWorkItem(InitDrag);
 
-			_Single = new SingleInstance(10251, true, delegate()
-				{
-					ActivateTask act = delegate() 
-						{
-							_WorkItem.Commands.Activate.Execute(null);
-						};
-
+			_Single = new SingleInstance(10251, true, delegate() {
+					ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
 					DispatcherHelper.Invoke(act);
 				});
 
