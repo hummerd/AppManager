@@ -273,14 +273,14 @@ namespace AppManager
 		{
 			if (_BlankImage == null)
 			{
-				using (var bmp = AppManager.Properties.Resources.Window)
-				{
-					_BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-						bmp.GetHbitmap(),
-						IntPtr.Zero,
-						Int32Rect.Empty,
-						System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-				}
+				//using (var bmp = AppManager.Properties.Resources.Window)
+				//{
+				//   _BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+				//      bmp.GetHbitmap(),
+				//      IntPtr.Zero,
+				//      Int32Rect.Empty,
+				//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+				//}
 				//in all other cases we've got size {5, 5} instead of {16, 16}
 
 				//Uri pngSrc = new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute);
@@ -298,9 +298,12 @@ namespace AppManager
 				//   new BitmapImage(
 				//      new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute)), 
 				//   new Int32Rect(0, 0, 16, 16));
+				
 
-				//_BlankImage = new BitmapImage(
-				//      new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute));
+				//The deal was in images DPI
+				//http://genesisconduit.wordpress.com/2008/07/05/wpf-images-and-dpi-independence/
+				_BlankImage = new BitmapImage(
+					new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute));
 			}
 
 			return _BlankImage;
@@ -310,14 +313,17 @@ namespace AppManager
 		{
 			if (_FolderImage == null)
 			{
-				using (var bmp = AppManager.Properties.Resources.folder)
-				{
-				_FolderImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-					bmp.GetHbitmap(),
-					IntPtr.Zero,
-					Int32Rect.Empty,
-					System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-				}
+				//using (var bmp = AppManager.Properties.Resources.folder)
+				//{
+				//_FolderImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+				//   bmp.GetHbitmap(),
+				//   IntPtr.Zero,
+				//   Int32Rect.Empty,
+				//   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+				//}
+
+				_FolderImage = new BitmapImage(
+					new Uri(@"..\..\Resources\folder.png", UriKind.RelativeOrAbsolute));
 			}
 
 			return _FolderImage;
