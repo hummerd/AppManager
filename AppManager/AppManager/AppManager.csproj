@@ -302,7 +302,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\folder.png" />
+    <Resource Include="Resources\folder.png" />
     <Resource Include="Resources\Help.en-en.rtf" />
     <Resource Include="Resources\Help.ru-ru.rtf" />
   </ItemGroup>

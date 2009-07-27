@@ -76,24 +76,10 @@ namespace AppManager.Properties {
             }
         }
         
-        public static System.Drawing.Bitmap folder {
-            get {
-                object obj = ResourceManager.GetObject("folder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         public static System.Drawing.Icon leftarrow {
             get {
                 object obj = ResourceManager.GetObject("leftarrow", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        public static System.Drawing.Bitmap Window {
-            get {
-                object obj = ResourceManager.GetObject("Window", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
