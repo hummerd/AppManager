@@ -46,7 +46,7 @@ namespace CommonLib.UI
 
 			SetStoryTargets(_IsLoading);
 
-			_FadeOut.Begin(_PrimaryElement, HandoffBehavior.Compose, true);
+			_FadeOut.Begin(_PrimaryElement, HandoffBehavior.Compose, false);
 			//_FadeOut.Begin();
 		}
 
@@ -56,7 +56,7 @@ namespace CommonLib.UI
 			if (ElementHidden != null)
 				ElementHidden(this, e);
 
-			_FadeIn.Begin(_LoadingElement, HandoffBehavior.Compose, true);
+			_FadeIn.Begin(_LoadingElement, HandoffBehavior.Compose, false);
 			//_FadeIn.Begin();
 		}
 

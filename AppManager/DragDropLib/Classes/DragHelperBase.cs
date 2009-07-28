@@ -30,7 +30,10 @@ namespace DragDropLib
 		
 
 		public event EventHandler DragStart;
+		public event EventHandler<DragEventArgs> DragOver;
 		public event EventHandler<DragEndEventArgs> DragEnd;
+		public event EventHandler DragDroped;
+		public event EventHandler DragLeave;
 
 
 		protected bool						_IsDown = false;
@@ -258,6 +261,19 @@ namespace DragDropLib
 			PrepareSupportedEffect(e, element);
 		}
 
+		protected override void OnDragLeave(DragEventArgs e, FrameworkElement element)
+		{
+			base.OnDragLeave(e, element);
+
+			if (e.Handled)
+				return;
+
+			PrepareSupportedEffect(e, element);
+
+			if (e.Handled && DragLeave != null)
+				DragLeave(this, EventArgs.Empty);
+		}
+
 		protected override void OnDragOver(DragEventArgs e, FrameworkElement element)
 		{
 			base.OnDragOver(e, element);
@@ -266,6 +282,9 @@ namespace DragDropLib
 				return;
 
 			PrepareSupportedEffect(e, element);
+
+			if (e.Handled && DragOver != null)
+				DragOver(this, e);
 
 			//foreach (var item in _DragHandlers)
 			//   if (item.SupportDataFormat(e) != DragDropEffects.None)
@@ -290,6 +309,9 @@ namespace DragDropLib
 			
 			ResetDrag();
 
+			if (e.Handled && DragDroped != null)
+				DragDroped(this, EventArgs.Empty);
+			
 			//if (e.Data.GetDataPresent(_DataFormat))
 			//{
 			//   if ((e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)

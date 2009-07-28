@@ -6,9 +6,10 @@
 	mc:Ignorable="d"
 	x:Class="AppManager.ImageButton"
 	x:Name="ImageButton1"
-    HorizontalContentAlignment="Stretch"
-    VerticalContentAlignment="Stretch"
-	d:DesignWidth="436" d:DesignHeight="312" Width="88" Height="54" >
+   HorizontalContentAlignment="Stretch"
+   VerticalContentAlignment="Stretch"
+	d:DesignWidth="436" d:DesignHeight="312" Width="88" Height="54"
+	>
 		<Button.Resources>
 			<LinearGradientBrush x:Key="AppNameBrush" EndPoint="0.5,1" StartPoint="0.5,0">
 				<GradientStop Color="#FF158EC1" Offset="0"/>
