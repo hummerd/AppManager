@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="UI\GridRowResizer.cs" />
     <Compile Include="Application\SingleInstance.cs" />
+    <Compile Include="UI\MoveAnimation.cs" />
     <Compile Include="UI\ResizerBase.cs" />
     <Compile Include="UI\UIHelper.cs" />
     <Compile Include="ValueEventArgs.cs" />

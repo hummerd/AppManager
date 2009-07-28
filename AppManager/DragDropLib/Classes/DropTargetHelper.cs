@@ -45,7 +45,7 @@ namespace DragDropLib
 			{ ; }
 		}
 
-		protected virtual void OnDragLeave(DragEventArgs e)
+		protected virtual void OnDragLeave(DragEventArgs e, FrameworkElement element)
 		{
 			_DropTargetHelper.DragLeave();
 		}
@@ -81,7 +81,7 @@ namespace DragDropLib
 
 		private void DragLeaveTarget(object sender, DragEventArgs e)
 		{
-			OnDragLeave(e);
+			OnDragLeave(e, sender as FrameworkElement);
 		}
 
 		private void DropTarget(object sender, DragEventArgs e)
