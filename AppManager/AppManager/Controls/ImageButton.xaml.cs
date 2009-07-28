@@ -27,13 +27,13 @@ namespace AppManager
 
 
 		protected TextBlock _ButtonText = null;
-		protected FadeAnimarion _Animation = null;
+		//protected FadeAnimarion _Animation = null;
 
 
 		public ImageButton()
 		{
 			this.InitializeComponent();
-			_Animation = new FadeAnimarion(ButtonImage);
+			//_Animation = new FadeAnimarion(ButtonImage);
 		}
 
 
@@ -73,8 +73,9 @@ namespace AppManager
 						ButtonImage.Source = (BitmapSource)e.NewValue;
 					else
 					{
-						_Animation.SetLoadingState(true);
-						_Animation.ElementHidden += (s, ea) => ButtonImage.Source = (BitmapSource)e.NewValue;
+						var anim = new FadeAnimarion(ButtonImage);
+						anim.SetLoadingState(true);
+						anim.ElementHidden += (s, ea) => ButtonImage.Source = (BitmapSource)e.NewValue;
 					}
 				}
 			}
