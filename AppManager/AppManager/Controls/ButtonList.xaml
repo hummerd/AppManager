@@ -9,7 +9,11 @@
 	x:Name="ButtonList1"
 	d:DesignHeight="75" 
 	d:DesignWidth="105" 
-	PreviewKeyDown="ButtonList_PreviewKeyDown" 
+	Background="Transparent"
+	BorderThickness="0,0"
+	PreviewKeyDown="ButtonList_PreviewKeyDown"
+	ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+	ScrollViewer.VerticalScrollBarVisibility="Auto"
 	>
 	<ListBox.ItemContainerStyle>
 		<Style
@@ -153,14 +157,13 @@
 	</ListBox.ItemTemplate>
 	<ListBox.ItemsPanel>
 		<ItemsPanelTemplate>
-			<!--ItemWidth="89"
-				 ItemHeight="54"-->
 			<WrapPanel
 				 Orientation="Horizontal" 
 				 IsItemsHost="True"
-				 Width="{Binding Path=ActualWidth, 
+				 Width="{Binding Path=Width, 
 						RelativeSource={RelativeSource Mode=FindAncestor, 
-						AncestorType= {x:Type ScrollContentPresenter}}}" />
+						AncestorType= {x:Type ScrollContentPresenter}}}"
+			/>
 		</ItemsPanelTemplate>
 	</ListBox.ItemsPanel>
 </ListBox>

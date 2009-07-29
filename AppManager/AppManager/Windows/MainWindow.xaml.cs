@@ -514,11 +514,11 @@ namespace AppManager
 
 		private void TrashMark_DragOver(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat))
+			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat) ||
+				 e.Data.GetDataPresent(AppTypeDrag.DragDataFormat))
 				e.Effects = DragDropEffects.Move;
-
-			if (e.Data.GetDataPresent(AppTypeDrag.DragDataFormat))
-				e.Effects = DragDropEffects.Move;
+			else
+				e.Effects = DragDropEffects.None;
 		}
 
 		private void ContentPanel_DragOver(object sender, DragEventArgs e)
