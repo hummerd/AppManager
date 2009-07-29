@@ -32,8 +32,8 @@ namespace DragDropLib
 		public event EventHandler DragStart;
 		public event EventHandler<DragEventArgs> DragOver;
 		public event EventHandler<DragEndEventArgs> DragEnd;
-		public event EventHandler DragDroped;
-		public event EventHandler DragLeave;
+		public event EventHandler<DragEventArgs> DragDroped;
+		public event EventHandler<DragEventArgs> DragLeave;
 
 
 		protected bool						_IsDown = false;
@@ -269,9 +269,9 @@ namespace DragDropLib
 				return;
 
 			PrepareSupportedEffect(e, element);
-
+	
 			if (e.Handled && DragLeave != null)
-				DragLeave(this, EventArgs.Empty);
+				DragLeave(this, e);
 		}
 
 		protected override void OnDragOver(DragEventArgs e, FrameworkElement element)
@@ -310,7 +310,7 @@ namespace DragDropLib
 			ResetDrag();
 
 			if (e.Handled && DragDroped != null)
-				DragDroped(this, EventArgs.Empty);
+				DragDroped(this, e);
 			
 			//if (e.Data.GetDataPresent(_DataFormat))
 			//{

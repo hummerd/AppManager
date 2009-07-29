@@ -14,6 +14,7 @@ namespace DragDropLib
 	public class ItemsDragHelper : DragHelperBase
 	{
 		public event EventHandler<ValueEventArgs<object>> PrepareItem;
+		public event EventHandler<ValueEventArgs<object>> NeedTargetObject;
 
 
 		protected ItemsControl		_ItemsControl;
@@ -100,7 +101,15 @@ namespace DragDropLib
 		
 		protected void HandleDropedObject(FrameworkElement element, DragEventArgs e, object dropObject)
 		{
-			var item = _ItemsControl.InputHitTest(e.GetPosition(element)) as FrameworkElement;
+			var ea = new ValueEventArgs<object>(null);
+			if (NeedTargetObject != null)
+				NeedTargetObject(this, ea);
+
+			var item = ea.Value as FrameworkElement;
+
+			if (item == null)
+				item = _ItemsControl.InputHitTest(e.GetPosition(element)) as FrameworkElement;
+
 			item = _ItemsControl.ContainerFromElement(item) as FrameworkElement;
 			int ix;
 			object targetObject = GetItemFromElement(item, out ix);

@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using AppManager.DragDrop;
 using CommonLib;
 using CommonLib.UI;
-using System.Windows.Media;
-using System.Diagnostics;
+using CommonLib.PInvoke;
 
 
 namespace AppManager
@@ -30,13 +31,11 @@ namespace AppManager
 		{
 			this.InitializeComponent();
 
-			//ItemContainerStyle = new Style();
-			//ItemContainerStyle.Resources[SystemColors.HighlightBrushKey] = Brushes.Transparent;
-			//ItemContainerStyle.Resources[SystemColors.ControlBrushKey] = Brushes.Transparent;
-
 			_DragHelper = new ButtonListDrag(this, typeof(AppInfo));
 			_DragHelper.DragOver += (s, e) => OnDragHelperDragOver(e);
-			_DragHelper.DragLeave += (s, e) => ResetLastMove();
+			_DragHelper.DragLeave += (s, e) => ResetLastMove(e, false);
+			_DragHelper.DragDroped += (s, e) => ResetLastMove(e, true);
+			_DragHelper.NeedTargetObject += (s, e) => e.Value = GetLastItems();
 		}
 
 
@@ -64,19 +63,8 @@ namespace AppManager
 		protected void OnDragHelperDragOver(DragEventArgs e)
 		{
 			Point pt = e.GetPosition(this);
-			if (!_LastRect.IsEmpty)
-			{
-				if (_LastRect.Contains(pt))
-				{
-					Debug.WriteLine("nc");
-					return;
-				}
-				//_LastMoved.TranslatePoint(new Point(0, 0), this);
-			}
-
-			Debug.WriteLine("passed " + pt);
-			Debug.WriteLine("passed rect " + _LastRect);
-			Debug.WriteLine("passed");
+			if (!_LastRect.IsEmpty && _LastRect.Contains(pt))
+				return;
 
 			var input = InputHitTest(pt) as FrameworkElement;
 			if (input != null)
@@ -84,24 +72,37 @@ namespace AppManager
 				var ib = UIHelper.FindAncestorOrSelf<ImageButton>(input, null);
 				if (ib != null && _LastMoved != ib)
 				{
-					ResetLastMove();
+					ResetLastMove(e, true);
 					_LastMoved = ib;
 					_LastRect = new Rect(ib.TranslatePoint(new Point(0, 0), this), ib.RenderSize);
 					Debug.WriteLine("rect set " + _LastRect);
 					new MoveAnimation(ib);
 				}
 				else if (ib == null)
-					ResetLastMove();
+					ResetLastMove(e, true);
 			}
 		}
 
-		protected void ResetLastMove()
+		protected void ResetLastMove(DragEventArgs e, bool anyWay)
 		{
+			if (e.GetPosition((IInputElement)e.OriginalSource) == new Point(0, 0))
+				anyWay = true;
+
+			Point pt = User32.GetCursorPos(this);
+
+			if (!anyWay && !_LastRect.IsEmpty && _LastRect.Contains(pt))
+				return;
+			
 			if (_LastMoved != null)
 				_LastMoved.RenderTransform.BeginAnimation(TranslateTransform.XProperty, null);
 
 			_LastRect = Rect.Empty;
 			_LastMoved = null;
+		}
+
+		protected object GetLastItems()
+		{
+			return _LastMoved;
 		}
 
 		

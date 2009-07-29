@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 
 
 namespace CommonLib.PInvoke
@@ -46,6 +47,9 @@ namespace CommonLib.PInvoke
 			IntPtr hRgn,
 			bool bRedraw);
 
+		[DllImport("user32.dll")]
+		public static extern bool GetCursorPos(ref POINT lpPoint);
+
 		/// <summary>
 		/// See MSDN documentation for the Win32 function SendMessage
 		/// </summary>
@@ -79,6 +83,13 @@ namespace CommonLib.PInvoke
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern bool AttachThreadInput(int t, int tt, bool b);
 
+
+		public static Point GetCursorPos(Visual relativeTo)
+		{
+			User32.POINT p = new User32.POINT();
+			User32.GetCursorPos(ref p);
+			return relativeTo.PointFromScreen(new Point(p.X, p.Y));
+		}
 
 		public static void ActivateWindow(Window wnd)
 		{

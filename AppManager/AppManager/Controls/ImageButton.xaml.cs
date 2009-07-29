@@ -110,6 +110,7 @@ namespace AppManager
 					_ButtonText.FontSize = 11;
 					_ButtonText.TextAlignment = TextAlignment.Center;
 					_ButtonText.Foreground = Resources["AppNameBrush"] as Brush;
+					_ButtonText.IsHitTestVisible = false;
 					Grid.SetColumn(_ButtonText, 0);
 					Grid.SetRow(_ButtonText, 1);
 					Grid.SetColumnSpan(_ButtonText, 3);
