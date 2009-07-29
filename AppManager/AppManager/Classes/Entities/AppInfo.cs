@@ -303,7 +303,7 @@ namespace AppManager
 				//The deal was in images DPI
 				//http://genesisconduit.wordpress.com/2008/07/05/wpf-images-and-dpi-independence/
 				_BlankImage = new BitmapImage(
-					new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute));
+					new Uri(@"pack://application:,,/Resources/Window.png"));
 			}
 
 			return _BlankImage;
@@ -323,7 +323,7 @@ namespace AppManager
 				//}
 
 				_FolderImage = new BitmapImage(
-					new Uri(@"..\..\Resources\folder.png", UriKind.RelativeOrAbsolute));
+					new Uri(@"pack://application:,,/Resources/folder.png"));
 			}
 
 			return _FolderImage;
