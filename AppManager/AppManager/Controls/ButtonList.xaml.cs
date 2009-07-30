@@ -85,12 +85,18 @@ namespace AppManager
 
 		protected void ResetLastMove(DragEventArgs e, bool anyWay)
 		{
+			Debug.WriteLine("reset " + e.Source);
+			Debug.WriteLine("reset " + e.OriginalSource);
+
 			if (e.GetPosition((IInputElement)e.OriginalSource) == new Point(0, 0))
 				anyWay = true;
 
 			Point pt = User32.GetCursorPos(this);
+			var wnd = UIHelper.FindAncestorOrSelf<Window>(this, null);
+			var wndi = wnd.InputHitTest(User32.GetCursorPos(wnd));
+			var input = InputHitTest(pt) as FrameworkElement;
 
-			if (!anyWay && !_LastRect.IsEmpty && _LastRect.Contains(pt))
+			if (wndi == input && !anyWay && !_LastRect.IsEmpty && _LastRect.Contains(pt))
 				return;
 			
 			if (_LastMoved != null)
