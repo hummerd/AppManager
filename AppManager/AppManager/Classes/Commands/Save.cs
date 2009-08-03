@@ -18,9 +18,11 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			XmlSerializeHelper.SerializeItem(
-				_WorkItem.AppData,
-				_WorkItem.DataPath);
+			//XmlSerializeHelper.SerializeItem(
+			//   _WorkItem.AppData,
+			//   _WorkItem.DataPath);
+
+			AppGroupLoader.Save(_WorkItem.DataPath, _WorkItem.AppData);
 
 			_WorkItem.MainWindow.SaveState();
 			AMSetttingsFactory.DefaultSettingsBag.SaveSettings("appsettings.xml");

@@ -193,16 +193,26 @@ namespace AppManager.Commands
 		protected void LoadData()
 		{
 			AppGroup apps = null;
-
+			bool readNew = false;
 			try
 			{
-				apps = AppGroupLoader.Load(_WorkItem.DataPath);
+				apps = AppGroupLoader.Load2(_WorkItem.DataPath);
+				readNew = true;
 				//apps = XmlSerializeHelper.DeserializeItem(
 				//   _WorkItem.AppData.GetType(),
 				//   _WorkItem.DataPath) as AppGroup;
 			}
 			catch
 			{ ; }
+
+			if (!readNew)
+			try
+			{
+				apps = AppGroupLoader.Load(_WorkItem.DataPath);
+			}
+			catch
+			{ ; }
+
 
 			if (apps != null)
 			{
