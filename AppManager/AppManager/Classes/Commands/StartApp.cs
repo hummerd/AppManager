@@ -196,9 +196,10 @@ namespace AppManager.Commands
 
 			try
 			{
-				apps = XmlSerializeHelper.DeserializeItem(
-					_WorkItem.AppData.GetType(),
-					_WorkItem.DataPath) as AppGroup;
+				apps = AppGroupLoader.Load(_WorkItem.DataPath);
+				//apps = XmlSerializeHelper.DeserializeItem(
+				//   _WorkItem.AppData.GetType(),
+				//   _WorkItem.DataPath) as AppGroup;
 			}
 			catch
 			{ ; }

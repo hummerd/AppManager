@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
-using WinSh = IWshRuntimeLibrary;
 using CommonLib.PInvoke;
+using CommonLib.IO;
 
 
 namespace AppManager
@@ -138,7 +138,7 @@ namespace AppManager
 			var uniq = new Dictionary<string, object>(100);
 
 
-			WinSh.WshShell shell = new WinSh.WshShellClass();
+			//WinSh.WshShell shell = new WinSh.WshShellClass();
 
 			foreach (var path in files)
 			{
@@ -152,7 +152,9 @@ namespace AppManager
 
 					if (ext == ".lnk")
 					{
-						WinSh.WshShortcut shortcut = shell.CreateShortcut(path) as WinSh.WshShortcut;
+						//WinSh.WshShortcut shortcut = shell.CreateShortcut(path) as WinSh.WshShortcut;
+						var shortcut = LnkHelper.CreateLnk(path);
+
 						appPath = shortcut.TargetPath;
 						appArgs = shortcut.Arguments;
 						if (appArgs == null)

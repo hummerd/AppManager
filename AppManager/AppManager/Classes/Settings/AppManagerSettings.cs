@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel;
+using System;
 
 
 namespace AppManager.Settings
 {
+	[Serializable]
 	public class AppManagerSettings : INotifyPropertyChanged
 	{
 		protected bool _AlwaysOnTop;

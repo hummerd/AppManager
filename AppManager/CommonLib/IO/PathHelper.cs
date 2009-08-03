@@ -34,10 +34,10 @@ namespace CommonLib
 				tempPath = tempPath.Substring(0, lix);
 				tempPath = tempPath.Trim('\"');
 
-				if (Directory.Exists(tempPath))
+				if (!HasInvalidChars(tempPath) && Directory.Exists(tempPath))
 					return trimPath;
 
-				if (!tempPath.Contains("\"") && File.Exists(tempPath))
+				if (!HasInvalidChars(tempPath) && !tempPath.Contains("\"") && File.Exists(tempPath))
 					break;
 			}
 
@@ -189,6 +189,19 @@ namespace CommonLib
 
 			Uri u1 = new Uri(uri1);
 			return u1.Scheme == Uri.UriSchemeFile ? Path.DirectorySeparatorChar : '/';
+		}
+
+
+		private static bool HasInvalidChars(string path)
+		{
+			char[] inv = Path.GetInvalidPathChars();
+			for (int i = 0; i < inv.Length; i++)
+			{
+				if (path.IndexOf(inv[i]) >= 0)
+					return true;
+			}
+
+			return false;
 		}
 	}
 }

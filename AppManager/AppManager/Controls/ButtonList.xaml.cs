@@ -75,7 +75,7 @@ namespace AppManager
 					ResetLastMove(e, true);
 					_LastMoved = ib;
 					_LastRect = new Rect(ib.TranslatePoint(new Point(0, 0), this), ib.RenderSize);
-					Debug.WriteLine("rect set " + _LastRect);
+					//Debug.WriteLine("rect set " + _LastRect);
 					new MoveAnimation(ib);
 				}
 				else if (ib == null)
@@ -85,8 +85,8 @@ namespace AppManager
 
 		protected void ResetLastMove(DragEventArgs e, bool anyWay)
 		{
-			Debug.WriteLine("reset " + e.Source);
-			Debug.WriteLine("reset " + e.OriginalSource);
+			//Debug.WriteLine("reset " + e.Source);
+			//Debug.WriteLine("reset " + e.OriginalSource);
 
 			if (e.GetPosition((IInputElement)e.OriginalSource) == new Point(0, 0))
 				anyWay = true;
