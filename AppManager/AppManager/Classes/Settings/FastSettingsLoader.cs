@@ -14,20 +14,29 @@ namespace AppManager.Settings
 		public virtual AppManagerSettings LoadSettings(string path)
 		{
 			AppManagerSettings result = new AppManagerSettings();
-			using (XmlReader reader = XmlReader.Create(path))
+
+			XmlReaderSettings sett = new XmlReaderSettings();
+			sett.IgnoreWhitespace = true;
+			using (XmlReader reader = XmlReader.Create(path, sett))
 			{
-				reader.Read();
 				reader.ReadStartElement("AppManagerSettings");
 				reader.ReadStartElement("MianFormRowHeights");
 
 				List<double> rowHeights = new List<double>();
-				while (reader.IsStartElement())
+
+				if (reader.Name == "double")
 				{
-					reader.ReadStartElement("double");
-					rowHeights.Add(reader.ReadContentAsDouble());
+				//var sub = reader.ReadSubtree();
+				//if (reader.ReadToDescendant("double"))
+				//{
+					while (reader.IsStartElement())
+					{
+						reader.ReadStartElement("double");
+						rowHeights.Add(reader.ReadContentAsDouble());
+						reader.ReadEndElement();
+					}
 					reader.ReadEndElement();
 				}
-				reader.ReadEndElement();
 				result.MianFormRowHeights = rowHeights.ToArray();
 
 				reader.ReadStartElement("MainFormSett");

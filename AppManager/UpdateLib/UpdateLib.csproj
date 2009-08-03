@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpdStr.resx</DependentUpon>
     </Compile>
+    <Compile Include="VersionManifestLoader.cs" />
     <Compile Include="VersionNumberFactory.cs" />
     <Compile Include="WebUpdate\WebFileDownloader.cs" />
     <Compile Include="FileDownloader\IFileDownloader.cs" />
