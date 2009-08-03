@@ -4,7 +4,7 @@ using System.IO;
 
 namespace AppManager.Settings
 {
-	public class AMSettingLoader : XMLSettingsLoader<AppManagerSettings>
+	public class AMSettingLoader : FastSettingsLoader //XMLSettingsLoader<AppManagerSettings>
 	{
 		public MainWorkItem WorkItem { get; set; }
 

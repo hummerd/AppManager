@@ -41,8 +41,8 @@ namespace CommonLib.UI
 			if (_FadeIn == null)
 				_FadeIn = CreateStoryBoard(true);
 
-			_FadeOut.Stop(_PrimaryElement);
-			_FadeIn.Stop(_LoadingElement);
+			//_FadeOut.Stop(_PrimaryElement);
+			//_FadeIn.Stop(_LoadingElement);
 
 			SetStoryTargets(_IsLoading);
 

@@ -15,7 +15,6 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <StartupObject>AppManager.App</StartupObject>
-    <NoWin32Manifest>true</NoWin32Manifest>
     <ApplicationIcon>Resources\1leftarrow_1159.ico</ApplicationIcon>
     <TargetFrameworkSubset>
     </TargetFrameworkSubset>
@@ -26,7 +25,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <ManifestCertificateThumbprint>AB07D45FEE153F604A01B3D733212DD2AAECEE00</ManifestCertificateThumbprint>
     <ManifestKeyFile>AppManager_TemporaryKey.pfx</ManifestKeyFile>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
     <SignManifests>false</SignManifests>
     <PublishUrl>http://localhost/AppManager/</PublishUrl>
     <Install>true</Install>
@@ -44,6 +43,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,6 +54,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -150,6 +151,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AppGroupLoader.cs" />
     <Compile Include="Classes\DragDrop\AppTypeDrag.cs" />
     <Compile Include="Classes\AsyncImageLoader.cs" />
     <Compile Include="Classes\DragDrop\ButtonListDrag.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="Classes\SettingsController.cs" />
     <Compile Include="Classes\Settings\AppManagerSettings.cs" />
     <Compile Include="Classes\Settings\ControlAdapterBase.cs" />
+    <Compile Include="Classes\Settings\FastSettingsLoader.cs" />
     <Compile Include="Classes\Settings\WndSettingsAdapter.cs" />
     <Compile Include="Classes\Settings\ISettingProvider.cs" />
     <Compile Include="Classes\Settings\AMSetttingsFactory.cs" />
@@ -230,16 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Window.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="IWshRuntimeLibrary">
-      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -330,7 +323,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
+    -->
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>

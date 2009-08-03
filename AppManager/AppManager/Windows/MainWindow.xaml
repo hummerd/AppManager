@@ -368,6 +368,7 @@
 				<Grid
 						MouseLeftButtonDown="CaptionGrid_MouseLeftButtonDown"
 						SnapsToDevicePixels="True"
+						Background="Transparent"
 						>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" MinWidth="49" />
@@ -401,7 +402,8 @@
 						Text="{x:Static am:Strings.APP_TITLE}"
 						d:IsStaticText="True"
 						Grid.Column="2"
-						Margin="12,6,6,2" Opacity="0.75">
+						Margin="12,6,6,2" Opacity="0.75"
+						IsHitTestVisible="False">
 						<Run FontWeight="Bold"/>
 					</TextBlock>
 					<TextBlock
@@ -413,7 +415,8 @@
 						Text="{x:Static am:Strings.APP_TITLE}"
 						d:IsStaticText="True"
 						Grid.Column="2"
-						Margin="8,4,6,2" Opacity="1">
+						Margin="8,4,6,2" Opacity="1"
+						IsHitTestVisible="False">
 						<Run FontWeight="Bold" Foreground="#FFFFDC8F"/>
 					</TextBlock>
 					<Button
