@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 
 
@@ -10,8 +8,6 @@ namespace AppManager
 	{
 		public static void Save(string xmlPath, AppGroup appGroup)
 		{
-			AppGroup result = new AppGroup();
-
 			XmlWriterSettings sett = new XmlWriterSettings();
 			sett.Indent = true;
 			using (XmlWriter writer = XmlWriter.Create(xmlPath, sett))
