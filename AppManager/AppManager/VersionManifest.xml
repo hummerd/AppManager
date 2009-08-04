@@ -1,56 +1,71 @@
 <?xml version="1.0"?>
 <VersionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <VersionNumberString>1.0.3.14</VersionNumberString>
-  <UpdateUri>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUri>
-  <VersionItems>
-    <VersionItem>
-      <Location>\\msk-0438\Common\AppManagerUpdate\AppManager.exe.gzip</Location>
-      <Path />
-      <InstallAction>Copy</InstallAction>
-      <VersionNumberString>1.0.0.22787</VersionNumberString>
-      <Base64Hash>BXRP4SnPlYA3V6p1lA0Q4w==</Base64Hash>
-    </VersionItem>
-    <VersionItem>
-      <Location>\\msk-0438\Common\AppManagerUpdate\AppManager.exe.config.gzip</Location>
-      <Path />
-      <InstallAction>Copy</InstallAction>
-      <VersionNumberString>1.0.0.0</VersionNumberString>
-      <Base64Hash>IwJfqf1k8QDOQT0+OJktbg==</Base64Hash>
-    </VersionItem>
-    <VersionItem>
-      <Location>\\msk-0438\Common\AppManagerUpdate\CommonLib.dll.gzip</Location>
-      <Path />
-      <InstallAction>Copy</InstallAction>
-      <VersionNumberString>1.0.0.0</VersionNumberString>
-      <Base64Hash>UCMFe1QCkaMrutIr+AjCOw==</Base64Hash>
-    </VersionItem>
-    <VersionItem>
-      <Location>\\msk-0438\Common\AppManagerUpdate\DragDropLib.dll.gzip</Location>
-      <Path />
-      <InstallAction>Copy</InstallAction>
-      <VersionNumberString>1.0.0.0</VersionNumberString>
-      <Base64Hash>BEBkQF4tCxXnQ8pKvq2U4A==</Base64Hash>
-    </VersionItem>
-    <VersionItem>
-      <Location>\\msk-0438\Common\AppManagerUpdate\Interop.IWshRuntimeLibrary.dll.gzip</Location>
-      <Path />
-      <InstallAction>Copy</InstallAction>
-      <VersionNumberString>1.0.0.0</VersionNumberString>
-      <Base64Hash>lhO4VizcqJ5yStCWHioZ2w==</Base64Hash>
-    </VersionItem>
-    <VersionItem>
-      <Location>\\msk-0438\Common\AppManagerUpdate\ru-ru\AppManager.resources.dll.gzip</Location>
-      <Path>ru-ru</Path>
-      <InstallAction>Copy</InstallAction>
-      <VersionNumberString>1.0.0.22787</VersionNumberString>
-      <Base64Hash>VgxD/crChdsJOlpNSav+Bw==</Base64Hash>
-    </VersionItem>
-    <VersionItem>
-      <Location>\\msk-0438\Common\AppManagerUpdate\ru-ru\CommonLib.resources.dll.gzip</Location>
-      <Path>ru-ru</Path>
-      <InstallAction>Copy</InstallAction>
-      <VersionNumberString>1.0.0.0</VersionNumberString>
-      <Base64Hash>fD1cww5zD4JGUJvMIcGYfw==</Base64Hash>
-    </VersionItem>
-  </VersionItems>
+	<VersionNumberString>1.0.25.35</VersionNumberString>
+	<VersionItems>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/AppManager.exe.gzip</Location>
+			<Path />
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.343</VersionNumberString>
+			<Base64Hash>7pdONYQq8WvaBTEtRCv9tA==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/AppManager.exe.config.gzip</Location>
+			<Path />
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.35</VersionNumberString>
+			<Base64Hash>IwJfqf1k8QDOQT0+OJktbg==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/CommonLib.dll.gzip</Location>
+			<Path />
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.340</VersionNumberString>
+			<Base64Hash>1U/1VObeUra4QimvinSoKw==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/DragDropLib.dll.gzip</Location>
+			<Path />
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.340</VersionNumberString>
+			<Base64Hash>gLl50L4wL0XOsmViJm8WRQ==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/Interop.IWshRuntimeLibrary.dll.gzip</Location>
+			<Path />
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.0</VersionNumberString>
+			<Base64Hash>W1+7AqYHD121MAgbDy47Vg==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/UpdateLib.dll.gzip</Location>
+			<Path />
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.341</VersionNumberString>
+			<Base64Hash>avO1mns3bBiZ3ssY2IRshw==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/ru/AppManager.resources.dll.gzip</Location>
+			<Path>ru</Path>
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.343</VersionNumberString>
+			<Base64Hash>9bPXBjVcUaThJ/CBkqNtmQ==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/ru/CommonLib.resources.dll.gzip</Location>
+			<Path>ru</Path>
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.340</VersionNumberString>
+			<Base64Hash>oVqurtsaIRKqgvP9g/DjSg==</Base64Hash>
+		</VersionItem>
+		<VersionItem>
+			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/ru/UpdateLib.resources.dll.gzip</Location>
+			<Path>ru</Path>
+			<InstallAction>Copy</InstallAction>
+			<VersionNumberString>1.0.26.341</VersionNumberString>
+			<Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
+		</VersionItem>
+	</VersionItems>
+	<UpdateUri>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUri>
+	<UpdateUriAlt>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUriAlt>
 </VersionManifest>

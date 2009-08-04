@@ -9,11 +9,8 @@ using CommonLib;
 using CommonLib.Application;
 using CommonLib.IO;
 using CommonLib.Windows;
-using UpdateLib.FileDownloader;
-using UpdateLib.ShareUpdate;
 using UpdateLib.UI;
 using UpdateLib.VersionInfo;
-using UpdateLib.WebUpdate;
 
 
 namespace UpdateLib
@@ -250,10 +247,11 @@ namespace UpdateLib
 				var manifestPath = Path.Combine(appPath, VersionManifest.VersionManifestFileName);
 
 				if (File.Exists(manifestPath))
-					return XmlSerializeHelper.DeserializeItem(
-						typeof(VersionManifest),
-						manifestPath
-						) as VersionManifest;
+					return VersionManifestLoader.Load(manifestPath);
+					//return XmlSerializeHelper.DeserializeItem(
+					//   typeof(VersionManifest),
+					//   manifestPath
+					//   ) as VersionManifest;
 			}
 			catch 
 			{ ; }

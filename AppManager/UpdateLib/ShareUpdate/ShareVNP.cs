@@ -14,8 +14,10 @@ namespace UpdateLib.ShareUpdate
 		{
 			try
 			{
-				return XmlSerializeHelper.DeserializeItem(typeof(VersionData),
-					location.LocalPath) as VersionData;
+				//return XmlSerializeHelper.DeserializeItem(typeof(VersionData),
+				//   location.LocalPath) as VersionData;
+
+				return VersionManifestLoader.LoadData(location.LocalPath);
 			}
 			catch
 			{ ; }
@@ -27,8 +29,10 @@ namespace UpdateLib.ShareUpdate
 		{
 			try
 			{
-				return XmlSerializeHelper.DeserializeItem(typeof(VersionManifest),
-					location.LocalPath) as VersionManifest;
+				//return XmlSerializeHelper.DeserializeItem(typeof(VersionManifest),
+				//   location.LocalPath) as VersionManifest;
+
+				return VersionManifestLoader.Load(location.LocalPath);
 			}
 			catch
 			{ ; }
