@@ -114,6 +114,7 @@ namespace UpdateLib
 			_UpdateThread = new Thread(UpdateAppThread);
 			_UpdateThread.SetApartmentState(ApartmentState.STA);
 			_UpdateThread.IsBackground = true;
+			_UpdateThread.Priority = ThreadPriority.BelowNormal;
 			_UpdateThread.Start(new object[]
 				{
 				appName,
