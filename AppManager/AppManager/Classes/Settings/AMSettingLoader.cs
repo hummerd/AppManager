@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
+using CommonLib;
 
 
 namespace AppManager.Settings
@@ -14,7 +14,16 @@ namespace AppManager.Settings
 		{
 			string userSettingsDir = WorkItem.DataDir;
 			userSettingsDir = Path.Combine(userSettingsDir, path);
-			return base.LoadSettings(userSettingsDir);
+			var result = base.LoadSettings(userSettingsDir);
+
+			var heights = result.MianFormRowHeights;
+			for (int i = 0; i < heights.Length; i++)
+				if (heights[i] < 0.00001)
+					heights[i] = 0.1;
+
+			MathHelper.Normilize(heights, 1000);
+
+			return result;
 		}
 
 		public override void SaveSettings(string path, AppManagerSettings settings)
