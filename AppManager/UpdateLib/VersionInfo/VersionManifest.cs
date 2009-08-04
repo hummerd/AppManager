@@ -8,7 +8,6 @@ using CommonLib;
 
 namespace UpdateLib.VersionInfo
 {
-	[Serializable]
 	public class VersionManifest
 	{
 		public const string VersionFileName = "AppVersion.{0}.xml";
@@ -23,7 +22,6 @@ namespace UpdateLib.VersionInfo
 		}
 
 
-		[XmlIgnore]
 		public Version VersionNumber
 		{ get; set; }
 

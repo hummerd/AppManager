@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
 
 
 namespace UpdateLib.VersionInfo
 {
-	[Serializable]
 	public class VersionData
 	{
 		public VersionData()
@@ -21,7 +17,6 @@ namespace UpdateLib.VersionInfo
 		}
 
 
-		[XmlIgnore]
 		public Version VersionNumber
 		{ get; set; }
 

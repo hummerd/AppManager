@@ -25,7 +25,8 @@ namespace UpdateLib.WebUpdate
 
 				_TempStream.Position = 0;
 				StreamReader sr = new StreamReader(_TempStream);
-				return XmlSerializeHelper.DeserializeItem(sr.ReadToEnd(), typeof(VersionData)) as VersionData;
+				//return XmlSerializeHelper.DeserializeItem(sr.ReadToEnd(), typeof(VersionData)) as VersionData;
+				return VersionManifestLoader.LoadData(sr);
 			}
 			catch
 			{ ; }
@@ -52,7 +53,8 @@ namespace UpdateLib.WebUpdate
 
 					_TempStream.Position = 0;
 					StreamReader sr = new StreamReader(_TempStream);
-					return XmlSerializeHelper.DeserializeItem(sr.ReadToEnd(), typeof(VersionManifest)) as VersionManifest;
+					//return XmlSerializeHelper.DeserializeItem(sr.ReadToEnd(), typeof(VersionManifest)) as VersionManifest;
+					return VersionManifestLoader.Load(sr);
 				}
 				catch
 				{ ; }
