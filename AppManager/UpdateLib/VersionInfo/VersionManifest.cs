@@ -21,7 +21,7 @@ namespace UpdateLib.VersionInfo
 			VersionNumber = new Version();
 		}
 
-
+		[XmlIgnore]
 		public Version VersionNumber
 		{ get; set; }
 

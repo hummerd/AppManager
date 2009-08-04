@@ -105,6 +105,8 @@ namespace UpdateLib
 				result.Path = reader.ReadContentAsString();
 				reader.ReadEndElement();
 			}
+			else
+				result.Path = String.Empty;
 
 			reader.ReadStartElement("InstallAction");
 			result.InstallAction = (InstallAction)Enum.Parse(typeof(InstallAction), reader.ReadContentAsString());

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 
 namespace UpdateLib.VersionInfo
@@ -16,7 +17,7 @@ namespace UpdateLib.VersionInfo
 			Description = " ";
 		}
 
-
+		[XmlIgnore]
 		public Version VersionNumber
 		{ get; set; }
 
