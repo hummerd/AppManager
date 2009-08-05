@@ -7,7 +7,7 @@ namespace AppManager.DragDrop
 {
 	public class FileAppDropHandler : FileDropHandler
 	{
-		public override System.Windows.DragDropEffects SupportDataFormat(FrameworkElement element, DragEventArgs dragData)
+		public override DragDropEffects SupportDataFormat(FrameworkElement element, DragEventArgs dragData)
 		{
 			if ((dragData.KeyStates & DragDropKeyStates.AltKey) == DragDropKeyStates.AltKey)
 			{

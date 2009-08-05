@@ -42,7 +42,7 @@ namespace AppManager
 			InitCommands(_Controller.WorkItem.Commands);
 
 			_AppDrop = new SimpleDragDataHandler(
-				ButtonListDrag.DragDataFormat, typeof(AppInfo));
+				ButtonListDrag.DragDataFormat, typeof(AppInfo), AppGroupLoader.Default);
 			_AppDrop.ObjectDroped += (s, e) =>
 				_Controller.AddApp(
 					(s as FrameworkElement).DataContext as AppType,
@@ -50,7 +50,7 @@ namespace AppManager
 			
 
 			_AppTypeDrop = new SimpleDragDataHandler(
-				AppTypeDrag.DragDataFormat, typeof(AppType));
+				AppTypeDrag.DragDataFormat, typeof(AppType), AppGroupLoader.Default);
 
 			_AppTypeDrop.ObjectDroped += (s, e) => 
 				_Controller.InsertAppType(

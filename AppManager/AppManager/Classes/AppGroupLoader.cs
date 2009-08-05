@@ -1,11 +1,30 @@
 ﻿using System;
 using System.Xml;
+using System.Text;
+using System.IO;
+using DragDropLib;
 
 
 namespace AppManager
 {
-	public static class AppGroupLoader
+	public class AppGroupLoader : IObjectSerializer
 	{
+		protected static AppGroupLoader _Instance;
+
+		public static AppGroupLoader Default
+		{
+			get
+			{
+				if (_Instance == null)
+				{
+					_Instance = new AppGroupLoader();
+				}
+
+				return _Instance;
+			}
+		}
+
+
 		public static void Save(string xmlPath, AppGroup appGroup)
 		{
 			XmlWriterSettings sett = new XmlWriterSettings();
@@ -36,7 +55,10 @@ namespace AppManager
 		public static AppGroup Load(string xmlPath)
 		{
 			AppGroup result = new AppGroup();
-			using (XmlReader reader = XmlReader.Create(xmlPath))
+			XmlReaderSettings sett = new XmlReaderSettings();
+			sett.IgnoreWhitespace = true;
+			sett.IgnoreComments = true;
+			using (XmlReader reader = XmlReader.Create(xmlPath, sett))
 			{
 				reader.ReadStartElement("AppGroup");
 				reader.ReadStartElement("AppTypes");
@@ -89,6 +111,54 @@ namespace AppManager
 			}
 
 			return result;
+		}
+
+		public static string SaveAppType(AppType appType)
+		{
+			XmlWriterSettings sett = new XmlWriterSettings();
+			sett.Indent = true;
+			StringBuilder result = new StringBuilder(500);
+			using (XmlWriter writer = XmlWriter.Create(result, sett))
+			{
+				WriteAppType(writer, appType);
+			}
+
+			return result.ToString();
+		}
+
+		public static AppType LoadAppType(string xml)
+		{
+			XmlReaderSettings sett = new XmlReaderSettings();
+			sett.IgnoreWhitespace = true;
+			sett.IgnoreComments = true;
+			using (XmlReader reader = XmlReader.Create(new StringReader(xml), sett))
+			{
+				return ReadAppType2(reader);
+			}
+		}
+
+		public static string SaveAppInfo(AppInfo appInfo)
+		{
+			XmlWriterSettings sett = new XmlWriterSettings();
+			sett.Indent = true;
+			StringBuilder result = new StringBuilder(500);
+			using (XmlWriter writer = XmlWriter.Create(result, sett))
+			{
+				WriteAppInfo(writer, appInfo);
+			}
+
+			return result.ToString();
+		}
+
+		public static AppInfo LoadAppInfo(string xml)
+		{
+			XmlReaderSettings sett = new XmlReaderSettings();
+			sett.IgnoreWhitespace = true;
+			sett.IgnoreComments = true;
+			using (XmlReader reader = XmlReader.Create(new StringReader(xml), sett))
+			{
+				return ReadAppInfo2(reader);
+			}
 		}
 
 
@@ -219,5 +289,30 @@ namespace AppManager
 
 			return result;
 		}
+
+
+		#region IObjectSerializer Members
+
+		public object Serialize(object obj)
+		{
+			if (obj.GetType() == typeof(AppInfo))
+				return SaveAppInfo(obj as AppInfo);
+			else if (obj.GetType() == typeof(AppType))
+				return SaveAppType(obj as AppType);
+			else
+				throw new NotImplementedException();
+		}
+
+		public object Deserialize(object data, Type objType)
+		{
+			if (objType == typeof(AppInfo))
+				return LoadAppInfo(data.ToString());
+			else if (objType == typeof(AppType))
+				return LoadAppType(data.ToString());
+			else
+				throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }

@@ -22,8 +22,12 @@ namespace DragDropLib
 		protected FrameworkElement _DragItem;
 
 
-		public ItemsDragHelper(ItemsControl control, string dataFormat, Type dataType)
-			: base(control, dataFormat, dataType, true)
+		public ItemsDragHelper(
+			ItemsControl control, 
+			string dataFormat, 
+			Type dataType, 
+			IObjectSerializer serializer)
+			: base(control, dataFormat, dataType, true, serializer)
 		{
 			_ItemsControl = control;
 
