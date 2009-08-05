@@ -18,8 +18,9 @@ namespace DragDropLib
 			string dataFormat, 
 			Type dataType,
 			Drawing.Bitmap bmp,
-			string dragElementName)
-			: base(control, dataFormat, dataType, false)
+			string dragElementName,
+			IObjectSerializer serializer)
+			: base(control, dataFormat, dataType, false, serializer)
 		{
 			_Bitmap = bmp;
 			_DragElementName = dragElementName;

@@ -15,12 +15,17 @@ namespace DragDropLib
 
 		protected string	_DataFormat;
 		protected Type		_DataType;
-
+		protected IObjectSerializer _Serializer;
 
 		public SimpleDragDataHandler(string dataFormat, Type dataType)
+			: this(dataFormat, dataType, new XmlObjectSerializer())
+		{ }
+
+		public SimpleDragDataHandler(string dataFormat, Type dataType, IObjectSerializer serializer)
 		{
 			_DataFormat = dataFormat;
 			_DataType = dataType;
+			_Serializer = serializer;
 		}
 
 
@@ -43,7 +48,7 @@ namespace DragDropLib
 				return false;
 
 			object objAdd = DataObject.ReadFromStream(dragData.Data.GetData(_DataFormat) as MemoryStream);
-			objAdd = XmlSerializeHelper.DeserializeItem(objAdd.ToString(), _DataType);
+			objAdd = _Serializer.Deserialize(objAdd, _DataType);
 
 			if (ObjectDroped != null)
 				ObjectDroped(element, new DragContextEventArgs() 
@@ -60,10 +65,29 @@ namespace DragDropLib
 			if (dragObject.GetType() != _DataType)
 				return;
 
-			string serObj = XmlSerializeHelper.SerializeItem(dragObject);
+			string serObj = _Serializer.Serialize(dragObject).ToString();
 			dragData.SetManagedData(_DataFormat, serObj);
 		}
 
 		#endregion
+	}
+
+	public interface IObjectSerializer
+	{
+		object Serialize(object obj);
+		object Deserialize(object data, Type objType);
+	}
+
+	public class  XmlObjectSerializer : IObjectSerializer
+	{
+		public object Serialize(object obj)
+		{
+			return XmlSerializeHelper.SerializeItem(obj);
+		}
+
+		public object Deserialize(object data, Type objType)
+		{
+			return XmlSerializeHelper.DeserializeItem(data.ToString(), objType);
+		}
 	}
 }

@@ -18,11 +18,10 @@ namespace AppManager.DragDrop
 				DragDataFormat, 
 				typeof(AppType), 
 				AppManager.Properties.Resources.cnruninstall_3273_32,
-				"Header")
+				"Header",
+				AppGroupLoader.Default)
 		{
 
 		}
-
-
 	}
 }

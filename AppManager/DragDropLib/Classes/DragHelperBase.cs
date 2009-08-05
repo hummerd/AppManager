@@ -43,11 +43,16 @@ namespace DragDropLib
 		protected bool						_UseTunneling;
 
 
-		public DragHelperBase(FrameworkElement control, string dataFormat, Type dataType, bool useTunneling)
+		public DragHelperBase(
+			FrameworkElement control, 
+			string dataFormat, 
+			Type dataType, 
+			bool useTunneling,
+			IObjectSerializer serializer)
 			: base (control)
 		{
 			_DragHandlers.Add(
-				new SimpleDragDataHandler(dataFormat, dataType)
+				new SimpleDragDataHandler(dataFormat, dataType, serializer)
 				);
 
 			_Element = control;

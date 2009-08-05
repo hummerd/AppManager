@@ -13,7 +13,7 @@ namespace AppManager.DragDrop
 
 
 		public ButtonListDrag(ItemsControl control, Type dataType)
-			: base(control, DragDataFormat, dataType)
+			: base(control, DragDataFormat, dataType, AppGroupLoader.Default)
 		{
 
 		}
