@@ -11,6 +11,7 @@ using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
+using System.Security.AccessControl;
 
 
 namespace AppManager.Commands
@@ -20,7 +21,7 @@ namespace AppManager.Commands
 		protected delegate void ActivateTask();
 
 
-		//protected Mutex				_Mutex;
+		protected Mutex				_Mutex;
 		protected bool					_FirstStart = false;
 		protected SingleInstance	_Single;
 		protected bool					_SilentUpdate = true;
@@ -42,38 +43,20 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			//ThreadPool.QueueUserWorkItem(InitDrag);
-
-			_Single = new SingleInstance(10251, true, delegate() {
-					ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
-					DispatcherHelper.Invoke(act);
-				});
-
-			if (!_Single.FirstInstance)
-			{
-				App.Current.Shutdown();
+			if (!CheckSingleInstance())
 				return;
-			}
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
 			LoadData();
 			_FirstStart = FirstLoad();
 			
-			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
-
-			_WorkItem.KbrdHook.KeyDown += KbrdHook_KeyDown;
-			CreateTrayIcon();
-
-			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
-
-			SetupUpdater((bool)parameter);
-
-			_WorkItem.AppData.StartLoadImages();
 			_WorkItem.MainWindow.DataContext = _WorkItem;
 			_WorkItem.MainWindow.LoadState();
 			_WorkItem.MainWindow.Deactivated += (s, e) =>
 				_LostTime = DateTime.Now;
+			_WorkItem.MainWindow.Loaded += (s, e) => 
+				EndInit((bool)parameter);
 			
 			if (!_WorkItem.Settings.StartMinimized)
 			{
@@ -84,10 +67,57 @@ namespace AppManager.Commands
 			if (_FirstStart)
 				_WorkItem.Commands.Help.Execute(false);
 
-			CreateActivationPanel();
 			_WorkItem.Settings.PropertyChanged += (s, e) => OnSettingsChanged(e.PropertyName);
 		}
 
+
+		protected void EndInit(bool noUpdate)
+		{
+			ThreadPool.QueueUserWorkItem(InitDrag);
+
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " LoadData");
+
+			_WorkItem.KbrdHook.KeyDown += KbrdHook_KeyDown;
+			CreateTrayIcon();
+
+			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
+
+			SetupUpdater(noUpdate);
+
+			_WorkItem.AppData.StartLoadImages();
+
+			CreateActivationPanel();
+		}
+
+		protected bool CheckSingleInstance()
+		{
+			bool first;
+			_Mutex = new Mutex(true, "Global\\AppManager", out first);
+
+			if (!first)
+				return InitFirstInstance();
+			else
+				ThreadPool.QueueUserWorkItem((o) => InitFirstInstance());
+
+			return true;
+		}
+
+		protected bool InitFirstInstance()
+		{
+			_Single = new SingleInstance(10251, true, delegate()
+			{
+				ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
+				DispatcherHelper.Invoke(act);
+			});
+
+			if (!_Single.FirstInstance)
+			{
+				App.Current.Shutdown();
+				return false;
+			}
+
+			return true;
+		}
 
 		protected bool FirstLoad()
 		{
