@@ -408,13 +408,13 @@ namespace AppManager
 		protected void OnDragStarted()
 		{
 			var anim = Resources["TrashMarkShow"] as Storyboard;
-			anim.Begin(TrashMark, HandoffBehavior.Compose, true);
+			anim.Begin(TrashMark, HandoffBehavior.Compose, false);
 		}
 
 		protected void OnDragEnded()
 		{
 			var anim = Resources["TrashMarkHide"] as Storyboard;
-			anim.Begin(TrashMark, HandoffBehavior.Compose, true);
+			anim.Begin(TrashMark, HandoffBehavior.Compose, false);
 			//anim.Begin();
 		}
 
