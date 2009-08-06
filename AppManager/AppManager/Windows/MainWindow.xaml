@@ -265,18 +265,6 @@
 			</Storyboard>
 			<Storyboard
 				x:Key="TrashMarkHide">
-				<ObjectAnimationUsingKeyFrames
-					BeginTime="00:00:00"
-					Storyboard.TargetName="TrashMark"
-					Storyboard.TargetProperty="(UIElement.Visibility)"
-					Duration="00:00:00.0010000">
-					<DiscreteObjectKeyFrame
-						KeyTime="00:00:01">
-						<DiscreteObjectKeyFrame.Value>
-							<Visibility>Hidden</Visibility>
-						</DiscreteObjectKeyFrame.Value>
-					</DiscreteObjectKeyFrame>
-				</ObjectAnimationUsingKeyFrames>
 				<DoubleAnimationUsingKeyFrames
 					BeginTime="00:00:00"
 					Storyboard.TargetName="TrashMark"
@@ -285,6 +273,16 @@
 						KeyTime="00:00:01"
 						Value="0" />
 				</DoubleAnimationUsingKeyFrames>
+				<ObjectAnimationUsingKeyFrames
+					BeginTime="00:00:00"
+					Storyboard.TargetName="TrashMark"
+					Storyboard.TargetProperty="(UIElement.Visibility)"
+					Duration="00:00:01">
+					<DiscreteObjectKeyFrame
+						KeyTime="00:00:01"
+						Value="{x:Static Visibility.Collapsed}">
+					</DiscreteObjectKeyFrame>
+				</ObjectAnimationUsingKeyFrames>
 			</Storyboard>
 
 			<LinearGradientBrush
@@ -581,7 +579,7 @@
 							BorderBrush="#FFDFCB9A" />
 					</Grid>-->
 					<Image
-						Visibility="Hidden"
+						Visibility="Collapsed"
 						HorizontalAlignment="Stretch"
 						Height="64"
 						Width="64"
@@ -593,8 +591,8 @@
 						Source="/AppManager;component/Resources/trash_64.png"
 						Stretch="None"
 						Drop="TrashMark_Drop"
-						DragOver="TrashMark_DragOver">
-
+						DragOver="TrashMark_DragOver"
+						>
 						<Canvas.Left>
 							<Binding
 								Path="ActualWidth">
