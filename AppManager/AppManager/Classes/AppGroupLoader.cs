@@ -133,6 +133,7 @@ namespace AppManager
 			sett.IgnoreComments = true;
 			using (XmlReader reader = XmlReader.Create(new StringReader(xml), sett))
 			{
+				reader.ReadToFollowing("AppType");
 				return ReadAppType2(reader);
 			}
 		}
@@ -157,6 +158,7 @@ namespace AppManager
 			sett.IgnoreComments = true;
 			using (XmlReader reader = XmlReader.Create(new StringReader(xml), sett))
 			{
+				reader.ReadToFollowing("AppInfo");
 				return ReadAppInfo2(reader);
 			}
 		}
@@ -256,12 +258,10 @@ namespace AppManager
 
 			if (reader.Name == "AppInfo")
 			{
-
 				while (reader.IsStartElement())
 				{
 					result.AppInfos.Add(ReadAppInfo2(reader));
 				}
-
 			}
 
 			if (reader.NodeType == XmlNodeType.EndElement)
