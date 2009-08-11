@@ -97,7 +97,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application manager.
+        ///   Looks up a localized string similar to Link manager.
         /// </summary>
         public static string APP_MANAGER {
             get {
