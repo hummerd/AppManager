@@ -179,7 +179,31 @@ namespace AppManager
 
 
 		public class AppInfoAdapterCollection : List<AppInfoAdapter>
-		{ }
+		{
+			public AppInfoAdapter FindByNameStart(string start, int greaterThen)
+			{
+				if (greaterThen >= Count - 1)
+					greaterThen = 0;
+				else
+					greaterThen++;
+
+				//look in tale
+				for (int i = greaterThen; i < Count; i++)
+				{
+					if (this[i].AppName.StartsWith(start, StringComparison.CurrentCultureIgnoreCase))
+						return this[i];
+				}
+
+				//if not found in tale look in head
+				for (int i = 0; i < greaterThen; i++)
+				{
+					if (this[i].AppName.StartsWith(start, StringComparison.CurrentCultureIgnoreCase))
+						return this[i];
+				}
+
+				return null;
+			}
+		}
 
 		public class AppInfoAdapter : INotifyPropertyChanged
 		{
