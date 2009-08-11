@@ -136,16 +136,16 @@
     <value>Приложения</value>
   </data>
   <data name="APPS_IN_TYPE" xml:space="preserve">
-    <value>Приложений в группе:</value>
+    <value>Ссылок в группе:</value>
   </data>
   <data name="APP_MANAGER" xml:space="preserve">
-    <value>Менеджер приложений</value>
+    <value>Менеджер ссылок</value>
   </data>
   <data name="APP_TITLE" xml:space="preserve">
     <value>Стартер</value>
   </data>
   <data name="APP_TYPES" xml:space="preserve">
-    <value>Группы приложений</value>
+    <value>Группы ссылок</value>
   </data>
   <data name="APP_TYPE_NAME" xml:space="preserve">
     <value>Имя группы</value>
@@ -166,7 +166,7 @@
     <value>Включить активацию мышью</value>
   </data>
   <data name="ENTER_APP_NAME" xml:space="preserve">
-    <value>Введите имя приложения</value>
+    <value>Введите имя ссылки</value>
   </data>
   <data name="ENTER_APP_TYPE_NAME" xml:space="preserve">
     <value>Введите имя группы</value>
@@ -187,7 +187,7 @@
     <value>Проверяется наличие новой версии...</value>
   </data>
   <data name="MNU_ADD_APP" xml:space="preserve">
-    <value>Добавить новое приложение...</value>
+    <value>Добавить новую ссылку...</value>
   </data>
   <data name="MNU_ADD_APP_TYPE" xml:space="preserve">
     <value>Добавить группу...</value>
@@ -211,7 +211,7 @@
     <value>Скрыть Стартер</value>
   </data>
   <data name="MNU_MANAGEAPP" xml:space="preserve">
-    <value>Управление приложениями...</value>
+    <value>Управление ссылками...</value>
   </data>
   <data name="MNU_RENAME" xml:space="preserve">
     <value>Переименовать {0}...</value>
@@ -232,7 +232,7 @@
     <value>Новая</value>
   </data>
   <data name="NEW_APP" xml:space="preserve">
-    <value>Новое приложение</value>
+    <value>Новая ссылка</value>
   </data>
   <data name="NO_NEW_VERSION" xml:space="preserve">
     <value>Вы пользуетесь последней версией программы {0}.</value>

@@ -381,6 +381,7 @@
 						Height="30"
 						Margin="4,0,0,0"
 						Command="{Binding Path=Commands.Settings}"
+						ToolTip="{x:Static am:Strings.SETTINGS}"
 						ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png"
 						Grid.Column="0" />
 					<am:SettingButton
@@ -389,6 +390,7 @@
 						Height="30"
 						HorizontalAlignment="Left"
 						Command="{Binding Path=Commands.ManageApps}"
+						ToolTip="{x:Static am:Strings.APP_MANAGER}"
 						ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
 						Grid.Column="1" />
 					<TextBlock
