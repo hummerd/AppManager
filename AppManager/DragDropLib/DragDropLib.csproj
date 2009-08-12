@@ -59,7 +59,7 @@
     <Compile Include="Classes\DragHelperBase.cs" />
     <Compile Include="Classes\DropTargetHelper.cs" />
     <Compile Include="Classes\FileDropHandler.cs" />
-    <Compile Include="Classes\SimpleDataHandler .cs" />
+    <Compile Include="Classes\SimpleDataHandler.cs" />
     <Compile Include="Interfaces\IDragHandler.cs" />
     <Compile Include="Interfaces\IDragSourceHelper.cs" />
     <Compile Include="Interfaces\IDropTargetHelper.cs" />

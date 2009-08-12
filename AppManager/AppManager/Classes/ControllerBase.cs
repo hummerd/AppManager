@@ -153,7 +153,7 @@ namespace AppManager
 					if (ext == ".lnk")
 					{
 						//WinSh.WshShortcut shortcut = shell.CreateShortcut(path) as WinSh.WshShortcut;
-						var shortcut = LnkHelper.CreateLnk(path);
+						var shortcut = LnkHelper.OpenLnk(path);
 
 						appPath = shortcut.TargetPath;
 						appArgs = shortcut.Arguments;

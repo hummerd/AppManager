@@ -13,12 +13,25 @@ namespace CommonLib.IO
 	{
 		private static WshShellClass _Shell;
 
-		public static IWshShortcut CreateLnk(string path)
+
+		public static IWshShortcut OpenLnk(string path)
 		{
 			if (_Shell == null)
 				_Shell = new WshShellClass();
 
 			return _Shell.CreateShortcut(path) as IWshShortcut;
+		}
+
+		public static void CreateLnk(string path, string lnkPath, string args)
+		{
+			if (_Shell == null)
+				_Shell = new WshShellClass();
+
+			var lnk = _Shell.CreateShortcut(path) as IWshShortcut;
+			lnk.TargetPath = lnkPath;
+			lnk.IconLocation = lnkPath;
+			lnk.Arguments = args;
+			lnk.Save();
 		}
 	}
 

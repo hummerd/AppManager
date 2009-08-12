@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 using System.IO;
+using System.Windows;
 using CommonLib;
 
 
@@ -68,6 +66,9 @@ namespace DragDropLib
 			string serObj = _Serializer.Serialize(dragObject).ToString();
 			dragData.SetManagedData(_DataFormat, serObj);
 		}
+
+		public void DragEnded(DragDropEffects effects)
+		{ ; }
 
 		#endregion
 	}
