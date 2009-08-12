@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 
 
 namespace DragDropLib
@@ -11,6 +8,7 @@ namespace DragDropLib
 		DragDropEffects SupportDataFormat(FrameworkElement element, DragEventArgs dragData);
 		bool HandleDragData(FrameworkElement element, DragEventArgs dragData);
 		void SetDragData(DataObject dragData, object dragObject);
+		void DragEnded(DragDropEffects effects);
 		//void DataDragOver(FrameworkElement element, DragEventArgs dragData);
 	}
 }

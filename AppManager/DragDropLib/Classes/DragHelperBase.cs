@@ -239,6 +239,10 @@ namespace DragDropLib
 		protected virtual void DragEnded(DragDropEffects effects, object dragItem)
 		{
 			ResetDrag();
+
+			foreach (var item in _DragHandlers)
+				item.DragEnded(effects);
+
 			OnDragEnded(effects, dragItem);
 		}
 
@@ -308,7 +312,8 @@ namespace DragDropLib
 
 			bool handled = false;
 			foreach (var item in _DragHandlers)
-				handled |= item.HandleDragData(element, e);
+				if (!handled)
+					handled |= item.HandleDragData(element, e);
 
 			e.Handled = handled;
 			
@@ -340,7 +345,8 @@ namespace DragDropLib
 		{
 			DragDropEffects effect = DragDropEffects.None;
 			foreach (var item in _DragHandlers)
-				effect |= item.SupportDataFormat(element, e);
+				if (effect == DragDropEffects.None)
+					effect |= item.SupportDataFormat(element, e);
 
 			e.Effects = e.AllowedEffects & effect;
 			e.Handled = effect != DragDropEffects.None;
