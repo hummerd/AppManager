@@ -93,7 +93,9 @@ namespace AppManager.Commands
 		{
 			bool first;
 			MutexSecurity msec = new MutexSecurity();
-			
+
+			//using mutex prevent us from immediate loading remoting infrastructure
+			//if we start first instance of program
 			_Mutex = new Mutex(true, "AppManagerSingleInstance", out first);
 
 			if (!first)
