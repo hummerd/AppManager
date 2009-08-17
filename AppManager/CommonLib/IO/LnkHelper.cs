@@ -176,33 +176,33 @@ namespace CommonLib.IO
 	[ComImport, Guid("41904400-BE18-11D3-A28B-00104BD35090"), TypeLibType((short)0x1040)]
 	public interface IWshShell3 : IWshShell2
 	{
-		[DispId(100)]
-		IWshCollection SpecialFolders { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(100)] get; }
-		[DispId(200)]
-		IWshEnvironment this[object Type] { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(200)] get; }
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e8)]
-		int Run([In, MarshalAs(UnmanagedType.BStr)] string Command, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WindowStyle, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WaitOnReturn);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e9)]
-		int Popup([In, MarshalAs(UnmanagedType.BStr)] string Text, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object SecondsToWait, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Title, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
-		[return: MarshalAs(UnmanagedType.IDispatch)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ea)]
-		object CreateShortcut([In, MarshalAs(UnmanagedType.BStr)] string PathLink);
-		[return: MarshalAs(UnmanagedType.BStr)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ee)]
-		string ExpandEnvironmentStrings([In, MarshalAs(UnmanagedType.BStr)] string Src);
-		[return: MarshalAs(UnmanagedType.Struct)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d0)]
-		object RegRead([In, MarshalAs(UnmanagedType.BStr)] string Name);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d1)]
-		void RegWrite([In, MarshalAs(UnmanagedType.BStr)] string Name, [In, MarshalAs(UnmanagedType.Struct)] ref object Value, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d2)]
-		void RegDelete([In, MarshalAs(UnmanagedType.BStr)] string Name);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbb8)]
-		bool LogEvent([In, MarshalAs(UnmanagedType.Struct)] ref object Type, [In, MarshalAs(UnmanagedType.BStr)] string Message, [In, Optional, DefaultParameterValue(""), MarshalAs(UnmanagedType.BStr)] string Target);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbc2)]
-		bool AppActivate([In, MarshalAs(UnmanagedType.Struct)] ref object App, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Wait);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbc3)]
-		void SendKeys([In, MarshalAs(UnmanagedType.BStr)] string Keys, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Wait);
+		//[DispId(100)]
+		//IWshCollection SpecialFolders { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(100)] get; }
+		//[DispId(200)]
+		//IWshEnvironment this[object Type] { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(200)] get; }
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e8)]
+		//int Run([In, MarshalAs(UnmanagedType.BStr)] string Command, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WindowStyle, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WaitOnReturn);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e9)]
+		//int Popup([In, MarshalAs(UnmanagedType.BStr)] string Text, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object SecondsToWait, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Title, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
+		//[return: MarshalAs(UnmanagedType.IDispatch)]
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ea)]
+		//object CreateShortcut([In, MarshalAs(UnmanagedType.BStr)] string PathLink);
+		//[return: MarshalAs(UnmanagedType.BStr)]
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ee)]
+		//string ExpandEnvironmentStrings([In, MarshalAs(UnmanagedType.BStr)] string Src);
+		//[return: MarshalAs(UnmanagedType.Struct)]
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d0)]
+		//object RegRead([In, MarshalAs(UnmanagedType.BStr)] string Name);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d1)]
+		//void RegWrite([In, MarshalAs(UnmanagedType.BStr)] string Name, [In, MarshalAs(UnmanagedType.Struct)] ref object Value, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d2)]
+		//void RegDelete([In, MarshalAs(UnmanagedType.BStr)] string Name);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbb8)]
+		//bool LogEvent([In, MarshalAs(UnmanagedType.Struct)] ref object Type, [In, MarshalAs(UnmanagedType.BStr)] string Message, [In, Optional, DefaultParameterValue(""), MarshalAs(UnmanagedType.BStr)] string Target);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbc2)]
+		//bool AppActivate([In, MarshalAs(UnmanagedType.Struct)] ref object App, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Wait);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbc3)]
+		//void SendKeys([In, MarshalAs(UnmanagedType.BStr)] string Keys, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Wait);
 		[return: MarshalAs(UnmanagedType.Interface)]
 		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbc4)]
 		IWshExec Exec([In, MarshalAs(UnmanagedType.BStr)] string Command);
@@ -213,27 +213,27 @@ namespace CommonLib.IO
 	[ComImport, TypeLibType((short)0x1050), Guid("24BE5A30-EDFE-11D2-B933-00104B365C9F")]
 	public interface IWshShell2 : IWshShell
 	{
-		[DispId(100)]
-		IWshCollection SpecialFolders { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(100)] get; }
-		[DispId(200)]
-		IWshEnvironment this[object Type] { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(200)] get; }
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e8)]
-		int Run([In, MarshalAs(UnmanagedType.BStr)] string Command, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WindowStyle, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WaitOnReturn);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e9)]
-		int Popup([In, MarshalAs(UnmanagedType.BStr)] string Text, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object SecondsToWait, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Title, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
-		[return: MarshalAs(UnmanagedType.IDispatch)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ea)]
-		object CreateShortcut([In, MarshalAs(UnmanagedType.BStr)] string PathLink);
-		[return: MarshalAs(UnmanagedType.BStr)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ee)]
-		string ExpandEnvironmentStrings([In, MarshalAs(UnmanagedType.BStr)] string Src);
-		[return: MarshalAs(UnmanagedType.Struct)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d0)]
-		object RegRead([In, MarshalAs(UnmanagedType.BStr)] string Name);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d1)]
-		void RegWrite([In, MarshalAs(UnmanagedType.BStr)] string Name, [In, MarshalAs(UnmanagedType.Struct)] ref object Value, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d2)]
-		void RegDelete([In, MarshalAs(UnmanagedType.BStr)] string Name);
+		//[DispId(100)]
+		//IWshCollection SpecialFolders { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(100)] get; }
+		//[DispId(200)]
+		//IWshEnvironment this[object Type] { [return: MarshalAs(UnmanagedType.Interface)] [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(200)] get; }
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e8)]
+		//int Run([In, MarshalAs(UnmanagedType.BStr)] string Command, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WindowStyle, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object WaitOnReturn);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3e9)]
+		//int Popup([In, MarshalAs(UnmanagedType.BStr)] string Text, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object SecondsToWait, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Title, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
+		//[return: MarshalAs(UnmanagedType.IDispatch)]
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ea)]
+		//object CreateShortcut([In, MarshalAs(UnmanagedType.BStr)] string PathLink);
+		//[return: MarshalAs(UnmanagedType.BStr)]
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x3ee)]
+		//string ExpandEnvironmentStrings([In, MarshalAs(UnmanagedType.BStr)] string Src);
+		//[return: MarshalAs(UnmanagedType.Struct)]
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d0)]
+		//object RegRead([In, MarshalAs(UnmanagedType.BStr)] string Name);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d1)]
+		//void RegWrite([In, MarshalAs(UnmanagedType.BStr)] string Name, [In, MarshalAs(UnmanagedType.Struct)] ref object Value, [In, Optional, MarshalAs(UnmanagedType.Struct)] ref object Type);
+		//[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x7d2)]
+		//void RegDelete([In, MarshalAs(UnmanagedType.BStr)] string Name);
 		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbb8)]
 		bool LogEvent([In, MarshalAs(UnmanagedType.Struct)] ref object Type, [In, MarshalAs(UnmanagedType.BStr)] string Message, [In, Optional, DefaultParameterValue(""), MarshalAs(UnmanagedType.BStr)] string Target);
 		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xbc2)]
