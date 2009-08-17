@@ -92,7 +92,9 @@ namespace AppManager.Commands
 		protected bool CheckSingleInstance()
 		{
 			bool first;
-			_Mutex = new Mutex(true, "Global\\AppManager", out first);
+			MutexSecurity msec = new MutexSecurity();
+			
+			_Mutex = new Mutex(true, "AppManagerSingleInstance", out first);
 
 			if (!first)
 				return InitFirstInstance();
