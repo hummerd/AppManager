@@ -7,9 +7,8 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CommonLib;
-using CommonLib.Shell;
-using System.Runtime.InteropServices;
 using CommonLib.PInvoke;
+using CommonLib.Shell;
 
 
 namespace AppManager
