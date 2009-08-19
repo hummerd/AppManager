@@ -7,24 +7,31 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CommonLib;
+using CommonLib.Shell;
+using System.Runtime.InteropServices;
+using CommonLib.PInvoke;
 
 
 namespace AppManager
 {
 	public class AsyncImageLoader
 	{
+		private static string[] IconOwnExt = new string[] { ".dll", ".exe" };
+
+
 		protected DispatcherTimer _SearchTimer = new DispatcherTimer();
 
 		protected object _RequestSync = new object();
 		protected object _ResultSync = new object();
 		protected Queue<AppInfo> _RequestedImages = new Queue<AppInfo>(100);
-		protected Queue<Pair<AppInfo, System.Drawing.Icon>> _LoadedImages = new Queue<Pair<AppInfo, System.Drawing.Icon>>(100);
+		protected Queue<Pair<AppInfo, Pair<System.Drawing.Icon, bool>>> _LoadedImages = new Queue<Pair<AppInfo, Pair<System.Drawing.Icon, bool>>>(100);
 		protected Thread _LoadThread;
 
 
 		public AsyncImageLoader()
 		{
 			_LoadThread = new Thread(ImageLoader);
+			_LoadThread.SetApartmentState(ApartmentState.STA);
 			_LoadThread.IsBackground = true;
 
 			_SearchTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
@@ -52,14 +59,17 @@ namespace AppManager
 				while (_LoadedImages.Count > 0)
 				{
 					var pair = _LoadedImages.Dequeue();
-					if (pair.Second != null)
+					if (pair.Second.First != null)
 					{
 						pair.First.AppImage = Imaging.CreateBitmapSourceFromHIcon(
-							pair.Second.Handle,
+							pair.Second.First.Handle,
 							Int32Rect.Empty,
 							BitmapSizeOptions.FromEmptyOptions());
 
-						pair.Second.Dispose();
+						if (pair.Second.Second)
+							User32.DestroyIcon(pair.Second.First.Handle);
+
+						pair.Second.First.Dispose();
 					}
 				}
 			}
@@ -67,6 +77,8 @@ namespace AppManager
 
 		protected void ImageLoader(object param)
 		{
+			//Marshal.CoI
+
 			while (true)
 			{
 				bool doLoad = true;
@@ -80,12 +92,14 @@ namespace AppManager
 					lock (_RequestSync)
 						app = _RequestedImages.Dequeue();
 
-					var src = LoadImage(app.AppPath);
+					bool managed;
+					var src = LoadImage(app.ImagePath, out managed);
 
 					lock (_ResultSync)
 						_LoadedImages.Enqueue(
-							new Pair<AppInfo, System.Drawing.Icon>() 
-								{ First = app, Second = src });
+							new Pair<AppInfo, Pair<System.Drawing.Icon, bool>>() 
+								{ First = app, Second = new Pair<System.Drawing.Icon, bool> 
+									{ First = src, Second = managed } });
 
 					lock (_RequestSync)
 						doLoad = _RequestedImages.Count > 0;					
@@ -95,17 +109,27 @@ namespace AppManager
 			}
 		}
 
-		protected System.Drawing.Icon LoadImage(string path)
+		protected System.Drawing.Icon LoadImage(string path, out bool managed)
 		{
+			managed = true;
+
 			try
 			{
+				path = Environment.ExpandEnvironmentVariables(path);
+
 				if (!File.Exists(path))
 					return null;
 				
 				if (PathHelper.IsPathUNC(path))
 					return null;
 
-				return System.Drawing.Icon.ExtractAssociatedIcon(path);
+				if (Array.IndexOf(IconOwnExt, Path.GetExtension(path)) >= 0)
+					return System.Drawing.Icon.ExtractAssociatedIcon(path);
+				else
+				{
+					managed = false;
+					return ShFileInfo.ExtractIcon(path, true);
+				}
 			}
 			catch
 			{ ; }

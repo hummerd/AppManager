@@ -46,7 +46,7 @@ namespace AppManager.Commands
 
 			bool altPressed = (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
 
-			string appPath = app.AppPath;
+			string appPath = Environment.ExpandEnvironmentVariables(app.AppPath);
 			bool unc = PathHelper.IsPathUNC(appPath);
 
 			if (unc || File.Exists(appPath) || Directory.Exists(appPath))

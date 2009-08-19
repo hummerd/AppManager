@@ -16,7 +16,10 @@ namespace CommonLib.PInvoke
 			public Int32 X;
 			public Int32 Y;
 		}
-		
+
+
+		[DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
+		public static extern bool DestroyIcon(IntPtr hIcon);
 
 		/// <summary>
 		/// See MSDN documentation for the Win32 function GetDC.

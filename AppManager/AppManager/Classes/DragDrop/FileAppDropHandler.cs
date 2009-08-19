@@ -37,8 +37,8 @@ namespace AppManager.DragDrop
 			if (ai != null)
 			{
 				_TempLink = Path.Combine(Path.GetTempPath(), ai.AppName + ".lnk");
-				LnkHelper.CreateLnk(_TempLink, ai.AppPath, ai.AppArgs);
-				dragData.SetDataEx(DataFormats.FileDrop, new string[] { _TempLink });
+				if (LnkHelper.CreateLnk(_TempLink, ai.AppPath, ai.ImagePath, ai.AppArgs))
+					dragData.SetDataEx(DataFormats.FileDrop, new string[] { _TempLink });
 			}
 		}
 
