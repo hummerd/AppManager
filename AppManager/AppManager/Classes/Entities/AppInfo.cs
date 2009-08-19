@@ -26,24 +26,21 @@ namespace AppManager
         //}
 	}
 
-	[Serializable]
 	public class AppInfo : IClonableEntity<AppInfo>, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 		public event EventHandler NeedImage;
 
-
-		[XmlIgnore]
 		private static BitmapSource _BlankImage;
-		[XmlIgnore]
 		private static BitmapSource _FolderImage;
 
-		[XmlIgnore]
+		
 		protected BitmapSource _AppImage;
 
 		protected int _AppInfoID;
 		protected string _ExecPath;
 		protected string _AppName;
+		protected string _ImagePath;
 
 
 		public AppInfo()
@@ -83,14 +80,18 @@ namespace AppManager
 			set 
 			{ 
 				_ExecPath = (value ?? String.Empty).Trim();
-				LoadImage();
-				OnNeedImage();
+				
+				if (!HasImagePath)
+				{
+					LoadImage();
+					OnNeedImage();
+					OnPropertyChanged(new PropertyChangedEventArgs("AppImage"));
+				}
+
 				OnPropertyChanged(new PropertyChangedEventArgs("ExecPath"));
-				OnPropertyChanged(new PropertyChangedEventArgs("AppImage"));
 			}
 		}
 
-		[XmlIgnore]
 		public string AppPath
 		{
 			get
@@ -104,7 +105,6 @@ namespace AppManager
 			}
 		}
 
-		[XmlIgnore]
 		public string AppArgs
 		{
 			get
@@ -119,8 +119,35 @@ namespace AppManager
 			}
 		}
 
-		//public string ImagePath { get; set; }
-		[XmlIgnore]
+		public bool HasImagePath
+		{
+			get
+			{
+				return !String.IsNullOrEmpty(_ImagePath);
+			}
+		}
+
+		public string ImagePath
+		{
+			get
+			{
+				if (String.IsNullOrEmpty(_ImagePath))
+					return AppPath;
+				else
+					return _ImagePath;
+			}
+			set
+			{
+				_ImagePath = value;
+				if (!String.IsNullOrEmpty(_ImagePath))
+				{
+					LoadImage();
+					OnNeedImage();
+					OnPropertyChanged(new PropertyChangedEventArgs("AppImage"));
+				}
+			}
+		}
+
 		public BitmapSource AppImage
 		{ 
 			get 
@@ -137,7 +164,6 @@ namespace AppManager
 			} 
 		}
 
-		[XmlIgnore]
 		public string AppPathInfo
 		{
 			get
@@ -234,7 +260,7 @@ namespace AppManager
 
 		protected void LoadImage()
 		{
-			if (String.IsNullOrEmpty(ExecPath))
+			if (String.IsNullOrEmpty(ImagePath))
 			{
 				AppImage = GetBlankImage();
 				return;
@@ -242,22 +268,7 @@ namespace AppManager
 
 			BitmapSource src = null;
 
-			//if (File.Exists(AppPath))
-			//{
-			//   if (PathHelper.IsPathUNC(AppPath))
-			//   {
-			//      AppImage = GetBlankImage();
-			//      return;
-			//   }
-
-			//   System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(AppPath);
-
-			//   src = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-			//      ico.Handle,
-			//      Int32Rect.Empty,
-			//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-			//} else
-			string appPath = AppPath;
+			string appPath = ImagePath;
 
 			if (PathHelper.IsLikeDrive(appPath) || 
 				 Directory.Exists(appPath))

@@ -149,6 +149,7 @@ namespace AppManager
 					string fullPath = String.Empty;
 					string appPath = String.Empty;
 					string appArgs = String.Empty;
+					string imagePath = String.Empty;
 
 					if (ext == ".lnk")
 					{
@@ -157,6 +158,7 @@ namespace AppManager
 
 						appPath = shortcut.TargetPath;
 						appArgs = shortcut.Arguments;
+						
 						if (appArgs == null)
 							appArgs = String.Empty;
 
@@ -167,6 +169,16 @@ namespace AppManager
 							fullPath = "\"" + appPath + "\"" + " " + appArgs;
 						else
 							fullPath = appPath;
+
+						imagePath = shortcut.IconLocation;
+						if (!String.IsNullOrEmpty(imagePath))
+						{
+							var imageLocation = imagePath.Split(',');
+							if (imageLocation.Length > 0)
+								imagePath = imageLocation[0].Trim();
+							else
+								imagePath = String.Empty;
+						}
 					}
 					else //if (ext == ".exe")
 						appPath = fullPath = path;
@@ -181,9 +193,9 @@ namespace AppManager
 					{
 						if (!uniq.ContainsKey(fullPath))
 						{
-                            string appName = Path.GetFileNameWithoutExtension(path);
+							string appName = Path.GetFileNameWithoutExtension(path);
 							uniq.Add(fullPath, null);
-							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, appName, fullPath));
+							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, appName, fullPath, imagePath));
 						}
 					}
 				}

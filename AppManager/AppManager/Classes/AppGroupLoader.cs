@@ -196,6 +196,13 @@ namespace AppManager
 			writer.WriteValue(appInfo.ExecPath ?? String.Empty);
 			writer.WriteEndAttribute();
 
+			if (appInfo.HasImagePath)
+			{
+				writer.WriteStartAttribute("ImagePath");
+				writer.WriteValue(appInfo.ImagePath);
+				writer.WriteEndAttribute();
+			}
+
 			writer.WriteEndElement();
 		}
 
@@ -284,6 +291,10 @@ namespace AppManager
 
 			reader.MoveToAttribute("ExecPath");
 			result.ExecPath = reader.ReadContentAsString();
+
+			reader.MoveToAttribute("ImagePath");
+			if (reader.Name == "ImagePath")
+				result.ImagePath = reader.ReadContentAsString();
 
 			reader.Read();
 

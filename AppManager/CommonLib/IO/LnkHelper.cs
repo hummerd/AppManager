@@ -22,16 +22,21 @@ namespace CommonLib.IO
 			return _Shell.CreateShortcut(path) as IWshShortcut;
 		}
 
-		public static void CreateLnk(string path, string lnkPath, string args)
+		public static bool CreateLnk(string path, string lnkPath, string imagePath, string args)
 		{
+			if (String.IsNullOrEmpty(lnkPath))
+				return false;
+
 			if (_Shell == null)
 				_Shell = new WshShellClass();
 
 			var lnk = _Shell.CreateShortcut(path) as IWshShortcut;
 			lnk.TargetPath = lnkPath;
-			lnk.IconLocation = lnkPath;
+			lnk.IconLocation = imagePath;
 			lnk.Arguments = args;
 			lnk.Save();
+
+			return true;
 		}
 	}
 

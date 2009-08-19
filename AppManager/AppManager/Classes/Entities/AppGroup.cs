@@ -171,10 +171,10 @@ namespace AppManager
 
       public AppInfo CreateNewAppInfo(AppType appType, string execPath)
         {
-            return CreateNewAppInfo(appType, Strings.NEW_APP, execPath);
+            return CreateNewAppInfo(appType, Strings.NEW_APP, execPath, null);
         }
 
-		public AppInfo CreateNewAppInfo(AppType appType, string appName, string execPath)
+		public AppInfo CreateNewAppInfo(AppType appType, string appName, string execPath, string imagePath)
 		{
 			if (execPath == null)
 				execPath = String.Empty;
@@ -186,6 +186,7 @@ namespace AppManager
 			};
 
 			newInfo.NeedImage += (s, e) => RequestImage(s as AppInfo);
+			newInfo.ImagePath = imagePath;
 			newInfo.ExecPath = execPath;
 			newInfo.SetAutoAppName();
 
