@@ -12,6 +12,7 @@ using CommonLib.PInvoke.WinHook;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
 using System.Security.AccessControl;
+using System.Windows.Threading;
 
 
 namespace AppManager.Commands
@@ -27,6 +28,7 @@ namespace AppManager.Commands
 		protected bool					_SilentUpdate = true;
 		protected DateTime			_LostTime = DateTime.Now;
 		protected Window				_WndActivation = null;
+		protected DispatcherTimer	_ActivationWndPinger;
 
 
 		public StartApp(MainWorkItem workItem)
@@ -358,6 +360,16 @@ namespace AppManager.Commands
 				_WndActivation.Top = 0;
 				_WndActivation.Width = 1;
 				_WndActivation.MouseDown += (s, e) => ChangeActiveState();
+
+				_ActivationWndPinger = new DispatcherTimer();
+				_ActivationWndPinger.Interval = new TimeSpan(0, 0, 5);
+				_ActivationWndPinger.Tick += delegate 
+					{
+						_WndActivation.Show();
+						_WndActivation.Topmost = false;
+						_WndActivation.Topmost = true;
+					};
+				_ActivationWndPinger.Start();
 			}
 
 			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
