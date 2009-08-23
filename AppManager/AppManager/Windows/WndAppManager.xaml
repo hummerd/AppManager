@@ -550,8 +550,7 @@
 					Grid.Row="1"
 					HorizontalContentAlignment="Stretch"
 					ItemContainerStyle="{StaticResource AppItemStyle}"
-					KeyDown="AppScanList_KeyDown">
-					<!---->
+					>
 						<ListView.View>
 							<GridView AllowsColumnReorder="false">
 								<GridViewColumn 

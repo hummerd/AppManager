@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using AppManager.Windows;
 using CommonLib.Windows;
-using System.Windows.Input;
 
 
 namespace AppManager
@@ -238,25 +237,27 @@ namespace AppManager
 			AppTypeName.SelectAll();
 		}
 
-		private void AppScanList_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.OriginalSource is TextBox)
-				return;
+		//private void AppScanList_KeyDown(object sender, KeyEventArgs e)
+		//{
+			//if (e.OriginalSource is TextBox)
+			//    return;
 
-			var apps = AppScanList.ItemsSource as AppManagerController.AppInfoAdapterCollection;
-			if (apps != null)
-			{
-				var item = apps.FindByNameStart(
-					e.Key.ToString(), AppScanList.SelectedIndex);
+			//var apps = AppScanList.ItemsSource as AppManagerController.AppInfoAdapterCollection;
+			//if (apps != null)
+			//{
+			//    var item = apps.FindByNameStart(
+			//        e.Key.ToString(), AppScanList.SelectedIndex);
 
-				if (item != null)
-				{
-					AppScanList.ScrollIntoView(item);
-					AppScanList.SelectedItem = item;
-					var cont = AppScanList.ItemContainerGenerator.ContainerFromItem(item) as FrameworkElement;
-					cont.Focus();
-				}
-			}
-		}
+			//    if (item != null)
+			//    {
+			//        AppScanList.ScrollIntoView(item);
+			//        AppScanList.SelectedItem = item;
+			//        var cont = AppScanList.ItemContainerGenerator.ContainerFromItem(item) as FrameworkElement;
+			//        cont.Focus();
+			//    }
+			//}
+
+			//e.Handled = true;
+		//}
 	}
 }

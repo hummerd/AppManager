@@ -241,6 +241,11 @@ namespace AppManager
 			}
 
 			#endregion
+
+			public override string ToString()
+			{
+				return _Source.ToString();
+			}
 		}
 	}
 }
