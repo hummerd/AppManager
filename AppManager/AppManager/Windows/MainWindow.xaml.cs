@@ -391,7 +391,7 @@ namespace AppManager
 					var appInfo = input.DataContext as AppInfo;
 					if (appInfo != null)
 						_Controller.WorkItem.Commands.RunApp.Execute(
-							new object[] { appInfo, e.Files[0] });
+							new object[] { appInfo, "\"" + e.Files[0] + "\"" });
 				}
 			}
 			else // add new application
