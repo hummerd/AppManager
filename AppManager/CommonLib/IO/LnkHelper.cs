@@ -11,6 +11,7 @@ namespace CommonLib.IO
 {
 	public static class LnkHelper
 	{
+		[ThreadStatic]
 		private static WshShellClass _Shell;
 
 
