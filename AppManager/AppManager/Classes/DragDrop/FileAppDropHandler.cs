@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using CommonLib.IO;
@@ -10,6 +11,7 @@ namespace AppManager.DragDrop
 {
 	public class FileAppDropHandler : FileDropHandler
 	{
+		protected Thread _LnkWorker;
 		protected string _TempLink;
 
 
@@ -37,8 +39,9 @@ namespace AppManager.DragDrop
 			if (ai != null)
 			{
 				_TempLink = Path.Combine(Path.GetTempPath(), ai.AppName + ".lnk");
-				if (LnkHelper.CreateLnk(_TempLink, ai.AppPath, ai.ImagePath, ai.AppArgs))
-					dragData.SetDataEx(DataFormats.FileDrop, new string[] { _TempLink });
+				InitCreateLnkThread();
+				_LnkWorker.Start(ai);
+				dragData.SetDataEx(DataFormats.FileDrop, new string[] { _TempLink });
 			}
 		}
 
@@ -51,6 +54,23 @@ namespace AppManager.DragDrop
 				if (File.Exists(_TempLink))
 					File.Delete(_TempLink);
 			}
+		}
+
+
+		protected void InitCreateLnkThread()
+		{
+			_LnkWorker = new Thread(CreateLnk);
+			_LnkWorker.SetApartmentState(ApartmentState.STA);
+			_LnkWorker.IsBackground = true;
+			_LnkWorker.Priority = ThreadPriority.AboveNormal;
+		}
+
+
+		private static void CreateLnk(object state)
+		{
+			AppInfo ai = state as AppInfo;
+			string tempLink = Path.Combine(Path.GetTempPath(), ai.AppName + ".lnk");
+			LnkHelper.CreateLnk(tempLink, ai.AppPath, ai.ImagePath, ai.AppArgs);
 		}
 	}
 }
