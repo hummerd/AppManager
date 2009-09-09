@@ -62,7 +62,6 @@ namespace AppManager.DragDrop
 			_LnkWorker = new Thread(CreateLnk);
 			_LnkWorker.SetApartmentState(ApartmentState.STA);
 			_LnkWorker.IsBackground = true;
-			_LnkWorker.Priority = ThreadPriority.AboveNormal;
 		}
 
 
