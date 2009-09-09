@@ -115,10 +115,14 @@ namespace DragDropLib
 			if (dragObject == null)
 				return DragDropEffects.None;
 
+			System.Diagnostics.Debug.WriteLine("Drag start1 " + DateTime.Now);
+
 			DataObject dataObject = new DataObject();
 			var data = new System.Windows.DataObject(dataObject);
 			foreach (var item in _DragHandlers)
 				item.SetDragData(dataObject, dragObject);
+
+			System.Diagnostics.Debug.WriteLine("Drag start2 " + DateTime.Now);
 
 			var bmp = CreateElementBitmap(element, dragObject, 1);
 
@@ -126,6 +130,9 @@ namespace DragDropLib
 			CreateDragHelper(bmp, pt, data);
 
 			OnDragStarted(dragObject);
+
+			System.Diagnostics.Debug.WriteLine("Drag start3 " + DateTime.Now);
+			System.Diagnostics.Debug.WriteLine("");
 
 			return DragDrop.DoDragDrop(
 				GetDragSource(element),
