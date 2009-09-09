@@ -28,15 +28,11 @@ namespace UpdateLib.WebUpdate
 				//return XmlSerializeHelper.DeserializeItem(sr.ReadToEnd(), typeof(VersionData)) as VersionData;
 				return VersionManifestLoader.LoadData(sr);
 			}
-			catch
-			{ ; }
 			finally
 			{
 				if (_TempStream != null)
 					_TempStream.Dispose(); 
 			}
-
-			return null;
 		}
 
 		public VersionManifest GetLatestVersionManifest(Uri location)

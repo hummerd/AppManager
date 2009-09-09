@@ -1,7 +1,5 @@
-﻿using System.IO;
-using CommonLib;
+﻿using System;
 using UpdateLib.VersionInfo;
-using System;
 
 
 namespace UpdateLib.ShareUpdate
@@ -12,17 +10,7 @@ namespace UpdateLib.ShareUpdate
 
 		public VersionData GetLatestVersionInfo(Uri location)
 		{
-			try
-			{
-				//return XmlSerializeHelper.DeserializeItem(typeof(VersionData),
-				//   location.LocalPath) as VersionData;
-
-				return VersionManifestLoader.LoadData(location.LocalPath);
-			}
-			catch
-			{ ; }
-
-			return null;
+			return VersionManifestLoader.LoadData(location.LocalPath);
 		}
 
 		public VersionManifest GetLatestVersionManifest(Uri location)

@@ -264,7 +264,7 @@ namespace AppManager.Commands
 
 		protected void SetupUpdater(bool noupdate)
 		{
-			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCompleted(e.SuccessfulCheck, e.HasNewVersion);
+			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCompleted(e.SuccessfulCheck, e.HasNewVersion, e.Message);
 			_WorkItem.Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
 
 			if (!noupdate)
@@ -299,7 +299,7 @@ namespace AppManager.Commands
 			{ ; }
 		}
 
-		protected void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion)
+		protected void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion, string message)
 		{
 			if (_SilentUpdate)
 			{
@@ -311,11 +311,11 @@ namespace AppManager.Commands
 
 			if (!successfulCheck)
 			{
-				MsgBox.Show(
-					wnd, 
-					Strings.APP_TITLE, 
-					Strings.UPDATE_CHECK_FAILED, 
-					false);
+				ErrorBox.Show(
+					Strings.APP_TITLE,
+					Strings.UPDATE_CHECK_FAILED,
+					message
+					);
 
 				return;
 			}

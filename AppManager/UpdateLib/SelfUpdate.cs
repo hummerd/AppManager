@@ -22,7 +22,7 @@ namespace UpdateLib
 
 
 		protected delegate void SimpleMathod();
-		protected delegate void UpdateCompletedResult(bool successfulCheck, bool hasNewVersion);
+		protected delegate void UpdateCompletedResult(bool successfulCheck, bool hasNewVersion, string message);
 		protected delegate void UpdateDownloadProgress(string location, long total, long progress);
 		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
 
@@ -181,23 +181,21 @@ namespace UpdateLib
 				//clean up older install
 				CleanUp(appName, currentManifest);
 
-				bool altUri = false;
-				var updateUri = currentManifest.GetUpdateUriLocal();
-				var vnp = VNPFactory.GetVNP(updateUri.Scheme);
-				
-				var lastVersion = vnp.GetLatestVersionInfo(updateUri);
-				if (lastVersion == null)
-				{
-					altUri = true;
-					updateUri = currentManifest.GetUpdateUriAltLocal();
-					lastVersion = vnp.GetLatestVersionInfo(updateUri);
-				}
+				Uri activeSource;
+				IVersionNumberProvider vnp;
+				var lastVersion = GetVersionData(new List<Uri>() 
+					{	
+						currentManifest.GetUpdateUriLocal(), 
+						currentManifest.GetUpdateUriAltLocal() 
+					},
+					out activeSource,
+					out vnp);
 
 				if (lastVersion != null && lastVersion.VersionNumber > currentManifest.VersionNumber)
 				{
-					if (AskUserForDownload(displayAppName, lastVersion, updateUri.Authority))
+					if (AskUserForDownload(displayAppName, lastVersion, activeSource.Authority))
 					{
-						var manifestUri = currentManifest.GetManifestUri(altUri);
+						var manifestUri = currentManifest.GetManifestUri(activeSource);
 
 						VersionManifest latestManifest = vnp.GetLatestVersionManifest(manifestUri);
 						//failed to download latest version manifest
@@ -207,28 +205,28 @@ namespace UpdateLib
 						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
 						var tempPath = CreateTempDir(appName, latestManifest.VersionNumber);
-						if (DownloadVersion(updateManifest, tempPath, updateUri.AbsoluteUri))
-							VersionDownloadCompleted(
-								displayAppName,
-								updateManifest,
-								latestManifest,
-								lastVersion,
-								new InstallInfo() { 
-									AppName = appName,
-									ExecutePaths = executePaths,
-									InstallPath = appPath,
-									LockProcess = lockProcesses,
-									TempPath = tempPath});
+						DownloadVersion(updateManifest, tempPath, activeSource.AbsoluteUri);
+						VersionDownloadCompleted(
+							displayAppName,
+							updateManifest,
+							latestManifest,
+							lastVersion,
+							new InstallInfo() { 
+								AppName = appName,
+								ExecutePaths = executePaths,
+								InstallPath = appPath,
+								LockProcess = lockProcesses,
+								TempPath = tempPath});
 					}
 				}
 				else if (lastVersion == null) //failed to get new version
-					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false);
+					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false, null);
 				else //there is no new version
-					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, false);
+					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, false, null);
 			}
-			catch
+			catch(Exception exc)
 			{
-				DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false);
+				DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false, exc.Message);
 				return false;
 			}
 			finally
@@ -240,6 +238,44 @@ namespace UpdateLib
 			return true;
 		}
 
+
+		protected VersionData GetVersionData(IEnumerable<Uri> sources, out Uri activeSource, out IVersionNumberProvider vnp)
+		{
+			VersionData result = null;
+			string msg = null;
+			bool error = true;
+			activeSource = null;
+			vnp = null;
+
+			foreach (var item in sources)
+			{
+				try
+				{
+					activeSource = item;
+					vnp = VNPFactory.GetVNP(item.Scheme);
+					result = vnp.GetLatestVersionInfo(item);
+					if (result != null)
+					{
+						error = false;
+						break;
+					}
+				}
+				catch(Exception exc)
+				{
+					result = null;
+					error = error && true;
+
+					msg = msg + 
+						item.AbsoluteUri + Environment.NewLine +
+						exc.Message + Environment.NewLine + Environment.NewLine;
+				}
+			}
+
+			if (error)
+				throw new Exception(msg);
+
+			return result;
+		}
 
 		protected VersionManifest GetCurrentVersionManifest(string appPath)
 		{
@@ -347,7 +383,7 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected bool DownloadVersion(VersionManifest downloadManifest, string tempPath, string updateUri)
+		protected void DownloadVersion(VersionManifest downloadManifest, string tempPath, string updateUri)
 		{
 			if (UIDownloadProgress != null)
 			{
@@ -356,20 +392,23 @@ namespace UpdateLib
 					downloadManifest);
 			}
 
-			var fileDownloader = FileDownloaderFactory.GetFileDownloader(new Uri(updateUri).Scheme);
-			fileDownloader.DownloadFileStarted += (s, e) =>
-				DispatcherHelper.Invoke(new UpdateDownloadProgress(
-					UIDownloadProgress.SetDownloadProgress), e.FilePath, e.ToltalSize, e.DownloadedSize);
+			try
+			{
+				var fileDownloader = FileDownloaderFactory.GetFileDownloader(new Uri(updateUri).Scheme);
+				fileDownloader.DownloadFileStarted += (s, e) =>
+					DispatcherHelper.Invoke(new UpdateDownloadProgress(
+						UIDownloadProgress.SetDownloadProgress), e.FilePath, e.ToltalSize, e.DownloadedSize);
 
-			var result = fileDownloader.DownloadFileSet(
-				downloadManifest.VersionItems,
-				tempPath);
-
-			if (UIDownloadProgress != null)
-				DispatcherHelper.Invoke(
-					new SimpleMathod(UIDownloadProgress.Close));
-
-			return result;
+				fileDownloader.DownloadFileSet(
+					downloadManifest.VersionItems,
+					tempPath);
+			}
+			finally
+			{
+				if (UIDownloadProgress != null)
+					DispatcherHelper.Invoke(
+						new SimpleMathod(UIDownloadProgress.Close));
+			}
 		}
 
 		protected void VersionDownloadCompleted(
@@ -503,13 +542,14 @@ namespace UpdateLib
 				NeedCloseApp(this, EventArgs.Empty);
 		}
 
-		protected virtual void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion)
+		protected virtual void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion, string msg)
 		{
 			if (UpdateCompleted != null)
 				UpdateCompleted(this, new UpdateCompleteInfo()
 					{ 
 						SuccessfulCheck = successfulCheck,
-						HasNewVersion = hasNewVersion
+						HasNewVersion = hasNewVersion,
+						Message = msg
 					});
 		}
 	}
@@ -543,5 +583,6 @@ namespace UpdateLib
 	{
 		public bool SuccessfulCheck { get; set; }
 		public bool HasNewVersion { get; set; }
+		public string Message { get; set; }
 	}
 }
