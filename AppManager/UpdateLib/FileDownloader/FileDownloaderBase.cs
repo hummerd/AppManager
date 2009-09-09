@@ -53,38 +53,29 @@ namespace UpdateLib.FileDownloader
 			//      //DispatcherHelper.DoEvents();
 		}
 
-		public bool DownloadFileSet(IEnumerable<VersionItem> fileLocation, string tempPath)
+		public void DownloadFileSet(IEnumerable<VersionItem> fileLocation, string tempPath)
 		{
 			int buffSize = 4096;
 			byte[] buff = new byte[buffSize];
 
-			try
+			foreach (var item in fileLocation)
 			{
-				foreach (var item in fileLocation)
-				{
-					if (item.InstallAction == InstallAction.Delete)
-						continue;
+				if (item.InstallAction == InstallAction.Delete)
+					continue;
 
-					var location = new Uri(item.Location);
-					var tempDir = Path.Combine(tempPath, item.Path);
-					var tempFile = Path.Combine(tempPath, item.GetItemFullPath());
+				var location = new Uri(item.Location);
+				var tempDir = Path.Combine(tempPath, item.Path);
+				var tempFile = Path.Combine(tempPath, item.GetItemFullPath());
 
-					if (!Directory.Exists(tempDir))
-						Directory.CreateDirectory(tempDir);
+				if (!Directory.Exists(tempDir))
+					Directory.CreateDirectory(tempDir);
 
-					DownloadFile(location, tempFile);
-				}
+				DownloadFile(location, tempFile);
 			}
-			catch(Exception)
-			{
-				return false;	
-			}
-
-			return true;
 		}
 
 
-		protected bool DownloadFile(Uri fileLocation, string tempFile)
+		protected void DownloadFile(Uri fileLocation, string tempFile)
 		{
 			int buffSize = 4096;
 			byte[] buff = new byte[buffSize];
@@ -112,7 +103,7 @@ namespace UpdateLib.FileDownloader
 				while ((int)(readCount = downloadStream.Read(buff, 0, buffSize)) > 0)
 				{
 					if (_Cancel)
-						return false;
+						return;
 
 					totalRead += readCount;
 					tempStream.Write(buff, 0, readCount);
@@ -127,17 +118,11 @@ namespace UpdateLib.FileDownloader
 					});
 				}
 			}
-			catch (Exception)
-			{
-				return false;
-			}
 			finally
 			{
 				CloseDownloadStream(downloadStream);
 				CloseTempStream(tempStream);
 			}
-
-			return true;
 		}
 
 		protected virtual Stream GetTempStream(string tempPath)
