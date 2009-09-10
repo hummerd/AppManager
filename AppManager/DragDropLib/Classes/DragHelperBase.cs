@@ -352,8 +352,11 @@ namespace DragDropLib
 		{
 			DragDropEffects effect = DragDropEffects.None;
 			foreach (var item in _DragHandlers)
-				if (effect == DragDropEffects.None)
-					effect |= item.SupportDataFormat(element, e);
+			{
+				effect |= item.SupportDataFormat(element, e);
+				if (effect != DragDropEffects.None)
+					break;
+			}
 
 			e.Effects = e.AllowedEffects & effect;
 			e.Handled = effect != DragDropEffects.None;

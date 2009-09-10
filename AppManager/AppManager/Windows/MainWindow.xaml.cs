@@ -171,9 +171,9 @@ namespace AppManager
 			(drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped +=
 				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
 
-			drag.DragHandlers.Add(_FileDrop);
 			drag.DragHandlers.Add(_AppDrop);
-
+			drag.DragHandlers.Add(_FileDrop);
+			
 			drag.DragStart += (s, e) => OnDragStarted();
 			drag.DragEnd += (s, e) => OnDragEnded();
 			drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
