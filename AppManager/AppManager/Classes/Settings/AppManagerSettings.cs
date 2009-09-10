@@ -16,6 +16,7 @@ namespace AppManager.Settings
 		public AppManagerSettings()
 		{
 			MainFormSett = WndSettings.Empty;
+			MianFormRowHeights = new double[0];
 			_EnableActivationPanel = true;
 			_UseShortActivationPanel = true;
 		}
