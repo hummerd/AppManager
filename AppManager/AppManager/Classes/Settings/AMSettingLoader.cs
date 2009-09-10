@@ -15,6 +15,8 @@ namespace AppManager.Settings
 			string userSettingsDir = WorkItem.DataDir;
 			userSettingsDir = Path.Combine(userSettingsDir, path);
 			var result = base.LoadSettings(userSettingsDir);
+			if (result == null)
+				result = new AppManagerSettings();
 
 			var heights = result.MianFormRowHeights;
 			for (int i = 0; i < heights.Length; i++)
