@@ -85,10 +85,7 @@
 		<Style
 			x:Key="AppItemStyle"
 			TargetType="ListViewItem">
-			<!--<Setter Property="Background" Value="Transparent"/>
-            <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-            <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-            <Setter Property="Padding" Value="2,0,0,0"/>-->
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter
 				Property="Template">
 				<Setter.Value>
@@ -261,16 +258,6 @@
 				BorderThickness="0,0,0,1"
 				BorderBrush="#FFADADAD"
 				Padding="0,0,0,4">
-				<Border.Width>
-					<Binding
-						Path="ActualWidth">
-						<Binding.RelativeSource>
-							<RelativeSource
-								Mode="FindAncestor"
-								AncestorType="ScrollContentPresenter" />
-						</Binding.RelativeSource>
-					</Binding>
-				</Border.Width>
 				<Grid
 					Name="GridT">
 					<Grid.RowDefinitions>
@@ -297,7 +284,8 @@
 						Width="Auto"
 						Background="{x:Null}"
 						HorizontalAlignment="Stretch"
-						GotFocus="ScanTextBox_GotFocus" />
+						GotFocus="ScanTextBox_GotFocus"
+						TextChanged="TextBox_TextChanged" />
 					<TextBlock
 						Grid.Column="1"
 						x:Name="AppItemPath"
