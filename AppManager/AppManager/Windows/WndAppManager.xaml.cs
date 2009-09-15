@@ -237,6 +237,11 @@ namespace AppManager
 			AppTypeName.SelectAll();
 		}
 
+		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var wnd = CommonLib.UIHelper.FindAncestorOrSelf<Window>(sender as DependencyObject, null);
+		}
+
 		//private void AppScanList_KeyDown(object sender, KeyEventArgs e)
 		//{
 			//if (e.OriginalSource is TextBox)
