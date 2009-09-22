@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
 using AppManager.EntityCollection;
 using CommonLib;
 
@@ -178,28 +175,42 @@ namespace AppManager
 			string appPath = AppPath;
 			string dir = Path.GetDirectoryName(appPath);
 
-			if (String.IsNullOrEmpty(dir))
+			if (String.IsNullOrEmpty(appPath))
 				return;
 
-			Process p = new Process();
+			using (Process p = new Process())
+			{
+				if (Directory.Exists(appPath))
+				{
+					p.StartInfo.FileName = appPath;
+					p.StartInfo.WorkingDirectory = appPath;
+				}
+				else if (File.Exists(appPath))
+				{
+					p.StartInfo.Arguments = "/select, " + appPath;
+					p.StartInfo.FileName = "explorer";
+				}
+				else if (Directory.Exists(dir))
+				{
+					p.StartInfo.FileName = dir;
+					p.StartInfo.WorkingDirectory = dir;
+				}
+				else
+				{
+					while (!String.IsNullOrEmpty(dir))
+					{
+						dir = PathHelper.GetUpperPath(dir);
+						if (Directory.Exists(dir))
+							break;
+					}
 
-			if (Directory.Exists(appPath))
-			{
-				p.StartInfo.FileName = appPath;
-				p.StartInfo.WorkingDirectory = appPath;
-			}
-			else if (File.Exists(appPath))
-			{
-				p.StartInfo.Arguments = "/select, " + appPath;
-				p.StartInfo.FileName = "explorer";
-			}
-			else if (Directory.Exists(dir))
-			{
-				p.StartInfo.FileName = dir;
-				p.StartInfo.WorkingDirectory = dir;
-			}
+					p.StartInfo.FileName = dir;
+					p.StartInfo.WorkingDirectory = dir;
+				}
 
-			p.Start();
+				if (!String.IsNullOrEmpty(p.StartInfo.FileName))
+					p.Start();
+			}
 		}
 
 		public void RunApp()
