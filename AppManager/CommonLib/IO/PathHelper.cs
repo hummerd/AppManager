@@ -114,8 +114,11 @@ namespace CommonLib
 			if (ix < 0)
 				return path;
 
-			int ixe = ix >= path.Length - 1 ?
-				path.LastIndexOf(Path.DirectorySeparatorChar, 0, path.Length - 1) : ix;
+			ix = ix >= path.Length - 1 ?
+				path.LastIndexOf(Path.DirectorySeparatorChar, path.Length - 2, path.Length - 1) : ix;
+
+			if (ix < 0)
+				return String.Empty;
 
 			return path.Substring(0, ix);
 		}
