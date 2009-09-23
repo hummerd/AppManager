@@ -128,6 +128,7 @@
 				Margin="0,0,0,32"
 				Name="LstApp"
 				TabIndex="2"
+				ScrollViewer.VerticalScrollBarVisibility="Visible"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				ItemContainerStyle="{StaticResource AppItemStyle}"
 				ItemTemplate="{DynamicResource SemiEditableAppInfo}"
