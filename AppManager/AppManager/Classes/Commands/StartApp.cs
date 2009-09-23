@@ -57,13 +57,17 @@ namespace AppManager.Commands
 			_WorkItem.MainWindow.LoadState();
 			_WorkItem.MainWindow.Deactivated += (s, e) =>
 				_LostTime = DateTime.Now;
-			_WorkItem.MainWindow.Loaded += (s, e) => 
-				EndInit((bool)parameter);
-			
+
 			if (!_WorkItem.Settings.StartMinimized)
 			{
+				_WorkItem.MainWindow.Loaded += (s, e) =>
+					EndInit((bool)parameter);
 				_WorkItem.MainWindow.Show();
 				_WorkItem.MainWindow.SetFocus();
+			}
+			else
+			{
+				EndInit((bool)parameter);
 			}
 
 			if (_FirstStart)
