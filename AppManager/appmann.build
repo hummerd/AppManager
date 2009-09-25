@@ -6,6 +6,7 @@
 	<property name="verpath" value="c:\Inetpub\wwwroot\AppManagerUpdate" />
 	<property name="tfpath" value="c:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\TF.exe" />
 	<property name="tfs" value="https://tfs07.codeplex.com:443" />
+	<property name="tflogin" value="login,pass" />
 	<property name="msbpath" value="c:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
 	<property name="vbpath" value="${projpath}\AppManager\AppManager\VersionBuilder\bin\Release\VersionBuilder.exe" />
 	
@@ -42,7 +43,7 @@
 			<arg value="WS_BUILD" />
 			<arg value="/noprompt" />
 			<arg value="/s:${tfs}" />
-			<arg value="/login:login,pass" />
+			<arg value="/login:${tflogin}" />
 		</exec> 
  		<exec program="${tfpath}" workingdir="${projpath}" failonerror="false">
 			<arg value="workspace" />
@@ -50,7 +51,7 @@
 			<arg value="/s:${tfs}" />
 			<arg value="WS_BUILD" />
 			<arg value="/noprompt" />
-			<arg value="/login:login,pass" />
+			<arg value="/login:${tflogin}" />
 		</exec>	
  		<exec program="${tfpath}" workingdir="${projpath}">
 			<arg value="get" />
@@ -58,7 +59,7 @@
 			<arg value="/version:T" />
 			<arg value="/recursive" />
 			<arg value="/force" />
-			<arg value="/login:login,pass" />
+			<arg value="/login:${tflogin}" />
 		</exec> 
 	</target>	
 		
