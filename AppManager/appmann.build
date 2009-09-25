@@ -2,49 +2,64 @@
 <project name="Hello World" default="createversion" basedir=".">
 	<description>Create new version of AppManager</description>
 	
-	<property name="projpath" value="c:\Programming Stuff\Projects\C Sharp\AppManager" />
+	<property name="projpath" value="c:\tmp\amb" />
 	<property name="verpath" value="c:\Inetpub\wwwroot\AppManagerUpdate" />
 	<property name="tfpath" value="c:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\TF.exe" />
+	<property name="tfs" value="https://tfs07.codeplex.com:443" />
 	<property name="msbpath" value="c:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
-	<property name="vbpath" value="${projpath}\VersionBuilder\bin\Release\VersionBuilder.exe" />
+	<property name="vbpath" value="${projpath}\AppManager\AppManager\VersionBuilder\bin\Release\VersionBuilder.exe" />
 	
-	<property name="projecttobuild" value="${projpath}\AppManager.sln" />
+	<property name="projecttobuild" value="${projpath}\AppManager\AppManager\AppManager.sln" />
 	
-	<property name="versionsource" value="${projpath}\AppManager\bin\Release" />
-	<property name="updatesource" value="http://hummerd.selfip.com:10080/AppManagerUpdate" />
+	<property name="versionsource" value="${projpath}\AppManager\AppManager\AppManager\bin\Release" />
+	<property name="updatesource" value="http://dimanick.ru/MySoft/AppManager/Update" />
 	<property name="versionnumber" value="1.0.2.14" />
-	<property name="iisdir" value="c:\Inetpub\wwwroot\AppManagerUpdate" />
-
 	
 	
 	<target name="createversion">
-		<call target="clean"/>
+ 		<call target="clean"/> 
 		<call target="getsources"/>
-		<call target="buildsln"/>
+ 		<call target="buildsln"/>
 		<call target="createversionsrc"/>
-		<call target="copytoiis"/>
 	</target>
 	
 	<target name="clean">
-		<delete>
+ 		<delete>
 			<fileset>
-				<include name="${verpath}/**" />				
-				<exclude name="${verpath}" />
+<!-- 				<include name="${verpath}/**" />				
+				<exclude name="${verpath}" /> -->
 				<include name="${projpath}/**" />
 				<exclude name="${projpath}" />
 			</fileset>
-		</delete>
+		</delete> 
 	</target>
 
 	<target name="getsources">
-		<exec program="${tfpath}">
+		<mkdir dir="${projpath}" />
+  		<exec program="${tfpath}" failonerror="false">
+			<arg value="workspace" />
+			<arg value="/delete" />
+			<arg value="WS_BUILD" />
+			<arg value="/noprompt" />
+			<arg value="/s:${tfs}" />
+			<arg value="/login:login,pass" />
+		</exec> 
+ 		<exec program="${tfpath}" workingdir="${projpath}" failonerror="false">
+			<arg value="workspace" />
+			<arg value="/new" />
+			<arg value="/s:${tfs}" />
+			<arg value="WS_BUILD" />
+			<arg value="/noprompt" />
+			<arg value="/login:login,pass" />
+		</exec>	
+ 		<exec program="${tfpath}" workingdir="${projpath}">
 			<arg value="get" />
 			<arg value="$/AppManager/AppManager" />
 			<arg value="/version:T" />
 			<arg value="/recursive" />
 			<arg value="/force" />
-			<arg value="/login:user,pass" />
-		</exec>	
+			<arg value="/login:login,pass" />
+		</exec> 
 	</target>	
 		
 	<target name="buildsln">
@@ -61,15 +76,8 @@
 			<arg value="-${versionnumber}" />
 			<arg value="-${updatesource}" />
 			<arg value="-pdb,manifest,application" />
+			<arg value="-ru,en" />
 		</exec>	
-	</target>
-
-	<target name="copytoiis">
-		<copy todir="${iisdir}">
-			<fileset basedir="${versionsource}_${versionnumber}">
-				<include name="**" />
-			</fileset>
-		</copy>
 	</target>
 </project>
 
