@@ -35,12 +35,19 @@ namespace CommonLib.Windows
 
 		private void ExpDetails_Expanded(object sender, RoutedEventArgs e)
 		{
-			Height = 250;
+			//ExpDetails.Height = 136;
+			//MainGrid.RowDefinitions[1].Height = new GridLength(100, GridUnitType.Star);
+			ExpDetails.VerticalAlignment = VerticalAlignment.Stretch;
+			if (Height <= 200)
+				Height = 300;
 		}
 
 		private void ExpDetails_Collapsed(object sender, RoutedEventArgs e)
 		{
-			Height = 175;
+			//ExpDetails.Height = 36;
+			//MainGrid.RowDefinitions[1].Height = new GridLength(100, GridUnitType.Auto);
+			ExpDetails.VerticalAlignment = VerticalAlignment.Top;
+			SizeToContent = SizeToContent.Height;
 		}
 	}
 }

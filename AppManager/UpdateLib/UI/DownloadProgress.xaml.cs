@@ -8,7 +8,7 @@ namespace UpdateLib.UI
 	/// <summary>
 	/// Interaction logic for DownloadProgress.xaml
 	/// </summary>
-	public partial class DownloadProgress : Window, IUIDownloadProgress
+	public partial class DownloadProgress : Window
 	{
 		public DownloadProgress()
 		{

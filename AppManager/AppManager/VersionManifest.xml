@@ -66,6 +66,6 @@
 			<Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
 		</VersionItem>
 	</VersionItems>
-	<UpdateUri>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUri>
+	<UpdateUri>http://dimanick.ru/MySoft/AppManager/Update</UpdateUri>
 	<UpdateUriAlt>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUriAlt>
 </VersionManifest>

@@ -19,12 +19,10 @@
 		<Label
 			Name="LblDownload"
 			Margin="12,12,12,0"
-			Content="DOWNLOADING" 
 			VerticalAlignment="Top" />
 		<Label
 			Margin="12,41,12,0"
 			Name="LblFile" 
-			Content="File name"
 			VerticalAlignment="Top" />
 	</Grid>
 </Window>
