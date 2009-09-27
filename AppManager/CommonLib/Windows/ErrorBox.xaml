@@ -5,12 +5,13 @@
 	xmlns:cw="clr-namespace:CommonLib.Windows"
 	xmlns:c="clr-namespace:CommonLib"
 	Title="ErrorBox"
-	Height="175"
+	Height="164"
 	Width="355"
 	WindowStartupLocation="CenterScreen"
 	MinWidth="280"
-	MinHeight="150">
-	<Grid>
+	MinHeight="160" 
+	SizeToContent="Height">
+	<Grid Name="MainGrid">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
 				Width="Auto" />
@@ -40,11 +41,11 @@
 		<Expander
 			Header="{x:Static c:CommStr.DETAILS}"
 			HorizontalAlignment="Stretch"
+			VerticalAlignment="Top"
 			HorizontalContentAlignment="Stretch"
-			Margin="8,8,8,0"
+			Margin="8,8,8,8"
 			Name="ExpDetails"
 			IsExpanded="False"
-			VerticalAlignment="Top"
 			Grid.Column="1"
 			Grid.Row="1"
 			BorderBrush="SteelBlue"
@@ -54,6 +55,7 @@
 				Name="TxtDetails"
 				TextWrapping="NoWrap" 
 				VerticalScrollBarVisibility="Visible"
+				HorizontalScrollBarVisibility="Visible"
 				IsReadOnly="True">
 				Some text Some text Some text Some text Some text Some text Some text Some text
 			</TextBox>

@@ -39,7 +39,7 @@ namespace UpdateLib
 			VNPFactory = new VersionNumberFactory();
 			UIAskDownload = new UIAsk();
 			UIAskInstall = new UIAsk();
-			UIDownloadProgress = new DownloadProgress();
+			UIDownloadProgress = new UIDownloadProgress();
 		}
 
 		public SelfUpdate(
@@ -211,12 +211,18 @@ namespace UpdateLib
 							updateManifest,
 							latestManifest,
 							lastVersion,
-							new InstallInfo() { 
+							new InstallInfo()
+							{
 								AppName = appName,
 								ExecutePaths = executePaths,
 								InstallPath = appPath,
 								LockProcess = lockProcesses,
-								TempPath = tempPath});
+								TempPath = tempPath
+							});
+					}
+					else // there is new version but user dont wont to download it
+					{
+						DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, true, null);
 					}
 				}
 				else if (lastVersion == null) //failed to get new version
