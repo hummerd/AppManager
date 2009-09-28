@@ -231,7 +231,7 @@ namespace AppManager
 			if (appInfo == null)
 				return;
 
-			appInfo.AppInfoID = _WorkItem.AppData.LastAppInfoID;
+			appInfo.ID = _WorkItem.AppData.LastAppInfoID;
 			_WorkItem.AppData.LastAppInfoID += 1;
 			_WorkItem.AppData.RequestAppImage(appInfo);
 		}

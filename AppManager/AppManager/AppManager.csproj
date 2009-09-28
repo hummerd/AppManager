@@ -173,6 +173,7 @@
     <Compile Include="Classes\Entities\AppInfo.cs" />
     <Compile Include="Classes\AppManagerController.cs" />
     <Compile Include="Classes\Entities\AppType.cs" />
+    <Compile Include="Classes\EntityCollection\EntityBase.cs" />
     <Compile Include="Classes\EntityCollection\EntityCloner.cs" />
     <Compile Include="Classes\EntityCollection\EntityMerger.cs" />
     <Compile Include="Classes\EntityCollection\IClonableEntity.cs" />

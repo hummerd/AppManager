@@ -23,18 +23,76 @@ namespace AppManager
         //}
 	}
 
-	public class AppInfo : IClonableEntity<AppInfo>, INotifyPropertyChanged
+	public class AppInfo : EntityBase<AppInfo>
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
-		public event EventHandler NeedImage;
-
 		private static BitmapSource _BlankImage;
 		private static BitmapSource _FolderImage;
 
+		private static BitmapSource GetBlankImage()
+		{
+			if (_BlankImage == null)
+			{
+				//using (var bmp = AppManager.Properties.Resources.Window)
+				//{
+				//   _BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+				//      bmp.GetHbitmap(),
+				//      IntPtr.Zero,
+				//      Int32Rect.Empty,
+				//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+				//}
+				//in all other cases we've got size {5, 5} instead of {16, 16}
+
+				//Uri pngSrc = new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute);
+
+				//_BlankImage = new BitmapImage();
+				//_BlankImage.BeginInit();
+				//_BlankImage.DecodePixelWidth = 48;
+				//_BlankImage.UriSource = pngSrc;
+				//_BlankImage.EndInit();
+
+				//PngBitmapDecoder decoder = new PngBitmapDecoder(pngSrc, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+				//_BlankImage = decoder.Frames[0];
+
+				//_BlankImage = new CroppedBitmap(
+				//   new BitmapImage(
+				//      new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute)), 
+				//   new Int32Rect(0, 0, 16, 16));
+
+
+				//The deal was in images DPI
+				//http://genesisconduit.wordpress.com/2008/07/05/wpf-images-and-dpi-independence/
+				_BlankImage = new BitmapImage(
+					new Uri(@"pack://application:,,/Resources/Window.png"));
+			}
+
+			return _BlankImage;
+		}
+		private static BitmapSource GetFolderImage()
+		{
+			if (_FolderImage == null)
+			{
+				//using (var bmp = AppManager.Properties.Resources.folder)
+				//{
+				//_FolderImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+				//   bmp.GetHbitmap(),
+				//   IntPtr.Zero,
+				//   Int32Rect.Empty,
+				//   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+				//}
+
+				_FolderImage = new BitmapImage(
+					new Uri(@"pack://application:,,/Resources/folder.png"));
+			}
+
+			return _FolderImage;
+		}
+
+
+		public event EventHandler NeedImage;
+		
 		
 		protected BitmapSource _AppImage;
 
-		protected int _AppInfoID;
 		protected string _ExecPath;
 		protected string _AppName;
 		protected string _ImagePath;
@@ -46,18 +104,6 @@ namespace AppManager
 		}
 
 
-		public int AppInfoID
-		{
-			get
-			{
-				return _AppInfoID;
-			}
-			set
-			{
-				_AppInfoID = value;
-			}
-		}
-
 		public string AppName
 		{
 			get
@@ -67,7 +113,7 @@ namespace AppManager
 			set
 			{
 				_AppName = value;
-				OnPropertyChanged(new PropertyChangedEventArgs("AppName"));
+				OnPropertyChanged("AppName");
 			}
 		}
 
@@ -82,10 +128,10 @@ namespace AppManager
 				{
 					LoadImage();
 					OnNeedImage();
-					OnPropertyChanged(new PropertyChangedEventArgs("AppImage"));
+					OnPropertyChanged("AppImage");
 				}
 
-				OnPropertyChanged(new PropertyChangedEventArgs("ExecPath"));
+				OnPropertyChanged("ExecPath");
 			}
 		}
 
@@ -140,7 +186,7 @@ namespace AppManager
 				{
 					LoadImage();
 					OnNeedImage();
-					OnPropertyChanged(new PropertyChangedEventArgs("AppImage"));
+					OnPropertyChanged("AppImage");
 				}
 			}
 		}
@@ -157,7 +203,7 @@ namespace AppManager
 			set 
 			{ 
 				_AppImage = value;
-				OnPropertyChanged(new PropertyChangedEventArgs("AppImage"));
+				OnPropertyChanged("AppImage");
 			} 
 		}
 
@@ -263,6 +309,22 @@ namespace AppManager
 		}
 
 
+		public override string ToString()
+		{
+			return AppName;
+		}
+		
+		public override bool Equals(object obj)
+		{
+			return ID == ((AppInfo)obj).ID;
+		}
+
+		public override int GetHashCode()
+		{
+			return ID;
+		}
+
+
 		protected virtual void OnNeedImage()
 		{
 			if (NeedImage != null)
@@ -281,7 +343,7 @@ namespace AppManager
 
 			string appPath = ImagePath;
 
-			if (PathHelper.IsLikeDrive(appPath) || 
+			if (PathHelper.IsLikeDrive(appPath) ||
 				 Directory.Exists(appPath))
 			{
 				src = GetFolderImage();
@@ -290,128 +352,15 @@ namespace AppManager
 			_AppImage = src;
 		}
 
-
-		private static BitmapSource GetBlankImage()
+		protected override void MergeEntity(AppInfo source, bool clone)
 		{
-			if (_BlankImage == null)
-			{
-				//using (var bmp = AppManager.Properties.Resources.Window)
-				//{
-				//   _BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-				//      bmp.GetHbitmap(),
-				//      IntPtr.Zero,
-				//      Int32Rect.Empty,
-				//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-				//}
-				//in all other cases we've got size {5, 5} instead of {16, 16}
+			base.MergeEntity(source, clone);
 
-				//Uri pngSrc = new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute);
-
-				//_BlankImage = new BitmapImage();
-				//_BlankImage.BeginInit();
-				//_BlankImage.DecodePixelWidth = 48;
-				//_BlankImage.UriSource = pngSrc;
-				//_BlankImage.EndInit();
-
-				//PngBitmapDecoder decoder = new PngBitmapDecoder(pngSrc, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-				//_BlankImage = decoder.Frames[0];
-
-				//_BlankImage = new CroppedBitmap(
-				//   new BitmapImage(
-				//      new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute)), 
-				//   new Int32Rect(0, 0, 16, 16));
-				
-
-				//The deal was in images DPI
-				//http://genesisconduit.wordpress.com/2008/07/05/wpf-images-and-dpi-independence/
-				_BlankImage = new BitmapImage(
-					new Uri(@"pack://application:,,/Resources/Window.png"));
-			}
-
-			return _BlankImage;
-		}
-
-		private static BitmapSource GetFolderImage()
-		{
-			if (_FolderImage == null)
-			{
-				//using (var bmp = AppManager.Properties.Resources.folder)
-				//{
-				//_FolderImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-				//   bmp.GetHbitmap(),
-				//   IntPtr.Zero,
-				//   Int32Rect.Empty,
-				//   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-				//}
-
-				_FolderImage = new BitmapImage(
-					new Uri(@"pack://application:,,/Resources/folder.png"));
-			}
-
-			return _FolderImage;
-		}
-
-
-		#region IClonableEntity<AppInfo> Members
-
-		public AppInfo CloneSource
-		{
-			get;
-			set;
-		}
-
-		public AppInfo CloneEntity()
-		{
-			AppInfo clone = new AppInfo();
-			clone.AppInfoID = AppInfoID;
-			clone.AppName = AppName;
-			clone.ExecPath = ExecPath;
-			clone.CloneSource = this;
-
-			return clone;
-		}
-
-		public void MergeEntity(AppInfo source)
-		{
 			if (AppName != source.AppName)
 				AppName = source.AppName;
 
 			if (ExecPath != source.ExecPath)
 				ExecPath = source.ExecPath;
-
-			//EntityMerger.MergeEntity(source, this);
-		}
-
-		#endregion
-
-		#region ICloneable Members
-
-		public object Clone()
-		{
-			return CloneEntity();
-		}
-
-		#endregion
-
-		public override string ToString()
-		{
-			return AppName;
-		}
-		
-		public override bool Equals(object obj)
-		{
-			return AppInfoID == ((AppInfo)obj).AppInfoID;
-		}
-
-		public override int GetHashCode()
-		{
-			return AppInfoID;
-		}
-
-		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, e);
 		}
 	}
 }

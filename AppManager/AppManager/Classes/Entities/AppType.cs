@@ -14,7 +14,7 @@ namespace AppManager
 
 		}
 
-        //public AppTypeCollection(IEnumerable<AppType> collection)
+		//public AppTypeCollection(IEnumerable<AppType> collection)
         //    : base(collection)
         //{
 
@@ -22,11 +22,8 @@ namespace AppManager
 	}
 
 	[Serializable]
-	public class AppType : IClonableEntity<AppType>, INotifyPropertyChanged
+	public class AppType : EntityBase<AppType>
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
-
-
 		protected AppInfoCollection _AppInfos;
 		protected string _AppTypeName;
 
@@ -34,20 +31,14 @@ namespace AppManager
 		public AppType()
 		{
 			_AppInfos = new AppInfoCollection();
-			_AppInfos.CollectionChanged += AppInfos_CollectionChanged;
+			_AppInfos.CollectionChanged += (s, e) => OnPropertyChanged("AppTypeInfo");
 		}
-
-        //public AppType(IEnumerable<AppInfo> collection)
-        //{
-        //    _AppInfos = new AppInfoCollection(collection);
-        //    _AppInfos.CollectionChanged += AppInfos_CollectionChanged;
-        //}
 
 		
 		public string AppTypeName
 		{
 			get { return _AppTypeName; }
-			set { _AppTypeName = value; OnPropertyChanged(new PropertyChangedEventArgs("AppTypeName")); }
+			set { _AppTypeName = value; OnPropertyChanged("AppTypeName"); }
 		}
 
 		public string AppTypeInfo
@@ -59,58 +50,23 @@ namespace AppManager
 		{ get { return _AppInfos; } }
 		
 
-		#region IClonableEntity<AppType> Members
-
-		public AppType CloneSource
-		{
-			get;
-			set;
-		}
-
-		public AppType CloneEntity()
-		{
-			AppType clone = new AppType();
-            clone.AppInfos.AddRange(AppInfos.Copy());
-			clone.AppTypeName = AppTypeName;
-			clone.CloneSource = this;
-			return clone;
-		}
-
-		public void MergeEntity(AppType source)
-		{
-			if (AppTypeName != source.AppTypeName)
-				AppTypeName = source.AppTypeName;
-
-			AppInfos.MergeCollection(source.AppInfos);
-		}
-
-		#endregion
-
-		#region ICloneable Members
-
-		public object Clone()
-		{
-			return CloneEntity();
-		}
-
-		#endregion
-
 		public override string ToString()
 		{
 			return _AppTypeName;
 		}
 
-		
-		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, e);
-		}
 
-
-		private void AppInfos_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		protected override void MergeEntity(AppType source, bool clone)
 		{
-			OnPropertyChanged(new PropertyChangedEventArgs("AppTypeInfo"));
+			base.MergeEntity(source, clone);
+
+			if (AppTypeName != source.AppTypeName)
+				AppTypeName = source.AppTypeName;
+
+			if (clone)
+				AppInfos.AddRange(source.AppInfos.Copy());
+			else
+				AppInfos.MergeCollection(source.AppInfos);
 		}
 	}
 }
