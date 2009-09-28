@@ -18,12 +18,12 @@ namespace AppManager.EntityCollection
 			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
 		}
 
-        //public EntityCollection(IEnumerable<TEntity> collection)
-        //    : base(collection)
-        //{
-        //    _Deleted = new List<TEntity>();
-        //    _DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
-        //}
+		//public EntityCollection(IEnumerable<TEntity> collection)
+		//    : base(collection)
+		//{
+		//    _Deleted = new List<TEntity>();
+		//    _DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
+		//}
 
 
 		public ReadOnlyCollection<TEntity> DeletedItems
@@ -33,11 +33,11 @@ namespace AppManager.EntityCollection
 		}
 
 
-        public void AddRange(IEnumerable<TEntity> items)
-        {
-            foreach (var item in items)
-                Add(item);
-        }
+		public void AddRange(IEnumerable<TEntity> items)
+		{
+			foreach (var item in items)
+				Add(item);
+		}
 
 		public TEntity FindBySource(TEntity search)
 		{
@@ -67,7 +67,7 @@ namespace AppManager.EntityCollection
 				{
 					TEntity soureItem = null;
 					int ix = 0;
-					
+
 					for (int j = 0; j < this.Count; j++)
 						if (object.ReferenceEquals(sourceCollection[i].CloneSource, this[j]))
 						{
@@ -95,7 +95,7 @@ namespace AppManager.EntityCollection
 			if (e.Action == NotifyCollectionChangedAction.Reset)
 				_Deleted.AddRange(this);
 
-			if (e.Action == NotifyCollectionChangedAction.Remove || 
+			if (e.Action == NotifyCollectionChangedAction.Remove ||
 				 e.Action == NotifyCollectionChangedAction.Replace)
 				if (e.OldItems != null && e.OldItems.Count > 0)
 					foreach (object item in e.OldItems)

@@ -8,7 +8,7 @@ using CommonLib;
 namespace AppManager
 {
 	[Serializable]
-	public class AppGroup : IClonableEntity<AppGroup>
+	public class AppGroup : EntityBase<AppGroup>
 	{
 		protected AppTypeCollection _AppTypes;
 		protected int _LastAppInfoID = 1;
@@ -20,12 +20,7 @@ namespace AppManager
 			_AppTypes = new AppTypeCollection();
 		}
 
-        //public AppGroup(IEnumerable<AppType> collection)
-        //{
-        //    _AppTypes = new AppTypeCollection(collection);
-        //}
-
-
+        
 		public string AppGroupName
 		{ get; set; }
 
@@ -182,7 +177,7 @@ namespace AppManager
 			AppInfo newInfo = new AppInfo()
 			{
             AppName = appName,
-				AppInfoID = _LastAppInfoID++
+				ID = _LastAppInfoID++
 			};
 
 			newInfo.NeedImage += (s, e) => RequestImage(s as AppInfo);
@@ -200,63 +195,40 @@ namespace AppManager
 		{
 			int maxId = -1;
 			foreach (var ai in AllApps())
-				maxId = Math.Max(maxId, ai.AppInfoID);
+				maxId = Math.Max(maxId, ai.ID);
 
 			_LastAppInfoID = maxId + 1;
 
 			foreach (var ai in AllApps())
 			{
-				if (ai.AppInfoID <= 0)
-					ai.AppInfoID = _LastAppInfoID++;
-				else if (ai.AppInfoID > _LastAppInfoID)
-					_LastAppInfoID = ai.AppInfoID + 1;
+				if (ai.ID <= 0)
+					ai.ID = _LastAppInfoID++;
+				else if (ai.ID > _LastAppInfoID)
+					_LastAppInfoID = ai.ID + 1;
 			}
 		}
 
-		#region IClonableEntity<AppGroup> Members
 
-		public AppGroup CloneSource
+		protected override void MergeEntity(AppGroup source, bool clone)
 		{
-			get;
-			set;
-		}
+			base.MergeEntity(source, clone);
 
-		public AppGroup CloneEntity()
-		{
-			AppGroup clone = new AppGroup();
-            clone.AppTypes.AddRange(AppTypes.Copy());
-			clone.AppGroupName = AppGroupName;
-			clone._LastAppInfoID = _LastAppInfoID;
-			clone.CloneSource = this;
-
-			clone.ReInitImages();
-			clone.StartLoadImages();
-
-			return clone;
-		}
-
-		public void MergeEntity(AppGroup source)
-		{
 			if (AppGroupName != source.AppGroupName)
 				AppGroupName = source.AppGroupName;
 
 			_LastAppInfoID = source._LastAppInfoID;
 
-			AppTypes.MergeCollection(source.AppTypes);
+			if (clone)
+				AppTypes.AddRange(source.AppTypes.Copy());
+			else
+				AppTypes.MergeCollection(source.AppTypes);
+
+			if (clone)
+			{
+				ReInitImages();
+				StartLoadImages();
+			}
 		}
-
-		#endregion
-
-		#region ICloneable Members
-
-		public object Clone()
-		{
-			return CloneEntity();
-		}
-
-		#endregion
-
-
 
 		protected AppType GroupToWindows(AppInfoCollection appSource)
 		{

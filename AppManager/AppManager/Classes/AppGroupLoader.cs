@@ -185,7 +185,7 @@ namespace AppManager
 			writer.WriteStartElement("AppInfo");
 
 			writer.WriteStartAttribute("ID");
-			writer.WriteValue(appInfo.AppInfoID);
+			writer.WriteValue(appInfo.ID);
 			writer.WriteEndAttribute();
 
 			writer.WriteStartAttribute("Name");
@@ -236,7 +236,7 @@ namespace AppManager
 			reader.ReadStartElement("AppInfo");
 
 			reader.ReadStartElement("AppInfoID");
-			result.AppInfoID = reader.ReadContentAsInt();
+			result.ID = reader.ReadContentAsInt();
 			reader.ReadEndElement();
 
 			reader.ReadStartElement("AppName");
@@ -284,7 +284,7 @@ namespace AppManager
 			//reader.ReadStartElement("AppInfo");
 
 			reader.MoveToAttribute("ID");
-			result.AppInfoID = reader.ReadContentAsInt();
+			result.ID = reader.ReadContentAsInt();
 
 			reader.MoveToAttribute("Name");
 			result.AppName = reader.ReadContentAsString();
