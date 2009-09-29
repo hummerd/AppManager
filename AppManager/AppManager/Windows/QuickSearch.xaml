@@ -131,7 +131,7 @@
 				ScrollViewer.VerticalScrollBarVisibility="Visible"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				ItemContainerStyle="{StaticResource AppItemStyle}"
-				ItemTemplate="{DynamicResource SemiEditableAppInfo}"
+				ItemTemplate="{StaticResource SemiEditableAppInfo}"
 				IsSynchronizedWithCurrentItem="True"
 				Background="{x:Null}"
 				MouseDoubleClick="LstApp_MouseDoubleClick"

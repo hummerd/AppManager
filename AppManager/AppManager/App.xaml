@@ -724,5 +724,19 @@
 				Name="Cancel"
 				Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
+
+		<LinearGradientBrush
+			x:Key="MainWindowBorder"
+			EndPoint="348.806,530.234"
+			StartPoint="81.194,33.766"
+			MappingMode="Absolute">
+			<GradientStop
+				Color="#FFF8CF75"
+				Offset="0" />
+			<GradientStop
+				Color="#FFBD8B1C"
+				Offset="1" />
+		</LinearGradientBrush>
+
 	</Application.Resources>
 </Application>
