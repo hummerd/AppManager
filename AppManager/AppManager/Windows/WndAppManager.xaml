@@ -65,7 +65,8 @@
 								<Setter
 									Property="Background"
 									TargetName="Bd"
-									Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+									Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+								</Setter>
 								<Setter
 									Property="Foreground"
 									Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -405,8 +406,8 @@
 					ItemsSource="{Binding ElementName=AppTypeSelector, Path=SelectedItem.AppInfos}"
 					HorizontalContentAlignment="Stretch"
 					IsSynchronizedWithCurrentItem="True"
-					ItemTemplate="{DynamicResource EditableAppInfo}"
-					ItemContainerStyle="{DynamicResource AppTypeItemStyle}"
+					ItemTemplate="{StaticResource EditableAppInfo}"
+					ItemContainerStyle="{StaticResource AppTypeItemStyle}"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 					SelectionMode="Extended">
 					<ListBox.ItemsPanel>

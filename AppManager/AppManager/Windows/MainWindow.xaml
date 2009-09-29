@@ -14,7 +14,7 @@
 	MinHeight="150"
 	WindowStyle="None"
 	AllowsTransparency="False"
-	Background="{DynamicResource MainWindowBorder}"
+	Background="{StaticResource MainWindowBorder}"
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d"
 	Title="{x:Static am:Strings.APP_TITLE}"
@@ -327,10 +327,7 @@
 					Color="#FF6CA6E8"
 					Offset="0.668" />
 			</LinearGradientBrush>
-			<LinearGradientBrush x:Key="MainWindowBorder" EndPoint="348.806,530.234" StartPoint="81.194,33.766" MappingMode="Absolute">
-				<GradientStop Color="#FFF8CF75" Offset="0"/>
-				<GradientStop Color="#FFBD8B1C" Offset="1"/>
-			</LinearGradientBrush>
+
 		</ResourceDictionary>
 	</Window.Resources>
 
@@ -342,7 +339,7 @@
 		BorderThickness="4,4,4,4"
 		CornerRadius="4,4,4,4"
 		SnapsToDevicePixels="True" 
-		BorderBrush="{DynamicResource MainWindowBorder}" 
+		BorderBrush="{StaticResource MainWindowBorder}" 
 		Background="{x:Null}">
 		<Grid
 				Width="Auto"
@@ -359,7 +356,7 @@
 			<!--Window caption-->
 			<Border 
 					Name="CaptionBorder" 
-					Background="{DynamicResource ActiveCaptionBrush}" 
+					Background="{StaticResource ActiveCaptionBrush}" 
 					CornerRadius="5,5,0,0"
 					SnapsToDevicePixels="True"
 					>
@@ -369,11 +366,11 @@
 						Background="Transparent"
 						>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" MinWidth="49" />
-						<ColumnDefinition	Width="Auto" MinWidth="45" />
+						<ColumnDefinition Width="49" />
+						<ColumnDefinition	Width="49" />
 						<ColumnDefinition	Width="*" />
-						<ColumnDefinition Width="Auto" MinWidth="28" />
-						<ColumnDefinition Width="Auto" MinWidth="28" />
+						<ColumnDefinition Width="28" />
+						<ColumnDefinition Width="28" />
 					</Grid.ColumnDefinitions>
 					<am:SettingButton
 						x:Name="BtnConfigure"
@@ -428,7 +425,7 @@
 						Content="Button"
 						Grid.Column="3"
 						Command="{Binding Path=Commands.Help}"
-						Style="{DynamicResource MainWndHelpButton}">
+						Style="{StaticResource MainWndHelpButton}">
 						<Button.CommandParameter>
 							<t:Boolean>True</t:Boolean>
 						</Button.CommandParameter>
@@ -441,7 +438,7 @@
 						Content="Button"
 						Grid.Column="4" 
 						Command="{Binding Path=Commands.Deactivate}"
-						Style="{DynamicResource MainWndCloseButton}" />
+						Style="{StaticResource MainWndCloseButton}" />
 				</Grid>
 			</Border>
 			<!--Window content-->
@@ -449,7 +446,7 @@
 					x:Name="ClientAreaBorder"
 					Grid.Row="1" 
 					CornerRadius="0,0,4,4" 
-					Background="{DynamicResource ContenBackBrush}"
+					Background="{StaticResource ContenBackBrush}"
 					SnapsToDevicePixels="True"
 					>
 				<Canvas		
@@ -513,7 +510,7 @@
 											Header="{Binding Path=AppTypeName}"
 											Grid.Row="0"
 											Focusable="False"
-											Style="{DynamicResource CustomGB}"
+											Style="{StaticResource CustomGB}"
 											Initialized="GroupBox_Initialized"
 											>
 											<am:ButtonList
