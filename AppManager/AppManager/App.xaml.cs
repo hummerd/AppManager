@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System;
 using CommonLib.Windows;
+using System.Windows.Threading;
 
 
 namespace AppManager
@@ -24,8 +25,12 @@ namespace AppManager
 
 		public App()
 		{
-			//InitializeComponent();
-			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+			InitializeComponent();
+            DispatcherUnhandledException += delegate(object sender, DispatcherUnhandledExceptionEventArgs e)
+            { 
+                e.Handled = true; 
+                HandleException(e.Exception); 
+            };
 		}
 
 
@@ -52,17 +57,15 @@ namespace AppManager
 			_WorkItem.Commands.Quit.Execute(null);
 		}
 
-
-		private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			if (e.ExceptionObject != null)
-			{
-				var exc = e.ExceptionObject as Exception;
-				if (exc != null)
-					ErrorBox.Show(Strings.ERROR, exc);
-				else
-					ErrorBox.Show(Strings.ERROR, Strings.ERROR_OCCUR, String.Empty);
-			}
-		}
+        protected void HandleException(Exception exc)
+        {
+            if (exc != null)
+            {
+                if (exc != null)
+                    ErrorBox.Show(Strings.ERROR, exc);
+                else
+                    ErrorBox.Show(Strings.ERROR, Strings.ERROR_OCCUR, String.Empty);
+            }            
+        }
 	}
 }

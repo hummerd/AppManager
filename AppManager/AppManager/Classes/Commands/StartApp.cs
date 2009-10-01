@@ -122,7 +122,8 @@ namespace AppManager.Commands
 
 			if (!_Single.FirstInstance)
 			{
-				App.Current.Shutdown();
+                ActivateTask act = delegate() { App.Current.Shutdown(); };
+                DispatcherHelper.Invoke(act);
 				return false;
 			}
 

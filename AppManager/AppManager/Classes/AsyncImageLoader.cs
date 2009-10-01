@@ -72,68 +72,92 @@ namespace AppManager
 					}
 				}
 			}
-		}
+        }
 
-		protected void ImageLoader(object param)
-		{
-			//Marshal.CoI
+        #region Back thread
 
-			while (true)
-			{
-				bool doLoad = true;
+        protected void ImageLoader(object param)
+        {
+            try
+            {
+                while (true)
+                {
+                    bool doLoad = true;
 
-				lock (_RequestSync)
-					doLoad = _RequestedImages.Count > 0;
+                    lock (_RequestSync)
+                        doLoad = _RequestedImages.Count > 0;
 
-				while (doLoad)
-				{
-					AppInfo app;
-					lock (_RequestSync)
-						app = _RequestedImages.Dequeue();
+                    while (doLoad)
+                    {
+                        AppInfo app;
+                        lock (_RequestSync)
+                            app = _RequestedImages.Dequeue();
 
-					bool managed;
-					var src = LoadImage(app.ImagePath, out managed);
+                        bool managed;
+                        var src = LoadImage(app.ImagePath, out managed);
 
-					lock (_ResultSync)
-						_LoadedImages.Enqueue(
-							new Pair<AppInfo, Pair<System.Drawing.Icon, bool>>() 
-								{ First = app, Second = new Pair<System.Drawing.Icon, bool> 
-									{ First = src, Second = managed } });
+                        lock (_ResultSync)
+                            _LoadedImages.Enqueue(
+                                new Pair<AppInfo, Pair<System.Drawing.Icon, bool>>()
+                                {
+                                    First = app,
+                                    Second = new Pair<System.Drawing.Icon, bool> { First = src, Second = managed }
+                                });
 
-					lock (_RequestSync)
-						doLoad = _RequestedImages.Count > 0;					
-				}
-				
-				Thread.Sleep(1000);
-			}
-		}
+                        lock (_RequestSync)
+                            doLoad = _RequestedImages.Count > 0;
+                    }
 
-		protected System.Drawing.Icon LoadImage(string path, out bool managed)
-		{
-			managed = true;
+                    Thread.Sleep(1000);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Dispatch the exception back to the main ui thread and reraise it
+                int secondaryUIThreadId = Thread.CurrentThread.ManagedThreadId;
+                Application.Current.Dispatcher.Invoke(
+                    DispatcherPriority.Send,
+                    (DispatcherOperationCallback)delegate(object arg)
+                    {
+                        // THIS CODE RUNS BACK ON THE MAIN UI THREAD
+                        throw new Exception("Error on image loader thread", ex);
+                    });
 
-			try
-			{
-				path = Environment.ExpandEnvironmentVariables(path);
+                // NOTE - Application execution will only continue from this point
+                //        onwards if the exception was handled on the main UI thread
+                //        by Application.DispatcherUnhandledException
 
-				if (!File.Exists(path))
-					return null;
-				
-				if (PathHelper.IsPathUNC(path))
-					return null;
+            }
+        }
 
-				if (Array.IndexOf(IconOwnExt, Path.GetExtension(path)) >= 0)
-					return System.Drawing.Icon.ExtractAssociatedIcon(path);
-				else
-				{
-					managed = false;
-					return ShFileInfo.ExtractIcon(path, true);
-				}
-			}
-			catch
-			{ ; }
+        protected System.Drawing.Icon LoadImage(string path, out bool managed)
+        {
+            managed = true;
 
-			return null;
-		}
+            try
+            {
+                path = Environment.ExpandEnvironmentVariables(path);
+
+                if (!File.Exists(path))
+                    return null;
+
+                if (PathHelper.IsPathUNC(path))
+                    return null;
+
+                if (Array.IndexOf(IconOwnExt, Path.GetExtension(path)) >= 0)
+                    return System.Drawing.Icon.ExtractAssociatedIcon(path);
+                else
+                {
+                    managed = false;
+                    return ShFileInfo.ExtractIcon(path, true);
+                }
+            }
+            catch
+            { ; }
+
+            return null;
+        }
+
+        #endregion
 	}
 }

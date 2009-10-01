@@ -9,10 +9,10 @@
 	Width="310"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
-	MinWidth="295"
-	MinHeight="285"
+	MinWidth="310"
+	MinHeight="320"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
-	Closing="DialogWindow_Closing">
+	Closing="DialogWindow_Closing" SizeToContent="Width">
 	<StackPanel>
 		<CheckBox
 			Content="{x:Static am:Strings.AUTO_START}"
