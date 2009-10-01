@@ -307,7 +307,7 @@
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="46" />
+						Height="Auto" />
 					<RowDefinition
 						Height="*" />
 				</Grid.RowDefinitions>
@@ -393,9 +393,9 @@
 				Name="AppTypesApp">
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="46" />
+						Height="Auto" />
 					<RowDefinition
-						Height="306.723*" />
+						Height="100*" />
 					<RowDefinition
 						Height="8" />
 				</Grid.RowDefinitions>
@@ -467,16 +467,16 @@
 				Width="Auto">
 				<Grid.RowDefinitions>
 					<RowDefinition
-						Height="80" />
+						Height="Auto" />
 					<RowDefinition
 						Height="100*" />
 				</Grid.RowDefinitions>
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition
-							Height="100*" />
+							Height="Auto" />
 						<RowDefinition
-							Height="100*" />
+							Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -497,21 +497,25 @@
 						Grid.ColumnSpan="6"
 						Orientation="Horizontal">
 						<Button
+                            MinHeight="24"
 							Name="BtnScanQuickLaunch"
 							Content="{x:Static am:Strings.SCAN_QUICK_LAUNCH}"
 							Click="BtnScanQuickLaunch_Click" />
 						<Button
+                            MinHeight="24"
 							Name="BtnScanAllProgs"
 							Margin="4,0,0,0"
 							Content="{x:Static am:Strings.SCAN_ALL_PROGS}"
 							Click="BtnScanAllProgs_Click" />
 					</StackPanel>
 					<TextBox
+                        MinHeight="24"
 						Grid.Row="1"
 						Margin="8,6,32,12"
 						Name="TxtFolder"
 						Grid.ColumnSpan="4" />
 					<Button
+                        MinHeight="24"
 						Grid.Row="1"
 						MinWidth="24"
 						Margin="0,6,4,12"
@@ -519,6 +523,7 @@
 						Click="BtnFolder_Click"
 						Grid.Column="3">...</Button>
 					<Button
+                        MinHeight="24"
 						Grid.Row="1"
 						Margin="0,6,4,12"
 						Name="_BtnSearch"
@@ -526,6 +531,7 @@
 						Content="{x:Static am:Strings.SCAN}"
 						Grid.Column="4" />
 					<Button
+                        MinHeight="24"
 						Grid.Row="1"
 						Width="24"
 						Margin="0,6,8,12"
