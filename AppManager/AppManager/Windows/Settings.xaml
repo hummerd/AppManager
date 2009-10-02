@@ -38,22 +38,20 @@
 			Name="ChkEnableAcivationPanel"
 			Margin="12,8,0,0"
 			VerticalAlignment="Top"
-			HorizontalAlignment="Left" Checked="ChkEnableAcivationPanel_Checked" Unchecked="ChkEnableAcivationPanel_Unchecked" />
+			HorizontalAlignment="Left" 
+			Checked="ChkEnableAcivationPanel_Checked" 
+			Unchecked="ChkEnableAcivationPanel_Unchecked" />
 		<CheckBox
 			Content="{x:Static am:Strings.USE_SHORT_ACT_PANEL}"
 			Name="ChkUseShortActivationPanel"
 			Margin="24,8,0,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" />
-		<Path
-			Fill="#FFFFFFFF"
-			Stretch="Fill"
-			Stroke="#FF325BCE"
+		<Border 
+			BorderBrush="#FF325BCE" 
 			Margin="8,8,8,0"
-			VerticalAlignment="Top"
-			Height="2"
-			Data="M12,40L295,40"
-			StrokeThickness="2" />
+			IsHitTestVisible="False"
+			BorderThickness="1" />
 		<Button
 			Content="{x:Static am:Strings.OPEN_APP_DATA}"
 			HorizontalAlignment="Left"
