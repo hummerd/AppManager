@@ -67,9 +67,14 @@ namespace AppManager.DragDrop
 
 		private static void CreateLnk(object state)
 		{
-			AppInfo ai = state as AppInfo;
-			string tempLink = Path.Combine(Path.GetTempPath(), ai.AppName + ".lnk");
-			LnkHelper.CreateLnk(tempLink, ai.AppPath, ai.ImagePath, ai.AppArgs);
+			try
+			{
+				AppInfo ai = state as AppInfo;
+				string tempLink = Path.Combine(Path.GetTempPath(), ai.AppName + ".lnk");
+				LnkHelper.CreateLnk(tempLink, ai.AppPath, ai.ImagePath, ai.AppArgs);
+			}
+			catch
+			{ ; }
 		}
 	}
 }

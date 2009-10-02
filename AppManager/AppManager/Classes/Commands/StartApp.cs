@@ -2,8 +2,10 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 using AppManager.Properties;
 using AppManager.Windows;
 using CommonLib;
@@ -11,8 +13,6 @@ using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
 using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
-using System.Security.AccessControl;
-using System.Windows.Threading;
 
 
 namespace AppManager.Commands
@@ -114,17 +114,27 @@ namespace AppManager.Commands
 
 		protected bool InitFirstInstance()
 		{
-			_Single = new SingleInstance(10251, true, delegate()
+			//Since this method can be executed in thread pool 
+			//we should not allow unhandled exceptions here
+			try
 			{
-				ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
-				DispatcherHelper.Invoke(act);
-			});
+				_Single = new SingleInstance(10251, true, delegate()
+				{
+					ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
+					DispatcherHelper.Invoke(act);
+				});
 
-			if (!_Single.FirstInstance)
+				if (!_Single.FirstInstance)
+				{
+					ActivateTask act = delegate() { App.Current.Shutdown(); };
+					DispatcherHelper.Invoke(act);
+					return false;
+				}
+			}
+			catch (Exception ex)
 			{
-                ActivateTask act = delegate() { App.Current.Shutdown(); };
-                DispatcherHelper.Invoke(act);
-				return false;
+				// Dispatch the exception back to the main ui thread and reraise it
+				DispatcherHelper.PassExceptionOnUIThread(ex);
 			}
 
 			return true;
@@ -279,7 +289,7 @@ namespace AppManager.Commands
 					_WorkItem.AppPath,
 					new string[] { Assembly.GetExecutingAssembly().Location },
 					new string[] { Process.GetCurrentProcess().ProcessName },
-					"http://hummerd.com/AppManagerUpdate"
+					"http://dimanick.ru/MySoft/AppManager/Update"
 					);
 		}
 

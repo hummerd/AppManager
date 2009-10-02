@@ -88,6 +88,15 @@ namespace CommonLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error on back thread.
+        /// </summary>
+        public static string ERR_BACK_THREAD {
+            get {
+                return ResourceManager.GetString("ERR_BACK_THREAD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string HELP {

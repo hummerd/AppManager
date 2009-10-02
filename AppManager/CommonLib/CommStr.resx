@@ -126,6 +126,9 @@
   <data name="DETAILS" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="ERR_BACK_THREAD" xml:space="preserve">
+    <value>Error on back thread</value>
+  </data>
   <data name="HELP" xml:space="preserve">
     <value>Help</value>
   </data>

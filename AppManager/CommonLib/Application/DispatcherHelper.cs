@@ -29,6 +29,21 @@ namespace CommonLib.Application
 			//Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, method);
 		}
 
+		public static void PassExceptionOnUIThread(Exception exc)
+		{
+			System.Windows.Application.Current.Dispatcher.Invoke(
+				DispatcherPriority.Send,
+				(DispatcherOperationCallback)delegate(object arg)
+				{
+					// THIS CODE RUNS BACK ON THE MAIN UI THREAD
+					throw new Exception(CommStr.ERR_BACK_THREAD, exc);
+				});
+
+			// NOTE - Application execution will only continue from this point
+			//        onwards if the exception was handled on the main UI thread
+			//        by Application.DispatcherUnhandledException
+		}
+
 		public static void Invoke(Delegate method, object arg)
 		{
 			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method, arg);
