@@ -126,6 +126,9 @@
   <data name="DETAILS" xml:space="preserve">
     <value>Детали</value>
   </data>
+  <data name="ERR_BACK_THREAD" xml:space="preserve">
+    <value>Ошибка в фоновом потоке</value>
+  </data>
   <data name="HELP" xml:space="preserve">
     <value>Справка</value>
   </data>
