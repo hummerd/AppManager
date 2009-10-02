@@ -33,11 +33,12 @@ namespace CommonLib.Application
 		{
 			System.Windows.Application.Current.Dispatcher.Invoke(
 				DispatcherPriority.Send,
-				(DispatcherOperationCallback)delegate(object arg)
+				(SimpleMathod)delegate()
 				{
 					// THIS CODE RUNS BACK ON THE MAIN UI THREAD
 					throw new Exception(CommStr.ERR_BACK_THREAD, exc);
-				});
+				}
+				);
 
 			// NOTE - Application execution will only continue from this point
 			//        onwards if the exception was handled on the main UI thread
@@ -59,4 +60,6 @@ namespace CommonLib.Application
 			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method, arg0, arg1, arg2);
 		}
 	}
+
+	public delegate void SimpleMathod();
 }
