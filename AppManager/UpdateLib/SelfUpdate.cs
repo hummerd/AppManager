@@ -20,8 +20,6 @@ namespace UpdateLib
 		public event EventHandler NeedCloseApp;
 		public event EventHandler<UpdateCompleteInfo> UpdateCompleted;
 
-
-		protected delegate void SimpleMathod();
 		protected delegate void UpdateCompletedResult(bool successfulCheck, bool hasNewVersion, string message);
 		protected delegate void UpdateDownloadProgress(string location, long total, long progress);
 		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
@@ -452,7 +450,7 @@ namespace UpdateLib
 			Process.Start(installerPath);
 			//_UpdatingFlag.Close();
 
-			DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, true);
+			DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, true, null);
 			DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
 		}
 
