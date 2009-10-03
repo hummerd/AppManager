@@ -35,7 +35,7 @@ namespace Updater
 
 		public static string Str(string key)
 		{
-			return _Strings[CultureInfo.CurrentCulture.Parent.Name][key];
+			return _Strings[CultureInfo.CurrentUICulture.Parent.Name][key];
 		}
 	}
 }
