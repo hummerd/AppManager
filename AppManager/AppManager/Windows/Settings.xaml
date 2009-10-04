@@ -36,7 +36,7 @@
 		<CheckBox
 			Content="{x:Static am:Strings.ENABLE_ACT_PANEL}"
 			Name="ChkEnableAcivationPanel"
-			Margin="12,8,0,0"
+			Margin="12,8,12,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" 
 			Checked="ChkEnableAcivationPanel_Checked" 
@@ -44,7 +44,7 @@
 		<CheckBox
 			Content="{x:Static am:Strings.USE_SHORT_ACT_PANEL}"
 			Name="ChkUseShortActivationPanel"
-			Margin="24,8,0,0"
+			Margin="24,8,12,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" />
 		<Border 
