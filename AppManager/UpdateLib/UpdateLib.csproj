@@ -61,6 +61,7 @@
     <Compile Include="UI\IUIAskInstall.cs" />
     <Compile Include="UI\UIAsk.cs" />
     <Compile Include="UI\UIDownloadProgress.cs" />
+    <Compile Include="UpdateException.cs" />
     <Compile Include="UpdStr.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

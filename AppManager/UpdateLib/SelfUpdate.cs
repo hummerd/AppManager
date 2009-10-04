@@ -220,17 +220,24 @@ namespace UpdateLib
 					}
 					else // there is new version but user dont wont to download it
 					{
-						DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, true, null);
+						InvokeUpdateCompleted(true, true, null);
 					}
 				}
 				else if (lastVersion == null) //failed to get new version
-					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false, null);
+					InvokeUpdateCompleted(false, false, null);
+				//DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false, null);
 				else //there is no new version
-					DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, false, null);
+					InvokeUpdateCompleted(true, false, null);
+				//DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, false, null);
 			}
-			catch(Exception exc)
+			catch (UpdateException exc)
 			{
-				DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), false, false, exc.Message);
+				InvokeUpdateCompleted(false, false, exc.Message);
+				return false;				
+			}
+			catch (Exception exc)
+			{
+				InvokeUpdateCompleted(false, false, exc.ToString());
 				return false;
 			}
 			finally
@@ -276,7 +283,7 @@ namespace UpdateLib
 			}
 
 			if (error)
-				throw new Exception(msg);
+				throw new UpdateException(msg);
 
 			return result;
 		}
@@ -450,7 +457,7 @@ namespace UpdateLib
 			Process.Start(installerPath);
 			//_UpdatingFlag.Close();
 
-			DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), true, true, null);
+			InvokeUpdateCompleted(true, true, null);
 			DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
 		}
 
@@ -544,6 +551,12 @@ namespace UpdateLib
 		{
 			if (NeedCloseApp != null)
 				NeedCloseApp(this, EventArgs.Empty);
+		}
+
+		protected void InvokeUpdateCompleted(bool successfulCheck, bool hasNewVersion, string msg)
+		{
+			DispatcherHelper.Invoke(new UpdateCompletedResult(OnUpdateCompleted), 
+				successfulCheck, hasNewVersion, msg);
 		}
 
 		protected virtual void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion, string msg)
