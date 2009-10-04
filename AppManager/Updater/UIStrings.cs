@@ -35,7 +35,8 @@ namespace Updater
 
 		public static string Str(string key)
 		{
-			return _Strings[CultureInfo.CurrentUICulture.Parent.Name][key];
+			var lang = CultureInfo.CurrentUICulture.Parent.Name;
+			return _Strings[lang == "ru" ? lang : "en"][key];
 		}
 	}
 }
