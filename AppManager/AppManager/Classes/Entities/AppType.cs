@@ -63,10 +63,7 @@ namespace AppManager
 			if (AppTypeName != source.AppTypeName)
 				AppTypeName = source.AppTypeName;
 
-			if (clone)
-				AppInfos.AddRange(source.AppInfos.Copy());
-			else
-				AppInfos.MergeCollection(source.AppInfos);
+			AppInfos.Combine(source.AppInfos, clone);
 		}
 	}
 }

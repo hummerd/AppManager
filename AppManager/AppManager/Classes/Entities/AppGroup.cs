@@ -217,11 +217,7 @@ namespace AppManager
 				AppGroupName = source.AppGroupName;
 
 			_LastAppInfoID = source._LastAppInfoID;
-
-			if (clone)
-				AppTypes.AddRange(source.AppTypes.Copy());
-			else
-				AppTypes.MergeCollection(source.AppTypes);
+			AppTypes.Combine(source.AppTypes, clone);
 
 			if (clone)
 			{

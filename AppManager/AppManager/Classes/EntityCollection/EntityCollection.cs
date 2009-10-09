@@ -57,6 +57,14 @@ namespace AppManager.EntityCollection
 			return copy;
 		}
 
+		public void Combine(EntityCollection<TEntity> sourceCollection, bool clone)
+		{
+			if (clone)
+				AddRange(sourceCollection.Copy());
+			else
+				MergeCollection(sourceCollection);
+		}
+
 		public void MergeCollection(EntityCollection<TEntity> sourceCollection)
 		{
 			for (int i = 0; i < sourceCollection.Count; i++)
