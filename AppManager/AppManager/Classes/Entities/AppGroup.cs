@@ -20,7 +20,7 @@ namespace AppManager
 			_AppTypes = new AppTypeCollection();
 		}
 
-        
+
 		public string AppGroupName
 		{ get; set; }
 
@@ -39,7 +39,7 @@ namespace AppManager
 			string appTypeName = Strings.APPLICATIONS;
 			int i = 0;
 			while (AppTypeNameExists(appTypeName))
-				appTypeName = Strings.APPLICATIONS + i;  
+				appTypeName = Strings.APPLICATIONS + i;
 
 			return appTypeName;
 		}
@@ -52,7 +52,7 @@ namespace AppManager
 
 			return false;
 		}
-		
+
 		public void RequestAppImage(AppInfo app)
 		{
 			app.NeedImage += (s, e) => RequestImage(s as AppInfo);
@@ -122,7 +122,7 @@ namespace AppManager
 
 			string progFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 			var groupedApps = new List<int>(appSource.Count);
-			for (int i = appSource.Count - 1; i >= 0;)
+			for (int i = appSource.Count - 1; i >= 0; )
 			{
 				string progPath = PathHelper.GetNextPathLevel(appSource[i].AppPath, progFiles);
 				if (String.IsNullOrEmpty(progPath))
@@ -156,7 +156,7 @@ namespace AppManager
 				}
 				else
 					i--;
-			}		
+			}
 		}
 
 		public AppInfo CreateNewAppInfo(AppType appType)
@@ -164,19 +164,19 @@ namespace AppManager
 			return CreateNewAppInfo(appType, String.Empty); ;
 		}
 
-      public AppInfo CreateNewAppInfo(AppType appType, string execPath)
-        {
-            return CreateNewAppInfo(appType, Strings.NEW_APP, execPath, null);
-        }
+		public AppInfo CreateNewAppInfo(AppType appType, string execPath)
+		{
+			return CreateNewAppInfo(appType, Strings.NEW_APP, execPath, null);
+		}
 
 		public AppInfo CreateNewAppInfo(AppType appType, string appName, string execPath, string imagePath)
 		{
 			if (execPath == null)
 				execPath = String.Empty;
-			
+
 			AppInfo newInfo = new AppInfo()
 			{
-            AppName = appName,
+				AppName = appName,
 				ID = _LastAppInfoID++
 			};
 
@@ -234,7 +234,7 @@ namespace AppManager
 				return winApps;
 
 			string winDir = Environment.GetEnvironmentVariable("windir");
-			
+
 			for (int i = appSource.Count - 1; i >= 0; i--)
 			{
 				if (appSource[i].AppPath.StartsWith(winDir, StringComparison.InvariantCultureIgnoreCase))
