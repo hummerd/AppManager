@@ -5,9 +5,10 @@
 	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:с="clr-namespace:CommonLib;assembly=CommonLib"
-   ShutdownMode="OnExplicitShutdown">
+    ShutdownMode="OnExplicitShutdown">
 
 	<Application.Resources>
+
 		<Style
 			TargetType="Separator"
 			x:Key="SpecialSeparator">
@@ -692,15 +693,19 @@
 			Style="{DynamicResource SpecialContextMenu}"
 			ItemContainerStyle="{DynamicResource SpecialMenuItem}"
 			>
-            <MenuItem Name="Caption" IsHitTestVisible="False" />
-            <MenuItem Name="RunAs" IsHitTestVisible="False" />
+            <MenuItem Name="Run" />
+            <MenuItem Name="RunAs" >
+				<MenuItem.Icon>
+					<Image Source="Resources/Firewall16.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Name="RunWithArgs" />
             <Separator />
 			<MenuItem Name="Edit" />
             <MenuItem Name="RefreshImage" />
 			<MenuItem Name="Rename" />
 			<MenuItem Name="Delete" />
 			<MenuItem Name="GoTo" />
-            <MenuItem Name="RunWithArgs" />
             <Separator />
 			<MenuItem Name="Cancel" Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>

@@ -376,6 +376,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Run {0}.
+        /// </summary>
+        public static string MNU_RUN {
+            get {
+                return ResourceManager.GetString("MNU_RUN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Run with arguments....
         /// </summary>
         public static string MNU_RUN_WITH_ARGS {
@@ -390,6 +399,15 @@ namespace AppManager {
         public static string MNU_RUNAS {
             get {
                 return ResourceManager.GetString("MNU_RUNAS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run as administrator.
+        /// </summary>
+        public static string MNU_RUNAS_ADMIN {
+            get {
+                return ResourceManager.GetString("MNU_RUNAS_ADMIN", resourceCulture);
             }
         }
         
