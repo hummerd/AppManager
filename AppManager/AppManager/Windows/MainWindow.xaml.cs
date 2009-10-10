@@ -208,6 +208,10 @@ namespace AppManager
 		{
 			var menu = MenuHelper.CopyMenu(App.Current.Resources["ItemMenu"] as ContextMenu);
 
+			if (Environment.OSVersion.Version.Major < 6)// before Vista
+				((MenuItem)menu.Items[0]).Icon = null;
+
+
 			((MenuItem)menu.Items[0]).Click += (s, ea) =>
 				_Controller.WorkItem.Commands.RunApp.Execute(
 					new StartParams((s as FrameworkElement).DataContext as AppInfo)
@@ -218,23 +222,23 @@ namespace AppManager
 					new StartParams((s as FrameworkElement).DataContext as AppInfo) { RunAs = true }
 					);
 
-			((MenuItem)menu.Items[3]).Click += (s, ea) =>
-				_Controller.EditItem((s as FrameworkElement).DataContext as AppInfo);
+			((MenuItem)menu.Items[2]).Click += (s, ea) =>
+				_Controller.RunAppWithArgs((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[4]).Click += (s, ea) =>
-				_Controller.RefreshItemImage((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.EditItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[5]).Click += (s, ea) =>
-				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.RefreshItemImage((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[6]).Click += (s, ea) =>
-				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[7]).Click += (s, ea) =>
-				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[8]).Click += (s, ea) =>
-				_Controller.RunAppWithArgs((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
 
 			return menu;
 		}
@@ -272,14 +276,21 @@ namespace AppManager
 				var menu = buttonList.EditMenu;
 				menu.DataContext = item.DataContext;
 
-				((MenuItem)menu.Items[0]).Header = item.DataContext.ToString();
-				((MenuItem)menu.Items[1]).Header = Strings.MNU_RUNAS;
-				((MenuItem)menu.Items[3]).Header = Strings.MNU_EDIT;
-				((MenuItem)menu.Items[4]).Header = Strings.MNU_REFRESH;
-				((MenuItem)menu.Items[5]).Header = Strings.MNU_RENAME;
-				((MenuItem)menu.Items[6]).Header = Strings.MNU_DELETE;
-				((MenuItem)menu.Items[7]).Header = Strings.MNU_GOTO;
-				((MenuItem)menu.Items[8]).Header = Strings.MNU_RUN_WITH_ARGS;
+				((MenuItem)menu.Items[0]).Header = String.Format(
+					Strings.MNU_RUN, item.DataContext);
+
+				if (Environment.OSVersion.Version.Major < 6)// before Vista
+					((MenuItem)menu.Items[1]).Header = Strings.MNU_RUNAS;
+				else
+					((MenuItem)menu.Items[1]).Header = Strings.MNU_RUNAS_ADMIN;
+
+				((MenuItem)menu.Items[2]).Header = Strings.MNU_RUN_WITH_ARGS;
+
+				((MenuItem)menu.Items[4]).Header = Strings.MNU_EDIT;
+				((MenuItem)menu.Items[5]).Header = Strings.MNU_REFRESH;
+				((MenuItem)menu.Items[6]).Header = Strings.MNU_RENAME;
+				((MenuItem)menu.Items[7]).Header = Strings.MNU_DELETE;
+				((MenuItem)menu.Items[8]).Header = Strings.MNU_GOTO;
 
 				menu.Placement = PlacementMode.Right;
 				menu.PlacementTarget = item;

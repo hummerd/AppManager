@@ -16,9 +16,16 @@ namespace CommonLib
 				MenuItem mi = item as MenuItem;
 				if (mi != null)
 				{
+					Image newIcon = null;
+					var icon = mi.Icon as Image;
+
+					if (icon != null)
+						newIcon = new Image() { Source = icon.Source};
+
 					MenuItem mic = new MenuItem()
 					{
-						Header = mi.Header
+						Header = mi.Header,
+						Icon = newIcon
 						//Style = mi.Style,
 						//Template = mi.Template
 					};

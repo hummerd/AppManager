@@ -222,8 +222,14 @@
   <data name="MNU_RENAME_APP_TYPE" xml:space="preserve">
     <value>Переименовать группу {0}...</value>
   </data>
+  <data name="MNU_RUN" xml:space="preserve">
+    <value>Запустить {0}</value>
+  </data>
   <data name="MNU_RUNAS" xml:space="preserve">
     <value>Запуск от имени...</value>
+  </data>
+  <data name="MNU_RUNAS_ADMIN" xml:space="preserve">
+    <value>Запуск от имени администратора</value>
   </data>
   <data name="MNU_RUN_WITH_ARGS" xml:space="preserve">
     <value>Запустить с аргументами...</value>

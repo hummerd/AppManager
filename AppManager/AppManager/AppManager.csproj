@@ -313,6 +313,7 @@
     <Resource Include="Resources\1leftarrow_1159_32.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Firewall16.png" />
     <Content Include="VersionManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
