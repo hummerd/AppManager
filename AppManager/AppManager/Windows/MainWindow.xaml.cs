@@ -14,7 +14,6 @@ using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.UI;
 using DragDropLib;
-using System.Diagnostics;
 
 
 namespace AppManager
@@ -209,7 +208,7 @@ namespace AppManager
 			var menu = MenuHelper.CopyMenu(App.Current.Resources["ItemMenu"] as ContextMenu);
 
 			if (Environment.OSVersion.Version.Major < 6)// before Vista
-				((MenuItem)menu.Items[0]).Icon = null;
+				((MenuItem)menu.Items[1]).Icon = null;
 
 
 			((MenuItem)menu.Items[0]).Click += (s, ea) =>
