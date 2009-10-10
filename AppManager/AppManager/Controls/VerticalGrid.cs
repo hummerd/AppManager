@@ -38,8 +38,13 @@ namespace AppManager.Controls
 							Height = new GridLength(100.0, GridUnitType.Star),
 							MinHeight = MinRowHeight
 						});
-					SetRow(children[ix], ix);
-					ix++;
+					//SetRow(children[ix], ix);
+					//ix++;
+				}
+
+				for (int i = 0; i < chCount; i++)
+				{
+					SetRow(children[i], i);
 				}
 			}
 			else if (rdCount > chCount)
