@@ -14,6 +14,7 @@ using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.UI;
 using DragDropLib;
+using System.Diagnostics;
 
 
 namespace AppManager
@@ -152,7 +153,9 @@ namespace AppManager
 			groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
 			groupContent.DragHelper.PrepareItem += (s, e) => _Controller.PrepareItem(e.Value as AppInfo);
 
-			groupContent.ButtonClicked += (s, e) => _Controller.WorkItem.Commands.RunApp.Execute(e.Value);
+			groupContent.ButtonClicked += (s, e) => 
+				_Controller.WorkItem.Commands.RunApp.Execute(
+					new StartParams(e.Value as AppInfo));
 
 			groupContent.CommonMenu = CreateAppTypeContextMenu();
 			groupContent.EditMenu = CreateAppContextMenu();
@@ -206,18 +209,31 @@ namespace AppManager
 			var menu = MenuHelper.CopyMenu(App.Current.Resources["ItemMenu"] as ContextMenu);
 
 			((MenuItem)menu.Items[0]).Click += (s, ea) =>
-				_Controller.EditItem((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.WorkItem.Commands.RunApp.Execute(
+					new StartParams((s as FrameworkElement).DataContext as AppInfo)
+					);
 
 			((MenuItem)menu.Items[1]).Click += (s, ea) =>
-				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
-
-			((MenuItem)menu.Items[2]).Click += (s, ea) =>
-				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.WorkItem.Commands.RunApp.Execute(
+					new StartParams((s as FrameworkElement).DataContext as AppInfo) { RunAs = true }
+					);
 
 			((MenuItem)menu.Items[3]).Click += (s, ea) =>
-				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.EditItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[4]).Click += (s, ea) =>
+				_Controller.RefreshItemImage((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[5]).Click += (s, ea) =>
+				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[6]).Click += (s, ea) =>
+				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[7]).Click += (s, ea) =>
+				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[8]).Click += (s, ea) =>
 				_Controller.RunAppWithArgs((s as FrameworkElement).DataContext as AppInfo);
 
 			return menu;
@@ -256,11 +272,14 @@ namespace AppManager
 				var menu = buttonList.EditMenu;
 				menu.DataContext = item.DataContext;
 
-				((MenuItem)menu.Items[0]).Header = String.Format(Strings.MNU_EDIT, item.DataContext);
-				((MenuItem)menu.Items[1]).Header = String.Format(Strings.MNU_RENAME, item.DataContext);
-				((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_DELETE, item.DataContext);
-				((MenuItem)menu.Items[3]).Header = String.Format(Strings.MNU_GOTO, item.DataContext);
-				((MenuItem)menu.Items[4]).Header = String.Format(Strings.MNU_RUN_WITH_ARGS, item.DataContext);
+				((MenuItem)menu.Items[0]).Header = item.DataContext.ToString();
+				((MenuItem)menu.Items[1]).Header = Strings.MNU_RUNAS;
+				((MenuItem)menu.Items[3]).Header = Strings.MNU_EDIT;
+				((MenuItem)menu.Items[4]).Header = Strings.MNU_REFRESH;
+				((MenuItem)menu.Items[5]).Header = Strings.MNU_RENAME;
+				((MenuItem)menu.Items[6]).Header = Strings.MNU_DELETE;
+				((MenuItem)menu.Items[7]).Header = Strings.MNU_GOTO;
+				((MenuItem)menu.Items[8]).Header = Strings.MNU_RUN_WITH_ARGS;
 
 				menu.Placement = PlacementMode.Right;
 				menu.PlacementTarget = item;
@@ -391,7 +410,8 @@ namespace AppManager
 					var appInfo = input.DataContext as AppInfo;
 					if (appInfo != null)
 						_Controller.WorkItem.Commands.RunApp.Execute(
-							new object[] { appInfo, "\"" + e.Files[0] + "\"" });
+							new StartParams(appInfo) { Args = "\"" + e.Files[0] + "\"" }
+							);
 				}
 			}
 			else // add new application

@@ -196,16 +196,16 @@
     <value>Exit</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
-    <value>Remove link to {0}</value>
+    <value>Remove link</value>
   </data>
   <data name="MNU_DELETE_TYPE" xml:space="preserve">
     <value>Delete {0} group</value>
   </data>
   <data name="MNU_EDIT" xml:space="preserve">
-    <value>Edit {0}...</value>
+    <value>Edit...</value>
   </data>
   <data name="MNU_GOTO" xml:space="preserve">
-    <value>Go to {0} application folder</value>
+    <value>Go to application folder</value>
   </data>
   <data name="MNU_HIDE" xml:space="preserve">
     <value>Hide StartUp</value>
@@ -213,14 +213,20 @@
   <data name="MNU_MANAGEAPP" xml:space="preserve">
     <value>Applications manager...</value>
   </data>
+  <data name="MNU_REFRESH" xml:space="preserve">
+    <value>Refresh image</value>
+  </data>
   <data name="MNU_RENAME" xml:space="preserve">
-    <value>Rename {0}...</value>
+    <value>Rename...</value>
   </data>
   <data name="MNU_RENAME_APP_TYPE" xml:space="preserve">
     <value>Rename {0} group...</value>
   </data>
+  <data name="MNU_RUNAS" xml:space="preserve">
+    <value>Run as...</value>
+  </data>
   <data name="MNU_RUN_WITH_ARGS" xml:space="preserve">
-    <value>Run {0} with arguments...</value>
+    <value>Run with arguments...</value>
   </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
     <value>Preferences...</value>

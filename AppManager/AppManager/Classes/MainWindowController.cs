@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Threading;
 using AppManager.Windows;
 using CommonLib.Windows;
+using AppManager.Commands;
 
 
 namespace AppManager
@@ -258,7 +259,8 @@ namespace AppManager
 			if (input.ShowDialog() ?? false)
 			{
 				_WorkItem.Commands.RunApp.Execute(
-					new object[] {appInfo, input.InputText});
+					new StartParams(appInfo) { Args = input.InputText}
+					);
 			}
 		}
 
@@ -270,13 +272,18 @@ namespace AppManager
 				return;
 
 			_QuickSearchWnd.Close();
-			_WorkItem.Commands.RunApp.Execute(si);
+			_WorkItem.Commands.RunApp.Execute(new StartParams(si as AppInfo));
 		}
 
 		protected void EndSearch()
 		{ 
 			_SearchTimer.IsEnabled = false;
 			_QuickSearchWnd = null;					
+		}
+
+		public void RefreshItemImage(AppInfo appInfo)
+		{
+			appInfo.RequestAppImage();
 		}
 	}
 }

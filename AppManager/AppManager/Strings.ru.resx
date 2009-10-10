@@ -196,16 +196,16 @@
     <value>Выход</value>
   </data>
   <data name="MNU_DELETE" xml:space="preserve">
-    <value>Удалить ссылку на {0}</value>
+    <value>Удалить ссылку</value>
   </data>
   <data name="MNU_DELETE_TYPE" xml:space="preserve">
     <value>Удалить группу {0}</value>
   </data>
   <data name="MNU_EDIT" xml:space="preserve">
-    <value>Редактировать {0}...</value>
+    <value>Редактировать...</value>
   </data>
   <data name="MNU_GOTO" xml:space="preserve">
-    <value>Перейти к папке приложения {0}</value>
+    <value>Перейти к папке приложения</value>
   </data>
   <data name="MNU_HIDE" xml:space="preserve">
     <value>Скрыть Стартер</value>
@@ -213,14 +213,20 @@
   <data name="MNU_MANAGEAPP" xml:space="preserve">
     <value>Управление ссылками...</value>
   </data>
+  <data name="MNU_REFRESH" xml:space="preserve">
+    <value>Обновить изображение</value>
+  </data>
   <data name="MNU_RENAME" xml:space="preserve">
-    <value>Переименовать {0}...</value>
+    <value>Переименовать...</value>
   </data>
   <data name="MNU_RENAME_APP_TYPE" xml:space="preserve">
     <value>Переименовать группу {0}...</value>
   </data>
+  <data name="MNU_RUNAS" xml:space="preserve">
+    <value>Запуск от имени...</value>
+  </data>
   <data name="MNU_RUN_WITH_ARGS" xml:space="preserve">
-    <value>Запустить {0} с аргументами...</value>
+    <value>Запустить с аргументами...</value>
   </data>
   <data name="MNU_SETTINGS" xml:space="preserve">
     <value>Настройки...</value>

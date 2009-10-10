@@ -28,25 +28,13 @@ namespace AppManager.Commands
 			if (parameter == null)
 				return;
 
-			string appArgs = String.Empty;
-			AppInfo app = null;
-
-			object[] prms = parameter as object[];
-
-			if (prms != null && prms.Length >= 2)
-			{
-				app = prms[0] as AppInfo;
-				appArgs = prms[1] as string;
-			}
-			else
-				app = parameter as AppInfo;
-
-			if (app == null)
+			var prm = parameter as StartParams;
+			if (prm.App == null)
 				return;
 
 			bool altPressed = (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
 
-			string appPath = Environment.ExpandEnvironmentVariables(app.AppPath);
+			string appPath = Environment.ExpandEnvironmentVariables(prm.App.AppPath);
 			bool unc = PathHelper.IsPathUNC(appPath);
 
 			if (unc || File.Exists(appPath) || Directory.Exists(appPath))
@@ -55,9 +43,13 @@ namespace AppManager.Commands
 				{
 					using (Process p = new Process())
 					{
-						p.StartInfo.FileName = app.AppPath;
-						p.StartInfo.WorkingDirectory = Path.GetDirectoryName(app.AppPath);
-						p.StartInfo.Arguments = String.IsNullOrEmpty(appArgs) ? app.AppArgs : appArgs;
+						p.StartInfo.FileName = prm.App.AppPath;
+						p.StartInfo.WorkingDirectory = Path.GetDirectoryName(prm.App.AppPath);
+						p.StartInfo.Arguments = String.IsNullOrEmpty(prm.Args) ?
+							prm.App.AppArgs : prm.Args;
+						if (prm.RunAs && Array.IndexOf(p.StartInfo.Verbs, "runas") >= 0)
+							p.StartInfo.Verb = "runas";
+
 						p.Start();
 					}
 				}
@@ -71,5 +63,18 @@ namespace AppManager.Commands
 			else
 				_WorkItem.Commands.Activate.Execute(null);
 		}
+	}
+
+	public class StartParams
+	{
+		public StartParams(AppInfo app)
+		{
+			App = app;
+			RunAs = false;
+		}
+
+		public AppInfo App { get; set; }
+		public string Args { get; set; }
+		public bool RunAs { get; set; }
 	}
 }

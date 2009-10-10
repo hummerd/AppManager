@@ -692,7 +692,11 @@
 			Style="{DynamicResource SpecialContextMenu}"
 			ItemContainerStyle="{DynamicResource SpecialMenuItem}"
 			>
+            <MenuItem Name="Caption" IsHitTestVisible="False" />
+            <MenuItem Name="RunAs" IsHitTestVisible="False" />
+            <Separator />
 			<MenuItem Name="Edit" />
+            <MenuItem Name="RefreshImage" />
 			<MenuItem Name="Rename" />
 			<MenuItem Name="Delete" />
 			<MenuItem Name="GoTo" />
