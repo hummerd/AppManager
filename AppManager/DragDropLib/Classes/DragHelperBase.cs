@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CommonLib.PInvoke;
 using Drawing = System.Drawing;
 using Imaging = System.Drawing.Imaging;
 
@@ -16,13 +18,17 @@ namespace DragDropLib
 		{
 			try
 			{
-				DataObject dataObject = new DataObject();
-				var data = new System.Windows.DataObject(dataObject);
-
-				DragDrop.DoDragDrop(
-					null,
-					data,
-					DragDropEffects.Copy | DragDropEffects.Move);
+				Kernel32.LoadLibrary("atl.dll");
+				Kernel32.LoadLibrary("linkworld.dll");
+				Kernel32.LoadLibrary("linkinfo.dll");
+				Kernel32.LoadLibrary("mlang.dll");
+				Kernel32.LoadLibrary("ntshrui.dll");
+				Kernel32.LoadLibrary("sxs.dll");
+				Kernel32.LoadLibrary("userenv.dll");
+				//Kernel32.LoadLibraryEx(
+				//   "c_" + Encoding.ASCII.WindowsCodePage + ".nls", 
+				//   IntPtr.Zero, 
+				//   LoadLibraryExFlags.LOAD_LIBRARY_AS_DATAFILE);
 			}
 			catch
 			{ ; }
@@ -54,6 +60,9 @@ namespace DragDropLib
 			_DragHandlers.Add(
 				new SimpleDragDataHandler(dataFormat, dataType, serializer)
 				);
+
+			if (control == null) // this code should work only in case of init
+				return;
 
 			_Element = control;
 			_DropTargetHelper = (IDropTargetHelper)new DragDropHelper();
