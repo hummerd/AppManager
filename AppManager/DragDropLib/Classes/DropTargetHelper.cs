@@ -16,6 +16,9 @@ namespace DragDropLib
 
 		public DropTargetHelper(UIElement element)
 		{
+			if (element == null) // this code should work only in case of init
+				return;
+
 			_DropTargetHelper = (IDropTargetHelper)new DragDropHelper();
 
 			element.DragEnter += DragEnterTarget;
