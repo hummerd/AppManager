@@ -158,19 +158,21 @@ namespace AppManager
 
 						appPath = shortcut.TargetPath;
 						appArgs = shortcut.Arguments;
-						
+						var icoLocation = shortcut.IconLocation;
+
 						if (appArgs == null)
 							appArgs = String.Empty;
 
 						if (appPath.Contains("{"))
 							appPath = MsiShortcutParser.ParseShortcut(path);
+						else if (!icoLocation.Contains("{"))
+							imagePath = icoLocation;
 
 						if (!String.IsNullOrEmpty(appArgs))
 							fullPath = "\"" + appPath + "\"" + " " + appArgs;
 						else
 							fullPath = appPath;
-
-						imagePath = shortcut.IconLocation;
+						
 						if (!String.IsNullOrEmpty(imagePath))
 						{
 							var imageLocation = imagePath.Split(',');
