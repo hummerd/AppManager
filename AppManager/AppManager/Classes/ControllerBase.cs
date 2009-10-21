@@ -193,10 +193,10 @@ namespace AppManager
 
 					if (!String.IsNullOrEmpty(fullPath))
 					{
-						if (!uniq.ContainsKey(fullPath))
+						if (!uniq.ContainsKey(fullPath.ToLower()))
 						{
 							string appName = Path.GetFileNameWithoutExtension(path);
-							uniq.Add(fullPath, null);
+							uniq.Add(fullPath.ToLower(), null);
 							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, appName, fullPath, imagePath));
 						}
 					}
@@ -205,9 +205,9 @@ namespace AppManager
 				{
 					if (Directory.Exists(path))
 					{
-						if (!uniq.ContainsKey(path))
+						if (!uniq.ContainsKey(path.ToLower()))
 						{
-							uniq.Add(path, null);
+							uniq.Add(path.ToLower(), null);
 							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, path));
 						}
 					}
