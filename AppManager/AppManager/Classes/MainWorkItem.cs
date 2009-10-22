@@ -12,6 +12,7 @@ namespace AppManager
 {
 	public class MainWorkItem
 	{
+		protected AsyncImageLoader _ImageLoader;
 		protected AppGroup _AppData;
 		protected MainWindow _MainWindow;
 		protected App _Application;
@@ -33,12 +34,25 @@ namespace AppManager
 //#if RELEASE
 			//_MsHook = new MouseHook();
 //#endif
+			_ImageLoader = new AsyncImageLoader();
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
 			_Updater = new SelfUpdate();
 		}
 
+
+		public AsyncImageLoader ImageLoader
+		{
+			get
+			{
+				return _ImageLoader;
+			}
+			set
+			{
+				_ImageLoader = value;
+			}
+		}
 
 		public AppCommands Commands
 		{

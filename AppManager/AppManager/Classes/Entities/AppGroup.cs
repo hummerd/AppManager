@@ -10,9 +10,12 @@ namespace AppManager
 	[Serializable]
 	public class AppGroup : EntityBase<AppGroup>
 	{
+		public event EventHandler NeedAppImage;
+
+
 		protected AppTypeCollection _AppTypes;
 		protected int _LastAppInfoID = 1;
-		protected AsyncImageLoader _ImageLoader = new AsyncImageLoader();
+		//protected AsyncImageLoader _ImageLoader = new AsyncImageLoader();
 
 
 		public AppGroup()
@@ -33,7 +36,7 @@ namespace AppManager
 			set { _LastAppInfoID = value; }
 		}
 
-
+		
 		public string GetDefaultTypeName()
 		{
 			string appTypeName = Strings.APPLICATIONS;
@@ -55,15 +58,15 @@ namespace AppManager
 
 		public void RequestAppImage(AppInfo app)
 		{
-			app.NeedImage += (s, e) => RequestImage(s as AppInfo);
+			app.NeedImage += (s, e) => OnNeedAppImage(s as AppInfo);
 			app.RequestAppImage();
 		}
 
-		public void StartLoadImages()
-		{
-			ReInitImages();
-			_ImageLoader.StartLoad();
-		}
+		//public void StartLoadImages()
+		//{
+		//    ReInitImages();
+		//    _ImageLoader.StartLoad();
+		//}
 
 		public int GetMaxAppCountPerType()
 		{
@@ -180,7 +183,7 @@ namespace AppManager
 				ID = _LastAppInfoID++
 			};
 
-			newInfo.NeedImage += (s, e) => RequestImage(s as AppInfo);
+			newInfo.NeedImage += (s, e) => OnNeedAppImage(s as AppInfo);
 			newInfo.ImagePath = imagePath;
 			newInfo.ExecPath = execPath;
 			newInfo.SetAutoAppName();
@@ -208,6 +211,18 @@ namespace AppManager
 			}
 		}
 
+		public void ReInitImages()
+		{
+			foreach (AppInfo item in AllApps())
+				RequestAppImage(item);
+		}
+
+
+		protected virtual void OnNeedAppImage(AppInfo app)
+		{
+			if (NeedAppImage != null)
+				NeedAppImage(app, EventArgs.Empty);
+		}
 
 		protected override void MergeEntity(AppGroup source, bool clone)
 		{
@@ -222,7 +237,7 @@ namespace AppManager
 			if (clone)
 			{
 				ReInitImages();
-				StartLoadImages();
+				//StartLoadImages();
 			}
 		}
 
@@ -247,19 +262,13 @@ namespace AppManager
 			return winApps;
 		}
 
-		protected void RequestImage(AppInfo app)
-		{
-			if (app == null)
-				return;
+		//protected void RequestImage(AppInfo app)
+		//{
+		//    if (app == null)
+		//        return;
 
-			_ImageLoader.RequestImage(app);
-		}
-
-		protected void ReInitImages()
-		{
-			foreach (AppInfo item in AllApps())
-				RequestAppImage(item);
-		}
+		//    _ImageLoader.RequestImage(app);
+		//}
 
 		protected IEnumerable<AppInfo> AllApps()
 		{

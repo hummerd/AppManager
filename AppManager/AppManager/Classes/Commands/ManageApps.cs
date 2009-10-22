@@ -20,7 +20,10 @@ namespace AppManager.Commands
 		{
 			WndAppManager appManager = new WndAppManager();
 			AppGroup mangerData = _WorkItem.AppData.CloneEntity();
-			
+			mangerData.NeedAppImage += (s, e) => 
+				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
+			mangerData.ReInitImages();
+
 			appManager.Init(
 				_WorkItem, 
 				mangerData,
