@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using Microsoft.Win32;
 using System.Reflection;
+using Microsoft.Win32;
 
 
 namespace CommonLib.Application
@@ -38,7 +35,7 @@ namespace CommonLib.Application
 			{
 				key.SetValue(_AppName, Assembly.GetEntryAssembly().Location, RegistryValueKind.String);
 			}
-			else
+			else if (Array.IndexOf(key.GetValueNames(), _AppName) >= 0)
 				key.DeleteValue(_AppName);
 
 			key.Close();
