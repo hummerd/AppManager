@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using AppManager.Properties;
 using AppManager.Windows;
@@ -95,6 +96,7 @@ namespace AppManager.Commands
 			_WorkItem.ImageLoader.StartLoad();
 			_WorkItem.AppData.ReInitImages();
 
+			CreateActivationPanelWatcher();
 			CreateActivationPanel();
 		}
 
@@ -354,6 +356,30 @@ namespace AppManager.Commands
 				CreateActivationPanel();
 		}
 
+		protected void CreateActivationPanelWatcher()
+		{
+			//Microsoft.Win32.SystemEvents.SessionSwitch += (s, e) =>
+			//{
+			//    if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionUnlock)
+			//        ChangeActivationPanelState(true);
+			//    else if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionLock)
+			//        ChangeActivationPanelState(false);
+			//};
+
+			_ActivationWndPinger = new DispatcherTimer();
+			_ActivationWndPinger.Interval = new TimeSpan(0, 0, 5);
+			_ActivationWndPinger.Tick += delegate
+			{
+				if (_WndActivation != null)
+				{
+					_WndActivation.Show();
+					_WndActivation.Topmost = false;
+					_WndActivation.Topmost = true;
+				}
+			};
+			_ActivationWndPinger.Start();
+		}
+
 		protected void CreateActivationPanel()
 		{
 			if (!_WorkItem.Settings.EnableActivationPanel)
@@ -367,9 +393,11 @@ namespace AppManager.Commands
 			if (_WndActivation == null)
 			{
 				_WndActivation = new Window();
-				_WndActivation.AllowsTransparency = true;
+
+				//_WndActivation.AllowsTransparency = true;
 				//wndActivate.Background = System.Windows.Media.Brushes.Transparent;
-				_WndActivation.Opacity = 0.05;
+				//_WndActivation.Opacity = 0.05;
+				_WndActivation.Background = System.Windows.Media.Brushes.CadetBlue;
 				_WndActivation.WindowStyle = WindowStyle.None;
 				_WndActivation.ResizeMode = ResizeMode.NoResize;
 				_WndActivation.Topmost = true;
@@ -377,22 +405,27 @@ namespace AppManager.Commands
 				_WndActivation.Left = 0;
 				_WndActivation.Top = 0;
 				_WndActivation.Width = 1;
-				_WndActivation.MouseDown += (s, e) => ChangeActiveState();
-
-				_ActivationWndPinger = new DispatcherTimer();
-				_ActivationWndPinger.Interval = new TimeSpan(0, 0, 5);
-				_ActivationWndPinger.Tick += delegate 
+				_WndActivation.MouseDown += (s, e) =>
 					{
-						_WndActivation.Show();
-						_WndActivation.Topmost = false;
-						_WndActivation.Topmost = true;
+						if (e.ChangedButton == MouseButton.Left)
+							ChangeActiveState();
+						else
+							_WorkItem.TrayIcon.ContextMenuStrip.Show(0, 0);
 					};
-				_ActivationWndPinger.Start();
+				_WndActivation.Closed += (s, e) => _WndActivation = null;
 			}
 
 			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
-				24 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
+				16 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
 			_WndActivation.Show();
+		}
+
+		protected void ChangeActivationPanelState(bool show)
+		{
+			if (show)
+				CreateActivationPanel();
+			else if (_WndActivation != null)
+				_WndActivation.Close();
 		}
 
 		protected Window FindActiveWindow()
