@@ -23,6 +23,12 @@ namespace CommonLib.Application
 			Dispatcher.PushFrame(frame);
 		}
 
+		public static void InvokeBackground(Delegate method)
+		{
+			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, method);
+			//Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, method);
+		}
+
 		public static void Invoke(Delegate method)
 		{
 			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method);

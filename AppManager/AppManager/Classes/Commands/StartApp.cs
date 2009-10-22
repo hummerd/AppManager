@@ -90,7 +90,10 @@ namespace AppManager.Commands
 
 			SetupUpdater(noUpdate);
 
-			_WorkItem.AppData.StartLoadImages();
+			_WorkItem.AppData.NeedAppImage += (s, e) => 
+				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
+			_WorkItem.ImageLoader.StartLoad();
+			_WorkItem.AppData.ReInitImages();
 
 			CreateActivationPanel();
 		}

@@ -18,60 +18,54 @@ namespace AppManager
 	{
 		private static string[] IconOwnExt = new string[] { ".dll", ".exe" };
 
-
-		protected DispatcherTimer _SearchTimer = new DispatcherTimer();
+		protected ManualResetEvent _WorkManager;
 
 		protected object _RequestSync = new object();
-		protected object _ResultSync = new object();
 		protected Queue<AppInfo> _RequestedImages = new Queue<AppInfo>(100);
-		protected Queue<Pair<AppInfo, Pair<System.Drawing.Icon, bool>>> _LoadedImages = new Queue<Pair<AppInfo, Pair<System.Drawing.Icon, bool>>>(100);
 		protected Thread _LoadThread;
 
 
 		public AsyncImageLoader()
 		{
-			_LoadThread = new Thread(ImageLoader);
-			_LoadThread.SetApartmentState(ApartmentState.STA);
-			_LoadThread.IsBackground = true;
-
-			_SearchTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-			_SearchTimer.Tick += (s, e) => SetImages();
-			_SearchTimer.Start();
 		}
 
 
 		public void RequestImage(AppInfo app)
 		{
 			lock (_RequestSync)
+			{
 				_RequestedImages.Enqueue(app);
+				if (_WorkManager != null)
+					_WorkManager.Set();
+			}
 		}
 
 		public void StartLoad()
 		{
+			if (_LoadThread == null || !_LoadThread.IsAlive)
+			{
+				_WorkManager = new ManualResetEvent(true);
+				_LoadThread = new Thread(ImageLoader);
+				_LoadThread.SetApartmentState(ApartmentState.STA);
+				_LoadThread.IsBackground = true;
+			}
+
 			_LoadThread.Start();
 		}
 
-
-		protected void SetImages()
+		protected void SetImage(AppInfo appInfo, Pair<System.Drawing.Icon, bool> loadResult)
 		{
-			lock (_ResultSync)
+			if (loadResult.First != null)
 			{
-				while (_LoadedImages.Count > 0)
-				{
-					var pair = _LoadedImages.Dequeue();
-					if (pair.Second.First != null)
-					{
-						pair.First.AppImage = Imaging.CreateBitmapSourceFromHIcon(
-							pair.Second.First.Handle,
-							Int32Rect.Empty,
-							BitmapSizeOptions.FromEmptyOptions());
+				appInfo.AppImage = Imaging.CreateBitmapSourceFromHIcon(
+					loadResult.First.Handle,
+					Int32Rect.Empty,
+					BitmapSizeOptions.FromEmptyOptions());
 
-						if (pair.Second.Second)
-							User32.DestroyIcon(pair.Second.First.Handle);
+				if (loadResult.Second)
+					User32.DestroyIcon(loadResult.First.Handle);
 
-						pair.Second.First.Dispose();
-					}
-				}
+				loadResult.First.Dispose();
 			}
 		}
 
@@ -97,19 +91,24 @@ namespace AppManager
 						bool managed;
 						var src = LoadImage(app.ImagePath, out managed);
 
-						lock (_ResultSync)
-							_LoadedImages.Enqueue(
-								 new Pair<AppInfo, Pair<System.Drawing.Icon, bool>>()
-								 {
-									 First = app,
-									 Second = new Pair<System.Drawing.Icon, bool> { First = src, Second = managed }
-								 });
+						DispatcherHelper.InvokeBackground(
+							(SimpleMathod)(
+								() => SetImage(
+									app, 
+									new Pair<System.Drawing.Icon, bool> 
+										{ First = src, Second = managed }))
+							);
 
 						lock (_RequestSync)
+						{
 							doLoad = _RequestedImages.Count > 0;
+							if (!doLoad)
+								_WorkManager.Reset();
+						}
 					}
 
-					Thread.Sleep(1000);
+					_WorkManager.WaitOne();
+					//Thread.Sleep(1000);
 				}
 			}
 			catch (Exception ex)
