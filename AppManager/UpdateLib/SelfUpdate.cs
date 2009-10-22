@@ -242,7 +242,9 @@ namespace UpdateLib
 			}
 			finally
 			{
-				_UpdatingFlag.Close();
+				if (_UpdatingFlag != null)
+					_UpdatingFlag.Close();
+
 				_UpdateRunning = false;
 			}
 
@@ -325,14 +327,33 @@ namespace UpdateLib
 		{
 			//Updating in progress do not interfere
 			bool notAlredyRunning;
-			_UpdatingFlag = new Mutex(true, "Global\\UpdateLib_" + appName, out notAlredyRunning);
+			try
+			{
+				_UpdatingFlag = new Mutex(true, "Global\\UpdateLib_" + appName, out notAlredyRunning);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				notAlredyRunning = false;
+			}
+
 			if (!notAlredyRunning)
 				return false;
 
 			//Install in progress do not interfere
 			bool notInstAlredyRunning;
-			var instUpdatingFlag = new Mutex(true, InstallInfo.InstallInfoMutexPrefix + appName, out notInstAlredyRunning);
-			instUpdatingFlag.Close();
+			Mutex instUpdatingFlag = null;
+			try
+			{
+				instUpdatingFlag = new Mutex(true, InstallInfo.InstallInfoMutexPrefix + appName, out notInstAlredyRunning);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				notInstAlredyRunning = false;
+			}
+			
+			if (instUpdatingFlag != null)
+				instUpdatingFlag.Close();
+
 			if (!notInstAlredyRunning)
 				return false;
 
