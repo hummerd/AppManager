@@ -26,6 +26,7 @@ namespace AppManager.Windows
 			ChkEnableAcivationPanel.IsChecked = workItem.Settings.EnableActivationPanel;
 			ChkUseShortActivationPanel.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
 			ChkUseShortActivationPanel.IsChecked =workItem.Settings.UseShortActivationPanel;
+			ChkCeckNewVersionAtStartup.IsChecked = workItem.Settings.CheckNewVersionAtStartUp;
 		}
 
 
@@ -48,6 +49,7 @@ namespace AppManager.Windows
 				_Controller.WorkItem.Settings.StartMinimized = ChkStartMinimized.IsChecked ?? false;
 				_Controller.WorkItem.Settings.EnableActivationPanel = ChkEnableAcivationPanel.IsChecked ?? false;
 				_Controller.WorkItem.Settings.UseShortActivationPanel = ChkUseShortActivationPanel.IsChecked ?? false;
+				_Controller.WorkItem.Settings.CheckNewVersionAtStartUp = ChkCeckNewVersionAtStartup.IsChecked ?? false;
 			}
 		}
 

@@ -4,11 +4,13 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 using AppManager.Properties;
+using CommonLib.Windows;
+using UpdateLib;
 
 
 namespace AppManager
 {
-	public class HelpBoxController : ControllerBase
+	public class HelpBoxController : ControllerBase, IDisposable
 	{
 		public event EventHandler UpdateCheckCompleted;
 
@@ -16,13 +18,13 @@ namespace AppManager
 		public HelpBoxController(MainWorkItem workItem)
 			: base(workItem)
 		{
-			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCheckCompleted();
+			_WorkItem.UpdateCompleted += WorkItem_UpdateCompleted;
 		}
 
 
 		public string GetVersionString()
 		{
-			var ver = _WorkItem.Updater.GetCurrentVersion(_WorkItem.AppPath);
+			var ver = SelfUpdate.GetCurrentVersion(_WorkItem.AppPath);
 			if (ver == null)
 				ver = Assembly.GetEntryAssembly().GetName().Version;
 
@@ -31,7 +33,14 @@ namespace AppManager
 
 		public void GoToAppPage()
 		{
-			Process.Start(Resources.APP_PAGE);
+			try
+			{
+				Process.Start(Resources.APP_PAGE);
+			}
+			catch (Exception exc)
+			{
+				ErrorBox.Show(Strings.APP_MANAGER, exc);
+			}
 		}
 
 		public FlowDocument GetHelpText()
@@ -47,14 +56,7 @@ namespace AppManager
 
 		public void CheckNewVersion()
 		{
-			_WorkItem.Updater.UpdateAppAsync(
-				"AppManager",
-				Strings.APP_TITLE,
-				_WorkItem.AppPath,
-				new string[] { Assembly.GetExecutingAssembly().Location },
-				new string[] { Process.GetCurrentProcess().ProcessName },
-				"http://hummerd.com/AppManagerUpdate"
-				);
+			_WorkItem.Commands.CheckVersion.Execute(null);
 		}
 
 
@@ -63,5 +65,21 @@ namespace AppManager
 			if (UpdateCheckCompleted != null)
 				UpdateCheckCompleted(this, EventArgs.Empty);
 		}
+
+
+		private void WorkItem_UpdateCompleted(object sender, EventArgs e)
+		{
+			OnUpdateCheckCompleted();
+		}
+
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			_WorkItem.UpdateCompleted -= WorkItem_UpdateCompleted;
+		}
+
+		#endregion
 	}
 }

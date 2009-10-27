@@ -91,6 +91,10 @@ namespace AppManager.Settings
 					writer.WriteValue(settings.UseShortActivationPanel);
 					writer.WriteEndElement();
 
+					writer.WriteStartElement("CheckNewVersionAtStartUp");
+					writer.WriteValue(settings.CheckNewVersionAtStartUp);
+					writer.WriteEndElement();
+
 				writer.WriteEndElement();
 			}
 		}
@@ -237,6 +241,12 @@ namespace AppManager.Settings
 				result.UseShortActivationPanel = reader.ReadContentAsBoolean();
 				reader.ReadEndElement();
 
+				if (reader.NodeType == XmlNodeType.Element)
+				{
+					reader.ReadStartElement("CheckNewVersionAtStartUp");
+					result.CheckNewVersionAtStartUp = reader.ReadContentAsBoolean();
+					reader.ReadEndElement();
+				}
 				reader.ReadEndElement();
 			}
 

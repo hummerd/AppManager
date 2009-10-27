@@ -11,6 +11,7 @@ namespace AppManager.Settings
 		protected bool _StartMinimized;
 		protected bool _EnableActivationPanel;
 		protected bool _UseShortActivationPanel;
+		protected bool _CheckNewVersionAtStartUp;
 
 
 		public AppManagerSettings()
@@ -19,6 +20,7 @@ namespace AppManager.Settings
 			MianFormRowHeights = new double[0];
 			_EnableActivationPanel = true;
 			_UseShortActivationPanel = true;
+			_CheckNewVersionAtStartUp = true;
 		}
 
 
@@ -77,6 +79,19 @@ namespace AppManager.Settings
 			{
 				_UseShortActivationPanel = value;
 				OnPropertyChanged("UseShortActivationPanel");
+			}
+		}
+
+		public bool CheckNewVersionAtStartUp
+		{
+			get
+			{
+				return _CheckNewVersionAtStartUp;
+			}
+			set
+			{
+				_CheckNewVersionAtStartUp = value;
+				OnPropertyChanged("CheckNewVersionAtStartUp");
 			}
 		}
 

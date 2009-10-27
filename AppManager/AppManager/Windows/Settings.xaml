@@ -27,7 +27,13 @@
 			Margin="12,8,0,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" />
-		<CheckBox
+        <CheckBox
+			Content="{x:Static am:Strings.CHECK_VERSION_AT_START}"
+			Name="ChkCeckNewVersionAtStartup"
+			Margin="12,8,0,0"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left" />
+        <CheckBox
 			Content="{x:Static am:Strings.ALWAYS_ON_TOP}"
 			Name="ChkAlwaysOnTop"
 			Margin="12,8,0,0"

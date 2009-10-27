@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows;
-using System.Windows.Documents;
 using CommonLib.Windows;
-using System.Windows.Navigation;
 
 
 namespace AppManager.Windows
@@ -26,7 +23,7 @@ namespace AppManager.Windows
 			AppTabs.SelectedIndex = about ? 0 : 1;
 			RunVersion.Content = _Controller.GetVersionString();
 			HelpText.Document = _Controller.GetHelpText();
-			SetUpdateState(!_Controller.WorkItem.Updater.UpdateRunning);
+			SetUpdateState(!_Controller.WorkItem.UpdateRunning);
 
 			new DialogKeyDecorator(this, BtnOk, null, false);
 		}
@@ -50,6 +47,11 @@ namespace AppManager.Windows
 		{
 			SetUpdateState(false);
 			_Controller.CheckNewVersion();
+		}
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			_Controller.Dispose();
 		}
 	}
 }
