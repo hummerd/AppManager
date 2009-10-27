@@ -2,12 +2,66 @@
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
+using System.Threading;
 
 
 namespace CommonLib.Application
 {
 	public delegate void ActivateApp();
 
+
+	public class SingleInstance2
+	{
+		protected Semaphore	_SyncObject;
+		protected Thread	_SyncThread;
+		protected bool		_FirstInstance = true;
+		protected ActivateApp _Activator;
+
+
+		public SingleInstance2(string appName, ActivateApp activator)
+		{
+			bool first;
+			_Activator = activator;
+			_SyncObject = new Semaphore(0, 1, appName, out first);
+			_FirstInstance = first;
+
+			if (first)
+			{
+				_SyncThread = new Thread(Activate);
+				_SyncThread.IsBackground = true;
+				_SyncThread.Start();
+			}
+			else
+			{
+				_SyncObject.Release();
+			}
+		}
+
+
+		public bool FirstInstance
+		{
+			get
+			{
+				return _FirstInstance;
+			}
+		}
+
+		protected void Activate()
+		{ 
+			while (true)
+			{
+				try
+				{
+					_SyncObject.WaitOne();
+					_Activator();
+					//_SyncObject.Release();
+				}
+				catch
+				{ ; }
+			}
+			
+		}
+	}
 
 	public class SingleInstance
 	{

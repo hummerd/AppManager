@@ -1,8 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Reflection;
-using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -12,7 +9,6 @@ using AppManager.Windows;
 using CommonLib;
 using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
-using CommonLib.Windows;
 using WinForms = System.Windows.Forms;
 
 
@@ -23,9 +19,9 @@ namespace AppManager.Commands
 		protected delegate void ActivateTask();
 
 
-		protected Mutex				_Mutex;
+		//protected Mutex				_Mutex;
 		protected bool					_FirstStart = false;
-		protected SingleInstance	_Single;
+		protected SingleInstance2	_Single;
 		protected bool					_SilentUpdate = true;
 		protected DateTime			_LostTime = DateTime.Now;
 		protected Window				_WndActivation = null;
@@ -47,7 +43,10 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			if (!CheckSingleInstance())
+			{
+				App.Current.Shutdown();
 				return;
+			}
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
@@ -89,7 +88,8 @@ namespace AppManager.Commands
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
 
-			SetupUpdater(noUpdate);
+			if (!noUpdate && _WorkItem.Settings.CheckNewVersionAtStartUp)
+				_WorkItem.Commands.CheckVersion.Execute(null);
 
 			_WorkItem.AppData.NeedAppImage += (s, e) => 
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
@@ -102,47 +102,27 @@ namespace AppManager.Commands
 
 		protected bool CheckSingleInstance()
 		{
-			bool first;
-			MutexSecurity msec = new MutexSecurity();
+			_Single = new SingleInstance2("AppManagerSingleInstance", delegate()
+			{
+				ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
+				DispatcherHelper.Invoke(act);
+			});
+
+			return _Single.FirstInstance;
+
+			//bool first;
+			//MutexSecurity msec = new MutexSecurity();
 
 			//using mutex prevent us from immediate loading remoting infrastructure
 			//if we start first instance of program
-			_Mutex = new Mutex(true, "AppManagerSingleInstance", out first);
+			//_Mutex = new Mutex(true, "AppManagerSingleInstance", out first);
 
-			if (!first)
-				return InitFirstInstance();
-			else
-				ThreadPool.QueueUserWorkItem((o) => InitFirstInstance());
+			//if (!first)
+			//    return InitFirstInstance();
+			//else
+			//    ThreadPool.QueueUserWorkItem((o) => InitFirstInstance());
 
-			return true;
-		}
-
-		protected bool InitFirstInstance()
-		{
-			//Since this method can be executed in thread pool 
-			//we should not allow unhandled exceptions here
-			try
-			{
-				_Single = new SingleInstance(10251, true, delegate()
-				{
-					ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
-					DispatcherHelper.Invoke(act);
-				});
-
-				if (!_Single.FirstInstance)
-				{
-					ActivateTask act = delegate() { App.Current.Shutdown(); };
-					DispatcherHelper.Invoke(act);
-					return false;
-				}
-			}
-			catch (Exception ex)
-			{
-				// Dispatch the exception back to the main ui thread and reraise it
-				DispatcherHelper.PassExceptionOnUIThread(ex);
-			}
-
-			return true;
+			//return true;
 		}
 
 		protected bool FirstLoad()
@@ -282,22 +262,6 @@ namespace AppManager.Commands
 			}
 		}
 
-		protected void SetupUpdater(bool noupdate)
-		{
-			_WorkItem.Updater.UpdateCompleted += (s, e) => OnUpdateCompleted(e.SuccessfulCheck, e.HasNewVersion, e.Message);
-			_WorkItem.Updater.NeedCloseApp += (s, e) => _WorkItem.Commands.Quit.Execute(null);
-
-			if (!noupdate)
-				_WorkItem.Updater.UpdateAppAsync(
-					"AppManager",
-					Strings.APP_TITLE,
-					_WorkItem.AppPath,
-					new string[] { Assembly.GetExecutingAssembly().Location },
-					new string[] { Process.GetCurrentProcess().ProcessName },
-					"http://dimanick.ru/MySoft/AppManager/Update"
-					);
-		}
-
 		protected void ChangeActiveState()
 		{
 			var lostDelta = DateTime.Now - _LostTime;
@@ -319,37 +283,6 @@ namespace AppManager.Commands
 			{ ; }
 		}
 
-		protected void OnUpdateCompleted(bool successfulCheck, bool hasNewVersion, string message)
-		{
-			if (_SilentUpdate)
-			{
-				_SilentUpdate = false;
-				return;
-			}
-
-			var wnd = FindActiveWindow();
-
-			if (!successfulCheck)
-			{
-				ErrorBox.Show(
-					Strings.APP_TITLE,
-					Strings.UPDATE_CHECK_FAILED,
-					message
-					);
-
-				return;
-			}
-
-			if (!hasNewVersion)
-			{
-				MsgBox.Show(
-					wnd, 
-					Strings.APP_TITLE, 
-					String.Format(Strings.NO_NEW_VERSION, Strings.APP_TITLE),
-					false);
-			}
-		}
-
 		protected void OnSettingsChanged(string settName)
 		{
 			if (settName == "EnableActivationPanel" || settName == "UseShortActivationPanel")
@@ -358,14 +291,6 @@ namespace AppManager.Commands
 
 		protected void CreateActivationPanelWatcher()
 		{
-			//Microsoft.Win32.SystemEvents.SessionSwitch += (s, e) =>
-			//{
-			//    if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionUnlock)
-			//        ChangeActivationPanelState(true);
-			//    else if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionLock)
-			//        ChangeActivationPanelState(false);
-			//};
-
 			_ActivationWndPinger = new DispatcherTimer();
 			_ActivationWndPinger.Interval = new TimeSpan(0, 0, 5);
 			_ActivationWndPinger.Tick += delegate
@@ -418,26 +343,6 @@ namespace AppManager.Commands
 			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
 				16 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
 			_WndActivation.Show();
-		}
-
-		protected void ChangeActivationPanelState(bool show)
-		{
-			if (show)
-				CreateActivationPanel();
-			else if (_WndActivation != null)
-				_WndActivation.Close();
-		}
-
-		protected Window FindActiveWindow()
-		{
-			Window result = null;
-			foreach (Window item in App.Current.Windows)
-			{
-				if (item.IsActive)
-					result = item;
-			}
-
-			return result == null ? _WorkItem.MainWindow : result;
 		}
 
 

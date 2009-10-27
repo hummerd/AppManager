@@ -17,6 +17,32 @@ namespace UpdateLib
 {
 	public class SelfUpdate
 	{
+		public static Version GetCurrentVersion(string appPath)
+		{
+			VersionManifest currentManifest = GetCurrentVersionManifest(appPath);
+			return currentManifest == null ? null : currentManifest.VersionNumber;
+		}
+
+		private static VersionManifest GetCurrentVersionManifest(string appPath)
+		{
+			try
+			{
+				var manifestPath = Path.Combine(appPath, VersionManifest.VersionManifestFileName);
+
+				if (File.Exists(manifestPath))
+					return VersionManifestLoader.Load(manifestPath);
+				//return XmlSerializeHelper.DeserializeItem(
+				//   typeof(VersionManifest),
+				//   manifestPath
+				//   ) as VersionManifest;
+			}
+			catch
+			{ ; }
+
+			return null;
+		}
+
+
 		public event EventHandler NeedCloseApp;
 		public event EventHandler<UpdateCompleteInfo> UpdateCompleted;
 
@@ -55,13 +81,6 @@ namespace UpdateLib
 			UIDownloadProgress = uiDownloadProgress;
 		}
 		
-
-		//public IFileDownloader FileDownloader
-		//{ get; set; }
-
-		//public IVersionNumberProvider VersionNumberProvider
-		//{ get; set; }
-
 		public bool UpdateRunning
 		{
 			get
@@ -85,18 +104,6 @@ namespace UpdateLib
 		public IUIDownloadProgress UIDownloadProgress
 		{ get; set; }
 
-
-		//public void UpdateApp()
-		//{
-		//   Version currentVersion = null;
-		//   UpdateApp(currentVersion, String.Empty, String.Empty);
-		//}
-
-		public Version GetCurrentVersion(string appPath)
-		{
-			VersionManifest currentManifest = GetCurrentVersionManifest(appPath);
-			return currentManifest == null ? null : currentManifest.VersionNumber;
-		}
 
 		public bool UpdateAppAsync(
 			string appName,
@@ -252,7 +259,10 @@ namespace UpdateLib
 		}
 
 
-		protected VersionData GetVersionData(IEnumerable<Uri> sources, out Uri activeSource, out IVersionNumberProvider vnp)
+		protected VersionData GetVersionData(
+			IEnumerable<Uri> sources, 
+			out Uri activeSource, 
+			out IVersionNumberProvider vnp)
 		{
 			VersionData result = null;
 			string msg = null;
@@ -288,25 +298,6 @@ namespace UpdateLib
 				throw new UpdateException(msg);
 
 			return result;
-		}
-
-		protected VersionManifest GetCurrentVersionManifest(string appPath)
-		{
-			try
-			{
-				var manifestPath = Path.Combine(appPath, VersionManifest.VersionManifestFileName);
-
-				if (File.Exists(manifestPath))
-					return VersionManifestLoader.Load(manifestPath);
-					//return XmlSerializeHelper.DeserializeItem(
-					//   typeof(VersionManifest),
-					//   manifestPath
-					//   ) as VersionManifest;
-			}
-			catch 
-			{ ; }
-
-			return null;
 		}
 
 		protected void UpdateAppThread(object prm)
@@ -415,7 +406,10 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected void DownloadVersion(VersionManifest downloadManifest, string tempPath, string updateUri)
+		protected void DownloadVersion(
+			VersionManifest downloadManifest, 
+			string tempPath, 
+			string updateUri)
 		{
 			if (UIDownloadProgress != null)
 			{

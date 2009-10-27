@@ -20,7 +20,10 @@ namespace AppManager.Commands
 		}
 
 
-		public abstract bool CanExecute(object parameter);
+		public virtual bool CanExecute(object parameter)
+		{
+			return true;
+		}
 
 		public abstract void Execute(object parameter);
 

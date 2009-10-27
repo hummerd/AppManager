@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 using AppManager.Commands;
 using AppManager.Settings;
 using CommonLib.PInvoke.WinHook;
-using UpdateLib;
 using WinForms = System.Windows.Forms;
 
 
@@ -12,6 +12,9 @@ namespace AppManager
 {
 	public class MainWorkItem
 	{
+		public event EventHandler UpdateCompleted;
+
+
 		protected AsyncImageLoader _ImageLoader;
 		protected AppGroup _AppData;
 		protected MainWindow _MainWindow;
@@ -21,8 +24,7 @@ namespace AppManager
 		protected WinForms.NotifyIcon _TrayIcon;
 		protected AppCommands _Commands;
 		protected AppManagerSettings _Settings;
-		protected SelfUpdate _Updater;
-
+		
 
 		public MainWorkItem()
 		{
@@ -38,9 +40,12 @@ namespace AppManager
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
-			_Updater = new SelfUpdate();
+			UpdateRunning = false;
 		}
 
+
+		public bool UpdateRunning
+		{ get; set; }
 
 		public AsyncImageLoader ImageLoader
 		{
@@ -102,14 +107,6 @@ namespace AppManager
 			}
 		}
 
-		public SelfUpdate Updater
-		{
-			get
-			{
-				return _Updater;
-			}
-		}
-
 		public string AppPath
 		{
 			get
@@ -118,7 +115,7 @@ namespace AppManager
 			}
 		}
 
-
+		
 		public AppGroup AppData
 		{
 			get
@@ -154,6 +151,25 @@ namespace AppManager
 				return Path.Combine(DataDir, "appdata.xml");
 #endif
 			}
+		}
+
+
+		public void NotifyUpdateCompleted()
+		{
+			if (UpdateCompleted != null)
+				UpdateCompleted(this, EventArgs.Empty);
+		}
+
+		public Window FindActiveWindow()
+		{
+			Window result = null;
+			foreach (Window item in App.Current.Windows)
+			{
+				if (item.IsActive)
+					result = item;
+			}
+
+			return result == null ? MainWindow : result;
 		}
 	}
 }

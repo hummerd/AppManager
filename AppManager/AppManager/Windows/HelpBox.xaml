@@ -12,7 +12,9 @@
 	MinWidth="280"
 	Height="675"
 	Width="510"
-	WindowStartupLocation="CenterOwner">
+	WindowStartupLocation="CenterOwner"
+    Closed="Window_Closed"
+    >
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition

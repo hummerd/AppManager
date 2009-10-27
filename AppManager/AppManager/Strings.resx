@@ -159,6 +159,9 @@
   <data name="CHECK_FOR_UPDATE" xml:space="preserve">
     <value>Check for updates</value>
   </data>
+  <data name="CHECK_VERSION_AT_START" xml:space="preserve">
+    <value>Check for updates at start</value>
+  </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Open application data file</value>
   </data>

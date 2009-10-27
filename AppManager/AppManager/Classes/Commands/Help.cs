@@ -16,11 +16,6 @@ namespace AppManager.Commands
 		{ ; }
 
 
-		public override bool CanExecute(object parameter)
-		{
-			return true;
-		}
-
 		public override void Execute(object parameter)
 		{
 			if (_HelpWnd != null)

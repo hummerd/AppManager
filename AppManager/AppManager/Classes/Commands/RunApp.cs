@@ -14,11 +14,6 @@ namespace AppManager.Commands
 		{ ; }
 
 
-		public override bool CanExecute(object parameter)
-		{
-			return true;
-		}
-
 		/// <summary>
 		/// Starts specified application
 		/// </summary>

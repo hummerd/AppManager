@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AppGroupLoader.cs" />
+    <Compile Include="Classes\Commands\CheckVersion.cs" />
     <Compile Include="Classes\DragDrop\AppTypeDrag.cs" />
     <Compile Include="Classes\AsyncImageLoader.cs" />
     <Compile Include="Classes\DragDrop\ButtonListDrag.cs" />
