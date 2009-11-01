@@ -213,6 +213,7 @@
     <Compile Include="Windows\HelpBox.xaml.cs">
       <DependentUpon>HelpBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\OpenIconDlg.cs" />
     <Compile Include="Windows\QuickSearch.xaml.cs">
       <DependentUpon>QuickSearch.xaml</DependentUpon>
     </Compile>

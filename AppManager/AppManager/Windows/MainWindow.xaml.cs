@@ -228,15 +228,18 @@ namespace AppManager
 				_Controller.EditItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[5]).Click += (s, ea) =>
-				_Controller.RefreshItemImage((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.SetItemImage((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[6]).Click += (s, ea) =>
-				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.RefreshItemImage((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[7]).Click += (s, ea) =>
-				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[8]).Click += (s, ea) =>
+				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
+
+			((MenuItem)menu.Items[9]).Click += (s, ea) =>
 				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
 
 			return menu;
@@ -286,10 +289,11 @@ namespace AppManager
 				((MenuItem)menu.Items[2]).Header = Strings.MNU_RUN_WITH_ARGS;
 
 				((MenuItem)menu.Items[4]).Header = Strings.MNU_EDIT;
-				((MenuItem)menu.Items[5]).Header = Strings.MNU_REFRESH;
-				((MenuItem)menu.Items[6]).Header = Strings.MNU_RENAME;
-				((MenuItem)menu.Items[7]).Header = Strings.MNU_DELETE;
-				((MenuItem)menu.Items[8]).Header = Strings.MNU_GOTO;
+				((MenuItem)menu.Items[5]).Header = Strings.MNU_CHANGE_ICON;
+				((MenuItem)menu.Items[6]).Header = Strings.MNU_REFRESH;
+				((MenuItem)menu.Items[7]).Header = Strings.MNU_RENAME;
+				((MenuItem)menu.Items[8]).Header = Strings.MNU_DELETE;
+				((MenuItem)menu.Items[9]).Header = Strings.MNU_GOTO;
 
 				menu.Placement = PlacementMode.Right;
 				menu.PlacementTarget = item;
@@ -527,8 +531,8 @@ namespace AppManager
 				// If you use Spy to snoop the messages, it closely matches sizing messages sent when regular windows are resized.
 				User32.SendMessage(
 					win.Handle,
-					User32.WindowMessage.WM_SYSCOMMAND,
-					(IntPtr)((int)(User32.SysCommand.SC_SIZE) + (int)User32.SCSizingAction.SouthEast),
+					WindowMessage.WM_SYSCOMMAND,
+					(IntPtr)((int)(SysCommand.SC_SIZE) + (int)SCSizingAction.SouthEast),
 					IntPtr.Zero);
 			}
 		}

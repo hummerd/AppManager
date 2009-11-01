@@ -195,6 +195,9 @@
   <data name="MNU_ADD_APP_TYPE" xml:space="preserve">
     <value>Add group...</value>
   </data>
+  <data name="MNU_CHANGE_ICON" xml:space="preserve">
+    <value>Change icon...</value>
+  </data>
   <data name="MNU_CLOSE" xml:space="preserve">
     <value>Exit</value>
   </data>

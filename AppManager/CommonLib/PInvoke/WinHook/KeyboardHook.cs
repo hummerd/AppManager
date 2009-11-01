@@ -16,13 +16,13 @@ namespace CommonLib.PInvoke.WinHook
 		}
 
 		protected IntPtr[] _KbrdDownEvents = new IntPtr[] { 
-			(IntPtr)User32.WindowMessage.WM_KEYDOWN,
-			(IntPtr)User32.WindowMessage.WM_SYSKEYDOWN
+			(IntPtr)WindowMessage.WM_KEYDOWN,
+			(IntPtr)WindowMessage.WM_SYSKEYDOWN
 		};
 
 		protected IntPtr[] _KbrdUpEvents = new IntPtr[] { 
-			(IntPtr)User32.WindowMessage.WM_KEYUP,
-			(IntPtr)User32.WindowMessage.WM_SYSKEYUP
+			(IntPtr)WindowMessage.WM_KEYUP,
+			(IntPtr)WindowMessage.WM_SYSKEYUP
 		};
 
 

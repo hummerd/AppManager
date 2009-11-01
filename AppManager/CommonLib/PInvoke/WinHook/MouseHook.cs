@@ -18,25 +18,25 @@ namespace CommonLib.PInvoke.WinHook
 		}
 
 		protected IntPtr[] _MouseDownEvents = new IntPtr[] { 
-			(IntPtr)User32.WindowMessage.WM_LBUTTONDOWN,
-			(IntPtr)User32.WindowMessage.WM_MBUTTONDOWN,
-			(IntPtr)User32.WindowMessage.WM_RBUTTONDOWN
+			(IntPtr)WindowMessage.WM_LBUTTONDOWN,
+			(IntPtr)WindowMessage.WM_MBUTTONDOWN,
+			(IntPtr)WindowMessage.WM_RBUTTONDOWN
 		};
 
 		protected IntPtr[] _MouseUpEvents = new IntPtr[] { 
-			(IntPtr)User32.WindowMessage.WM_LBUTTONUP,
-			(IntPtr)User32.WindowMessage.WM_MBUTTONUP,
-			(IntPtr)User32.WindowMessage.WM_RBUTTONUP
+			(IntPtr)WindowMessage.WM_LBUTTONUP,
+			(IntPtr)WindowMessage.WM_MBUTTONUP,
+			(IntPtr)WindowMessage.WM_RBUTTONUP
 		};
 
 		protected IntPtr[] _MouseLeftEvents = new IntPtr[] { 
-			(IntPtr)User32.WindowMessage.WM_LBUTTONDOWN,
-			(IntPtr)User32.WindowMessage.WM_LBUTTONUP
+			(IntPtr)WindowMessage.WM_LBUTTONDOWN,
+			(IntPtr)WindowMessage.WM_LBUTTONUP
 		};
 
 		protected IntPtr[] _MouseRightEvents = new IntPtr[] { 
-			(IntPtr)User32.WindowMessage.WM_RBUTTONDOWN,
-			(IntPtr)User32.WindowMessage.WM_RBUTTONUP
+			(IntPtr)WindowMessage.WM_RBUTTONDOWN,
+			(IntPtr)WindowMessage.WM_RBUTTONUP
 		};
 
 

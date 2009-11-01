@@ -702,6 +702,7 @@
 			<MenuItem Name="RunWithArgs" />
             <Separator />
 			<MenuItem Name="Edit" />
+			<MenuItem Name="SetImage" />
             <MenuItem Name="RefreshImage" />
 			<MenuItem Name="Rename" />
 			<MenuItem Name="Delete" />
