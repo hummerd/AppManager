@@ -29,6 +29,22 @@ namespace AppManager
 			hb.Show();
 		}
 
+		public void SetItemImage(AppInfo appInfo)
+		{
+			var dlg = new OpenIconDlg();
+			string path;
+			int ix;
+			if (dlg.Open(out path, out ix))
+			{
+				appInfo.ImagePath = path + "," + ix;
+			}
+		}
+
+		public void RefreshItemImage(AppInfo appInfo)
+		{
+			appInfo.RequestAppImage();
+		}
+
 		public void RemoveAppType(AppType appType)
 		{
 			if (appType == null)
@@ -279,11 +295,6 @@ namespace AppManager
 		{ 
 			_SearchTimer.IsEnabled = false;
 			_QuickSearchWnd = null;					
-		}
-
-		public void RefreshItemImage(AppInfo appInfo)
-		{
-			appInfo.RequestAppImage();
 		}
 	}
 }

@@ -16,7 +16,7 @@ namespace AppManager
 {
 	public class AsyncImageLoader
 	{
-		private static string[] IconOwnExt = new string[] { ".dll", ".exe" };
+		private static string[] IconOwnExt = new string[] { ".ocx", ".dll", ".exe" };
 
 		protected ManualResetEvent _WorkManager;
 
@@ -53,19 +53,16 @@ namespace AppManager
 			_LoadThread.Start();
 		}
 
-		protected void SetImage(AppInfo appInfo, Pair<System.Drawing.Icon, bool> loadResult)
+		protected void SetImage(AppInfo appInfo, System.Drawing.Icon loadResult)
 		{
-			if (loadResult.First != null)
+			if (loadResult != null)
 			{
 				appInfo.AppImage = Imaging.CreateBitmapSourceFromHIcon(
-					loadResult.First.Handle,
+					loadResult.Handle,
 					Int32Rect.Empty,
 					BitmapSizeOptions.FromEmptyOptions());
 
-				if (loadResult.Second)
-					User32.DestroyIcon(loadResult.First.Handle);
-
-				loadResult.First.Dispose();
+				User32.DestroyIcon(loadResult.Handle);
 			}
 		}
 
@@ -88,15 +85,13 @@ namespace AppManager
 						lock (_RequestSync)
 							app = _RequestedImages.Dequeue();
 
-						bool managed;
-						var src = LoadImage(app.ImagePath, out managed);
+						var src = LoadImage(app.ImagePath);
 
 						DispatcherHelper.InvokeBackground(
 							(SimpleMathod)(
 								() => SetImage(
 									app, 
-									new Pair<System.Drawing.Icon, bool> 
-										{ First = src, Second = managed }))
+									src))
 							);
 
 						lock (_RequestSync)
@@ -118,13 +113,20 @@ namespace AppManager
 			}
 		}
 
-		protected System.Drawing.Icon LoadImage(string path, out bool managed)
+		protected System.Drawing.Icon LoadImage(string path)
 		{
-			managed = true;
-
 			try
 			{
-				path = Environment.ExpandEnvironmentVariables(path);
+				if (String.IsNullOrEmpty(path))
+					return null;
+
+				int ix = 0;
+				string[] iconIx = path.Split(',');
+				if (iconIx.Length > 1 && !String.IsNullOrEmpty(iconIx[1]))
+					if (!int.TryParse(iconIx[1], out ix))
+						ix = 0;
+
+				path = Environment.ExpandEnvironmentVariables(iconIx[0]);
 
 				if (!File.Exists(path))
 					return null;
@@ -133,10 +135,13 @@ namespace AppManager
 					return null;
 
 				if (Array.IndexOf(IconOwnExt, Path.GetExtension(path)) >= 0)
-					return System.Drawing.Icon.ExtractAssociatedIcon(path);
+				{
+					return Shell32.ExtractIconEx(path, ix);
+					//return System.Drawing.Icon.ExtractAssociatedIcon(path);
+				}
 				else
 				{
-					managed = false;
+					//managed = false;
 					return ShFileInfo.ExtractIcon(path, true);
 				}
 			}

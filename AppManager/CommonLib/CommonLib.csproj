@@ -65,6 +65,9 @@
     <Compile Include="IO\GZipCompression.cs" />
     <Compile Include="IO\LnkHelper.cs" />
     <Compile Include="MathHelper.cs" />
+    <Compile Include="PInvoke\ComDlg32.cs" />
+    <Compile Include="PInvoke\IconEnumerator.cs" />
+    <Compile Include="Shell\OpenFileDialog.cs" />
     <Compile Include="Shell\ShFileInfo.cs" />
     <Compile Include="UI\BorderResizer.cs" />
     <Compile Include="UI\FadeAnimation.cs" />

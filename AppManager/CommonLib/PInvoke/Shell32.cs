@@ -2,12 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Drawing;
 
 
 namespace CommonLib.PInvoke
 {
 	public static class Shell32
 	{
+		public static Icon ExtractIconEx(string szFile, int nIconIndex)
+		{ 
+			IntPtr[] largeIcons = new IntPtr[1];
+			Shell32.ExtractIconEx(szFile, nIconIndex, largeIcons, null, 1);
+			return Icon.FromHandle(largeIcons[0]);
+		}
+
+		[DllImport("shell32.dll")]
+		public static extern int ExtractIconEx(
+			string szFile, int nIconIndex, IntPtr[] phiconLarge, IntPtr[] phiconSmall, int nIcons);
+
 		[DllImport("shell32.dll")]
 		public static extern bool SHGetSpecialFolderPath(
 			IntPtr hwndOwner, [Out] StringBuilder lpszPath, int nFolder, bool fCreate);
