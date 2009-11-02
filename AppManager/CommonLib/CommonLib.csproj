@@ -67,7 +67,17 @@
     <Compile Include="MathHelper.cs" />
     <Compile Include="PInvoke\ComDlg32.cs" />
     <Compile Include="PInvoke\IconEnumerator.cs" />
-    <Compile Include="Shell\OpenFileDialog.cs" />
+    <Compile Include="Shell\OpenFileDialogExtension\BaseDialogNative.cs" />
+    <Compile Include="Shell\OpenFileDialogExtension\DialogHostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shell\OpenFileDialogExtension\OpenDialogNative.cs" />
+    <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialogEx.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialogEx.designer.cs">
+      <DependentUpon>OpenFileDialogEx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Shell\ShFileInfo.cs" />
     <Compile Include="UI\BorderResizer.cs" />
     <Compile Include="UI\FadeAnimation.cs" />
@@ -135,6 +145,9 @@
       <LastGenOutput>CommStr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CommStr.ru.resx" />
+    <EmbeddedResource Include="Shell\OpenFileDialogExtension\OpenFileDialogEx.resx">
+      <DependentUpon>OpenFileDialogEx.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Error.png" />
