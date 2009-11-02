@@ -32,7 +32,7 @@ namespace AppManager.Windows
 
 			try
 			{
-				if (_Dialog.Show())
+				if (_Dialog.Show() && _IconPreview.SelectedIndices.Count > 0)
 				{
 					path = _Dialog.SelectedPath;
 					index = _IconPreview.SelectedIndices[0];
