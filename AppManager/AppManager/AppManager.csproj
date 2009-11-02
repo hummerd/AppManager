@@ -213,11 +213,13 @@
     <Compile Include="Windows\HelpBox.xaml.cs">
       <DependentUpon>HelpBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\OpenIconDlg2.cs">
+    <Compile Include="Windows\OpenIconDlg.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Windows\OpenIconDlg2.Designer.cs">
-      <DependentUpon>OpenIconDlg2.cs</DependentUpon>
+    <Compile Include="Windows\OpenIconDlg.Designer.cs">
+      <DependentUpon>OpenIconDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\OpenIconDlg3.cs">
     </Compile>
     <Compile Include="Windows\QuickSearch.xaml.cs">
       <DependentUpon>QuickSearch.xaml</DependentUpon>
@@ -237,8 +239,8 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.ru.resx" />
-    <EmbeddedResource Include="Windows\OpenIconDlg2.resx">
-      <DependentUpon>OpenIconDlg2.cs</DependentUpon>
+    <EmbeddedResource Include="Windows\OpenIconDlg.resx">
+      <DependentUpon>OpenIconDlg.cs</DependentUpon>
     </EmbeddedResource>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
