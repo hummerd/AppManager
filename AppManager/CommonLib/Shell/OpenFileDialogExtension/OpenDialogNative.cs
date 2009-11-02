@@ -11,33 +11,6 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 {
 	public class OpenDialogNative : NativeWindow, IDisposable
 	{
-		#region Constants Declaration
-		//private const SetWindowPosFlags UFLAGSSIZE =
-		//    SetWindowPosFlags.SWP_NOACTIVATE |
-		//    SetWindowPosFlags.SWP_NOOWNERZORDER |
-		//    SetWindowPosFlags.SWP_NOMOVE;
-		//private const SetWindowPosFlags UFLAGSSIZEEX =
-		//    SetWindowPosFlags.SWP_NOACTIVATE |
-		//    SetWindowPosFlags.SWP_NOOWNERZORDER |
-		//    SetWindowPosFlags.SWP_NOMOVE |
-		//    SetWindowPosFlags.SWP_ASYNCWINDOWPOS |
-		//    SetWindowPosFlags.SWP_DEFERERASE;
-		//private const SetWindowPosFlags UFLAGSMOVE =
-		//    SetWindowPosFlags.SWP_NOACTIVATE |
-		//    SetWindowPosFlags.SWP_NOOWNERZORDER |
-		//    SetWindowPosFlags.SWP_NOSIZE;
-		//private const SetWindowPosFlags UFLAGSHIDE =
-		//    SetWindowPosFlags.SWP_NOACTIVATE |
-		//    SetWindowPosFlags.SWP_NOOWNERZORDER |
-		//    SetWindowPosFlags.SWP_NOMOVE |
-		//    SetWindowPosFlags.SWP_NOSIZE |
-		//    SetWindowPosFlags.SWP_HIDEWINDOW;
-		//private const SetWindowPosFlags UFLAGSZORDER =
-		//    SetWindowPosFlags.SWP_NOACTIVATE |
-		//    SetWindowPosFlags.SWP_NOMOVE |
-		//    SetWindowPosFlags.SWP_NOSIZE;
-		#endregion
-
 		#region Variables Declaration
 		private Size mOriginalSize;
 		private IntPtr mOpenDialogHandle;
@@ -125,7 +98,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			User32.GetWindowInfo(hwnd, out windowInfo);
 
 			// Dialog Window
-			if (className.ToString().StartsWith("#32770"))
+			if (className.ToString().StartsWith("#32770") && mBaseDialogNative == null)
 			{
 				mBaseDialogNative = new BaseDialogNative(hwnd);
 				mBaseDialogNative.FileNameChanged += new BaseDialogNative.PathChangedHandler(BaseDialogNative_FileNameChanged);
@@ -238,7 +211,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		#region Overrides
 		protected override void WndProc(ref Message m)
 		{
-			//Console.WriteLine(m.ToString());
+			Console.WriteLine(m.ToString());
 			switch (m.Msg)
 			{
 				case (int)WindowMessage.WM_SHOWWINDOW:
@@ -259,6 +232,15 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 							pt.X = currentSize.right;
 							pt.Y = currentSize.bottom;
 							User32.ScreenToClient(mOpenDialogHandle, ref pt);
+
+							User32.SetWindowPos(
+								mListViewPtr,
+								(IntPtr)ZOrderPos.HWND_BOTTOM,
+								0,
+								0,
+								100,
+								100,
+								(int)SetWindowPosFlags.UFLAGSSIZEEX);
 
 							if (currentSize.bottom != mSourceControl.Top + mSourceControl.Height)
 								User32.SetWindowPos(

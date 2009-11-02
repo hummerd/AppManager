@@ -48,6 +48,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
         public OpenFileDialogEx()
         {
             InitializeComponent();
+			//OpenDialog.AutoUpgradeEnabled = false;
             //SetStyle(ControlStyles.SupportsTransparentBackColor, true);
         }
 
