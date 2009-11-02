@@ -31,12 +31,12 @@ namespace AppManager
 
 		public void SetItemImage(AppInfo appInfo)
 		{
-			var dlg = new OpenIconDlg();
-			string path;
-			int ix;
-			if (dlg.Open(out path, out ix))
+			using (var dlg = new OpenIconDlg())
 			{
-				appInfo.ImagePath = path + "," + ix;
+				if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				{
+					appInfo.ImagePath = dlg.OpenDialog.FileName + "," + dlg.SelectedIconIndex;
+				}
 			}
 		}
 
