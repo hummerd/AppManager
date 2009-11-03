@@ -9,17 +9,18 @@ using System.ComponentModel;
 
 namespace CommonLib.Shell.OpenFileDialogExtension
 {
-	public class DialogHostForm : Form
+	public class OpenDialogHost3 : Form
 	{
 		private OpenDialogNative mNativeDialog = null;
 		private OpenFileDialogEx mFileDialogEx = null;
 		private bool mWatchForActivate = false;
 		private IntPtr mOpenDialogHandle = IntPtr.Zero;
+		private Control _Control;
+		private ODHandler _Handler;
 
-
-		public DialogHostForm(OpenFileDialogEx fileDialogEx)
+		public OpenDialogHost3(Control control)
 		{
-			mFileDialogEx = fileDialogEx;
+			_Control = control;
 			this.Text = String.Empty;
 			this.StartPosition = FormStartPosition.Manual;
 			this.Location = new Point(-32000, -32000);
@@ -47,6 +48,8 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			if (mNativeDialog != null)
 				mNativeDialog.Dispose();
 
+			_Handler.ReleaseHandle();
+
 			base.OnClosing(e);
 		}
 
@@ -56,7 +59,8 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			{
 				mWatchForActivate = false;
 				mOpenDialogHandle = m.LParam;
-				mNativeDialog = new OpenDialogNative(m.LParam, mFileDialogEx);
+				_Handler = new ODHandler(_Control);
+				_Handler.AssignHandle(mOpenDialogHandle);
 			}
 
 			base.WndProc(ref m);

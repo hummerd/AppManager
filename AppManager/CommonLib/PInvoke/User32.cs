@@ -56,10 +56,7 @@ namespace CommonLib.PInvoke
 		};
 
 
-
 		public delegate bool EnumWindowsCallBack(IntPtr hWnd, int lParam);
-
-
 
 
 		[DllImport("user32.Dll")]
@@ -129,7 +126,7 @@ namespace CommonLib.PInvoke
 		public static extern bool BringWindowToTop(IntPtr hWnd);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndAfter, int l, int t, int cx, int cy, int flag);
+		public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndAfter, int l, int t, int cx, int cy, SetWindowPosFlags flag);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -162,6 +159,27 @@ namespace CommonLib.PInvoke
 		internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int Width, int Height, bool repaint);
 
 
+		public static RECT ScreenToClient(IntPtr hwnd, RECT screenRect)
+		{
+			var result = new RECT();
+
+			POINT lt = new POINT();
+
+			lt.X = screenRect.left;
+			lt.Y = screenRect.top;
+			ScreenToClient(hwnd, ref lt);
+			result.left = lt.X;
+			result.top = lt.Y;
+
+			lt.X = screenRect.right;
+			lt.Y = screenRect.bottom;
+			ScreenToClient(hwnd, ref lt);
+			result.right = lt.X;
+			result.bottom = lt.Y;
+
+			return result;
+		}
+
 		public static Point GetCursorPos(Visual relativeTo)
 		{
 			User32.POINT p = new User32.POINT();
@@ -175,7 +193,7 @@ namespace CommonLib.PInvoke
 
 			var win = new System.Windows.Interop.WindowInteropHelper(wnd);
 			BringWindowToTop(win.Handle);
-			SetWindowPos(win.Handle, IntPtr.Zero, 0, 0, 0, 0, 0x0001 | 0x0002);
+			SetWindowPos(win.Handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSZORDER);
 			SetForegroundWindow(win.Handle);
 		}
 
@@ -782,6 +800,38 @@ namespace CommonLib.PInvoke
 		South = 0x0006,
 		SouthWest = 0x0007,
 		SouthEast = 0x0008,
+	}
+
+	[Flags]
+	public enum WindowStyles : uint
+	{
+		WS_OVERLAPPED = 0x0000,
+		WS_POPUP = 0x80000000,
+		WS_CHILD = 0x40000000,
+		WS_MINIMIZE = 0x20000000,
+		WS_VISIBLE = 0x10000000,
+		WS_DISABLED = 0x8000000,
+		WS_CLIPSIBLINGS = 0x4000000,
+		WS_CLIPCHILDREN = 0x2000000,
+		WS_MAXIMIZE = 0x1000000,
+		WS_BORDER = 0x800000,
+		WS_DLGFRAME = 0x400000,
+		WS_VSCROLL = 0x200000,
+		WS_HSCROLL = 0x100000,
+		WS_SYSMENU = 0x80000,
+		WS_THICKFRAME = 0x40000,
+		WS_GROUP = 0x20000,
+		WS_TABSTOP = 0x10000,
+		WS_MINIMIZEBOX = 0x20000,
+		WS_MAXIMIZEBOX = 0x10000,
+		WS_CAPTION = WS_BORDER | WS_DLGFRAME,
+		WS_TILED = WS_OVERLAPPED,
+		WS_ICONIC = WS_MINIMIZE,
+		WS_SIZEBOX = WS_THICKFRAME,
+		WS_TILEDWINDOW = WS_OVERLAPPEDWINDOW,
+		WS_OVERLAPPEDWINDOW = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+		WS_POPUPWINDOW = WS_POPUP | WS_BORDER | WS_SYSMENU,
+		WS_CHILDWINDOW = WS_CHILD
 	}
 
 	#endregion

@@ -14,34 +14,34 @@ namespace CommonLib.PInvoke
 	/// <summary>
 	/// Values that can be placed in the OPENFILENAME structure, we don't use all of them
 	/// </summary>
-	public class OpenFileNameFlags
+	public enum OpenFileNameFlags : int
 	{
-		public const Int32 ReadOnly = 0x00000001;
-		public const Int32 OverWritePrompt = 0x00000002;
-		public const Int32 HideReadOnly = 0x00000004;
-		public const Int32 NoChangeDir = 0x00000008;
-		public const Int32 ShowHelp = 0x00000010;
-		public const Int32 EnableHook = 0x00000020;
-		public const Int32 EnableTemplate = 0x00000040;
-		public const Int32 EnableTemplateHandle = 0x00000080;
-		public const Int32 NoValidate = 0x00000100;
-		public const Int32 AllowMultiSelect = 0x00000200;
-		public const Int32 ExtensionDifferent = 0x00000400;
-		public const Int32 PathMustExist = 0x00000800;
-		public const Int32 FileMustExist = 0x00001000;
-		public const Int32 CreatePrompt = 0x00002000;
-		public const Int32 ShareAware = 0x00004000;
-		public const Int32 NoReadOnlyReturn = 0x00008000;
-		public const Int32 NoTestFileCreate = 0x00010000;
-		public const Int32 NoNetworkButton = 0x00020000;
-		public const Int32 NoLongNames = 0x00040000;
-		public const Int32 Explorer = 0x00080000;
-		public const Int32 NoDereferenceLinks = 0x00100000;
-		public const Int32 LongNames = 0x00200000;
-		public const Int32 EnableIncludeNotify = 0x00400000;
-		public const Int32 EnableSizing = 0x00800000;
-		public const Int32 DontAddToRecent = 0x02000000;
-		public const Int32 ForceShowHidden = 0x10000000;
+		OFN_READONLY = 0X00000001,
+		OFN_OVERWRITEPROMPT = 0X00000002,
+		OFN_HIDEREADONLY = 0X00000004,
+		OFN_NOCHANGEDIR = 0X00000008,
+		OFN_SHOWHELP = 0X00000010,
+		OFN_ENABLEHOOK = 0X00000020,
+		OFN_ENABLETEMPLATE = 0X00000040,
+		OFN_ENABLETEMPLATEHANDLE = 0X00000080,
+		OFN_NOVALIDATE = 0X00000100,
+		OFN_ALLOWMULTISELECT = 0X00000200,
+		OFN_EXTENSIONDIFFERENT = 0X00000400,
+		OFN_PATHMUSTEXIST = 0X00000800,
+		OFN_FILEMUSTEXIST = 0X00001000,
+		OFN_CREATEPROMPT = 0X00002000,
+		OFN_SHAREAWARE = 0X00004000,
+		OFN_NOREADONLYRETURN = 0X00008000,
+		OFN_NOTESTFILECREATE = 0X00010000,
+		OFN_NONETWORKBUTTON = 0X00020000,
+		OFN_NOLONGNAMES = 0X00040000,
+		OFN_EXPLORER = 0X00080000,
+		OFN_NODEREFERENCELINKS = 0X00100000,
+		OFN_LONGNAMES = 0X00200000,
+		OFN_ENABLEINCLUDENOTIFY = 0X00400000,
+		OFN_ENABLESIZING = 0X00800000,
+		OFN_DONTADDTORECENT = 0X02000000,
+		OFN_FORCESHOWHIDDEN = 0X10000000
 	};
 
 	/// <summary>
@@ -106,7 +106,7 @@ namespace CommonLib.PInvoke
 		public Int32 nMaxFileTitle;
 		public IntPtr lpstrInitialDir;
 		public IntPtr lpstrTitle;
-		public Int32 Flags;
+		public OpenFileNameFlags Flags;
 		public Int16 nFileOffset;
 		public Int16 nFileExtension;
 		public IntPtr lpstrDefExt;
@@ -117,6 +117,43 @@ namespace CommonLib.PInvoke
 		public Int32 dwReserved;
 		public Int32 FlagsEx;
 	};
+
+	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+	public struct OPENFILENAME_3
+	{
+		public int lStructSize;
+		public IntPtr hwndOwner;
+		public int hInstance;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpstrFilter;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpstrCustomFilter;
+		public int nMaxCustFilter;
+		public int nFilterIndex;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpstrFile;
+		public int nMaxFile;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpstrFileTitle;
+		public int nMaxFileTitle;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpstrInitialDir;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpstrTitle;
+		public OpenFileNameFlags Flags;
+		public short nFileOffset;
+		public short nFileExtension;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpstrDefExt;
+		public int lCustData;
+		public OfnHookProc lpfnHook;
+		[MarshalAs(UnmanagedType.LPTStr)]
+		public string lpTemplateName;
+		//only if on nt 5.0 or higher
+		public int pvReserved;
+		public int dwReserved;
+		public int FlagsEx;
+	}
 
 	/// <summary>
 	/// Part of the notification messages sent by the common dialogs
@@ -180,8 +217,8 @@ namespace CommonLib.PInvoke
 		public Int32 style = DlgStyle.Ds3dLook | DlgStyle.DsControl | DlgStyle.WsChild | DlgStyle.WsClipSiblings | DlgStyle.SsNotify;
 		public Int32 extendedStyle = ExStyle.WsExControlParent;
 		public Int16 numItems = 1;
-		public Int16 x = 0;
-		public Int16 y = 0;
+		public Int16 x = 10;
+		public Int16 y = 10;
 		public Int16 cx = 0;
 		public Int16 cy = 0;
 		public Int16 reservedMenu = 0;
@@ -189,13 +226,13 @@ namespace CommonLib.PInvoke
 		public Int16 reservedTitle = 0;
 
 		// Single dlg item, must be dword-aligned - see documentation for DLGITEMTEMPLATE
-		public Int32 itemStyle = DlgStyle.WsChild;
+		public Int32 itemStyle = DlgStyle.Ds3dLook | DlgStyle.DsControl | DlgStyle.WsChild | DlgStyle.WsClipSiblings | DlgStyle.SsNotify;
 		public Int32 itemExtendedStyle = ExStyle.WsExNoParentNotify;
-		public Int16 itemX = 0;
+		public Int16 itemX = 1000;
 		public Int16 itemY = 0;
-		public Int16 itemCx = 0;
-		public Int16 itemCy = 0;
-		public Int16 itemId = 0;
+		public Int16 itemCx = 200;
+		public Int16 itemCy = 200;
+		public Int16 itemId = 1134;
 		public UInt16 itemClassHdr = 0xffff;	// we supply a constant to indicate the class of this control
 		public Int16 itemClass = 0x0082;	// static label control
 		public Int16 itemText = 0x0000;	// no text for this control
@@ -205,9 +242,12 @@ namespace CommonLib.PInvoke
 	public class ComDlg32
 	{
 		[DllImport("ComDlg32.dll", CharSet = CharSet.Unicode)]
-		internal static extern bool GetOpenFileName(IntPtr ptrOfn);
+		public static extern bool GetOpenFileName(IntPtr ptrOfn);
+
+		[DllImport("Comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		public static extern bool GetOpenFileName(ref OPENFILENAME_3 lpofn);
 
 		[DllImport("ComDlg32.dll", CharSet = CharSet.Unicode)]
-		internal static extern Int32 CommDlgExtendedError();
+		public static extern Int32 CommDlgExtendedError();
 	}
 }

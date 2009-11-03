@@ -7,6 +7,9 @@ namespace CommonLib.PInvoke
 	public static class Kernel32
 	{
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+		public static extern int GetLastError();
+
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		public static extern int GetCurrentThreadId();
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]

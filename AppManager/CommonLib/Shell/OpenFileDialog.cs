@@ -85,11 +85,11 @@ namespace CommonLib.Shell
 			_ofn.nMaxFileTitle = _MAX_PATH;
 			_ofn.lpstrFilter = Marshal.StringToCoTaskMemUni(filter);
 			_ofn.Flags =
-				OpenFileNameFlags.EnableHook |
-				OpenFileNameFlags.EnableTemplateHandle |
-				OpenFileNameFlags.EnableSizing |
-				OpenFileNameFlags.HideReadOnly |
-				OpenFileNameFlags.Explorer;
+				OpenFileNameFlags.OFN_ENABLEHOOK |
+				OpenFileNameFlags.OFN_ENABLETEMPLATEHANDLE |
+				OpenFileNameFlags.OFN_ENABLESIZING |
+				OpenFileNameFlags.OFN_HIDEREADONLY |
+				OpenFileNameFlags.OFN_EXPLORER;
 			_ofn.hInstance = _ipTemplate;
 			_ofn.lpfnHook = new OfnHookProc(MyHookProc);
 
@@ -166,6 +166,8 @@ namespace CommonLib.Shell
 			//var m = System.Windows.Forms.Message.Create(hWnd, (int)msg, (IntPtr)wParam, (IntPtr)lParam);
 			//System.Diagnostics.Debug.WriteLine(m.ToString());
 
+			//IntPtr hWndParent2 = User32.GetParent(hWnd);
+
 			// Behaviour is dependant on the message received
 			switch ((WindowMessage)msg)
 			{
@@ -180,8 +182,11 @@ namespace CommonLib.Shell
 				case WindowMessage.WM_INITDIALOG:
 					{
 						IntPtr hWndParent = User32.GetParent(hWnd);
+						IntPtr p = User32.GetDlgItem(hWnd, 0x46E);
+
 						_hwndParent = hWndParent;
-						User32.SetParent(_userControl.Handle, hWndParent);
+						User32.SetParent(_userControl.Handle, p);
+						//FindAndResizePanels(hWnd);
 						return IntPtr.Zero;
 					}
 
@@ -189,7 +194,9 @@ namespace CommonLib.Shell
 				// panel to fit nicely
 				case WindowMessage.WM_SIZE:
 					{
-						FindAndResizePanels(hWnd);
+						//FindAndResizePanels(hWnd);
+						User32.MoveWindow(_userControl.Handle,
+							600, 600, 100, 100, true);
 						return IntPtr.Zero;
 					}
 
@@ -222,6 +229,10 @@ namespace CommonLib.Shell
 							if (SelectionChanged != null)
 								SelectionChanged(path);
 						}
+						else if (code == CommonDlgNotification.CDN_INITDONE)
+						{
+							//FindAndResizePanels(hWnd);
+						}
 						//else if (code == CommonDlgNotification.CDN_FILEOK)
 						//{
 						//    //int dr = User32.GetWindowLong(_hwndDialog, 0);
@@ -229,6 +240,11 @@ namespace CommonLib.Shell
 						//    //return (IntPtr)1;
 						//}
 
+						return IntPtr.Zero;
+					}
+				case WindowMessage.WM_SHOWWINDOW:
+					{
+						//FindAndResizePanels(hWnd);
 						return IntPtr.Zero;
 					}
 			}
@@ -247,6 +263,7 @@ namespace CommonLib.Shell
 			// The _CONTENT_PANEL_ID is a magic number - see the accompanying text to learn
 			// how I discovered it.
 			IntPtr hWndContent = User32.GetDlgItem(hWndParent, _CONTENT_PANEL_ID);
+			int err = Kernel32.GetLastError();
 
 			Rectangle rcClient = new Rectangle(0, 0, 0, 0);
 			//Rectangle rcContent = new Rectangle( 0, 0, 0, 0 );

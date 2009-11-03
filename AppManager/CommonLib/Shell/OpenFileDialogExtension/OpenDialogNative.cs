@@ -100,7 +100,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			// Dialog Window
 			if (className.ToString().StartsWith("#32770") && mBaseDialogNative == null)
 			{
-				mBaseDialogNative = new BaseDialogNative(hwnd);
+				mBaseDialogNative = new BaseDialogNative(hwnd, mSourceControl.Size);
 				mBaseDialogNative.FileNameChanged += new BaseDialogNative.PathChangedHandler(BaseDialogNative_FileNameChanged);
 				mBaseDialogNative.FolderNameChanged += new BaseDialogNative.PathChangedHandler(BaseDialogNative_FolderNameChanged);
 				return true;
@@ -204,7 +204,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			User32.SetParent(mSourceControl.Handle, mOpenDialogHandle);
 
 			// Send the control to the back
-			User32.SetWindowPos(mSourceControl.Handle, (IntPtr)ZOrderPos.HWND_BOTTOM, 0, 0, 0, 0, (int)SetWindowPosFlags.UFLAGSZORDER);
+			User32.SetWindowPos(mSourceControl.Handle, (IntPtr)ZOrderPos.HWND_BOTTOM, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSZORDER);
 		}
 		#endregion
 
@@ -212,14 +212,18 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		protected override void WndProc(ref Message m)
 		{
 			Console.WriteLine(m.ToString());
-			switch (m.Msg)
+			switch ((WindowMessage)m.Msg)
 			{
-				case (int)WindowMessage.WM_SHOWWINDOW:
+				case WindowMessage.WM_INITDIALOG:
+
+					break;
+
+				case WindowMessage.WM_SHOWWINDOW:
 					mInitializated = true;
 					InitControls();
 					SetControlPos();
 					break;
-				case (int)WindowMessage.WM_SIZING:
+				case WindowMessage.WM_SIZING:
 					User32.RECT currentSize;
 					switch (mSourceControl.StartLocation)
 					{
@@ -233,14 +237,14 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 							pt.Y = currentSize.bottom;
 							User32.ScreenToClient(mOpenDialogHandle, ref pt);
 
-							User32.SetWindowPos(
-								mListViewPtr,
-								(IntPtr)ZOrderPos.HWND_BOTTOM,
-								0,
-								0,
-								100,
-								100,
-								(int)SetWindowPosFlags.UFLAGSSIZEEX);
+							//User32.SetWindowPos(
+							//    mListViewPtr,
+							//    (IntPtr)ZOrderPos.HWND_BOTTOM,
+							//    0,
+							//    0,
+							//    100,
+							//    100,
+							//    SetWindowPosFlags.UFLAGSSIZEEX);
 
 							if (currentSize.bottom != mSourceControl.Top + mSourceControl.Height)
 								User32.SetWindowPos(
@@ -250,73 +254,73 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 									0, 
 									(int)mSourceControl.Width,
 									(int)pt.Y - mSourceControl.Top, 
-									(int)SetWindowPosFlags.UFLAGSSIZEEX);
+									SetWindowPosFlags.UFLAGSSIZEEX);
 							break;
 
 						case AddonWindowLocation.Bottom:
 							currentSize = new User32.RECT();
 							User32.GetClientRect(mOpenDialogHandle, ref currentSize);
 							if (currentSize.bottom != mSourceControl.Height)
-								User32.SetWindowPos(mSourceControl.Handle, (IntPtr)ZOrderPos.HWND_BOTTOM, 0, 0, (int)currentSize.right, (int)mSourceControl.Height, (int)SetWindowPosFlags.UFLAGSSIZEEX);
+								User32.SetWindowPos(mSourceControl.Handle, (IntPtr)ZOrderPos.HWND_BOTTOM, 0, 0, (int)currentSize.right, (int)mSourceControl.Height, SetWindowPosFlags.UFLAGSSIZEEX);
 							break;
 						case AddonWindowLocation.None:
 							currentSize = new User32.RECT();
 							User32.GetClientRect(mOpenDialogHandle, ref currentSize);
 							if (currentSize.right != mSourceControl.Width || currentSize.bottom != mSourceControl.Height)
-								User32.SetWindowPos(mSourceControl.Handle, (IntPtr)ZOrderPos.HWND_BOTTOM, 0, 0, (int)currentSize.right, (int)currentSize.bottom, (int)SetWindowPosFlags.UFLAGSSIZEEX);
+								User32.SetWindowPos(mSourceControl.Handle, (IntPtr)ZOrderPos.HWND_BOTTOM, 0, 0, (int)currentSize.right, (int)currentSize.bottom, SetWindowPosFlags.UFLAGSSIZEEX);
 							break;
 					}
 					break;
-				case (int)WindowMessage.WM_WINDOWPOSCHANGING:
-					if (!mIsClosing)
-					{
-						if (!mInitializated)
-						{
-							// Resize OpenDialog to make fit our extra form
-							User32.WINDOWPOS pos = (User32.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(User32.WINDOWPOS));
-							if (mSourceControl.StartLocation == AddonWindowLocation.Right)
-							{
-								if (pos.flags != 0 && ((pos.flags & (int)SetWindowPosFlags.SWP_NOSIZE) != (int)SetWindowPosFlags.SWP_NOSIZE))
-								{
-									PopulateWindowsHandlers();
-									mOriginalSize = new Size(pos.cx, pos.cy);
+				case WindowMessage.WM_WINDOWPOSCHANGING:
+					//if (!mIsClosing)
+					//{
+					//    if (!mInitializated)
+					//    {
+					//        // Resize OpenDialog to make fit our extra form
+					//        User32.WINDOWPOS pos = (User32.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(User32.WINDOWPOS));
+					//        if (mSourceControl.StartLocation == AddonWindowLocation.Right)
+					//        {
+					//            if (pos.flags != 0 && ((pos.flags & (int)SetWindowPosFlags.SWP_NOSIZE) != (int)SetWindowPosFlags.SWP_NOSIZE))
+					//            {
+					//                PopulateWindowsHandlers();
+					//                mOriginalSize = new Size(pos.cx, pos.cy);
 
-									pos.cx += mSourceControl.Width + 6;
-									Marshal.StructureToPtr(pos, m.LParam, true);
+					//                pos.cx += mSourceControl.Width + 6;
+					//                Marshal.StructureToPtr(pos, m.LParam, true);
 
-									SetControlPos();
-								}
-							}
+					//                SetControlPos();
+					//            }
+					//        }
 
-							if (mSourceControl.StartLocation == AddonWindowLocation.Bottom)
-							{
-								if (pos.flags != 0 && ((pos.flags & (int)SetWindowPosFlags.SWP_NOSIZE) != (int)SetWindowPosFlags.SWP_NOSIZE))
-								{
-									mOriginalSize = new Size(pos.cx, pos.cy);
+					//        if (mSourceControl.StartLocation == AddonWindowLocation.Bottom)
+					//        {
+					//            if (pos.flags != 0 && ((pos.flags & (int)SetWindowPosFlags.SWP_NOSIZE) != (int)SetWindowPosFlags.SWP_NOSIZE))
+					//            {
+					//                mOriginalSize = new Size(pos.cx, pos.cy);
 
-									pos.cy += mSourceControl.Height;
-									Marshal.StructureToPtr(pos, m.LParam, true);
+					//                pos.cy += mSourceControl.Height;
+					//                Marshal.StructureToPtr(pos, m.LParam, true);
 
-									SetControlPos();
-								}
-							}
-						}
-					}
+					//                SetControlPos();
+					//            }
+					//        }
+					//    }
+					//}
 					break;
-				case (int)WindowMessage.WM_IME_NOTIFY:
+				case WindowMessage.WM_IME_NOTIFY:
 					if (m.WParam == (IntPtr)ImeNotify.IMN_CLOSESTATUSWINDOW)
 					{
 						mIsClosing = true;
 						mSourceControl.OnClosingDialog();
 
-						User32.SetWindowPos(mOpenDialogHandle, IntPtr.Zero, 0, 0, 0, 0, (int)SetWindowPosFlags.UFLAGSHIDE);
+						User32.SetWindowPos(mOpenDialogHandle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSHIDE);
 						User32.GetWindowRect(mOpenDialogHandle, ref mOpenDialogWindowRect);
 						User32.SetWindowPos(mOpenDialogHandle, IntPtr.Zero,
 							(int)(mOpenDialogWindowRect.left),
 							(int)(mOpenDialogWindowRect.top),
 							(int)(mOriginalSize.Width),
 							(int)(mOriginalSize.Height),
-							(int)SetWindowPosFlags.UFLAGSSIZE);
+							SetWindowPosFlags.UFLAGSSIZE);
 					}
 					break;
 			}
