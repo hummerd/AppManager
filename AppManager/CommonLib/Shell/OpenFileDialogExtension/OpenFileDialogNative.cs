@@ -8,14 +8,16 @@ using CommonLib.PInvoke;
 
 namespace CommonLib.Shell
 {
-	public class ODHandler : NativeWindow
+	public class OpenFileDialogNative : NativeWindow
 	{
-		protected Control _ctrl;
+		protected Control _Extension;
 
-		public ODHandler(Control ctrl)
+
+		public OpenFileDialogNative(Control ctrl)
 		{
-			_ctrl = ctrl;
+			_Extension = ctrl;
 		}
+
 
 		protected override void WndProc(ref Message m)
 		{
@@ -23,25 +25,22 @@ namespace CommonLib.Shell
 			{
 				case WindowMessage.WM_SIZE:
 
-					User32.RECT wcr = new User32.RECT();
+					var wcr = new User32.RECT();
 					User32.GetClientRect(m.HWnd, ref wcr);
 
-					//hfileView = User32.GetDlgItem(hparent, 0x0461);
-
 					User32.SetWindowPos(
-						_ctrl.Handle,
+						_Extension.Handle,
 						IntPtr.Zero,
 						0,
 						0,
-						_ctrl.Width,
+						_Extension.Width,
 						wcr.bottom - 103,
 						SetWindowPosFlags.UFLAGSSIZE
 						);
-					//User32.SetWindowPos(mSourceControl.Handle, (IntPtr)ZOrderPos.HWND_BOTTOM, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSZORDER);
-
 
 					break;
 			}
+
 			base.WndProc(ref m);
 		}
 	}
