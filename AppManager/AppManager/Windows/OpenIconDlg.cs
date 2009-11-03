@@ -3,18 +3,39 @@ using System.IO;
 using System.Windows.Forms;
 using CommonLib.PInvoke;
 using CommonLib.Shell.OpenFileDialogExtension;
+using CommonLib.Shell;
 
 
 namespace AppManager.Windows
 {
-	public partial class OpenIconDlg : OpenFileDialogEx
+	public partial class OpenIconDlg : UserControl
 	{
+		protected OpenFileDialogEx _OpenFile; 
+
+
 		public OpenIconDlg()
 		{
 			Application.EnableVisualStyles();
 			InitializeComponent();
 		}
 
+
+		public DialogResult ShowOpenFileDialog(IWin32Window owner)
+		{
+			_OpenFile = new OpenFileDialogEx();
+			_OpenFile.Filter = "Icon files (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx";
+			_OpenFile.SelectionChanged += (s, e) => OnFileNameChanged(_OpenFile.FileName);
+			return _OpenFile.ShowDialog(this, owner);
+		}
+
+
+		public string SelectedFile
+		{
+			get
+			{
+				return _OpenFile.FileName;
+			}
+		}
 
 		public int SelectedIconIndex
 		{
@@ -28,7 +49,7 @@ namespace AppManager.Windows
 		}
 
 
-		public override void OnFileNameChanged(string filePath)
+		protected void OnFileNameChanged(string filePath)
 		{
 			if (!File.Exists(filePath))
 			{
@@ -48,18 +69,10 @@ namespace AppManager.Windows
 				listViewIcon.Items[0].Selected = true;
 		}
 
-		public override void OnFolderNameChanged(string folderName)
-		{
-		}
-
-		public override void OnClosingDialog()
-		{
-		}
-
 
 		private void listViewIcon_DoubleClick(object sender, EventArgs e)
 		{
-			CloseDialog(true);
+			_OpenFile.CloseDialog(true);
 		}
 	}
 }

@@ -219,8 +219,6 @@
     <Compile Include="Windows\OpenIconDlg.Designer.cs">
       <DependentUpon>OpenIconDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Windows\OpenIconDlg3.cs">
-    </Compile>
     <Compile Include="Windows\QuickSearch.xaml.cs">
       <DependentUpon>QuickSearch.xaml</DependentUpon>
     </Compile>

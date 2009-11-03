@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-using CommonLib.PInvoke;
 using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+using CommonLib.PInvoke;
 
 
 namespace CommonLib.Shell.OpenFileDialogExtension
@@ -14,6 +12,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		protected bool					_WatchForActivate = false;
 		protected Control				_Extension;
 		protected OpenFileDialogNative	_Handler;
+		protected IntPtr				_DialogHandle;
 
 
 		public OpenFileDialogExHost(Control extension)
@@ -32,6 +31,12 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			set { _WatchForActivate = value; }
 		}
 
+		public IntPtr DialogHandle
+		{
+			get { return _DialogHandle; }
+			set { _DialogHandle = value; }
+		}
+
 
 		protected override void OnClosing(CancelEventArgs e)
 		{
@@ -45,7 +50,8 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			{
 				_WatchForActivate = false;
 				_Handler = new OpenFileDialogNative(_Extension);
-				_Handler.AssignHandle(m.LParam);
+				_DialogHandle = m.LParam;
+				_Handler.AssignHandle(_DialogHandle);
 			}
 
 			base.WndProc(ref m);

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
 using CommonLib.PInvoke;
 
 
-namespace CommonLib.Shell
+namespace CommonLib.Shell.OpenFileDialogExtension
 {
 	public class OpenFileDialogNative : NativeWindow
 	{
