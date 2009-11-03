@@ -68,11 +68,10 @@
     <Compile Include="PInvoke\ComDlg32.cs" />
     <Compile Include="PInvoke\IconEnumerator.cs" />
     <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialogNative.cs" />
-    <Compile Include="Shell\OpenFileDialogExtension\OpenDialogHost3.cs">
+    <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialogExHost.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Shell\OpenFileDialog.cs" />
-    <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialog3.cs" />
+    <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialogEx.cs" />
     <Compile Include="Shell\ShFileInfo.cs" />
     <Compile Include="UI\BorderResizer.cs" />
     <Compile Include="UI\FadeAnimation.cs" />
@@ -101,6 +100,7 @@
     <Compile Include="UI\MoveAnimation.cs" />
     <Compile Include="UI\ResizerBase.cs" />
     <Compile Include="UI\UIHelper.cs" />
+    <Compile Include="UI\WpfWin32Window.cs" />
     <Compile Include="ValueEventArgs.cs" />
     <Compile Include="Windows\DialogKeyDecorator.cs" />
     <Compile Include="Windows\DialogWindow.cs" />

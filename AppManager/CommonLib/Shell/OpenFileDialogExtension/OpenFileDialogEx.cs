@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using CommonLib.PInvoke;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using CommonLib.Shell.OpenFileDialogExtension;
 
 
-namespace CommonLib.Shell
+namespace CommonLib.Shell.OpenFileDialogExtension
 {
 	public class OpenFileDialogEx
 	{
+		public event EventHandler SelectionChanged;
+
+
 		private string m_Filter = "";
 		private string m_DefaultExt = "";
-
 		private string m_FileName = "";
-
 		private Control _ControlHost;
+		private OpenFileDialogExHost _HostForm;
 
 
 		public string DefaultExt
@@ -57,50 +57,58 @@ namespace CommonLib.Shell
 		}
 
 
-		public DialogResult ShowDialog(IWin32Window owner)
+		public DialogResult ShowDialog(Control extension, IWin32Window owner)
 		{
 			System.Windows.Forms.Application.EnableVisualStyles();
-			_ControlHost = new ListView();
+			_ControlHost = extension;
 
 			DialogResult returnDialogResult = DialogResult.Cancel;
-			OpenFileDialogExHost mHostForm = new OpenFileDialogExHost(_ControlHost);
-			mHostForm.Show(owner);
-			User32.SetWindowPos(mHostForm.Handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSHIDE);
-			mHostForm.WatchForActivate = true;
+			_HostForm = new OpenFileDialogExHost(_ControlHost);
+			_HostForm.Show(owner);
+			User32.SetWindowPos(_HostForm.Handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSHIDE);
+			_HostForm.WatchForActivate = true;
 
 			try
 			{
-				returnDialogResult = ShowDialog(mHostForm.Handle);
+				returnDialogResult = ShowDialog(_HostForm.Handle);
 			}
 			// Sometimes if you open a animated .gif on the preview and the Form is closed, .Net class throw an exception
 			// Lets ignore this exception and keep closing the form.
 			catch (Exception) { }
 
-			mHostForm.Close();
+			_HostForm.Close();
 			return returnDialogResult;
 		}
 
-		public DialogResult ShowDialog(IntPtr hwndOwner)
+		public void CloseDialog(bool ok)
+		{
+			User32.SendMessage(
+				_HostForm.DialogHandle,
+				WindowMessage.WM_COMMAND,
+				ok ? (IntPtr)1 : IntPtr.Zero,
+				IntPtr.Zero
+				);
+		}
+
+		protected DialogResult ShowDialog(IntPtr hwndOwner)
 		{
 			OPENFILENAME_3 ofn = new OPENFILENAME_3();
 
 			ofn.lStructSize = Marshal.SizeOf(ofn);
-			ofn.lpstrFilter = m_Filter.Replace('|', '\0') + '\0';
-			ofn.lpstrFile = m_FileName + new string(' ', 512);
+			ofn.lpstrFilter = m_Filter.Replace('|', '\0') + '\0' + '\0';
+			ofn.lpstrFile = m_FileName + new string(' ', 520);
 			ofn.nMaxFile = ofn.lpstrFile.Length;
 			ofn.lpstrFileTitle = System.IO.Path.GetFileName(m_FileName) + new string(' ', 512);
 			ofn.nMaxFileTitle = ofn.lpstrFileTitle.Length;
-			ofn.lpstrTitle = "Save file as";
-			ofn.lpstrDefExt = m_DefaultExt;
-			ofn.hwndOwner = hwndOwner;
+			//ofn.lpstrTitle = "Save file as";
+			//ofn.lpstrDefExt = m_DefaultExt;
+			//ofn.hwndOwner = hwndOwner;
 			ofn.Flags =
+				//OpenFileNameFlags.OFN_ENABLEHOOK |
 				OpenFileNameFlags.OFN_ENABLESIZING |
-				OpenFileNameFlags.OFN_EXPLORER | 
-				OpenFileNameFlags.OFN_PATHMUSTEXIST | 
-				OpenFileNameFlags.OFN_NOTESTFILECREATE | 
-				OpenFileNameFlags.OFN_ENABLEHOOK | 
-				OpenFileNameFlags.OFN_HIDEREADONLY;
-			ofn.lpfnHook = new OfnHookProc(HookProc);
+				OpenFileNameFlags.OFN_HIDEREADONLY |
+				OpenFileNameFlags.OFN_EXPLORER;
+			//ofn.lpfnHook = new OfnHookProc(HookProc);
 
 			//if we're running on Windows 98/ME then the struct is smaller
 			if (System.Environment.OSVersion.Platform != PlatformID.Win32NT)
@@ -126,7 +134,6 @@ namespace CommonLib.Shell
 			return DialogResult.OK;
 		}
 
-
 		protected IntPtr HookProc(IntPtr hdlg, UInt16 msg, Int32 wParam, Int32 lParam)
 		{
 			//var m = System.Windows.Forms.Message.Create(hdlg, (int)msg, (IntPtr)wParam, (IntPtr)lParam);
@@ -142,7 +149,7 @@ namespace CommonLib.Shell
 					IntPtr parent = User32.GetParent(hdlg);
 					User32.GetWindowRect(parent, ref cr);
 
-					int x = (sr.Right + sr.Left - (cr.right - cr.left)) / 2;
+					int x = (sr.Right + sr.Left - (cr.right - cr.left + _ControlHost.Width + 6)) / 2;
 					int y = (sr.Bottom + sr.Top - (cr.bottom - cr.top)) / 2;
 
 					User32.SetWindowPos(
@@ -182,8 +189,17 @@ namespace CommonLib.Shell
 					{
 
 					}
-					break;
+					else if (nmhdr.code == (ushort)CommonDlgNotification.CDN_SELCHANGE)
+					{ 
+						IntPtr hWndParent = User32.GetParent(hdlg);
+						StringBuilder pathBuffer = new StringBuilder(260);
+						UInt32 ret = User32.SendMessage(hWndParent, (uint)DialogChangeProperties.CDM_GETFILEPATH, 260, pathBuffer);
+						m_FileName = pathBuffer.ToString();
 
+						if (SelectionChanged != null)
+							SelectionChanged(this, EventArgs.Empty);
+					}
+					break;
 			}
 
 			return IntPtr.Zero;

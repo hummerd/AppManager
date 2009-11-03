@@ -5,6 +5,7 @@ using AppManager.Windows;
 using CommonLib.Windows;
 using AppManager.Commands;
 using CommonLib.Shell;
+using CommonLib.UI;
 
 
 namespace AppManager
@@ -32,13 +33,14 @@ namespace AppManager
 
 		public void SetItemImage(AppInfo appInfo)
 		{
-			//using (var dlg = new OpenIconDlg())
-			//{
-			//    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			//    {
-			//        appInfo.ImagePath = dlg.OpenDialog.FileName + "," + dlg.SelectedIconIndex;
-			//    }
-			//}
+			using (var dlg = new OpenIconDlg())
+			{
+				var wnd = _WorkItem.FindActiveWindow();
+				if (dlg.ShowOpenFileDialog(new WpfWin32Window(wnd)) == System.Windows.Forms.DialogResult.OK)
+				{
+					appInfo.ImagePath = dlg.SelectedFile + "," + dlg.SelectedIconIndex;
+				}
+			}
 
 			//var dlg = new OpenIconDlg3();
 			//string path;
@@ -47,12 +49,6 @@ namespace AppManager
 			//{
 			//    appInfo.ImagePath = path + "," + id;
 			//}
-
-			var ofd = new OpenFileDialog3();
-			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				appInfo.ImagePath = ofd.FileName + "," + 0;
-			}
 		}
 
 		public void RefreshItemImage(AppInfo appInfo)
