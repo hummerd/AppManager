@@ -102,7 +102,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
             DialogResult returnDialogResult = DialogResult.Cancel;
 			mHostForm = new DialogHostForm(this);
 			mHostForm.Show(owner);
-			User32.SetWindowPos(mHostForm.Handle, IntPtr.Zero, 0, 0, 0, 0, (int)SetWindowPosFlags.UFLAGSHIDE);
+			User32.SetWindowPos(mHostForm.Handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSHIDE);
 			mHostForm.WatchForActivate = true;
             try
             {

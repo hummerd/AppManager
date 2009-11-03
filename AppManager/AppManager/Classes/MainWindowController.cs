@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using AppManager.Windows;
 using CommonLib.Windows;
 using AppManager.Commands;
+using CommonLib.Shell;
 
 
 namespace AppManager
@@ -39,12 +40,18 @@ namespace AppManager
 			//    }
 			//}
 
-			var dlg = new OpenIconDlg3();
-			string path;
-			int id;
-			if (dlg.Open(out path, out id))
+			//var dlg = new OpenIconDlg3();
+			//string path;
+			//int id;
+			//if (dlg.Open(out path, out id))
+			//{
+			//    appInfo.ImagePath = path + "," + id;
+			//}
+
+			var ofd = new OpenFileDialog3();
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				appInfo.ImagePath = path + "," + id;
+				appInfo.ImagePath = ofd.FileName + "," + 0;
 			}
 		}
 

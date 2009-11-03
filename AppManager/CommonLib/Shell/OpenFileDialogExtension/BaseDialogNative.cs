@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using CommonLib.PInvoke;
-using System.Runtime.InteropServices;
+using System.Drawing;
 
 
 namespace CommonLib.Shell.OpenFileDialogExtension
@@ -18,11 +18,13 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 
 
 		protected IntPtr mHandle;
+		protected Size mAddOnSize;
 
 		
-		public BaseDialogNative(IntPtr handle)
+		public BaseDialogNative(IntPtr handle, Size addonSize)
 		{
 			mHandle = handle;
+			mAddOnSize = addonSize;
 			AssignHandle(handle);
 		}
 		
@@ -35,9 +37,9 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		
 		protected override void WndProc(ref Message m)
 		{
-			switch (m.Msg)
+			switch ((WindowMessage)m.Msg)
 			{
-				case (int)WindowMessage.WM_NOTIFY:
+				case WindowMessage.WM_NOTIFY:
 					OFNOTIFY ofNotify = (OFNOTIFY)Marshal.PtrToStructure(m.LParam, typeof(OFNOTIFY));
 					if (ofNotify.hdr.code == (uint)CommonDlgNotification.CDN_SELCHANGE)
 					{
@@ -53,6 +55,26 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 						if (FolderNameChanged != null)
 							FolderNameChanged(this, folderPath.ToString());
 					}
+					break;
+				case WindowMessage.WM_INITDIALOG:
+					
+					Rectangle sr = Screen.PrimaryScreen.Bounds;
+					User32.RECT cr = new User32.RECT();
+					IntPtr parent = User32.GetParent(m.HWnd);
+					User32.GetWindowRect(parent, ref cr);
+
+					int x = (sr.Right + sr.Left - (cr.right - cr.left)) / 2;
+					int y = (sr.Bottom + sr.Top - (cr.bottom - cr.top)) / 2;
+
+					User32.SetWindowPos(
+						parent,
+						IntPtr.Zero,
+						x,
+						y,
+						cr.right - cr.left + mAddOnSize.Width + 6,
+						cr.bottom - cr.top,
+						SetWindowPosFlags.SWP_NOZORDER);
+
 					break;
 			}
 			base.WndProc(ref m);
