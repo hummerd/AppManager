@@ -87,39 +87,39 @@ namespace CommonLib.PInvoke
 		CDM_SETDEFEXT = (CDM_FIRST + 0x0006)
 	}
 
-	/// <summary>
-	/// See the documentation for OPENFILENAME
-	/// </summary>
-	[StructLayout(LayoutKind.Sequential)]
-	public struct OpenFileName
-	{
-		public Int32 lStructSize;
-		public IntPtr hwndOwner;
-		public IntPtr hInstance;
-		public IntPtr lpstrFilter;
-		public IntPtr lpstrCustomFilter;
-		public Int32 nMaxCustFilter;
-		public Int32 nFilterIndex;
-		public IntPtr lpstrFile;
-		public Int32 nMaxFile;
-		public IntPtr lpstrFileTitle;
-		public Int32 nMaxFileTitle;
-		public IntPtr lpstrInitialDir;
-		public IntPtr lpstrTitle;
-		public OpenFileNameFlags Flags;
-		public Int16 nFileOffset;
-		public Int16 nFileExtension;
-		public IntPtr lpstrDefExt;
-		public Int32 lCustData;
-		public OfnHookProc lpfnHook;
-		public IntPtr lpTemplateName;
-		public IntPtr pvReserved;
-		public Int32 dwReserved;
-		public Int32 FlagsEx;
-	};
+	///// <summary>
+	///// See the documentation for OPENFILENAME
+	///// </summary>
+	//[StructLayout(LayoutKind.Sequential)]
+	//public struct OpenFileName
+	//{
+	//    public Int32 lStructSize;
+	//    public IntPtr hwndOwner;
+	//    public IntPtr hInstance;
+	//    public IntPtr lpstrFilter;
+	//    public IntPtr lpstrCustomFilter;
+	//    public Int32 nMaxCustFilter;
+	//    public Int32 nFilterIndex;
+	//    public IntPtr lpstrFile;
+	//    public Int32 nMaxFile;
+	//    public IntPtr lpstrFileTitle;
+	//    public Int32 nMaxFileTitle;
+	//    public IntPtr lpstrInitialDir;
+	//    public IntPtr lpstrTitle;
+	//    public OpenFileNameFlags Flags;
+	//    public Int16 nFileOffset;
+	//    public Int16 nFileExtension;
+	//    public IntPtr lpstrDefExt;
+	//    public Int32 lCustData;
+	//    public OfnHookProc lpfnHook;
+	//    public IntPtr lpTemplateName;
+	//    public IntPtr pvReserved;
+	//    public Int32 dwReserved;
+	//    public Int32 FlagsEx;
+	//};
 
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-	public struct OPENFILENAME_3
+	public struct OPENFILENAME
 	{
 		public int lStructSize;
 		public IntPtr hwndOwner;
@@ -210,44 +210,41 @@ namespace CommonLib.PInvoke
 	/// Note: this has a very specific structure with a single static "label" control
 	/// See documentation for DLGTEMPLATE and DLGITEMTEMPLATE
 	/// </summary>
-	[StructLayout(LayoutKind.Sequential)]
-	public class DLGTEMPLATE
-	{
-		// The dialog template - see documentation for DLGTEMPLATE
-		public Int32 style = DlgStyle.Ds3dLook | DlgStyle.DsControl | DlgStyle.WsChild | DlgStyle.WsClipSiblings | DlgStyle.SsNotify;
-		public Int32 extendedStyle = ExStyle.WsExControlParent;
-		public Int16 numItems = 1;
-		public Int16 x = 10;
-		public Int16 y = 10;
-		public Int16 cx = 0;
-		public Int16 cy = 0;
-		public Int16 reservedMenu = 0;
-		public Int16 reservedClass = 0;
-		public Int16 reservedTitle = 0;
+	//[StructLayout(LayoutKind.Sequential)]
+	//public class DLGTEMPLATE
+	//{
+	//    // The dialog template - see documentation for DLGTEMPLATE
+	//    public Int32 style = DlgStyle.Ds3dLook | DlgStyle.DsControl | DlgStyle.WsChild | DlgStyle.WsClipSiblings | DlgStyle.SsNotify;
+	//    public Int32 extendedStyle = ExStyle.WsExControlParent;
+	//    public Int16 numItems = 1;
+	//    public Int16 x = 0;
+	//    public Int16 y = 0;
+	//    public Int16 cx = 0;
+	//    public Int16 cy = 0;
+	//    public Int16 reservedMenu = 0;
+	//    public Int16 reservedClass = 0;
+	//    public Int16 reservedTitle = 0;
 
-		// Single dlg item, must be dword-aligned - see documentation for DLGITEMTEMPLATE
-		public Int32 itemStyle = DlgStyle.Ds3dLook | DlgStyle.DsControl | DlgStyle.WsChild | DlgStyle.WsClipSiblings | DlgStyle.SsNotify;
-		public Int32 itemExtendedStyle = ExStyle.WsExNoParentNotify;
-		public Int16 itemX = 1000;
-		public Int16 itemY = 0;
-		public Int16 itemCx = 200;
-		public Int16 itemCy = 200;
-		public Int16 itemId = 1134;
-		public UInt16 itemClassHdr = 0xffff;	// we supply a constant to indicate the class of this control
-		public Int16 itemClass = 0x0082;	// static label control
-		public Int16 itemText = 0x0000;	// no text for this control
-		public Int16 itemData = 0x0000;	// no creation data for this control
-	};
+	//    // Single dlg item, must be dword-aligned - see documentation for DLGITEMTEMPLATE
+	//    public Int32 itemStyle = DlgStyle.Ds3dLook | DlgStyle.DsControl | DlgStyle.WsChild | DlgStyle.WsClipSiblings | DlgStyle.SsNotify;
+	//    public Int32 itemExtendedStyle = ExStyle.WsExNoParentNotify;
+	//    public Int16 itemX = 0;
+	//    public Int16 itemY = 0;
+	//    public Int16 itemCx = 0;
+	//    public Int16 itemCy = 0;
+	//    public Int16 itemId = 1134; //any number
+	//    public UInt16 itemClassHdr = 0xffff;	// we supply a constant to indicate the class of this control
+	//    public Int16 itemClass = 0x0082;	// static label control
+	//    public Int16 itemText = 0x0000;	// no text for this control
+	//    public Int16 itemData = 0x0000;	// no creation data for this control
+	//};
 
 	public class ComDlg32
 	{
-		[DllImport("ComDlg32.dll", CharSet = CharSet.Unicode)]
-		public static extern bool GetOpenFileName(IntPtr ptrOfn);
-
 		[DllImport("Comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		public static extern bool GetOpenFileName(ref OPENFILENAME_3 lpofn);
+		public static extern bool GetOpenFileName(ref OPENFILENAME lpofn);
 
-		[DllImport("ComDlg32.dll", CharSet = CharSet.Unicode)]
+		[DllImport("ComDlg32.dll", CharSet = CharSet.Auto)]
 		public static extern Int32 CommDlgExtendedError();
 	}
 }

@@ -17,6 +17,12 @@ namespace CommonLib.PInvoke
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, LoadLibraryExFlags dwFlags);
+
+		public static void ZeroMemory(IntPtr ptr, int count)
+		{
+			for (int i = 0; i < count; i++)
+				Marshal.WriteByte((IntPtr)((int)ptr + i), 0);
+		}
 	}
 
 	public enum LoadLibraryExFlags

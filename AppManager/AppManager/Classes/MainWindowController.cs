@@ -41,14 +41,6 @@ namespace AppManager
 					appInfo.ImagePath = dlg.SelectedFile + "," + dlg.SelectedIconIndex;
 				}
 			}
-
-			//var dlg = new OpenIconDlg3();
-			//string path;
-			//int id;
-			//if (dlg.Open(out path, out id))
-			//{
-			//    appInfo.ImagePath = path + "," + id;
-			//}
 		}
 
 		public void RefreshItemImage(AppInfo appInfo)

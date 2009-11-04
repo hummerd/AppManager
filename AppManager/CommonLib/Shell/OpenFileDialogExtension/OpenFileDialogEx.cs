@@ -8,27 +8,32 @@ using CommonLib.PInvoke;
 
 namespace CommonLib.Shell.OpenFileDialogExtension
 {
+	/// <summary>
+	/// Class that provides open file dialog extension
+	/// </summary>
+	/// <remarks>
+	/// To apply visual styles to dialog add manifest with referense to Microsoft.Windows.Common-Controls 6.0.0.0 into your app.
+	/// </remarks>
 	public class OpenFileDialogEx
 	{
 		public event EventHandler SelectionChanged;
 
-
-		private string m_Filter = "";
-		private string m_DefaultExt = "";
-		private string m_FileName = "";
-		private Control _ControlHost;
-		private OpenFileDialogExHost _HostForm;
+		protected string _Filter = String.Empty;
+		protected string _DefaultExt = String.Empty;
+		protected string _FileName = String.Empty;
+		protected Control _ControlHost;
+		protected OpenFileDialogParentHook _HostForm;
 
 
 		public string DefaultExt
 		{
 			get
 			{
-				return m_DefaultExt;
+				return _DefaultExt;
 			}
 			set
 			{
-				m_DefaultExt = value;
+				_DefaultExt = value;
 			}
 		}
 
@@ -36,11 +41,11 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		{
 			get
 			{
-				return m_Filter;
+				return _Filter;
 			}
 			set
 			{
-				m_Filter = value;
+				_Filter = value;
 			}
 		}
 
@@ -48,35 +53,53 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		{
 			get
 			{
-				return m_FileName;
+				return _FileName;
 			}
 			set
 			{
-				m_FileName = value;
+				_FileName = value;
 			}
 		}
 
 
 		public DialogResult ShowDialog(Control extension, IWin32Window owner)
 		{
-			System.Windows.Forms.Application.EnableVisualStyles();
+			DialogResult returnDialogResult = DialogResult.Cancel;
 			_ControlHost = extension;
 
-			DialogResult returnDialogResult = DialogResult.Cancel;
-			_HostForm = new OpenFileDialogExHost(_ControlHost);
-			_HostForm.Show(owner);
-			User32.SetWindowPos(_HostForm.Handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSHIDE);
+			Form dialogHook = null;
+			_HostForm = new OpenFileDialogParentHook(_ControlHost);
+			if (owner != null)
+			{
+				_HostForm.AssignHandle(owner.Handle);
+			}
+			else
+			{
+				dialogHook = new Form();
+				dialogHook.Text = String.Empty;
+				dialogHook.StartPosition = FormStartPosition.Manual;
+				dialogHook.Location = new Point(-32000, -32000);
+				dialogHook.ShowInTaskbar = false;
+				dialogHook.Show(owner);
+
+				_HostForm.AssignHandle(dialogHook.Handle);
+				User32.SetWindowPos(dialogHook.Handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.UFLAGSHIDE);
+			}
+
 			_HostForm.WatchForActivate = true;
 
 			try
 			{
 				returnDialogResult = ShowDialog(_HostForm.Handle);
 			}
-			// Sometimes if you open a animated .gif on the preview and the Form is closed, .Net class throw an exception
-			// Lets ignore this exception and keep closing the form.
-			catch (Exception) { }
+			finally
+			{
+				_HostForm.ReleaseHandle();
 
-			_HostForm.Close();
+				if (dialogHook != null)
+					dialogHook.Close();
+			}
+
 			return returnDialogResult;
 		}
 
@@ -90,25 +113,26 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 				);
 		}
 
+
 		protected DialogResult ShowDialog(IntPtr hwndOwner)
 		{
-			OPENFILENAME_3 ofn = new OPENFILENAME_3();
+			OPENFILENAME ofn = new OPENFILENAME();
 
 			ofn.lStructSize = Marshal.SizeOf(ofn);
-			ofn.lpstrFilter = m_Filter.Replace('|', '\0') + '\0' + '\0';
-			ofn.lpstrFile = m_FileName + new string(' ', 520);
+			ofn.lpstrFilter = _Filter.Replace('|', '\0') + '\0' + '\0';
+			ofn.lpstrFile = _FileName + new string(' ', 520);
 			ofn.nMaxFile = ofn.lpstrFile.Length;
-			ofn.lpstrFileTitle = System.IO.Path.GetFileName(m_FileName) + new string(' ', 512);
+			ofn.lpstrFileTitle = System.IO.Path.GetFileName(_FileName) + new string(' ', 512);
 			ofn.nMaxFileTitle = ofn.lpstrFileTitle.Length;
-			//ofn.lpstrTitle = "Save file as";
-			//ofn.lpstrDefExt = m_DefaultExt;
-			//ofn.hwndOwner = hwndOwner;
+			ofn.lpstrTitle = "Save file as";
+			ofn.lpstrDefExt = _DefaultExt;
+			ofn.hwndOwner = hwndOwner;
 			ofn.Flags =
-				//OpenFileNameFlags.OFN_ENABLEHOOK |
+				OpenFileNameFlags.OFN_ENABLEHOOK |
 				OpenFileNameFlags.OFN_ENABLESIZING |
 				OpenFileNameFlags.OFN_HIDEREADONLY |
 				OpenFileNameFlags.OFN_EXPLORER;
-			//ofn.lpfnHook = new OfnHookProc(HookProc);
+			ofn.lpfnHook = new OfnHookProc(HookProc);
 
 			//if we're running on Windows 98/ME then the struct is smaller
 			if (System.Environment.OSVersion.Platform != PlatformID.Win32NT)
@@ -130,7 +154,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 				return DialogResult.Cancel;
 			}
 
-			m_FileName = ofn.lpstrFile;
+			_FileName = ofn.lpstrFile;
 			return DialogResult.OK;
 		}
 
@@ -194,7 +218,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 						IntPtr hWndParent = User32.GetParent(hdlg);
 						StringBuilder pathBuffer = new StringBuilder(260);
 						UInt32 ret = User32.SendMessage(hWndParent, (uint)DialogChangeProperties.CDM_GETFILEPATH, 260, pathBuffer);
-						m_FileName = pathBuffer.ToString();
+						_FileName = pathBuffer.ToString();
 
 						if (SelectionChanged != null)
 							SelectionChanged(this, EventArgs.Empty);

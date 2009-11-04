@@ -42,7 +42,7 @@
 			this.listViewIcon.MultiSelect = false;
 			this.listViewIcon.Name = "listViewIcon";
 			this.listViewIcon.ShowGroups = false;
-			this.listViewIcon.Size = new System.Drawing.Size(239, 150);
+			this.listViewIcon.Size = new System.Drawing.Size(246, 150);
 			this.listViewIcon.TabIndex = 0;
 			this.listViewIcon.UseCompatibleStateImageBehavior = false;
 			this.listViewIcon.DoubleClick += new System.EventHandler(this.listViewIcon_DoubleClick);
@@ -59,7 +59,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.listViewIcon);
 			this.Name = "OpenIconDlg";
-			this.Size = new System.Drawing.Size(239, 150);
+			this.Size = new System.Drawing.Size(246, 150);
 			this.ResumeLayout(false);
 
 		}
