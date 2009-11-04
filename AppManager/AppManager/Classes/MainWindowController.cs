@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
-using AppManager.Windows;
-using CommonLib.Windows;
 using AppManager.Commands;
-using CommonLib.Shell;
+using AppManager.Windows;
 using CommonLib.UI;
+using CommonLib.Windows;
 
 
 namespace AppManager
