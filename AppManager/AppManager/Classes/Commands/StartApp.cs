@@ -102,7 +102,7 @@ namespace AppManager.Commands
 
 		protected bool CheckSingleInstance()
 		{
-			_Single = new SingleInstance2("AppManagerSingleInstance", delegate()
+			_Single = new SingleInstance2("AppManagerSingleInstanceObj", delegate()
 			{
 				ActivateTask act = delegate() { _WorkItem.Commands.Activate.Execute(null); };
 				DispatcherHelper.Invoke(act);
@@ -179,6 +179,7 @@ namespace AppManager.Commands
 		protected WinForms.ContextMenuStrip CreateTrayMenu()
 		{
 			var mnu = new WinForms.ContextMenuStrip();
+			//mnu.RenderMode = WinForms.ToolStripRenderMode.Professional;
 
 			mnu.Items.Add(
 				WinFrmMenuAdapter.CreateMenuItem(

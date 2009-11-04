@@ -5,12 +5,12 @@ using CommonLib.PInvoke;
 
 namespace CommonLib.Shell.OpenFileDialogExtension
 {
-	public class OpenFileDialogNative : NativeWindow
+	public class OpenFileDialogHook : NativeWindow
 	{
 		protected Control _Extension;
 
 
-		public OpenFileDialogNative(Control ctrl)
+		public OpenFileDialogHook(Control ctrl)
 		{
 			_Extension = ctrl;
 		}

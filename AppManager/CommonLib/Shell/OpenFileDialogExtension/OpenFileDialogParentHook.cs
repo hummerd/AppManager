@@ -1,27 +1,23 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
 using CommonLib.PInvoke;
 
 
 namespace CommonLib.Shell.OpenFileDialogExtension
 {
-	public class OpenFileDialogExHost : Form
+	public class OpenFileDialogParentHook : NativeWindow
 	{
-		protected bool					_WatchForActivate = false;
-		protected Control				_Extension;
-		protected OpenFileDialogNative	_Handler;
-		protected IntPtr				_DialogHandle;
+		protected bool _WatchForActivate = false;
+		protected Control _Extension;
+		protected OpenFileDialogHook _Handler;
+		protected IntPtr _DialogHandle;
 
 
-		public OpenFileDialogExHost(Control extension)
+		public OpenFileDialogParentHook(Control extension)
 		{
 			_Extension = extension;
-			Text = String.Empty;
-			StartPosition = FormStartPosition.Manual;
-			Location = new Point(-32000, -32000);
-			ShowInTaskbar = false;
 		}
 
 
@@ -38,18 +34,21 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		}
 
 
-		protected override void OnClosing(CancelEventArgs e)
+		public override void ReleaseHandle()
 		{
-			_Handler.ReleaseHandle();
-			base.OnClosing(e);
+			if (_Handler != null)
+				_Handler.ReleaseHandle();
+
+			base.ReleaseHandle();
 		}
+
 
 		protected override void WndProc(ref Message m)
 		{
 			if (_WatchForActivate && m.Msg == (int)WindowMessage.WM_ACTIVATE)
 			{
 				_WatchForActivate = false;
-				_Handler = new OpenFileDialogNative(_Extension);
+				_Handler = new OpenFileDialogHook(_Extension);
 				_DialogHandle = m.LParam;
 				_Handler.AssignHandle(_DialogHandle);
 			}

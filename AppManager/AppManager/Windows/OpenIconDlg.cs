@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows.Forms;
 using CommonLib.PInvoke;
 using CommonLib.Shell.OpenFileDialogExtension;
-using CommonLib.Shell;
 
 
 namespace AppManager.Windows
@@ -15,7 +14,6 @@ namespace AppManager.Windows
 
 		public OpenIconDlg()
 		{
-			Application.EnableVisualStyles();
 			InitializeComponent();
 		}
 
