@@ -329,6 +329,9 @@
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\kcoloredit_1364_16.png" />
+    <Resource Include="Resources\view_remove_1232_16.png" />
+    <Resource Include="Resources\edit_remove_14_16.png" />
     <Content Include="VersionManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

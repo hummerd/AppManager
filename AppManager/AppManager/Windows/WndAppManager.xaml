@@ -190,6 +190,8 @@
 							Height="50*" />
 						<RowDefinition
 							Height="50*" />
+						<RowDefinition
+							Height="50*" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -244,11 +246,30 @@
 					</TextBox>
 					<Button
 						x:Name="AppItemPathSelect"
-						Content="..."
 						Grid.Row="1"
 						Grid.Column="2"
 						Width="28"
-						Click="AppPathSelect_Click" />
+						Click="AppPathSelect_Click" Padding="0" Grid.IsSharedSizeScope="False">
+						<Image Source="/AppManager;component/Resources/view_remove_1232_16.png" Stretch="None"></Image>
+					</Button>
+					<TextBox
+						Grid.Column="1"
+						Grid.Row="2"
+						x:Name="AppItemIconPath"
+						Text="{Binding Path=ImagePath, Mode=TwoWay}"
+						Margin="0,1,0,0"
+						BorderBrush="{x:Null}"
+						HorizontalAlignment="Stretch"
+						GotFocus="TextBox_GotFocus"
+						Background="Transparent">
+					</TextBox>
+					<Button
+						x:Name="AppItemIconPathSelect"
+						Grid.Row="2"
+						Grid.Column="2"
+						Width="28" Padding="0">
+						<Image Source="/AppManager;component/Resources/kcoloredit_1364_16.png" Stretch="None"></Image>
+					</Button>
 				</Grid>
 			</Border>
 		</DataTemplate>
@@ -369,19 +390,21 @@
 					</Button>
 					<Button
 						Width="24"
-						Content="+"
 						x:Name="BtnAddAppType"
 						Click="BtnAddAppType_Click"
 						Margin="0,12,4,12"
-						Grid.Column="4" />
+						Grid.Column="4" >
+					<Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
+					</Button>
 					<Button
 						Width="24"
-						Content="-"
 						x:Name="BtnRemoveAppType"
 						Click="BtnRemoveAppType_Click"
 						Grid.Column="5"
 						HorizontalAlignment="Left"
-						Margin="0,12,8,12" />
+						Margin="0,12,8,12" >
+						<Image Source="/AppManager;component/Resources/edit_remove_14_16.png"></Image>
+					</Button>
 				</Grid>
 			</Grid>
 		</TabItem>
@@ -451,13 +474,17 @@
 					Margin="0,12,36,12"
 					Name="BtnAddApp" 
 					Width="24"
-					Click="BtnAddApp_Click">+</Button>
+					Click="BtnAddApp_Click">
+					<Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
+				</Button>
 				<Button
 					HorizontalAlignment="Right"
 					Margin="0,12,8,12"
 					Name="BtnRemoveApp"
 					Width="24"
-					Click="BtnRemoveApp_Click">-</Button>
+					Click="BtnRemoveApp_Click">
+					<Image Source="/AppManager;component/Resources/edit_remove_14_16.png"></Image>
+				</Button>
 			</Grid>
 		</TabItem>
 		<TabItem
@@ -537,7 +564,9 @@
 						Margin="0,6,8,12"
 						Name="BtnAddScan"
 						Click="BtnAddScan_Click"
-						Grid.Column="5">+</Button>
+						Grid.Column="5">
+						<Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
+					</Button>
 				</Grid>
 				<ListView
 					Margin="8,0,8,8"
