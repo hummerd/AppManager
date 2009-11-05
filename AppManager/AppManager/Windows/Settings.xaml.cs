@@ -27,6 +27,8 @@ namespace AppManager.Windows
 			ChkStartMinimized.IsChecked = workItem.Settings.StartMinimized;
 			ChkEnableAcivationPanel.IsChecked = workItem.Settings.EnableActivationPanel;
 			ChkUseShortActivationPanel.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
+			ActivationPanelColor.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
+			ActivationPanelColorLabel.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
 			ChkUseShortActivationPanel.IsChecked = workItem.Settings.UseShortActivationPanel;
 			ChkCeckNewVersionAtStartup.IsChecked = workItem.Settings.CheckNewVersionAtStartUp;
 			_ActivationPanelColor = workItem.Settings.ActivationPanelColor;
@@ -61,11 +63,15 @@ namespace AppManager.Windows
 		private void ChkEnableAcivationPanel_Checked(object sender, RoutedEventArgs e)
 		{
 			ChkUseShortActivationPanel.IsEnabled = true;
+			ActivationPanelColor.IsEnabled = true;
+			ActivationPanelColorLabel.IsEnabled = true;
 		}
 
 		private void ChkEnableAcivationPanel_Unchecked(object sender, RoutedEventArgs e)
 		{
 			ChkUseShortActivationPanel.IsEnabled = false;
+			ActivationPanelColor.IsEnabled = false;
+			ActivationPanelColorLabel.IsEnabled = false;
 		}
 
 		private void ActivationPanelColor_MouseUp(object sender, MouseButtonEventArgs e)
