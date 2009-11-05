@@ -133,7 +133,7 @@ namespace DragDropLib
 				PrepareItem(this, new ValueEventArgs<object>(item));
 		}
 		
-		protected override void DragEnded(DragDropEffects effects, object dragItem)
+		protected override void DragEnded(DragDropEffects effects, object dragItem, FrameworkElement dragSource)
 		{
 			if ((effects & DragDropEffects.Move) == DragDropEffects.Move)
 			{
@@ -144,7 +144,7 @@ namespace DragDropLib
 					coll.RemoveAt(_DragItemPos + 1);
 			}
 
-			base.DragEnded(effects, dragItem);
+			base.DragEnded(effects, dragItem, dragSource);
 
 			_DragItemPos = -1;
 			_DragItem = null;

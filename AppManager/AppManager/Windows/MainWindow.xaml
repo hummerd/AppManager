@@ -504,6 +504,7 @@
 											<RowDefinition Height="6"/>
 										</Grid.RowDefinitions>
 										<GroupBox 
+                                            x:Name="AppTypeGroup"
 											SnapsToDevicePixels="True"
 											AllowDrop="True"
 											Background="Transparent"

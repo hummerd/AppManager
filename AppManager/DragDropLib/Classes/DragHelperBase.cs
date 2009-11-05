@@ -112,7 +112,7 @@ namespace DragDropLib
 				object dragObject;
 
 				DragDropEffects effects = DragStarted(element, out dragObject);
-				DragEnded(effects, dragObject);
+				DragEnded(effects, dragObject, element);
 			}
 		}
 
@@ -252,21 +252,20 @@ namespace DragDropLib
 				DragStart(this, EventArgs.Empty);
 		}
 
-		protected virtual void DragEnded(DragDropEffects effects, object dragItem)
+		protected virtual void DragEnded(DragDropEffects effects, object dragItem, FrameworkElement dragSource)
 		{
 			ResetDrag();
 
 			foreach (var item in _DragHandlers)
-				item.DragEnded(effects);
+				item.DragEnded(effects, dragSource);
 
-			OnDragEnded(effects, dragItem);
+			OnDragEnded(effects, dragItem, dragSource);
 		}
 
-		protected virtual void OnDragEnded(DragDropEffects effects, object dragItem)
+		protected virtual void OnDragEnded(DragDropEffects effects, object dragItem, FrameworkElement dragSource)
 		{
 			if (DragEnd != null)
-				DragEnd(this, new DragEndEventArgs() 
-					{ DropEffects = effects, DropObject = dragItem  });
+				DragEnd(this, new DragEndEventArgs() { DropEffects = effects, DropObject = dragItem, DragSource = dragSource });
 		}
 
 		protected virtual void ResetDrag()

@@ -67,7 +67,7 @@ namespace DragDropLib
 			dragData.SetManagedData(_DataFormat, serObj);
 		}
 
-		public void DragEnded(DragDropEffects effects)
+		public void DragEnded(DragDropEffects effects, FrameworkElement dragSource)
 		{ ; }
 
 		#endregion

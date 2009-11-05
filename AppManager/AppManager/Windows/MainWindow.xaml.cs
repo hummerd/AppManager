@@ -24,10 +24,11 @@ namespace AppManager
 	public partial class MainWindow : Window
 	{
 		protected MainWindowController	_Controller;
-		protected ItemsControl				_FocusElement;
-		protected FileAppDropHandler		_FileDrop = new FileAppDropHandler();
+		protected ItemsControl			_FocusElement;
+		protected FileAppDropHandler	_FileDrop = new FileAppDropHandler();
 		protected SimpleDragDataHandler	_AppTypeDrop;
 		protected SimpleDragDataHandler	_AppDrop;
+		protected AppGroup				_AppData;
 
 
 		public MainWindow(MainWorkItem workItem)
@@ -54,6 +55,7 @@ namespace AppManager
 
 			_AppTypeDrop.ObjectDroped += (s, e) => 
 				_Controller.InsertAppType(
+					_AppData,
 					e.DropObject as AppType, 
 					(s as FrameworkElement).DataContext as AppType);
 
@@ -65,6 +67,12 @@ namespace AppManager
 			new BorderResizer(MainContentBorder, 8);
 		}
 
+
+		public void InitData(MainWorkItem workItem)
+		{
+			_AppData = workItem.AppData;
+			DataContext = workItem;
+		}
 
 		public void SaveState()
 		{
@@ -170,15 +178,19 @@ namespace AppManager
 				e.Handled = OnAppTypeContextMenuOpening(s as FrameworkElement);
 
 			var drag = new AppTypeDrag(group);
-			(drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped +=
-				(s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
+			(drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped += (s, e) => 
+				_Controller.InsertAppType(
+					_AppData, 
+					e.DropObject as AppType, 
+					(s as FrameworkElement).DataContext as AppType);
 
 			drag.DragHandlers.Add(_AppDrop);
 			drag.DragHandlers.Add(_FileDrop);
 			
 			drag.DragStart += (s, e) => OnDragStarted();
 			drag.DragEnd += (s, e) => OnDragEnded();
-			drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
+			drag.DragEnd += (s, e) =>
+				OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
 		}
 
 		//protected ButtonList CreateButtonList(int rowi, AppType appType)
@@ -218,7 +230,8 @@ namespace AppManager
 
 			((MenuItem)menu.Items[1]).Click += (s, ea) =>
 				_Controller.WorkItem.Commands.RunApp.Execute(
-					new StartParams((s as FrameworkElement).DataContext as AppInfo) { RunAs = true }
+					new StartParams((s as FrameworkElement).DataContext as AppInfo) 
+						{ RunAs = true }
 					);
 
 			((MenuItem)menu.Items[2]).Click += (s, ea) =>
@@ -228,7 +241,7 @@ namespace AppManager
 				_Controller.EditItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[5]).Click += (s, ea) =>
-				_Controller.SetItemImage((s as FrameworkElement).DataContext as AppInfo);
+				_Controller.SetAppInfoImage((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[6]).Click += (s, ea) =>
 				_Controller.RefreshItemImage((s as FrameworkElement).DataContext as AppInfo);
@@ -237,7 +250,12 @@ namespace AppManager
 				_Controller.RenameItem((s as FrameworkElement).DataContext as AppInfo);
 
 			((MenuItem)menu.Items[8]).Click += (s, ea) =>
-				_Controller.DeleteItem((s as FrameworkElement).DataContext as AppInfo);
+				{
+					var f = ((s as MenuItem).Parent as ContextMenu).PlacementTarget;
+					var gb = UIHelper.FindAncestorOrSelf<GroupBox>(f, "AppTypeGroup");
+					var at = gb.DataContext as AppType;
+					_Controller.DeleteAppInfo(at, (s as FrameworkElement).DataContext as AppInfo, false);
+				};
 
 			((MenuItem)menu.Items[9]).Click += (s, ea) =>
 				_Controller.GoToAppFolder((s as FrameworkElement).DataContext as AppInfo);
@@ -253,13 +271,13 @@ namespace AppManager
 				_Controller.AddNewApp((s as FrameworkElement).DataContext as AppType);
 
 			((MenuItem)menu.Items[1]).Click += (s, ea) =>
-				_Controller.InsertAppType((s as FrameworkElement).DataContext as AppType);
+				_Controller.AddAppType(_AppData, (s as FrameworkElement).DataContext as AppType);
 
 			((MenuItem)menu.Items[2]).Click += (s, ea) =>
 				_Controller.RenameAppType((s as FrameworkElement).DataContext as AppType);
 
 			((MenuItem)menu.Items[3]).Click += (s, ea) =>
-				_Controller.DeleteAppType((s as FrameworkElement).DataContext as AppType);
+				_Controller.DeleteAppType(_AppData, (s as FrameworkElement).DataContext as AppType, false);
 
 			return menu;
 		}
@@ -455,7 +473,7 @@ namespace AppManager
 		protected void OnAppTypeDragEnded(DragDropEffects effects, AppType appType)
 		{
 			if ((effects & DragDropEffects.Move) == DragDropEffects.Move)
-				_Controller.RemoveAppType(appType);
+				_Controller.DeleteAppType(_AppData, appType, true);
 		}
 
 
@@ -558,7 +576,7 @@ namespace AppManager
 		private void ContentPanel_DragOver(object sender, DragEventArgs e)
 		{
 			if (AppTypeContent.Items.Count <= 0)
-				_Controller.CreateDefaultType();
+				_Controller.AddAppType(_AppData, null);
 
 			e.Effects = DragDropEffects.None;
 			e.Handled = true;
@@ -576,7 +594,7 @@ namespace AppManager
 
 			AppTypeContent.ContextMenu = MenuHelper.CopyMenu(App.Current.Resources["AddAppTypeMenu"] as ContextMenu);
 			((MenuItem)AppTypeContent.ContextMenu.Items[0]).Click += (s, ea) =>
-				_Controller.AddAppType();
+				_Controller.AddAppType(_AppData, null);
 
 			//ContentPanel.InvalidateVisual();
 			//UpdateLayout();
@@ -589,7 +607,7 @@ namespace AppManager
 				if (char.IsLetterOrDigit(e.Text[0]) || char.IsWhiteSpace(e.Text[0]))
 				{
 					e.Handled = true;
-					_Controller.FindApp(e.Text);
+					_Controller.FindApp(_AppData, e.Text);
 				}
 		}
 

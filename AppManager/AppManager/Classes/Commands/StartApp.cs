@@ -53,7 +53,7 @@ namespace AppManager.Commands
 			LoadData();
 			_FirstStart = FirstLoad();
 			
-			_WorkItem.MainWindow.DataContext = _WorkItem;
+			_WorkItem.MainWindow.InitData(_WorkItem);
 			_WorkItem.MainWindow.LoadState();
 			_WorkItem.MainWindow.Deactivated += (s, e) =>
 				_LostTime = DateTime.Now;
@@ -137,7 +137,7 @@ namespace AppManager.Commands
 
 				if (doScan)
 				{
-					var ctrl = new ControllerBase(_WorkItem);
+					var ctrl = new AppController(_WorkItem);
 
 					if (askScan.AddFromAllProgs)
 					{

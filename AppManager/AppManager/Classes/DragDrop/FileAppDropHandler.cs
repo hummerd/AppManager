@@ -45,9 +45,9 @@ namespace AppManager.DragDrop
 			}
 		}
 
-		public override void DragEnded(DragDropEffects effects)
+		public override void DragEnded(DragDropEffects effects, FrameworkElement dragSource)
 		{
-			base.DragEnded(effects);
+			base.DragEnded(effects, dragSource);
 
 			if (!String.IsNullOrEmpty(_TempLink))
 			{
@@ -71,7 +71,7 @@ namespace AppManager.DragDrop
 			{
 				AppInfo ai = state as AppInfo;
 				string tempLink = Path.Combine(Path.GetTempPath(), ai.AppName + ".lnk");
-				LnkHelper.CreateLnk(tempLink, ai.AppPath, ai.ImagePath, ai.AppArgs);
+				LnkHelper.CreateLnk(tempLink, ai.AppPath, ai.LoadImagePath, ai.AppArgs);
 			}
 			catch
 			{ ; }

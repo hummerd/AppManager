@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using AppManager.Windows;
 using CommonLib.Windows;
+using System.Windows.Data;
 
 
 namespace AppManager
@@ -15,6 +16,7 @@ namespace AppManager
 	{
 		protected AppManagerController _Controller;
 		protected object _ItemToSelect;
+		protected AppGroup _AppGroup;
 		protected AppTypeCollection _AppTypes;
 		protected bool _SearchAppCheck = true;
 
@@ -27,7 +29,8 @@ namespace AppManager
 
 		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo, AppType appType)
 		{
-			_Controller = new AppManagerController(workItem, appGroup);
+			_AppGroup = appGroup;
+			_Controller = new AppManagerController(workItem);
 			AppTypes.ItemsSource = appGroup.AppTypes;
 			_AppTypes = appGroup.AppTypes;
 			AppTypeSelector.ItemsSource = appGroup.AppTypes;
@@ -62,7 +65,7 @@ namespace AppManager
 		//App type tab events===================================================
 		private void BtnAddAppType_Click(object sender, RoutedEventArgs e)
 		{
-			_Controller.AddType();
+			_Controller.AddEmptyAppType(_AppGroup, null);
 			AppTypes.SelectedIndex = AppTypes.Items.Count - 1;
 			AppTypeName.Focus();
 		}
@@ -70,12 +73,16 @@ namespace AppManager
 		private void BtnRemoveAppType_Click(object sender, RoutedEventArgs e)
 		{
 			if (AppTypes.SelectedItem != null)
-				_Controller.RemoveType(AppTypes.SelectedItem as AppType);
+				_Controller.DeleteAppType(
+					_AppGroup, 
+					AppTypes.SelectedItem as AppType, 
+					true);
 		}
 
 		private void BtnAppTypeUp_Click(object sender, RoutedEventArgs e)
 		{
 			_Controller.MoveType(
+				_AppGroup,
 				 AppTypes.SelectedItem as AppType,
 				 true);
 		}
@@ -83,6 +90,7 @@ namespace AppManager
 		private void BtnAppTypeDown_Click(object sender, RoutedEventArgs e)
 		{
 			_Controller.MoveType(
+				_AppGroup,
 				 AppTypes.SelectedItem as AppType,
 				 false);
 		}
@@ -94,7 +102,7 @@ namespace AppManager
 
 			if (appType != null)
 			{
-				_Controller.AddApp(appType);
+				_Controller.AddAppInfo(_AppGroup, appType);
 
 				AppList.Focus();
 				AppList.SelectedIndex = AppList.Items.Count - 1;
@@ -116,7 +124,7 @@ namespace AppManager
 		{
 			AppType appType = AppTypeSelector.SelectedItem as AppType;
 			for (int i = AppList.SelectedItems.Count - 1; i >= 0; i--)
-				_Controller.RemoveApp(appType, AppList.SelectedItems[i] as AppInfo);
+				_Controller.DeleteAppInfo(appType, AppList.SelectedItems[i] as AppInfo, true);
 		}
 
 		private void BtnAppDown_Click(object sender, RoutedEventArgs e)
@@ -143,15 +151,28 @@ namespace AppManager
 
 		private void TextBox_GotFocus(object sender, RoutedEventArgs e)
 		{
-			TextBox tb = sender as TextBox;
+			var child = sender as DependencyObject;
 
-			DependencyObject dobj = AppList.ContainerFromElement(tb);
+			DependencyObject dobj = AppList.ContainerFromElement(child);
 			AppList.SelectedIndex = AppList.ItemContainerGenerator.IndexFromContainer(dobj);
 		}
 
 		private void BtnFolder_Click(object sender, RoutedEventArgs e)
 		{
 			TxtFolder.Text = _Controller.SelectPath();
+		}
+
+		private void AppItemRemove_Click(object sender, RoutedEventArgs e)
+		{
+			Button btn = sender as Button;
+			AppType appType = AppTypeSelector.SelectedItem as AppType;
+			_Controller.DeleteAppInfo(appType, btn.DataContext as AppInfo, true);
+		}
+
+		private void AppItemIconPathSelect_Click(object sender, RoutedEventArgs e)
+		{
+			Button btn = sender as Button;
+			_Controller.SetAppInfoImage(btn.DataContext as AppInfo);
 		}
 
 		//Search apps tab events===================================================
@@ -179,9 +200,10 @@ namespace AppManager
 			{
 				var foundApps = AppScanList.ItemsSource as List<AppManagerController.AppInfoAdapter>;
 				if (ss.AutoGroup)
-					_Controller.AddScned(foundApps);
+					_Controller.AddScned(_AppGroup, foundApps);
 				else
 					_Controller.AddScned(
+						_AppGroup,
 						ss.SelectedItem as AppType,
 						ss.NewName,
 						foundApps);

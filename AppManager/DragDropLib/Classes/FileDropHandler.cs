@@ -43,7 +43,7 @@ namespace DragDropLib
 		public virtual void SetDragData(DataObject dragData, object dragObject)
 		{ ; }
 
-		public virtual void DragEnded(DragDropEffects effects)
+		public virtual void DragEnded(DragDropEffects effects, FrameworkElement dragSource)
 		{ ; }
 
 		#endregion

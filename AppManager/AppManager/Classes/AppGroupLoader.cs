@@ -199,7 +199,7 @@ namespace AppManager
 			if (appInfo.HasImagePath)
 			{
 				writer.WriteStartAttribute("ImagePath");
-				writer.WriteValue(appInfo.ImagePath);
+				writer.WriteValue(appInfo.LoadImagePath);
 				writer.WriteEndAttribute();
 			}
 
@@ -294,7 +294,7 @@ namespace AppManager
 
 			reader.MoveToAttribute("ImagePath");
 			if (reader.Name == "ImagePath")
-				result.ImagePath = reader.ReadContentAsString();
+				result.LoadImagePath = reader.ReadContentAsString();
 
 			reader.Read();
 

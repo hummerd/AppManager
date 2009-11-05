@@ -184,7 +184,7 @@ namespace AppManager
 			};
 
 			newInfo.NeedImage += (s, e) => OnNeedAppImage(s as AppInfo);
-			newInfo.ImagePath = imagePath;
+			newInfo.LoadImagePath = imagePath;
 			newInfo.ExecPath = execPath;
 			newInfo.SetAutoAppName();
 

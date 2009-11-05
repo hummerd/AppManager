@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AppGroupLoader.cs" />
+    <Compile Include="Classes\AppController.cs" />
     <Compile Include="Classes\Commands\CheckVersion.cs" />
     <Compile Include="Classes\DragDrop\AppTypeDrag.cs" />
     <Compile Include="Classes\AsyncImageLoader.cs" />
@@ -332,6 +333,7 @@
     <Resource Include="Resources\kcoloredit_1364_16.png" />
     <Resource Include="Resources\view_remove_1232_16.png" />
     <Resource Include="Resources\edit_remove_14_16.png" />
+    <Resource Include="Resources\edit_remove_14_12.png" />
     <Content Include="VersionManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
