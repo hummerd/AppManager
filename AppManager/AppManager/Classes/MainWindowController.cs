@@ -9,7 +9,7 @@ using CommonLib.Windows;
 
 namespace AppManager
 {
-	public class MainWindowController : ControllerBase
+	public class MainWindowController : AppController
 	{
 		protected DispatcherTimer _SearchTimer = new DispatcherTimer();
 		protected QuickSearch _QuickSearchWnd = null;
@@ -30,33 +30,41 @@ namespace AppManager
 			hb.Show();
 		}
 
-		public void SetItemImage(AppInfo appInfo)
-		{
-			using (var dlg = new OpenIconDlg())
-			{
-				var wnd = _WorkItem.FindActiveWindow();
-				if (dlg.ShowOpenFileDialog(new WpfWin32Window(wnd)) == System.Windows.Forms.DialogResult.OK)
-				{
-					appInfo.ImagePath = dlg.SelectedFile + "," + dlg.SelectedIconIndex;
-				}
-			}
-		}
-
 		public void RefreshItemImage(AppInfo appInfo)
 		{
 			appInfo.RequestAppImage();
 		}
 
-		public void RemoveAppType(AppType appType)
-		{
-			if (appType == null)
-				return;
+		//public void RemoveAppType(AppType appType)
+		//{
+		//    if (appType == null)
+		//        return;
 
-			_WorkItem.AppData.AppTypes.Remove(appType);
-		}
+		//    _WorkItem.AppData.AppTypes.Remove(appType);
+		//}
 
-		public void AddAppType()
+		//public void AddAppType()
+		//{
+		//    InputBox input = new InputBox(Strings.ENTER_APP_TYPE_NAME);
+		//    input.InputText = Strings.APPLICATIONS;
+		//    input.Owner = _WorkItem.MainWindow;
+		//    input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+		//    if (input.ShowDialog() ?? false)
+		//    {
+		//        InsertAppType(
+		//            new AppType() { AppTypeName = input.InputText },
+		//            null);
+		//    }
+		//}
+
+
+
+		public void AddAppType(AppGroup appGroup, AppType beforeAppType)
 		{
+			//if (appType == null)
+			//    return;
+
 			InputBox input = new InputBox(Strings.ENTER_APP_TYPE_NAME);
 			input.InputText = Strings.APPLICATIONS;
 			input.Owner = _WorkItem.MainWindow;
@@ -65,56 +73,20 @@ namespace AppManager
 			if (input.ShowDialog() ?? false)
 			{
 				InsertAppType(
+					appGroup,
 					new AppType() { AppTypeName = input.InputText },
-					null);
+					beforeAppType);
 			}
 		}
 
-		public void InsertAppType(AppType appType)
-		{
-			if (appType == null)
-				return;
+		
 
-			InputBox input = new InputBox(Strings.ENTER_APP_TYPE_NAME);
-			input.InputText = Strings.APPLICATIONS;
-			input.Owner = _WorkItem.MainWindow;
-			input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-			if (input.ShowDialog() ?? false)
-			{
-				InsertAppType(
-					new AppType() { AppTypeName = input.InputText },
-					appType);
-			}
-		}
-
-		public void InsertAppType(AppType addAppType, AppType beforeAppType)
-		{
-			if (addAppType == null)
-				return;
-
-			if (beforeAppType == null)
-			{
-				_WorkItem.AppData.AppTypes.Insert(0, addAppType);
-				return;
-			}
-
-			int ix = _WorkItem.AppData.AppTypes.IndexOf(beforeAppType);
-			if (ix >= 0)
-			{
-				foreach (var item in addAppType.AppInfos)
-					PrepareItem(item);
-
-				_WorkItem.AppData.AppTypes.Insert(ix, addAppType);
-			}
-		}
-
-		public void CreateDefaultType()
-		{
-			_WorkItem.AppData.AppTypes.Add(
-				new AppType() { AppTypeName = Strings.APPLICATIONS }
-				);
-		}
+		//public void CreateDefaultType()
+		//{
+		//    _WorkItem.AppData.AppTypes.Add(
+		//        new AppType() { AppTypeName = Strings.APPLICATIONS }
+		//        );
+		//}
 
 		public void RenameAppType(AppType appType)
 		{
@@ -132,23 +104,7 @@ namespace AppManager
 			}
 		}
 
-		public void DeleteAppType(AppType appType)
-		{
-			if (appType == null)
-				return;
-
-			if (!MsgBox.Show(
-					_WorkItem.MainWindow,
-					Strings.APP_TITLE,
-					string.Format(Strings.QUEST_DEL_APP_TYPE, appType.AppTypeName)
-					)
-				)
-				return;
-
-			_WorkItem.AppData.AppTypes.Remove(appType);
-		}
-
-		public void FindApp(string appNamePart)
+		public void FindApp(AppGroup appGroup, string appNamePart)
 		{
 			if (_QuickSearchWnd == null)
 			{
@@ -156,11 +112,11 @@ namespace AppManager
 				_QuickSearchWnd.Owner = _WorkItem.MainWindow;
 				_QuickSearchWnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 				_QuickSearchWnd.SearchString = appNamePart;
-				_QuickSearchWnd.SerachStringChanged += (s, e) => FindApp(_QuickSearchWnd.SearchString);
+				_QuickSearchWnd.SerachStringChanged += (s, e) => FindApp(appGroup, _QuickSearchWnd.SearchString);
 				_QuickSearchWnd.Closed += (s, e) => EndSearch();
 				_QuickSearchWnd.ItemSelected += (s, e) => SearchSucceded();
-				
-				_QuickSearchWnd.FoundItems = _WorkItem.AppData.FindApps(appNamePart);
+
+				_QuickSearchWnd.FoundItems = appGroup.FindApps(appNamePart);
 	
 				_QuickSearchWnd.Show();
 				_SearchTimer.IsEnabled = true;
@@ -171,7 +127,7 @@ namespace AppManager
 				_SearchTimer.Start();
 
 				//var apps = _QuickSearchWnd.FoundItems as AppInfoCollection;
-				var apps = _WorkItem.AppData.FindApps(appNamePart);
+				var apps = appGroup.FindApps(appNamePart);
 
 				if (apps != null)
 					_QuickSearchWnd.FoundItems = apps;
@@ -211,23 +167,23 @@ namespace AppManager
 			}
 		}
 
-		public void DeleteItem(AppInfo appInfo)
-		{
-			if (appInfo == null)
-				return;
+		//public void DeleteItem(AppInfo appInfo)
+		//{
+		//    if (appInfo == null)
+		//        return;
 
-			if (!MsgBox.Show(
-					_WorkItem.MainWindow,
-					Strings.APP_TITLE,
-					string.Format(Strings.QUEST_DEL_APP, appInfo.AppName)
-					)
-				)
-				return;
+		//    if (!MsgBox.Show(
+		//            _WorkItem.MainWindow,
+		//            Strings.APP_TITLE,
+		//            string.Format(Strings.QUEST_DEL_APP, appInfo.AppName)
+		//            )
+		//        )
+		//        return;
 
-			AppType appType = _WorkItem.AppData.FindAppType(appInfo);
-			if (appType != null)
-				appType.AppInfos.Remove(appInfo);
-		}
+		//    AppType appType = _WorkItem.AppData.FindAppType(appInfo);
+		//    if (appType != null)
+		//        appType.AppInfos.Remove(appInfo);
+		//}
 
 		public void EditItem(AppInfo appInfo)
 		{
@@ -245,15 +201,7 @@ namespace AppManager
 			appInfo.OpenFolder();
 		}
 
-		public void PrepareItem(AppInfo appInfo)
-		{
-			if (appInfo == null)
-				return;
 
-			appInfo.ID = _WorkItem.AppData.LastAppInfoID;
-			_WorkItem.AppData.LastAppInfoID += 1;
-			_WorkItem.AppData.RequestAppImage(appInfo);
-		}
 
 		public void AddFiles(AppType appType, string[] files)
 		{

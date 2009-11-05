@@ -9,46 +9,57 @@ using WinForms = System.Windows.Forms;
 
 namespace AppManager
 {
-	public class AppManagerController : ControllerBase
+	public class AppManagerController : AppController
 	{
-		protected AppGroup _Data;
+		//protected AppGroup _Data;
 
 
-		public AppManagerController(MainWorkItem workItem, AppGroup data)
+		public AppManagerController(MainWorkItem workItem)
 			: base(workItem)
 		{
-			_Data = data;
+			//_Data = data;
 		}
 
 
-		public void AddType()
+		//public void AddType()
+		//{
+		//    _Data.AppTypes.Add(new AppType());
+		//}
+
+		public void AddEmptyAppType(AppGroup appGroup, AppType beforeAppType)
 		{
-			_Data.AppTypes.Add(new AppType());
+			InsertAppType(
+				appGroup,
+				new AppType() { AppTypeName = Strings.APPLICATIONS },
+				beforeAppType);
 		}
 
-		public void MoveType(AppType appType, bool up)
+		public void MoveType(AppGroup appGroup, AppType appType, bool up)
+		{
+			if (appGroup == null)
+				return;
+
+			if (appType == null)
+				return;
+
+			int ix = appGroup.AppTypes.IndexOf(appType);
+			int ix2 = up ? ix - 1 : ix + 1;
+
+			if (ix2 >= 0 && ix2 < appGroup.AppTypes.Count)
+				appGroup.AppTypes.Move(ix, ix2);
+		}
+
+		//public void RemoveType(AppType appType)
+		//{
+		//    if (appType != null)
+		//        _Data.AppTypes.Remove(appType);
+		//}
+
+		public void AddAppInfo(AppGroup appGroup, AppType appType)
 		{
 			if (appType != null)
 			{
-				int ix = _Data.AppTypes.IndexOf(appType);
-				int ix2 = up ? ix - 1 : ix + 1;
-
-				if (ix2 >= 0 && ix2 < _Data.AppTypes.Count)
-					_Data.AppTypes.Move(ix, ix2);
-			}
-		}
-
-		public void RemoveType(AppType appType)
-		{
-			if (appType != null)
-				_Data.AppTypes.Remove(appType);
-		}
-
-		public void AddApp(AppType appType)
-		{
-			if (appType != null)
-			{
-				_Data.CreateNewAppInfo(appType);
+				appGroup.CreateNewAppInfo(appType);
 			}
 		}
 
@@ -64,13 +75,13 @@ namespace AppManager
 			}
 		}
 
-		public void RemoveApp(AppType appType, AppInfo appInfo)
-		{
-			if (appType != null && appInfo != null)
-			{
-				appType.AppInfos.Remove(appInfo);
-			}
-		}
+		//public void RemoveApp(AppType appType, AppInfo appInfo)
+		//{
+		//    if (appType != null && appInfo != null)
+		//    {
+		//        appType.AppInfos.Remove(appInfo);
+		//    }
+		//}
 
 		public void SelectAppPath(AppInfo appInfo)
 		{
@@ -118,7 +129,7 @@ namespace AppManager
 				false);
 		}
 
-		public void AddScned(AppType appType, string newAppTypeName, List<AppInfoAdapter> list)
+		public void AddScned(AppGroup appGroup, AppType appType, string newAppTypeName, List<AppInfoAdapter> list)
 		{
 			if (list == null)
 				return;
@@ -129,7 +140,7 @@ namespace AppManager
 			if (newAppTypeName != null)
 			{
 				appType = new AppType() { AppTypeName = newAppTypeName };
-				_Data.AppTypes.Add(appType);
+				appGroup.AppTypes.Add(appType);
 			}
 
 			foreach (AppInfoAdapter infoAdp in list)
@@ -139,13 +150,13 @@ namespace AppManager
 			}
 		}
 
-		public void AddScned(List<AppInfoAdapter> list)
+		public void AddScned(AppGroup appGroup, List<AppInfoAdapter> list)
 		{
 			if (list == null)
 				return;
 
-			var appType = new AppType() { AppTypeName = _Data.GetDefaultTypeName() };
-			_Data.AppTypes.Add(appType);
+			var appType = new AppType() { AppTypeName = appGroup.GetDefaultTypeName() };
+			appGroup.AppTypes.Add(appType);
 
 			foreach (AppInfoAdapter infoAdp in list)
 			{
@@ -153,7 +164,7 @@ namespace AppManager
 					appType.AppInfos.Add(infoAdp.App);
 			}
 
-			_Data.GroupByFolders(appType);
+			appGroup.GroupByFolders(appType);
 		}
 
 		public void SelectAllScan(IEnumerable appAdps, bool check)

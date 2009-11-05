@@ -85,7 +85,7 @@ namespace AppManager
 						lock (_RequestSync)
 							app = _RequestedImages.Dequeue();
 
-						var src = LoadImage(app.ImagePath);
+						var src = LoadImage(app.LoadImagePath);
 
 						DispatcherHelper.InvokeBackground(
 							(SimpleMathod)(

@@ -174,20 +174,39 @@ namespace AppManager
 		{
 			get
 			{
-				if (String.IsNullOrEmpty(_ImagePath))
-					return AppPath;
-				else
-					return _ImagePath;
+				return _ImagePath;
 			}
 			set
 			{
-				_ImagePath = value;
-				if (!String.IsNullOrEmpty(_ImagePath))
+				string newVal = value;
+				if (String.Equals(value, AppPath, StringComparison.CurrentCultureIgnoreCase) ||
+					String.Equals(value, AppPath + ",0", StringComparison.CurrentCultureIgnoreCase)
+					)
+					_ImagePath = String.Empty;
+
+				if (!String.IsNullOrEmpty(newVal) || !String.IsNullOrEmpty(_ImagePath))
 				{
+					_ImagePath = newVal;
 					LoadImage();
 					OnNeedImage();
+					OnPropertyChanged("ImagePath");
 					OnPropertyChanged("AppImage");
 				}
+			}
+		}
+
+		public string LoadImagePath
+		{
+			get
+			{
+				if (String.IsNullOrEmpty(_ImagePath))
+					return AppPath;
+				else
+					return ImagePath;
+			}
+			set
+			{
+				ImagePath = value;
 			}
 		}
 
@@ -333,7 +352,7 @@ namespace AppManager
 
 		protected void LoadImage()
 		{
-			if (String.IsNullOrEmpty(ImagePath))
+			if (String.IsNullOrEmpty(LoadImagePath))
 			{
 				AppImage = GetBlankImage();
 				return;
@@ -341,7 +360,7 @@ namespace AppManager
 
 			BitmapSource src = null;
 
-			string appPath = ImagePath;
+			string appPath = LoadImagePath;
 
 			if (PathHelper.IsLikeDrive(appPath) ||
 				 Directory.Exists(appPath))
@@ -352,12 +371,16 @@ namespace AppManager
 			_AppImage = src;
 		}
 
+
 		protected override void MergeEntity(AppInfo source, bool clone)
 		{
 			base.MergeEntity(source, clone);
 
 			if (AppName != source.AppName)
 				AppName = source.AppName;
+
+			if (ImagePath != source.ImagePath)
+				ImagePath = source.ImagePath;
 
 			if (ExecPath != source.ExecPath)
 				ExecPath = source.ExecPath;

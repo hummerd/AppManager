@@ -18,5 +18,7 @@ namespace DragDropLib
 		public DragDropEffects DropEffects { get; set; }
 
 		public object DropObject { get; set; }
+
+		public FrameworkElement DragSource { get; set; }
 	}
 }
