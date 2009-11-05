@@ -98,10 +98,14 @@ namespace AppManager
 
 		public string SelectFile()
 		{
-			WinForms.OpenFileDialog ofd = new WinForms.OpenFileDialog();
+			using (WinForms.OpenFileDialog ofd = new WinForms.OpenFileDialog())
+			{
+				ofd.Title = Strings.SELECT_APP;
+				ofd.Filter = Strings.APP_FILTER;
 
-			if (ofd.ShowDialog() == WinForms.DialogResult.OK)
-				return ofd.FileName;
+				if (ofd.ShowDialog() == WinForms.DialogResult.OK)
+					return ofd.FileName;
+			}
 
 			return string.Empty;
 		}

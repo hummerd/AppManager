@@ -5,12 +5,12 @@
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:cw="clr-namespace:CommonLib.Windows;assembly=CommonLib"
 	Title="{x:Static am:Strings.SETTINGS}"
-	Height="320"
+	Height="332"
 	Width="310"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	MinWidth="310"
-	MinHeight="320"
+	MinHeight="332"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	Closing="DialogWindow_Closing" SizeToContent="Width">
 	<StackPanel>
@@ -53,6 +53,23 @@
 			Margin="24,8,12,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" />
+		<StackPanel Orientation="Horizontal">
+			<Rectangle 
+				Name="ActivationPanelColor" 
+				HorizontalAlignment="Left" 
+				Margin="21,4,0,0" 
+				Height="16" Width="16" 
+				MouseUp="ActivationPanelColor_MouseUp" 
+				StrokeThickness="2" 
+				Stroke="#FF325BCE"></Rectangle>
+			<Label 
+				Padding="3,4"
+				Margin="0,4,12,0" 
+				HorizontalAlignment="Left"
+				Content="Select activation panel color">
+			</Label>
+		</StackPanel>
+
 		<Border 
 			BorderBrush="#FF325BCE" 
 			Margin="8,8,8,0"

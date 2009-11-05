@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
+using CommonLib;
 
 
 namespace AppManager.Settings
@@ -93,6 +94,10 @@ namespace AppManager.Settings
 
 					writer.WriteStartElement("CheckNewVersionAtStartUp");
 					writer.WriteValue(settings.CheckNewVersionAtStartUp);
+					writer.WriteEndElement();
+
+					writer.WriteStartElement("ActivationPanelColor");
+					writer.WriteValue(UIHelper.ToARGB(settings.ActivationPanelColor));
 					writer.WriteEndElement();
 
 				writer.WriteEndElement();
@@ -247,6 +252,14 @@ namespace AppManager.Settings
 					result.CheckNewVersionAtStartUp = reader.ReadContentAsBoolean();
 					reader.ReadEndElement();
 				}
+
+				if (reader.NodeType == XmlNodeType.Element)
+				{
+					reader.ReadStartElement("ActivationPanelColor");
+					result.ActivationPanelColor = UIHelper.FromARGB(reader.ReadContentAsInt());
+					reader.ReadEndElement();
+				}
+
 				reader.ReadEndElement();
 			}
 

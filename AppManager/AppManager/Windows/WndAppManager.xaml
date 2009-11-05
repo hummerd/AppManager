@@ -222,6 +222,7 @@
 						Grid.Row="0"
 						Grid.Column="2"
 						Width="28"
+						ToolTip="{x:Static am:Strings.REMOVE_LINK}"
                         GotFocus="TextBox_GotFocus"
                         Click="AppItemRemove_Click"
 						 >
@@ -243,6 +244,7 @@
 						Grid.Row="1"
 						Grid.Column="2"
 						Width="28"
+						ToolTip="{x:Static am:Strings.SELECT_APP}"
                         GotFocus="TextBox_GotFocus"
 						Click="AppPathSelect_Click" >
 						<Image Source="/AppManager;component/Resources/view_remove_1232_16.png" Stretch="None"></Image>
@@ -263,6 +265,7 @@
 						Grid.Row="2"
 						Grid.Column="2"
 						Width="28"
+						ToolTip="{x:Static am:Strings.CHANGE_ICON}"
                         GotFocus="TextBox_GotFocus"
                         Click="AppItemIconPathSelect_Click"
                         >

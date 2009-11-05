@@ -138,6 +138,9 @@
   <data name="APPS_IN_TYPE" xml:space="preserve">
     <value>Ссылок в группе:</value>
   </data>
+  <data name="APP_FILTER" xml:space="preserve">
+    <value>Все файлы (*.*)|*.*</value>
+  </data>
   <data name="APP_MANAGER" xml:space="preserve">
     <value>Менеджер ссылок</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="AUTO_START" xml:space="preserve">
     <value>Автостарт</value>
+  </data>
+  <data name="CHANGE_ICON" xml:space="preserve">
+    <value>Сменить значок</value>
   </data>
   <data name="CHECK_FOR_UPDATE" xml:space="preserve">
     <value>Проверить обновления</value>
@@ -185,6 +191,9 @@
   </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.ru-ru.rtf</value>
+  </data>
+  <data name="ICON_FILTER" xml:space="preserve">
+    <value>Файлы с иконками (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx</value>
   </data>
   <data name="LOOK_FOR_NEW_VER" xml:space="preserve">
     <value>Проверяется наличие новой версии...</value>
@@ -280,6 +289,9 @@
   <data name="QUICK_START" xml:space="preserve">
     <value>Меню Быстрый запуск</value>
   </data>
+  <data name="REMOVE_LINK" xml:space="preserve">
+    <value>Удалить ссылку</value>
+  </data>
   <data name="SCAN" xml:space="preserve">
     <value>Искать</value>
   </data>
@@ -294,6 +306,9 @@
   </data>
   <data name="SELECT" xml:space="preserve">
     <value>Выбрать</value>
+  </data>
+  <data name="SELECT_APP" xml:space="preserve">
+    <value>Выберите объект</value>
   </data>
   <data name="SELECT_APP_GROUP" xml:space="preserve">
     <value>Выберите группу к которой будут добавлены приложения</value>

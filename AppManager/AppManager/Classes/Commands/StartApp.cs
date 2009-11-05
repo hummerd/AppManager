@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using AppManager.Properties;
 using AppManager.Windows;
@@ -18,13 +19,12 @@ namespace AppManager.Commands
 	{
 		protected delegate void ActivateTask();
 
-
-		//protected Mutex				_Mutex;
-		protected bool					_FirstStart = false;
+		//protected Mutex			_Mutex;
+		protected bool				_FirstStart = false;
 		protected SingleInstance2	_Single;
-		protected bool					_SilentUpdate = true;
+		protected bool				_SilentUpdate = true;
 		protected DateTime			_LostTime = DateTime.Now;
-		protected Window				_WndActivation = null;
+		protected Window			_WndActivation = null;
 		protected DispatcherTimer	_ActivationWndPinger;
 
 
@@ -286,7 +286,10 @@ namespace AppManager.Commands
 
 		protected void OnSettingsChanged(string settName)
 		{
-			if (settName == "EnableActivationPanel" || settName == "UseShortActivationPanel")
+			if (settName == "EnableActivationPanel" || 
+				settName == "UseShortActivationPanel" ||
+				settName == "ActivationPanelColor"
+				)
 				CreateActivationPanel();
 		}
 
@@ -323,7 +326,7 @@ namespace AppManager.Commands
 				//_WndActivation.AllowsTransparency = true;
 				//wndActivate.Background = System.Windows.Media.Brushes.Transparent;
 				//_WndActivation.Opacity = 0.05;
-				_WndActivation.Background = System.Windows.Media.Brushes.CadetBlue;
+				//_WndActivation.Background = System.Windows.Media.Brushes.CadetBlue;
 				_WndActivation.WindowStyle = WindowStyle.None;
 				_WndActivation.ResizeMode = ResizeMode.NoResize;
 				_WndActivation.Topmost = true;
@@ -341,6 +344,7 @@ namespace AppManager.Commands
 				_WndActivation.Closed += (s, e) => _WndActivation = null;
 			}
 
+			_WndActivation.Background = new SolidColorBrush(_WorkItem.Settings.ActivationPanelColor);
 			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
 				16 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
 			_WndActivation.Show();

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
+using System.Windows.Media;
 using CommonLib.Application;
+using WinForms = System.Windows.Forms;
 
 
 namespace AppManager.Classes
@@ -17,6 +18,22 @@ namespace AppManager.Classes
 		{
 		}
 
+
+		public bool SelectColor(out Color color)
+		{
+			color = Colors.AliceBlue;
+
+			using (WinForms.ColorDialog cd = new WinForms.ColorDialog())
+			{
+				if (cd.ShowDialog() == WinForms.DialogResult.OK)
+				{
+					color = Color.FromArgb(cd.Color.A, cd.Color.R, cd.Color.G, cd.Color.B);
+					return true;
+				}
+			}
+
+			return false;
+		}
 
 		public void ShowAppDataPath()
 		{
