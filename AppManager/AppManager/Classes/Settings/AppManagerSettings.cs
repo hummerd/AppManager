@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
-using System;
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Media;
 
 
 namespace AppManager.Settings
@@ -7,6 +8,7 @@ namespace AppManager.Settings
 	[Serializable]
 	public class AppManagerSettings : INotifyPropertyChanged
 	{
+		protected Color _ActivationPanelColor;
 		protected bool _AlwaysOnTop;
 		protected bool _StartMinimized;
 		protected bool _EnableActivationPanel;
@@ -23,6 +25,19 @@ namespace AppManager.Settings
 			_CheckNewVersionAtStartUp = true;
 		}
 
+
+		public Color ActivationPanelColor
+		{
+			get
+			{
+				return _ActivationPanelColor;
+			}
+			set
+			{
+				_ActivationPanelColor = value;
+				OnPropertyChanged("ActivationPanelColor");
+			}
+		}
 
 		public double[] MianFormRowHeights
 		{ get; set; }

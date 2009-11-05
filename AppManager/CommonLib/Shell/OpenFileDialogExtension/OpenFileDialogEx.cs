@@ -21,6 +21,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 		protected string _Filter = String.Empty;
 		protected string _DefaultExt = String.Empty;
 		protected string _FileName = String.Empty;
+		protected string _Title = String.Empty;
 		protected Control _ControlHost;
 		protected OpenFileDialogParentHook _HostForm;
 
@@ -58,6 +59,18 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			set
 			{
 				_FileName = value;
+			}
+		}
+
+		public string Title
+		{
+			get
+			{
+				return _Title;
+			}
+			set
+			{
+				_Title = value;
 			}
 		}
 
@@ -124,7 +137,7 @@ namespace CommonLib.Shell.OpenFileDialogExtension
 			ofn.nMaxFile = ofn.lpstrFile.Length;
 			ofn.lpstrFileTitle = System.IO.Path.GetFileName(_FileName) + new string(' ', 512);
 			ofn.nMaxFileTitle = ofn.lpstrFileTitle.Length;
-			ofn.lpstrTitle = "Save file as";
+			ofn.lpstrTitle = _Title;
 			ofn.lpstrDefExt = _DefaultExt;
 			ofn.hwndOwner = hwndOwner;
 			ofn.Flags =

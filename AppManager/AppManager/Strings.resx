@@ -138,6 +138,9 @@
   <data name="APPS_IN_TYPE" xml:space="preserve">
     <value>Applications in group:</value>
   </data>
+  <data name="APP_FILTER" xml:space="preserve">
+    <value>All files (*.*)|*.*</value>
+  </data>
   <data name="APP_MANAGER" xml:space="preserve">
     <value>Link manager</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="AUTO_START" xml:space="preserve">
     <value>Autostart</value>
+  </data>
+  <data name="CHANGE_ICON" xml:space="preserve">
+    <value>Change icon</value>
   </data>
   <data name="CHECK_FOR_UPDATE" xml:space="preserve">
     <value>Check for updates</value>
@@ -181,10 +187,13 @@
     <value>AppManager error</value>
   </data>
   <data name="ERROR_OCCUR" xml:space="preserve">
-    <value>Sorry there is an unknown error in application</value>
+    <value>Sorry, there is an unknown error in application</value>
   </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.en-en.rtf</value>
+  </data>
+  <data name="ICON_FILTER" xml:space="preserve">
+    <value>Icon files (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx</value>
   </data>
   <data name="LOOK_FOR_NEW_VER" xml:space="preserve">
     <value>Looking for new version...</value>
@@ -280,6 +289,9 @@ group?</value>
   <data name="QUICK_START" xml:space="preserve">
     <value>Quick Start menu</value>
   </data>
+  <data name="REMOVE_LINK" xml:space="preserve">
+    <value>Remove link</value>
+  </data>
   <data name="SCAN" xml:space="preserve">
     <value>Scan</value>
   </data>
@@ -294,6 +306,9 @@ group?</value>
   </data>
   <data name="SELECT" xml:space="preserve">
     <value>Select</value>
+  </data>
+  <data name="SELECT_APP" xml:space="preserve">
+    <value>Select target</value>
   </data>
   <data name="SELECT_APP_GROUP" xml:space="preserve">
     <value>Select group to add applications to</value>

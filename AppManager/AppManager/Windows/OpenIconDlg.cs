@@ -21,7 +21,8 @@ namespace AppManager.Windows
 		public DialogResult ShowOpenFileDialog(IWin32Window owner)
 		{
 			_OpenFile = new OpenFileDialogEx();
-			_OpenFile.Filter = "Icon files (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx";
+			_OpenFile.Filter = Strings.ICON_FILTER;
+			_OpenFile.Title = Strings.CHANGE_ICON;
 			_OpenFile.SelectionChanged += (s, e) => OnFileNameChanged(_OpenFile.FileName);
 			return _OpenFile.ShowDialog(this, owner);
 		}

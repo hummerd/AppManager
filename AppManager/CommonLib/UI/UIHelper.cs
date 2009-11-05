@@ -6,6 +6,25 @@ namespace CommonLib
 {
 	public class UIHelper
 	{
+		public static Color FromARGB(int argb)
+		{
+			return Color.FromArgb(
+				(byte)((argb >> 24) & 0xFF),
+				(byte)((argb >> 16) & 0xFF),
+				(byte)((argb >> 8 ) & 0xFF),
+				(byte)((argb) & 0xFF)
+				);
+		}
+
+		public static int ToARGB(Color color)
+		{
+			return
+				(int)(color.A) << 24 |
+				(int)(color.R) << 16 |
+				(int)(color.G) << 8 |
+				(int)(color.B) ;
+		}
+
 		public static T FindLogicalAncestorOrSelf<T>(DependencyObject obj, string name)
 			where T : FrameworkElement
 		{

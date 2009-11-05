@@ -97,6 +97,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All files (*.*)|*.*.
+        /// </summary>
+        public static string APP_FILTER {
+            get {
+                return ResourceManager.GetString("APP_FILTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Link manager.
         /// </summary>
         public static string APP_MANAGER {
@@ -178,6 +187,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change icon.
+        /// </summary>
+        public static string CHANGE_ICON {
+            get {
+                return ResourceManager.GetString("CHANGE_ICON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for updates.
         /// </summary>
         public static string CHECK_FOR_UPDATE {
@@ -250,7 +268,7 @@ namespace AppManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry there is an unknown error in application.
+        ///   Looks up a localized string similar to Sorry, there is an unknown error in application.
         /// </summary>
         public static string ERROR_OCCUR {
             get {
@@ -264,6 +282,15 @@ namespace AppManager {
         public static string HELP_FILE {
             get {
                 return ResourceManager.GetString("HELP_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon files (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx.
+        /// </summary>
+        public static string ICON_FILTER {
+            get {
+                return ResourceManager.GetString("ICON_FILTER", resourceCulture);
             }
         }
         
@@ -542,6 +569,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove link.
+        /// </summary>
+        public static string REMOVE_LINK {
+            get {
+                return ResourceManager.GetString("REMOVE_LINK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scan.
         /// </summary>
         public static string SCAN {
@@ -583,6 +619,15 @@ namespace AppManager {
         public static string SELECT {
             get {
                 return ResourceManager.GetString("SELECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select target.
+        /// </summary>
+        public static string SELECT_APP {
+            get {
+                return ResourceManager.GetString("SELECT_APP", resourceCulture);
             }
         }
         

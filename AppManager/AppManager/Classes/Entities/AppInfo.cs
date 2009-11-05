@@ -178,11 +178,11 @@ namespace AppManager
 			}
 			set
 			{
-				string newVal = value;
-				if (String.Equals(value, AppPath, StringComparison.CurrentCultureIgnoreCase) ||
-					String.Equals(value, AppPath + ",0", StringComparison.CurrentCultureIgnoreCase)
+				string newVal = Environment.ExpandEnvironmentVariables(value ?? String.Empty);
+				if (String.Equals(newVal, AppPath, StringComparison.CurrentCultureIgnoreCase) ||
+					String.Equals(newVal, AppPath + ",0", StringComparison.CurrentCultureIgnoreCase)
 					)
-					_ImagePath = String.Empty;
+					newVal = String.Empty;
 
 				if (!String.IsNullOrEmpty(newVal) || !String.IsNullOrEmpty(_ImagePath))
 				{
