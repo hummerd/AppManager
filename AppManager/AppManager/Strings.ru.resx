@@ -313,6 +313,9 @@
   <data name="SELECT_APP_GROUP" xml:space="preserve">
     <value>Выберите группу к которой будут добавлены приложения</value>
   </data>
+  <data name="SEL_ACT_PANEL_COLOR" xml:space="preserve">
+    <value>Задать цвет панели активации</value>
+  </data>
   <data name="SETTINGS" xml:space="preserve">
     <value>Настройки</value>
   </data>
@@ -321,6 +324,9 @@
   </data>
   <data name="START_MINIMIZED" xml:space="preserve">
     <value>Запускаться свенрнутым</value>
+  </data>
+  <data name="TRANS_ACT_PANEL" xml:space="preserve">
+    <value>Прозрачная панель активации (не рекомендуется для windows xp)</value>
   </data>
   <data name="UPDATE_CHECK_FAILED" xml:space="preserve">
     <value>Не удалось проверить наличие новой версии. Попробуйте проверить позже.</value>

@@ -8,6 +8,7 @@ namespace AppManager.Settings
 	[Serializable]
 	public class AppManagerSettings : INotifyPropertyChanged
 	{
+		protected bool _TransparentActivationPanel;
 		protected Color _ActivationPanelColor;
 		protected bool _AlwaysOnTop;
 		protected bool _StartMinimized;
@@ -23,8 +24,30 @@ namespace AppManager.Settings
 			_EnableActivationPanel = true;
 			_UseShortActivationPanel = true;
 			_CheckNewVersionAtStartUp = true;
+			_ActivationPanelColor = Colors.Aqua;
+			// if version greater then xp
+			_TransparentActivationPanel = Environment.OSVersion.Version.Major > 5;
+
+			NotifyPropertyChanged = true;
 		}
 
+
+		public bool NotifyPropertyChanged
+		{ get; set; }
+
+
+		public bool TransparentActivationPanel
+		{
+			get
+			{
+				return _TransparentActivationPanel;
+			}
+			set
+			{
+				_TransparentActivationPanel = value;
+				OnPropertyChanged("TransparentActivationPanel");
+			}
+		}
 
 		public Color ActivationPanelColor
 		{
@@ -111,13 +134,19 @@ namespace AppManager.Settings
 		}
 
 
+		public void NotifyAllPropertyChanged()
+		{
+			OnPropertyChanged("All");
+		}
+
+
 		#region INotifyPropertyChanged Members
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		protected virtual void OnPropertyChanged(string propertyName)
 		{
-			if (PropertyChanged != null)
+			if (NotifyPropertyChanged && PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
 

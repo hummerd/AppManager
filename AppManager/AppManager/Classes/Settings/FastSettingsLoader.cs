@@ -100,6 +100,10 @@ namespace AppManager.Settings
 					writer.WriteValue(UIHelper.ToARGB(settings.ActivationPanelColor));
 					writer.WriteEndElement();
 
+					writer.WriteStartElement("TransparentActivationPanel");
+					writer.WriteValue(settings.TransparentActivationPanel);
+					writer.WriteEndElement();
+
 				writer.WriteEndElement();
 			}
 		}
@@ -257,6 +261,13 @@ namespace AppManager.Settings
 				{
 					reader.ReadStartElement("ActivationPanelColor");
 					result.ActivationPanelColor = UIHelper.FromARGB(reader.ReadContentAsInt());
+					reader.ReadEndElement();
+				}
+
+				if (reader.NodeType == XmlNodeType.Element)
+				{
+					reader.ReadStartElement("TransparentActivationPanel");
+					result.TransparentActivationPanel = reader.ReadContentAsBoolean();
 					reader.ReadEndElement();
 				}
 
