@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using AppManager.Windows;
 using CommonLib.Windows;
-using System.Windows.Data;
 
 
 namespace AppManager
@@ -62,6 +61,13 @@ namespace AppManager
 		}
 
 
+		protected void SelectAppListItem(DependencyObject element)
+		{
+			DependencyObject dobj = AppList.ContainerFromElement(element);
+			AppList.SelectedIndex = AppList.ItemContainerGenerator.IndexFromContainer(dobj);
+		}
+
+
 		//App type tab events===================================================
 		private void BtnAddAppType_Click(object sender, RoutedEventArgs e)
 		{
@@ -94,6 +100,7 @@ namespace AppManager
 				 AppTypes.SelectedItem as AppType,
 				 false);
 		}
+
 
 		//App management tab events===================================================
 		private void BtnAddApp_Click(object sender, RoutedEventArgs e)
@@ -143,18 +150,9 @@ namespace AppManager
 				 true);
 		}
 
-		private void AppPathSelect_Click(object sender, RoutedEventArgs e)
-		{
-			Button btn = sender as Button;
-			_Controller.SelectAppPath(btn.DataContext as AppInfo);
-		}
-
 		private void TextBox_GotFocus(object sender, RoutedEventArgs e)
 		{
-			var child = sender as DependencyObject;
-
-			DependencyObject dobj = AppList.ContainerFromElement(child);
-			AppList.SelectedIndex = AppList.ItemContainerGenerator.IndexFromContainer(dobj);
+			SelectAppListItem(sender as DependencyObject);
 		}
 
 		private void BtnFolder_Click(object sender, RoutedEventArgs e)
@@ -162,18 +160,28 @@ namespace AppManager
 			TxtFolder.Text = _Controller.SelectPath();
 		}
 
-		private void AppItemRemove_Click(object sender, RoutedEventArgs e)
+		private void AppItemRemove_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			Button btn = sender as Button;
 			AppType appType = AppTypeSelector.SelectedItem as AppType;
 			_Controller.DeleteAppInfo(appType, btn.DataContext as AppInfo, true);
+
 		}
 
-		private void AppItemIconPathSelect_Click(object sender, RoutedEventArgs e)
+		private void AppItemIconPathSelect_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			Button btn = sender as Button;
+			SelectAppListItem(btn);
 			_Controller.SetAppInfoImage(btn.DataContext as AppInfo);
 		}
+
+		private void AppItemPathSelect_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			Button btn = sender as Button;
+			SelectAppListItem(btn);
+			_Controller.SelectAppPath(btn.DataContext as AppInfo);
+		}
+
 
 		//Search apps tab events===================================================
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
@@ -240,6 +248,7 @@ namespace AppManager
 				 _Controller.FindAppsInAllProgs(), _SearchAppCheck);
 		}
 
+
 		//Other events===================================================
 		private void AppsManagerWindow_Activated(object sender, EventArgs e)
 		{
@@ -263,6 +272,7 @@ namespace AppManager
 		{
 			var wnd = CommonLib.UIHelper.FindAncestorOrSelf<Window>(sender as DependencyObject, null);
 		}
+
 
 		//private void AppScanList_KeyDown(object sender, KeyEventArgs e)
 		//{

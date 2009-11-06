@@ -5,12 +5,12 @@
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:cw="clr-namespace:CommonLib.Windows;assembly=CommonLib"
 	Title="{x:Static am:Strings.SETTINGS}"
-	Height="332"
+	Height="350"
 	Width="310"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	MinWidth="310"
-	MinHeight="332"
+	MinHeight="350"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	Closing="DialogWindow_Closing" SizeToContent="Width">
 	<StackPanel>
@@ -19,26 +19,25 @@
 			Name="ChkAutoStart"
 			Margin="12,12,0,0"
 			VerticalAlignment="Top"
-			HorizontalAlignment="Left"
-			/>
+			HorizontalAlignment="Left" TabIndex="1" />
 		<CheckBox
 			Content="{x:Static am:Strings.START_MINIMIZED}"
 			Name="ChkStartMinimized"
 			Margin="12,8,0,0"
 			VerticalAlignment="Top"
-			HorizontalAlignment="Left" />
+			HorizontalAlignment="Left" TabIndex="2" />
         <CheckBox
 			Content="{x:Static am:Strings.CHECK_VERSION_AT_START}"
 			Name="ChkCeckNewVersionAtStartup"
 			Margin="12,8,0,0"
 			VerticalAlignment="Top"
-			HorizontalAlignment="Left" />
+			HorizontalAlignment="Left" TabIndex="3" />
         <CheckBox
 			Content="{x:Static am:Strings.ALWAYS_ON_TOP}"
 			Name="ChkAlwaysOnTop"
 			Margin="12,8,0,0"
 			VerticalAlignment="Top"
-			HorizontalAlignment="Left" />
+			HorizontalAlignment="Left" TabIndex="4" />
 		<CheckBox
 			Content="{x:Static am:Strings.ENABLE_ACT_PANEL}"
 			Name="ChkEnableAcivationPanel"
@@ -46,18 +45,27 @@
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" 
 			Checked="ChkEnableAcivationPanel_Checked" 
-			Unchecked="ChkEnableAcivationPanel_Unchecked" />
+			Unchecked="ChkEnableAcivationPanel_Unchecked" TabIndex="5" />
 		<CheckBox
 			Content="{x:Static am:Strings.USE_SHORT_ACT_PANEL}"
 			Name="ChkUseShortActivationPanel"
 			Margin="24,8,12,0"
 			VerticalAlignment="Top"
-			HorizontalAlignment="Left" />
-		<StackPanel Orientation="Horizontal">
+			HorizontalAlignment="Left" TabIndex="6" />
+        <CheckBox
+			Content="{x:Static am:Strings.TRANS_ACT_PANEL}"
+			Name="ChkUseTransparentActivationPanel"
+			Margin="24,8,12,0"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left" 
+            TabIndex="7" 
+            Checked="ChkEnableAcivationPanel_Checked" 
+            Unchecked="ChkEnableAcivationPanel_Unchecked" />
+        <StackPanel Orientation="Horizontal" Margin="42,0,0,0">
 			<Rectangle 
 				Name="ActivationPanelColor" 
 				HorizontalAlignment="Left" 
-				Margin="21,4,0,0" 
+				Margin="0,4,0,0" 
 				Height="16" Width="16" 
 				MouseUp="ActivationPanelColor_MouseUp" 
 				StrokeThickness="2" 
@@ -67,10 +75,11 @@
 				Padding="3,4"
 				Margin="0,4,12,0" 
 				HorizontalAlignment="Left"
-				Content="Select activation panel color">
+				Content="{x:Static am:Strings.SEL_ACT_PANEL_COLOR}"
+                TabIndex="8" 
+                MouseUp="ActivationPanelColor_MouseUp">
 			</Label>
 		</StackPanel>
-
 		<Border 
 			BorderBrush="#FF325BCE" 
 			Margin="8,8,8,0"
@@ -84,7 +93,7 @@
 			Width="Auto"
 			Margin="12,12,0,0"
 			Name="BtnOpenAppDataPath"
-			Click="BtnOpenAppDataPath_Click" />
+			Click="BtnOpenAppDataPath_Click" TabIndex="9" />
 		<Button
 			Content="{x:Static am:Strings.EDIT_APP_DATA}"
 			Margin="12,8,0,0"
@@ -93,6 +102,6 @@
 			HorizontalAlignment="Left"
 			Width="{Binding Path=ActualWidth, ElementName=BtnOpenAppDataPath, Mode=Default}"
 			Height="28"
-			VerticalAlignment="Top" />
+			VerticalAlignment="Top" TabIndex="10" IsTabStop="True" />
 	</StackPanel>
 </cw:DialogWindow>

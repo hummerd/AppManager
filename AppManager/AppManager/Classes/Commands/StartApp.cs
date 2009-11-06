@@ -203,7 +203,7 @@ namespace AppManager.Commands
 
 			_WorkItem.Settings.PropertyChanged += delegate(object s, PropertyChangedEventArgs e)
 			{
-				if (e.PropertyName == "AlwaysOnTop")
+				if (e.PropertyName == "AlwaysOnTop" || e.PropertyName == "All")
 					tsmi.Checked = _WorkItem.Settings.AlwaysOnTop;
 			};
 
@@ -288,7 +288,9 @@ namespace AppManager.Commands
 		{
 			if (settName == "EnableActivationPanel" || 
 				settName == "UseShortActivationPanel" ||
-				settName == "ActivationPanelColor"
+				settName == "ActivationPanelColor" ||
+				settName == "TransparentActivationPanel" ||
+				settName == "All"
 				)
 				CreateActivationPanel();
 		}
@@ -319,8 +321,11 @@ namespace AppManager.Commands
 				return;
 			}
 
-			if (_WndActivation == null)
-			{
+			if (_WndActivation != null)
+				_WndActivation.Close();
+
+			//if (_WndActivation == null)
+			//{
 				_WndActivation = new Window();
 
 				//_WndActivation.AllowsTransparency = true;
@@ -342,9 +347,19 @@ namespace AppManager.Commands
 							_WorkItem.TrayIcon.ContextMenuStrip.Show(0, 0);
 					};
 				_WndActivation.Closed += (s, e) => _WndActivation = null;
+			//}
+
+			if (_WorkItem.Settings.TransparentActivationPanel)
+			{
+				_WndActivation.AllowsTransparency = true;
+				_WndActivation.Opacity = 0.05;
+			}
+			else
+			{
+				_WndActivation.AllowsTransparency = false;
+				_WndActivation.Background = new SolidColorBrush(_WorkItem.Settings.ActivationPanelColor);
 			}
 
-			_WndActivation.Background = new SolidColorBrush(_WorkItem.Settings.ActivationPanelColor);
 			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
 				16 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
 			_WndActivation.Show();

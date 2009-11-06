@@ -26,13 +26,24 @@ namespace AppManager.Windows
 			ChkAlwaysOnTop.IsChecked = workItem.Settings.AlwaysOnTop;
 			ChkStartMinimized.IsChecked = workItem.Settings.StartMinimized;
 			ChkEnableAcivationPanel.IsChecked = workItem.Settings.EnableActivationPanel;
-			ChkUseShortActivationPanel.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
-			ActivationPanelColor.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
-			ActivationPanelColorLabel.IsEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
+			ChkUseTransparentActivationPanel.IsChecked = workItem.Settings.TransparentActivationPanel;
 			ChkUseShortActivationPanel.IsChecked = workItem.Settings.UseShortActivationPanel;
 			ChkCeckNewVersionAtStartup.IsChecked = workItem.Settings.CheckNewVersionAtStartUp;
 			_ActivationPanelColor = workItem.Settings.ActivationPanelColor;
 			ActivationPanelColor.Fill = new SolidColorBrush(workItem.Settings.ActivationPanelColor);
+		}
+
+
+		protected void SetEnabledState()
+		{
+			bool actPanelEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
+			bool actPanelTrans = ChkUseTransparentActivationPanel.IsChecked ?? false;
+
+			ChkUseShortActivationPanel.IsEnabled = actPanelEnabled;
+			ChkUseTransparentActivationPanel.IsEnabled = actPanelEnabled;
+
+			ActivationPanelColor.IsEnabled =
+			ActivationPanelColorLabel.IsEnabled = !actPanelTrans && actPanelEnabled;
 		}
 
 
@@ -51,27 +62,36 @@ namespace AppManager.Windows
 			if (DialogResult ?? false)
 			{
 				_Controller.SetStartUp(ChkAutoStart.IsChecked ?? false);
-				_Controller.WorkItem.Settings.AlwaysOnTop = ChkAlwaysOnTop.IsChecked ?? false;
-				_Controller.WorkItem.Settings.StartMinimized = ChkStartMinimized.IsChecked ?? false;
-				_Controller.WorkItem.Settings.EnableActivationPanel = ChkEnableAcivationPanel.IsChecked ?? false;
-				_Controller.WorkItem.Settings.UseShortActivationPanel = ChkUseShortActivationPanel.IsChecked ?? false;
-				_Controller.WorkItem.Settings.CheckNewVersionAtStartUp = ChkCeckNewVersionAtStartup.IsChecked ?? false;
-				_Controller.WorkItem.Settings.ActivationPanelColor = _ActivationPanelColor;
+				var sett = _Controller.WorkItem.Settings;
+
+				sett.NotifyPropertyChanged = false;
+				sett.AlwaysOnTop = ChkAlwaysOnTop.IsChecked ?? false;
+				sett.StartMinimized = ChkStartMinimized.IsChecked ?? false;
+				sett.EnableActivationPanel = ChkEnableAcivationPanel.IsChecked ?? false;
+				sett.UseShortActivationPanel = ChkUseShortActivationPanel.IsChecked ?? false;
+				sett.CheckNewVersionAtStartUp = ChkCeckNewVersionAtStartup.IsChecked ?? false;
+				sett.TransparentActivationPanel = ChkUseTransparentActivationPanel.IsChecked ?? false;
+				sett.ActivationPanelColor = _ActivationPanelColor;
+				sett.NotifyPropertyChanged = true;
+
+				sett.NotifyAllPropertyChanged();
 			}
 		}
 
 		private void ChkEnableAcivationPanel_Checked(object sender, RoutedEventArgs e)
 		{
-			ChkUseShortActivationPanel.IsEnabled = true;
-			ActivationPanelColor.IsEnabled = true;
-			ActivationPanelColorLabel.IsEnabled = true;
+			SetEnabledState();
+			//ChkUseShortActivationPanel.IsEnabled = true;
+			//ActivationPanelColor.IsEnabled = true;
+			//ActivationPanelColorLabel.IsEnabled = true;
 		}
 
 		private void ChkEnableAcivationPanel_Unchecked(object sender, RoutedEventArgs e)
 		{
-			ChkUseShortActivationPanel.IsEnabled = false;
-			ActivationPanelColor.IsEnabled = false;
-			ActivationPanelColorLabel.IsEnabled = false;
+			SetEnabledState();
+			//ChkUseShortActivationPanel.IsEnabled = false;
+			//ActivationPanelColor.IsEnabled = false;
+			//ActivationPanelColorLabel.IsEnabled = false;
 		}
 
 		private void ActivationPanelColor_MouseUp(object sender, MouseButtonEventArgs e)

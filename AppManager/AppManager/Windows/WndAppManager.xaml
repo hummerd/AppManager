@@ -182,7 +182,7 @@
 				Name="Back"
 				BorderThickness="0,0,0,1"
 				BorderBrush="#FFADADAD"
-				Padding="0,0,0,2">
+				Padding="0,0,0,4">
 				<Grid
 					Name="GridT">
 					<Grid.RowDefinitions>
@@ -223,9 +223,9 @@
 						Grid.Column="2"
 						Width="28"
 						ToolTip="{x:Static am:Strings.REMOVE_LINK}"
+                        PreviewMouseUp="AppItemRemove_MouseUp"
                         GotFocus="TextBox_GotFocus"
-                        Click="AppItemRemove_Click"
-						 >
+						>
                         <Image Stretch="None" Source="/AppManager;component/Resources/edit_remove_14_12.png"></Image>
                     </Button>
                     <!--<TextBlock TextTrimming="WordEllipsis" Grid.Column="1" x:Name="AppItemPath" Grid.Row="1" Text="{Binding Path=AppPath, Mode=TwoWay}" Margin="4,4,0,0" HorizontalAlignment="Left"/>-->
@@ -245,8 +245,9 @@
 						Grid.Column="2"
 						Width="28"
 						ToolTip="{x:Static am:Strings.SELECT_APP}"
+                        PreviewMouseUp="AppItemPathSelect_PreviewMouseUp"
                         GotFocus="TextBox_GotFocus"
-						Click="AppPathSelect_Click" >
+						>
 						<Image Source="/AppManager;component/Resources/view_remove_1232_16.png" Stretch="None"></Image>
 					</Button>
 					<TextBox
@@ -266,8 +267,8 @@
 						Grid.Column="2"
 						Width="28"
 						ToolTip="{x:Static am:Strings.CHANGE_ICON}"
+                        PreviewMouseUp="AppItemIconPathSelect_PreviewMouseUp"
                         GotFocus="TextBox_GotFocus"
-                        Click="AppItemIconPathSelect_Click"
                         >
 						<Image Source="/AppManager;component/Resources/kcoloredit_1364_16.png" Stretch="None"></Image>
 					</Button>
