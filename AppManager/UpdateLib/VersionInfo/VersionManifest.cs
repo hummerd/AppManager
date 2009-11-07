@@ -90,7 +90,9 @@ namespace UpdateLib.VersionInfo
 
 			return new Uri(PathHelper.ConcatUri(
 				uri, 
-				String.Format(VersionFileName, CultureInfo.CurrentCulture.Parent.Name)
+				String.Format(
+					VersionFileName, 
+					CultureInfo.CurrentUICulture.Parent.Name)
 				));
 		}
 	}
