@@ -39,6 +39,25 @@ namespace CommonLib.IO
 
 			return true;
 		}
+
+		public static bool CompareIconPath(string path1, string path2)
+		{
+			if (String.IsNullOrEmpty(path1) &&
+				String.IsNullOrEmpty(path2) )
+				return path1 == path2;
+
+			if (String.IsNullOrEmpty(path1) ||
+				String.IsNullOrEmpty(path2))
+				return false;
+
+			path1 = path1.Trim('"');
+			path2 = path2.Trim('"');
+
+			return
+				String.Equals(path1, path2, StringComparison.CurrentCultureIgnoreCase) ||
+				String.Equals(path1, path2 + ",0", StringComparison.CurrentCultureIgnoreCase) ||
+				String.Equals(path1 + ",0", path2, StringComparison.CurrentCultureIgnoreCase);
+		}
 	}
 
 

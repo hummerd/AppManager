@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using AppManager.EntityCollection;
 using CommonLib;
+using CommonLib.IO;
 
 
 namespace AppManager
@@ -183,8 +184,11 @@ namespace AppManager
 				ID = _LastAppInfoID++
 			};
 
+			if (LnkHelper.CompareIconPath(execPath, imagePath))
+				imagePath = String.Empty;
+
 			newInfo.NeedImage += (s, e) => OnNeedAppImage(s as AppInfo);
-			newInfo.LoadImagePath = imagePath;
+			newInfo.ImagePath = imagePath;
 			newInfo.ExecPath = execPath;
 			newInfo.SetAutoAppName();
 
