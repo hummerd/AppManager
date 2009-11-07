@@ -258,13 +258,20 @@ namespace UpdateLib
 			return true;
 		}
 
-
+		/// <summary>
+		/// Downloads VersionData from specified Uri's and returns version data with maximum version number
+		/// </summary>
+		/// <param name="sources"></param>
+		/// <param name="activeSource"></param>
+		/// <param name="vnp"></param>
+		/// <remarks>If download for all sources fails throws UpdateException</remarks>
+		/// <returns>Returns version data with maximum version number</returns>
 		protected VersionData GetVersionData(
 			IEnumerable<Uri> sources, 
 			out Uri activeSource, 
 			out IVersionNumberProvider vnp)
 		{
-			VersionData result = null;
+			List<VersionData> result = new List<VersionData>();
 			string msg = null;
 			bool error = true;
 			activeSource = null;
@@ -276,11 +283,12 @@ namespace UpdateLib
 				{
 					activeSource = item;
 					vnp = VNPFactory.GetVNP(item.Scheme);
-					result = vnp.GetLatestVersionInfo(item);
+					var vi = vnp.GetLatestVersionInfo(item);
 					if (result != null)
 					{
+						result.Add(vi);
 						error = false;
-						break;
+						//break;
 					}
 				}
 				catch(Exception exc)
@@ -297,7 +305,19 @@ namespace UpdateLib
 			if (error)
 				throw new UpdateException(msg);
 
-			return result;
+			if (result.Count <= 0)
+				return null;
+			else if (result.Count == 1)
+				return result[0];
+			else
+			{
+				var vi = result[0];
+				for (int i = 1; i < result.Count; i++)
+					if (result[i].VersionNumber > vi.VersionNumber)
+						vi = result[i];
+
+				return vi;
+			}
 		}
 
 		protected void UpdateAppThread(object prm)
