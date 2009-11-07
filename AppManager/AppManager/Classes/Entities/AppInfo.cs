@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using AppManager.EntityCollection;
 using CommonLib;
+using CommonLib.IO;
 
 
 namespace AppManager
@@ -179,9 +180,7 @@ namespace AppManager
 			set
 			{
 				string newVal = Environment.ExpandEnvironmentVariables(value ?? String.Empty);
-				if (String.Equals(newVal, AppPath, StringComparison.CurrentCultureIgnoreCase) ||
-					String.Equals(newVal, AppPath + ",0", StringComparison.CurrentCultureIgnoreCase)
-					)
+				if (LnkHelper.CompareIconPath(newVal, AppPath))
 					newVal = String.Empty;
 
 				if (!String.IsNullOrEmpty(newVal) || !String.IsNullOrEmpty(_ImagePath))
