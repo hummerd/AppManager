@@ -67,6 +67,22 @@ namespace AppManager
 			AppList.SelectedIndex = AppList.ItemContainerGenerator.IndexFromContainer(dobj);
 		}
 
+		protected void RemoveSelectedApps()
+		{
+			AppType appType = AppTypeSelector.SelectedItem as AppType;
+			for (int i = AppList.SelectedItems.Count - 1; i >= 0; i--)
+				_Controller.DeleteAppInfo(appType, AppList.SelectedItems[i] as AppInfo, true);			
+		}
+
+		protected void RemoveSelectedAppType()
+		{
+			if (AppTypes.SelectedItem != null)
+				_Controller.DeleteAppType(
+					_AppGroup,
+					AppTypes.SelectedItem as AppType,
+					true);
+		}
+
 
 		//App type tab events===================================================
 		private void BtnAddAppType_Click(object sender, RoutedEventArgs e)
@@ -78,11 +94,7 @@ namespace AppManager
 
 		private void BtnRemoveAppType_Click(object sender, RoutedEventArgs e)
 		{
-			if (AppTypes.SelectedItem != null)
-				_Controller.DeleteAppType(
-					_AppGroup, 
-					AppTypes.SelectedItem as AppType, 
-					true);
+			RemoveSelectedAppType();
 		}
 
 		private void BtnAppTypeUp_Click(object sender, RoutedEventArgs e)
@@ -99,6 +111,11 @@ namespace AppManager
 				_AppGroup,
 				 AppTypes.SelectedItem as AppType,
 				 false);
+		}
+
+		private void AppTypes_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			RemoveSelectedAppType();
 		}
 
 
@@ -129,9 +146,7 @@ namespace AppManager
 
 		private void BtnRemoveApp_Click(object sender, RoutedEventArgs e)
 		{
-			AppType appType = AppTypeSelector.SelectedItem as AppType;
-			for (int i = AppList.SelectedItems.Count - 1; i >= 0; i--)
-				_Controller.DeleteAppInfo(appType, AppList.SelectedItems[i] as AppInfo, true);
+			RemoveSelectedApps();
 		}
 
 		private void BtnAppDown_Click(object sender, RoutedEventArgs e)
@@ -180,6 +195,14 @@ namespace AppManager
 			Button btn = sender as Button;
 			SelectAppListItem(btn);
 			_Controller.SelectAppPath(btn.DataContext as AppInfo);
+		}
+
+		private void AppList_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.Delete)
+			{
+				RemoveSelectedApps();
+			}
 		}
 
 
