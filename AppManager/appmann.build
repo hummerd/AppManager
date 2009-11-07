@@ -3,10 +3,9 @@
 	<description>Create new version of AppManager</description>
 	
 	<property name="projpath" value="c:\tmp\amb" />
-	<property name="verpath" value="c:\Inetpub\wwwroot\AppManagerUpdate" />
 	<property name="tfpath" value="c:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\TF.exe" />
 	<property name="tfs" value="https://tfs07.codeplex.com:443" />
-	<property name="tflogin" value="login,pass" />
+	<property name="tflogin" value="..." />
 	<property name="msbpath" value="c:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
 	<property name="vbpath" value="${projpath}\AppManager\AppManager\VersionBuilder\bin\Release\VersionBuilder.exe" />
 	
@@ -14,28 +13,29 @@
 	
 	<property name="versionsource" value="${projpath}\AppManager\AppManager\AppManager\bin\Release" />
 	<property name="updatesource" value="http://dimanick.ru/MySoft/AppManager/Update" />
-	<property name="versionnumber" value="1.0.2.14" />
+	<!-- <property name="updatesource" value="http://hummerd.selfip.com:10080/AppManagerUpdate" /> -->
+	<property name="versionnumber" value="1.0.70.70" />
 	
 	
 	<target name="createversion">
  		<call target="clean"/> 
-		<call target="getsources"/>
- 		<call target="buildsln"/>
-		<call target="createversionsrc"/>
+		<call target="create build workspace"/>
+		<call target="label"/>
+		<call target="get sources"/>
+ 		<call target="build solution"/>
+		<call target="create version"/>
 	</target>
 	
 	<target name="clean">
  		<delete>
 			<fileset>
-<!-- 				<include name="${verpath}/**" />				
-				<exclude name="${verpath}" /> -->
 				<include name="${projpath}/**" />
 				<exclude name="${projpath}" />
 			</fileset>
 		</delete> 
 	</target>
 
-	<target name="getsources">
+	<target name="create build workspace">
 		<mkdir dir="${projpath}" />
   		<exec program="${tfpath}" failonerror="false">
 			<arg value="workspace" />
@@ -53,6 +53,20 @@
 			<arg value="/noprompt" />
 			<arg value="/login:${tflogin}" />
 		</exec>	
+	</target>
+	
+	<target name="label">
+ 		<exec program="${tfpath}" workingdir="${projpath}">
+			<arg value="label" />
+			<arg value="${versionnumber}" />
+			<arg value="$/AppManager/AppManager" />
+			<arg value="/version:T" />
+			<arg value="/recursive" />
+			<arg value="/login:${tflogin}" />
+		</exec> 	
+	</target>		
+	
+	<target name="get sources">
  		<exec program="${tfpath}" workingdir="${projpath}">
 			<arg value="get" />
 			<arg value="$/AppManager/AppManager" />
@@ -63,7 +77,7 @@
 		</exec> 
 	</target>	
 		
-	<target name="buildsln">
+	<target name="build solution">
 		<exec program="${msbpath}">
 			<arg value="${projecttobuild}" />
 			<arg value="/t:Rebuild" />
@@ -71,7 +85,7 @@
 		</exec>	
 	</target>
 	
-	<target name="createversionsrc">
+	<target name="create version">
 		<exec program="${vbpath}">
 			<arg value="-&quot;${versionsource}&quot;" />
 			<arg value="-${versionnumber}" />
