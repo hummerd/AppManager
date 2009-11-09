@@ -168,11 +168,14 @@
 				Orientation="Vertical"
 				Margin="4,2,0,2">
 				<TextBlock
+					Name="TbAppTypeName"
 					Text="{Binding Path=AppTypeName}"
-					FontSize="12" />
+					Initialized="TbAppTypeName_Initialized"
+					/>
 				<TextBlock
+					Name="TbAppTypeInfo"
+					Initialized="TbAppTypeInfo_Initialized"
 					Text="{Binding Path=AppTypeInfo}"
-					FontSize="10"
 					Foreground="#FF7A7979" />
 			</StackPanel>
 		</DataTemplate>
@@ -304,7 +307,7 @@
 						Background="{x:Null}"
 						HorizontalAlignment="Stretch"
 						GotFocus="ScanTextBox_GotFocus"
-						TextChanged="TextBox_TextChanged" />
+						/>
 					<TextBlock
 						Grid.Column="1"
 						x:Name="AppItemPath"
@@ -364,7 +367,6 @@
 						HorizontalAlignment="Left" />
 					<TextBox
 						Text="{Binding Path=SelectedItem.AppTypeName, ElementName=AppTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-						TextWrapping="Wrap"
 						x:Name="AppTypeName"
 						Grid.Column="1"
 						Margin="4,12" />
@@ -409,42 +411,13 @@
 		</TabItem>
 		<TabItem
 			Header="{x:Static am:Strings.APPLICATIONS}">
-			<Grid
-				Height="Auto"
-				Width="Auto"
-				Name="AppTypesApp">
+			<Grid Name="AppTypesApp">
 				<Grid.RowDefinitions>
 					<RowDefinition
 						Height="Auto" />
 					<RowDefinition
-						Height="100*" />
-					<RowDefinition
-						Height="8" />
+						Height="*" />
 				</Grid.RowDefinitions>
-				<ListBox
-					Grid.Row="1"
-					Margin="8,0"
-					Name="AppList"
-					ItemsSource="{Binding ElementName=AppTypeSelector, Path=SelectedItem.AppInfos}"
-					HorizontalContentAlignment="Stretch"
-					IsSynchronizedWithCurrentItem="True"
-					ItemTemplate="{StaticResource EditableAppInfo}"
-					ItemContainerStyle="{StaticResource AppTypeItemStyle}"
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					SelectionMode="Extended"
-					KeyUp="AppList_KeyUp"
-					>
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<VirtualizingStackPanel
-								Orientation="Vertical"
-								IsItemsHost="True"
-								Width="{Binding Path=ActualWidth, 
-											RelativeSource={RelativeSource Mode=FindAncestor, 
-											AncestorType= {x:Type ScrollContentPresenter}}}" />
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-				</ListBox>
 				<ComboBox
 					DisplayMemberPath="AppTypeName"
 					Margin="8,12,120,12"
@@ -454,7 +427,6 @@
 					HorizontalAlignment="Right"
 					Margin="0,12,92,12"
 					Name="BtnAppUp"
-					VerticalAlignment="Top"
 					Width="24"
 					Click="BtnAppUp_Click">
 					<Image
@@ -464,7 +436,6 @@
 					HorizontalAlignment="Right"
 					Margin="0,12,64,12"
 					Name="BtnAppDown"
-					VerticalAlignment="Top"
 					Width="24"
 					Click="BtnAppDown_Click">
 					<Image
@@ -486,10 +457,34 @@
 					Click="BtnRemoveApp_Click">
 					<Image Source="/AppManager;component/Resources/edit_remove_14_16.png"></Image>
 				</Button>
+				<ListBox
+					Grid.Row="1"
+					Margin="8,0,8,8"
+					Name="AppList"
+					ItemsSource="{Binding ElementName=AppTypeSelector, Path=SelectedItem.AppInfos}"
+					HorizontalContentAlignment="Stretch"
+					IsSynchronizedWithCurrentItem="True"
+					ItemTemplate="{StaticResource EditableAppInfo}"
+					ItemContainerStyle="{StaticResource AppTypeItemStyle}"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					SelectionMode="Extended"
+					KeyUp="AppList_KeyUp"
+					>
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<VirtualizingStackPanel
+								Orientation="Vertical"
+								IsItemsHost="True"
+								Width="{Binding Path=ActualWidth, 
+											RelativeSource={RelativeSource Mode=FindAncestor, 
+											AncestorType= {x:Type ScrollContentPresenter}}}" />
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+				</ListBox>				
 			</Grid>
 		</TabItem>
 		<TabItem
-			Header="{x:Static am:Strings.SEARCH}">
+			Header="{x:Static am:Strings.SEARCH}" >
 			<Grid
 				Height="Auto"
 				Width="Auto">
@@ -520,24 +515,26 @@
 						<ColumnDefinition
 							Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<StackPanel
-						Margin="8,12,8,6"
+					<WrapPanel
+						Margin="8,12,8,3"
 						Grid.ColumnSpan="6"
-						Orientation="Horizontal">
+						Orientation="Horizontal"
+						>
 						<Button
                             MinHeight="24"
 							Name="BtnScanQuickLaunch"
+							Margin="0,0,4,3"
                             Padding="2,0,2,0"
 							Content="{x:Static am:Strings.SCAN_QUICK_LAUNCH}"
 							Click="BtnScanQuickLaunch_Click" />
 						<Button
                             MinHeight="24"
 							Name="BtnScanAllProgs"
-							Margin="4,0,0,0"
+							Margin="0,0,4,3"
                             Padding="2,0,2,0"
 							Content="{x:Static am:Strings.SCAN_ALL_PROGS}"
 							Click="BtnScanAllProgs_Click" />
-					</StackPanel>
+					</WrapPanel>
 					<TextBox
                         MinHeight="24"
 						Grid.Row="1"

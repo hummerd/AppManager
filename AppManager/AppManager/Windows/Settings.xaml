@@ -5,15 +5,13 @@
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:cw="clr-namespace:CommonLib.Windows;assembly=CommonLib"
 	Title="{x:Static am:Strings.SETTINGS}"
-	Height="350"
-	Width="310"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	MinWidth="310"
-	MinHeight="350"
+	MinHeight="380"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
-	Closing="DialogWindow_Closing" SizeToContent="Width">
-	<StackPanel>
+	Closing="DialogWindow_Closing" SizeToContent="WidthAndHeight">
+	<StackPanel Margin="0,0,0,36">
 		<CheckBox
 			Content="{x:Static am:Strings.AUTO_START}"
 			Name="ChkAutoStart"
