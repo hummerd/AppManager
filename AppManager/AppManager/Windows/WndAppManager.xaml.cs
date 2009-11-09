@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using AppManager.Windows;
 using CommonLib.Windows;
-using System.Windows.Input;
 
 
 namespace AppManager
@@ -120,6 +120,18 @@ namespace AppManager
 			{
 				RemoveSelectedAppType();
 			}
+		}
+
+		private void TbAppTypeInfo_Initialized(object sender, EventArgs e)
+		{
+			var tb = sender as TextBlock;
+			tb.FontSize -= 1;
+		}
+
+		private void TbAppTypeName_Initialized(object sender, EventArgs e)
+		{
+			var tb = sender as TextBlock;
+			tb.FontSize += 1;
 		}
 
 
@@ -287,6 +299,17 @@ namespace AppManager
 				cont.Focus();
 				_ItemToSelect = null;
 			}
+
+			var szInf = new Size(double.PositiveInfinity, double.PositiveInfinity);
+			BtnScanAllProgs.Measure(szInf);
+			BtnScanQuickLaunch.Measure(szInf);
+
+			double nw = Math.Max(
+				BtnScanAllProgs.DesiredSize.Width,
+				BtnScanQuickLaunch.DesiredSize.Width);
+
+			BtnScanAllProgs.Width = nw;
+			BtnScanQuickLaunch.Width = nw;
 		}
 
 		private void AppTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -295,10 +318,11 @@ namespace AppManager
 			AppTypeName.SelectAll();
 		}
 
-		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			var wnd = CommonLib.UIHelper.FindAncestorOrSelf<Window>(sender as DependencyObject, null);
-		}
+		//private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+		//{
+		//    var wnd = CommonLib.UIHelper.FindAncestorOrSelf<Window>(sender as DependencyObject, null);
+		//}
+
 
 
 		//private void AppScanList_KeyDown(object sender, KeyEventArgs e)
