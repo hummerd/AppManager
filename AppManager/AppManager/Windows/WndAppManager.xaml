@@ -207,7 +207,6 @@
 						Height="24" />
 					<TextBox
 						Grid.Column="1"
-						Grid.ColumnSpan="2"
 						Text="{Binding Path=AppName, Mode=TwoWay}"
 						BorderBrush="{x:Null}"
 						HorizontalAlignment="Stretch"

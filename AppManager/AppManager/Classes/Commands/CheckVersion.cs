@@ -10,7 +10,7 @@ namespace AppManager.Commands
 	public class CheckVersion : CommandBase
 	{
 		protected SelfUpdate	_Updater;
-		protected bool			_SilentUpdate = true;
+		protected bool			_SilentUpdate;
 
 
 		public CheckVersion(MainWorkItem workItem)
@@ -20,6 +20,8 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
+			_SilentUpdate = (bool)parameter;
+
 			if (_Updater != null)
 				return;
 
@@ -46,6 +48,9 @@ namespace AppManager.Commands
 			_WorkItem.UpdateRunning = false;
 			_WorkItem.NotifyUpdateCompleted();
 			_Updater = null;
+
+			//Updater can consume a lot of memory
+			GC.Collect();
 
 			if (_SilentUpdate)
 			{
