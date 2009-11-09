@@ -89,7 +89,7 @@ namespace AppManager.Commands
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " NotifyIcon");
 
 			if (!noUpdate && _WorkItem.Settings.CheckNewVersionAtStartUp)
-				_WorkItem.Commands.CheckVersion.Execute(null);
+				_WorkItem.Commands.CheckVersion.Execute(true);
 
 			_WorkItem.AppData.NeedAppImage += (s, e) => 
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);

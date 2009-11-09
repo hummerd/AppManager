@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using AppManager.Windows;
 using CommonLib.Windows;
+using System.Windows.Input;
 
 
 namespace AppManager
@@ -115,7 +116,10 @@ namespace AppManager
 
 		private void AppTypes_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
 		{
-			RemoveSelectedAppType();
+			if (e.Key == Key.Delete && e.OriginalSource.GetType() == typeof(ListBoxItem))
+			{
+				RemoveSelectedAppType();
+			}
 		}
 
 
@@ -197,9 +201,9 @@ namespace AppManager
 			_Controller.SelectAppPath(btn.DataContext as AppInfo);
 		}
 
-		private void AppList_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		private void AppList_KeyUp(object sender, KeyEventArgs e)
 		{
-			if (e.Key == System.Windows.Input.Key.Delete)
+			if (e.Key == Key.Delete && e.OriginalSource.GetType() == typeof(ListBoxItem))
 			{
 				RemoveSelectedApps();
 			}

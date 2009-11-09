@@ -56,7 +56,7 @@ namespace AppManager
 
 		public void CheckNewVersion()
 		{
-			_WorkItem.Commands.CheckVersion.Execute(null);
+			_WorkItem.Commands.CheckVersion.Execute(false);
 		}
 
 
