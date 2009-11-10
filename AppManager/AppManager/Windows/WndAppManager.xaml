@@ -9,8 +9,8 @@
 	x:Name="AppsManagerWindow"
 	mc:Ignorable="d"
 	Title="{x:Static am:Strings.APP_MANAGER}"
-	Width="425"
-	Height="525"
+	Width="460"
+	Height="542"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	MinWidth="250"
@@ -534,6 +534,14 @@
                             Padding="2,0,2,0"
 							Content="{x:Static am:Strings.SCAN_ALL_PROGS}"
 							Click="BtnScanAllProgs_Click" />
+                        <CheckBox 
+                            Name="ChkExcludeExisting" 
+                            Content="{x:Static am:Strings.EXCLUDE_EXISTING}"
+                            ToolTip="{x:Static am:Strings.EXCLUDE_EXISTING_INFO}"
+                            IsChecked="True"  
+                            Margin="0,2,0,0" 
+                            VerticalAlignment="Center">
+                        </CheckBox>
 					</WrapPanel>
 					<TextBox
                         MinHeight="24"

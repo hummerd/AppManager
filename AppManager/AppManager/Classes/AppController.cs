@@ -18,6 +18,8 @@ namespace AppManager
 		private static string _ComFiles;
 		private static string _MicSDK;
 		private static string _WinApps;
+		private static Dictionary<SearchLocation, string[]> _SearchPaths;
+
 
 		static AppController()
 		{
@@ -26,6 +28,19 @@ namespace AppManager
 			_MicSDK = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 			_MicSDK = Path.Combine(_MicSDK, "Microsoft SDKs").ToLower();
 			_WinApps = "calc,explorer,wordpad,mspaint,notepad";
+
+			_SearchPaths = new Dictionary<SearchLocation, string[]>(2);
+
+			string quickSearchPath = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				@"Microsoft\Internet Explorer\Quick Launch");
+
+			StringBuilder allUsersPrograms = new StringBuilder(300);
+			Shell32.SHGetSpecialFolderPath(IntPtr.Zero, allUsersPrograms, Shell32.CSIDL_COMMON_PROGRAMS, false);
+			string currentUserPrograms = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+
+			_SearchPaths.Add(SearchLocation.QuickLaunch, new string[] { quickSearchPath });
+			_SearchPaths.Add(SearchLocation.AllProgramsMenu, new string[] { allUsersPrograms.ToString(), currentUserPrograms });
 		}
 
 
@@ -123,32 +138,35 @@ namespace AppManager
 			}
 		}
 
+
+		public AppInfoCollection FindApps(SearchLocation location, AppGroup appData, bool excludeExisting)
+		{
+			if (location == SearchLocation.None)
+				return new AppInfoCollection();
+
+			var searchPaths = new List<string>();
+
+			if ((location & SearchLocation.QuickLaunch) == SearchLocation.QuickLaunch)
+				searchPaths.AddRange(_SearchPaths[SearchLocation.QuickLaunch]);
+
+			if ((location & SearchLocation.AllProgramsMenu) == SearchLocation.AllProgramsMenu)
+				searchPaths.AddRange(_SearchPaths[SearchLocation.AllProgramsMenu]);
+
+			var result = FindApps(
+				 searchPaths,
+				new List<string>() { "lnk" },
+				true);
+
+			if (excludeExisting)
+				for (int i = result.Count - 1; i >= 0; i--)
+				{
+					if (appData.FindAppByExecPath(result[i].ExecPath) != null)
+						result.RemoveAt(i);
+				}
+
+			return result;
+		}
 		
-		public AppInfoCollection FindAppsInQuickLaunch()
-		{
-			string dirPath = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				@"Microsoft\Internet Explorer\Quick Launch");
-
-			return FindApps(
-				new List<string>() { dirPath },
-				new List<string>() { "lnk" },
-				true);
-		}
-
-		public AppInfoCollection FindAppsInAllProgs()
-		{
-			StringBuilder allPrograms = new StringBuilder(300);
-			Shell32.SHGetSpecialFolderPath(IntPtr.Zero, allPrograms, Shell32.CSIDL_COMMON_PROGRAMS, false);
-
-			string path = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
-
-			return FindApps(
-				new List<string>() { allPrograms.ToString(), path },
-				new List<string>() { "lnk" },
-				true);
-		}
-
 		public AppInfoCollection FindApps(
 			IEnumerable<string> files)
 		{
@@ -162,46 +180,32 @@ namespace AppManager
 		{
 			var result = new AppInfoCollection();
 
-			if (pathList == null)
-				return result;
-
-			foreach (var path in pathList)
-				result.AddRange(FindApps(path, extList, onlyPrograms));
-
-			return result;
-		}
-
-		public AppInfoCollection FindApps(
-			string path,
-			IEnumerable<string> extList,
-			bool onlyPrograms)
-		{
-			var result = new AppInfoCollection();
-
 			if (extList == null)
 				return result;
 
-			if (String.IsNullOrEmpty(path))
+			if (pathList == null)
 				return result;
-
-			if (!Directory.Exists(path))
-				return result;
-
 
 			var allFiles = new List<string>();
 
-			foreach (string ext in extList)
+			foreach (var path in pathList)
 			{
-				string extension = ext;
-
-				if (String.IsNullOrEmpty(extension))
+				if (!Directory.Exists(path))
 					continue;
 
-				if (extension.StartsWith(".") && extension.Length > 1)
-					extension = extension.Substring(1, ext.Length - 1);
+				foreach (var ext in extList)
+				{
+					string extension = ext;
 
-				string[] files = Directory.GetFiles(path, "*." + extension, SearchOption.AllDirectories);
-				allFiles.AddRange(files);
+					if (String.IsNullOrEmpty(extension))
+						continue;
+
+					if (extension.StartsWith(".") && extension.Length > 1)
+						extension = extension.Substring(1, ext.Length - 1);
+
+					string[] files = Directory.GetFiles(path, "*." + extension, SearchOption.AllDirectories);
+					allFiles.AddRange(files);
+				}
 			}
 
 			return FindApps(allFiles, onlyPrograms);
@@ -354,5 +358,15 @@ namespace AppManager
 				return false;
 			}
 		}
+	}
+
+	[Flags]
+	public enum SearchLocation
+	{
+		None = 0x00,
+		QuickLaunch = 0x01,
+		AllProgramsMenu = 0x02,
+
+		All = QuickLaunch | AllProgramsMenu
 	}
 }

@@ -189,6 +189,12 @@
   <data name="ERROR_OCCUR" xml:space="preserve">
     <value>Sorry, there is an unknown error in application</value>
   </data>
+  <data name="EXCLUDE_EXISTING" xml:space="preserve">
+    <value>Exclude existing links</value>
+  </data>
+  <data name="EXCLUDE_EXISTING_INFO" xml:space="preserve">
+    <value>Exclude already added links from search</value>
+  </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.en-en.rtf</value>
   </data>

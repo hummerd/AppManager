@@ -11,7 +11,7 @@
 	MinHeight="380"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	Closing="DialogWindow_Closing" SizeToContent="WidthAndHeight">
-	<StackPanel Margin="0,0,0,36">
+	<StackPanel>
 		<CheckBox
 			Content="{x:Static am:Strings.AUTO_START}"
 			Name="ChkAutoStart"
@@ -94,7 +94,7 @@
 			Click="BtnOpenAppDataPath_Click" TabIndex="9" />
 		<Button
 			Content="{x:Static am:Strings.EDIT_APP_DATA}"
-			Margin="12,8,0,0"
+			Margin="12,8,0,36"
 			Name="BtnEditAppData"
 			Click="BtnEditAppData_Click"
 			HorizontalAlignment="Left"
