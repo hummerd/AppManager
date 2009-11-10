@@ -7,6 +7,22 @@ namespace CommonLib
 {
 	public static class PathHelper
 	{
+		public static bool ComparePath(string path1, string path2)
+		{
+			if (String.IsNullOrEmpty(path1) &&
+				String.IsNullOrEmpty(path2))
+				return path1 == path2;
+
+			if (String.IsNullOrEmpty(path1) ||
+				String.IsNullOrEmpty(path2))
+				return false;
+
+			path1 = Environment.ExpandEnvironmentVariables(path1.Trim('"'));
+			path2 = Environment.ExpandEnvironmentVariables(path2.Trim('"'));
+
+			return String.Equals(path1, path2, StringComparison.CurrentCultureIgnoreCase);
+		}
+
 		public static string GetFilePathFromExecPath(string path, out string args)
 		{
 			args = String.Empty;

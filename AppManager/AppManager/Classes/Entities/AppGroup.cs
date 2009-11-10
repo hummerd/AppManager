@@ -78,6 +78,17 @@ namespace AppManager
 			return maxApps;
 		}
 
+		public AppInfo FindAppByExecPath(string execPath)
+		{
+			AppInfoCollection result = new AppInfoCollection();
+
+			foreach (var item in AllApps())
+				if (PathHelper.ComparePath(item.ExecPath, execPath))
+					return item;
+
+			return null;
+		}
+
 		public AppInfoCollection FindApps(string name)
 		{
 			AppInfoCollection result = new AppInfoCollection();

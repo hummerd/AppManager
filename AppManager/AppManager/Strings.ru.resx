@@ -189,6 +189,12 @@
   <data name="ERROR_OCCUR" xml:space="preserve">
     <value>Извините, в приложении произошла неопознанная ошибка</value>
   </data>
+  <data name="EXCLUDE_EXISTING" xml:space="preserve">
+    <value>Исключить существующие ссылки</value>
+  </data>
+  <data name="EXCLUDE_EXISTING_INFO" xml:space="preserve">
+    <value>Исключить уже добавленные ссылки из поиска</value>
+  </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.ru-ru.rtf</value>
   </data>

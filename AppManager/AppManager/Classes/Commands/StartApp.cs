@@ -139,23 +139,35 @@ namespace AppManager.Commands
 				{
 					var ctrl = new AppController(_WorkItem);
 
+					var sl = SearchLocation.None;
 					if (askScan.AddFromAllProgs)
-					{
-						var apps = ctrl.FindAppsInAllProgs();
-						_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
-						_WorkItem.AppData.GroupByFolders(_WorkItem.AppData.AppTypes[0]);
-					}
+						sl |= SearchLocation.AllProgramsMenu;
 
 					if (askScan.AddFromQickStart)
-					{
-						var apps = ctrl.FindAppsInQuickLaunch();
-						if (apps.Count > 0)
-						{
-							var quickAppType = new AppType() { AppTypeName = Strings.QUICK_LAUNCH };
-							quickAppType.AppInfos.AddRange(apps);
-							_WorkItem.AppData.AppTypes.Insert(0, quickAppType);
-						}
-					}
+						sl |= SearchLocation.QuickLaunch;
+
+					var apps = ctrl.FindApps(sl, null, false);
+					_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
+					_WorkItem.AppData.GroupByFolders(_WorkItem.AppData.AppTypes[0]);
+
+
+					//if (askScan.AddFromAllProgs)
+					//{
+					//    var apps = ctrl.FindAppsInAllProgs(null, false);
+					//    _WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
+					//    _WorkItem.AppData.GroupByFolders(_WorkItem.AppData.AppTypes[0]);
+					//}
+
+					//if (askScan.AddFromQickStart)
+					//{
+					//    var apps = ctrl.FindAppsInQuickLaunch();
+					//    if (apps.Count > 0)
+					//    {
+					//        var quickAppType = new AppType() { AppTypeName = Strings.QUICK_LAUNCH };
+					//        quickAppType.AppInfos.AddRange(apps);
+					//        _WorkItem.AppData.AppTypes.Insert(0, quickAppType);
+					//    }
+					//}
 
 					_WorkItem.Commands.Save.Execute(null);
 				}

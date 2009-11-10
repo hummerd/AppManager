@@ -278,13 +278,21 @@ namespace AppManager
 		private void BtnScanQuickLaunch_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.AdaptTo(
-					 _Controller.FindAppsInQuickLaunch(), _SearchAppCheck);
+				 _Controller.FindApps(
+					SearchLocation.QuickLaunch,
+					_AppGroup,
+					ChkExcludeExisting.IsChecked ?? false),
+				_SearchAppCheck);
 		}
 
 		private void BtnScanAllProgs_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.AdaptTo(
-				 _Controller.FindAppsInAllProgs(), _SearchAppCheck);
+				 _Controller.FindApps(
+					SearchLocation.AllProgramsMenu, 
+					_AppGroup, 
+					ChkExcludeExisting.IsChecked ?? false), 
+				_SearchAppCheck);
 		}
 
 

@@ -128,7 +128,7 @@ namespace AppManager
 				return result;
 
 			return FindApps(
-				path,
+				new List<string>() { path },
 				new List<string>() { "lnk", "exe", "jar" },
 				false);
 		}
