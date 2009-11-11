@@ -16,7 +16,7 @@
 	MinWidth="250"
 	MinHeight="300"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
-	Activated="AppsManagerWindow_Activated">
+	Activated="AppsManagerWindow_Activated" Loaded="AppsManagerWindow_Loaded">
 
 	<Window.Resources>
 		<Style

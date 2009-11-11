@@ -152,12 +152,22 @@ namespace AppManager
 			if ((location & SearchLocation.AllProgramsMenu) == SearchLocation.AllProgramsMenu)
 				searchPaths.AddRange(_SearchPaths[SearchLocation.AllProgramsMenu]);
 
-			var result = FindApps(
+			return FindApps(
 				 searchPaths,
 				new List<string>() { "lnk" },
+				appData,
+				excludeExisting
+				);
+		}
+
+		public AppInfoCollection FindApps(IEnumerable<string> pathList, IEnumerable<string> extList, AppGroup appData, bool excludeExisting)
+		{
+			var result = FindApps(
+				pathList,
+				extList,
 				true);
 
-			if (excludeExisting)
+			if (excludeExisting && result != null)
 				for (int i = result.Count - 1; i >= 0; i--)
 				{
 					if (appData.FindAppByExecPath(result[i].ExecPath) != null)
