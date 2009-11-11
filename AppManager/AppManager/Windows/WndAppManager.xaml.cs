@@ -186,11 +186,6 @@ namespace AppManager
 			SelectAppListItem(sender as DependencyObject);
 		}
 
-		private void BtnFolder_Click(object sender, RoutedEventArgs e)
-		{
-			TxtFolder.Text = _Controller.SelectPath();
-		}
-
 		private void AppItemRemove_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			Button btn = sender as Button;
@@ -223,10 +218,22 @@ namespace AppManager
 
 
 		//Search apps tab events===================================================
+		private void BtnFolder_Click(object sender, RoutedEventArgs e)
+		{
+			var path = _Controller.SelectPath();
+			if (!String.IsNullOrEmpty(path))
+				TxtFolder.Text = path;
+		}
+
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
 		{
 			AppScanList.ItemsSource = _Controller.AdaptTo(
-					 _Controller.Scan(TxtFolder.Text), _SearchAppCheck);
+				_Controller.FindApps(
+					new List<string>() { TxtFolder.Text },
+					new List<string>() { "lnk", "exe", "jar" },
+					_AppGroup,
+					ChkExcludeExisting.IsChecked ?? false),
+				_SearchAppCheck);
 		}
 
 		private void BtnAddScan_Click(object sender, RoutedEventArgs e)
@@ -307,7 +314,16 @@ namespace AppManager
 				cont.Focus();
 				_ItemToSelect = null;
 			}
+		}
 
+		private void AppTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			AppTypeName.Focus();
+			AppTypeName.SelectAll();
+		}
+
+		private void AppsManagerWindow_Loaded(object sender, RoutedEventArgs e)
+		{
 			var szInf = new Size(double.PositiveInfinity, double.PositiveInfinity);
 			BtnScanAllProgs.Measure(szInf);
 			BtnScanQuickLaunch.Measure(szInf);
@@ -319,41 +335,5 @@ namespace AppManager
 			BtnScanAllProgs.Width = nw;
 			BtnScanQuickLaunch.Width = nw;
 		}
-
-		private void AppTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			AppTypeName.Focus();
-			AppTypeName.SelectAll();
-		}
-
-		//private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-		//{
-		//    var wnd = CommonLib.UIHelper.FindAncestorOrSelf<Window>(sender as DependencyObject, null);
-		//}
-
-
-
-		//private void AppScanList_KeyDown(object sender, KeyEventArgs e)
-		//{
-			//if (e.OriginalSource is TextBox)
-			//    return;
-
-			//var apps = AppScanList.ItemsSource as AppManagerController.AppInfoAdapterCollection;
-			//if (apps != null)
-			//{
-			//    var item = apps.FindByNameStart(
-			//        e.Key.ToString(), AppScanList.SelectedIndex);
-
-			//    if (item != null)
-			//    {
-			//        AppScanList.ScrollIntoView(item);
-			//        AppScanList.SelectedItem = item;
-			//        var cont = AppScanList.ItemContainerGenerator.ContainerFromItem(item) as FrameworkElement;
-			//        cont.Focus();
-			//    }
-			//}
-
-			//e.Handled = true;
-		//}
 	}
 }

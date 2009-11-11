@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Media.Imaging;
 using WinForms = System.Windows.Forms;
 
@@ -11,20 +10,12 @@ namespace AppManager
 {
 	public class AppManagerController : AppController
 	{
-		//protected AppGroup _Data;
-
-
 		public AppManagerController(MainWorkItem workItem)
 			: base(workItem)
 		{
 			//_Data = data;
 		}
 
-
-		//public void AddType()
-		//{
-		//    _Data.AppTypes.Add(new AppType());
-		//}
 
 		public void AddEmptyAppType(AppGroup appGroup, AppType beforeAppType)
 		{
@@ -49,12 +40,6 @@ namespace AppManager
 				appGroup.AppTypes.Move(ix, ix2);
 		}
 
-		//public void RemoveType(AppType appType)
-		//{
-		//    if (appType != null)
-		//        _Data.AppTypes.Remove(appType);
-		//}
-
 		public void AddAppInfo(AppGroup appGroup, AppType appType)
 		{
 			if (appType != null)
@@ -74,14 +59,6 @@ namespace AppManager
 					appType.AppInfos.Move(ix, ix2);
 			}
 		}
-
-		//public void RemoveApp(AppType appType, AppInfo appInfo)
-		//{
-		//    if (appType != null && appInfo != null)
-		//    {
-		//        appType.AppInfos.Remove(appInfo);
-		//    }
-		//}
 
 		public void SelectAppPath(AppInfo appInfo)
 		{
@@ -118,19 +95,6 @@ namespace AppManager
 				return fbd.SelectedPath;
 
 			return string.Empty;
-		}
-
-		public AppInfoCollection Scan(string path)
-		{
-			var result = new AppInfoCollection();
-
-			if (!Directory.Exists(path))
-				return result;
-
-			return FindApps(
-				new List<string>() { path },
-				new List<string>() { "lnk", "exe", "jar" },
-				false);
 		}
 
 		public void AddScned(AppGroup appGroup, AppType appType, string newAppTypeName, List<AppInfoAdapter> list)
