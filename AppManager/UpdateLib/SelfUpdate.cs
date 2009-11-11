@@ -51,7 +51,7 @@ namespace UpdateLib
 		protected delegate void SetDownloadProgressInfo(VersionManifest manifest);
 
 
-		protected Mutex	_UpdatingFlag;
+		protected Mutex		_UpdatingFlag;
 		protected Thread	_UpdateThread;
 
 		protected volatile bool _UpdateRunning = false;
@@ -186,23 +186,19 @@ namespace UpdateLib
 				//clean up older install
 				CleanUp(appName, currentManifest);
 
-				Uri activeSource;
-				IVersionNumberProvider vnp;
 				var lastVersion = GetVersionData(new List<Uri>() 
 					{	
 						currentManifest.GetUpdateUriLocal(), 
 						currentManifest.GetUpdateUriAltLocal() 
-					},
-					out activeSource,
-					out vnp);
+					});
 
-				if (lastVersion != null && lastVersion.VersionNumber > currentManifest.VersionNumber)
+				if (lastVersion != null && lastVersion.VersionData.VersionNumber > currentManifest.VersionNumber)
 				{
-					if (AskUserForDownload(displayAppName, lastVersion, activeSource.Authority))
+					if (AskUserForDownload(displayAppName, lastVersion.VersionData, lastVersion.SourceUri.Authority))
 					{
-						var manifestUri = currentManifest.GetManifestUri(activeSource);
+						var manifestUri = currentManifest.GetManifestUri(lastVersion.SourceUri);
 
-						VersionManifest latestManifest = vnp.GetLatestVersionManifest(manifestUri);
+						VersionManifest latestManifest = lastVersion.VNP.GetLatestVersionManifest(manifestUri);
 						//failed to download latest version manifest
 						if (latestManifest == null)
 							return false;
@@ -210,12 +206,12 @@ namespace UpdateLib
 						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
 						var tempPath = CreateTempDir(appName, latestManifest.VersionNumber);
-						DownloadVersion(updateManifest, tempPath, activeSource.AbsoluteUri);
+						DownloadVersion(updateManifest, tempPath, lastVersion.SourceUri.AbsoluteUri);
 						VersionDownloadCompleted(
 							displayAppName,
 							updateManifest,
 							latestManifest,
-							lastVersion,
+							lastVersion.VersionData,
 							new InstallInfo()
 							{
 								AppName = appName,
@@ -266,34 +262,36 @@ namespace UpdateLib
 		/// <param name="vnp"></param>
 		/// <remarks>If download for all sources fails throws UpdateException</remarks>
 		/// <returns>Returns version data with maximum version number</returns>
-		protected VersionData GetVersionData(
-			IEnumerable<Uri> sources, 
-			out Uri activeSource, 
-			out IVersionNumberProvider vnp)
+		protected VersionSource GetVersionData(IEnumerable<Uri> sources)
 		{
-			List<VersionData> result = new List<VersionData>();
+			var result = new List<VersionSource>();
 			string msg = null;
 			bool error = true;
-			activeSource = null;
-			vnp = null;
 
 			foreach (var item in sources)
 			{
+				if (item == null)
+					continue;
+
 				try
 				{
-					activeSource = item;
-					vnp = VNPFactory.GetVNP(item.Scheme);
+					var vnp = VNPFactory.GetVNP(item.Scheme);
 					var vi = vnp.GetLatestVersionInfo(item);
-					if (result != null)
+					if (vi != null)
 					{
-						result.Add(vi);
+						result.Add(
+							new VersionSource(
+								vi,
+								item,
+								vnp
+								)
+							);
 						error = false;
 						//break;
 					}
 				}
 				catch(Exception exc)
 				{
-					result = null;
 					error = error && true;
 
 					msg = msg + 
@@ -313,7 +311,7 @@ namespace UpdateLib
 			{
 				var vi = result[0];
 				for (int i = 1; i < result.Count; i++)
-					if (result[i].VersionNumber > vi.VersionNumber)
+					if (result[i].VersionData.VersionNumber > vi.VersionData.VersionNumber)
 						vi = result[i];
 
 				return vi;
