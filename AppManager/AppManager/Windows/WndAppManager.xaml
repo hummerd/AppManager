@@ -318,7 +318,50 @@
 				</Grid>
 			</Border>
 		</DataTemplate>
-	</Window.Resources>
+        <DataTemplate
+			x:Key="ReadOnlyAppInfo">
+            <Border
+				Name="BorderT"
+				BorderThickness="0,0,0,1"
+				BorderBrush="#FFADADAD"
+				Padding="0,0,0,4">
+                <Grid
+					Name="GridT">
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+							Height="50*" />
+                        <RowDefinition
+							Height="50*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+							Width="40" />
+                        <ColumnDefinition
+							Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+						Grid.RowSpan="2"
+						Source="{Binding Path=App.AppImage, Mode=OneWay}"
+						Width="24"
+						Height="24" />
+                    <TextBlock
+						Grid.Column="1"
+						Text="{Binding Path=App.AppName, Mode=TwoWay}"
+						Width="Auto"
+						Background="{x:Null}"
+						HorizontalAlignment="Stretch"
+						/>
+                    <TextBlock
+						Grid.Column="1"
+						x:Name="AppItemPath"
+						Grid.Row="1"
+						Text="{Binding Path=App.ExecPath, Mode=OneWay}"
+						Margin="4,4,0,0"
+						HorizontalAlignment="Left" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
 
 	<TabControl
 		Name="AppTabs"
@@ -497,24 +540,14 @@
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition
-							Height="Auto" />
+							Height="Auto" MinHeight="42" />
 						<RowDefinition
+							Height="Auto" MinHeight="15" />
+                        <RowDefinition
 							Height="Auto" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="Auto" />
-						<ColumnDefinition
-							Width="Auto" />
-						<ColumnDefinition
-							Width="100*" />
-						<ColumnDefinition
-							Width="Auto" />
-						<ColumnDefinition
-							Width="Auto" />
-						<ColumnDefinition
-							Width="Auto" />
-					</Grid.ColumnDefinitions>
+                        <RowDefinition
+							Height="Auto" MinHeight="42" />
+                    </Grid.RowDefinitions>
 					<WrapPanel
 						Margin="8,12,8,3"
 						Grid.ColumnSpan="6"
@@ -534,48 +567,71 @@
                             Padding="2,0,2,0"
 							Content="{x:Static am:Strings.SCAN_ALL_PROGS}"
 							Click="BtnScanAllProgs_Click" />
-                        <CheckBox 
+                    </WrapPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <CheckBox 
                             Name="ChkExcludeExisting" 
                             Content="{x:Static am:Strings.EXCLUDE_EXISTING}"
                             ToolTip="{x:Static am:Strings.EXCLUDE_EXISTING_INFO}"
                             IsChecked="True"  
-                            Margin="0,2,0,0" 
+                            Margin="8,2,0,0" 
                             VerticalAlignment="Center">
-                        </CheckBox>
-					</WrapPanel>
-					<TextBox
-                        MinHeight="24"
-						Grid.Row="1"
-						Margin="8,6,32,12"
-						Name="TxtFolder"
-						Grid.ColumnSpan="4" />
-					<Button
-                        MinHeight="24"
-						Grid.Row="1"
-						MinWidth="24"
-						Margin="0,6,4,12"
-						Name="BtnFolder"
-						Click="BtnFolder_Click"
-						Grid.Column="3">...</Button>
-					<Button
-                        MinHeight="24"
-						Grid.Row="1"
-						Margin="0,6,4,12"
-						Name="_BtnSearch"
-						Click="BtnSearch_Click"
-						Content="{x:Static am:Strings.SCAN}"
-						Grid.Column="4" />
-					<Button
-                        MinHeight="24"
-						Grid.Row="1"
-						Width="24"
-						Margin="0,6,8,12"
-						Name="BtnAddScan"
-						Click="BtnAddScan_Click"
-						Grid.Column="5">
-						<Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
-					</Button>
-				</Grid>
+                    </CheckBox>
+                    <CheckBox 
+                            Name="ChkExcludeRecycleBin" 
+                            Content="{x:Static am:Strings.EXCLUDE_EXISTING}"
+                            ToolTip="{x:Static am:Strings.EXCLUDE_EXISTING_INFO}"
+                            IsChecked="True"  
+                            Margin="8,2,0,0" 
+                            VerticalAlignment="Center">
+                    </CheckBox>
+                        </StackPanel>
+                        <TextBox
+                            Grid.Row="3"
+                            MinHeight="24"
+						    Margin="8,6,126,0"
+						    Name="TxtFolder" Height="24" VerticalAlignment="Top" />
+					    <Button
+                            MinHeight="24"
+						    Grid.Row="3"
+						    MinWidth="24"
+						    Margin="0,6,98,12"
+                            HorizontalAlignment="Right"
+						    Name="BtnFolder"
+						    Click="BtnFolder_Click"
+						    >...</Button>
+					    <Button
+                            Grid.Row="3"
+                            MinHeight="24"
+						    Margin="0,6,64,12"
+						    Name="_BtnSearch"
+                            HorizontalAlignment="Right"
+						    Click="BtnSearch_Click"
+						    Content="{x:Static am:Strings.SCAN}"
+						     />
+					    <Button
+                            Grid.Row="3"
+                            MinHeight="24"
+						    Width="24"
+						    Margin="0,6,36,12"
+						    Name="BtnAddScan"
+						    Click="BtnAddScan_Click"
+                            HorizontalAlignment="Right"
+						    >
+						    <Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
+					    </Button>
+                    <Button
+                            Grid.Row="3"
+                            MinHeight="24"
+						    Width="24"
+						    Margin="0,6,8,12"
+						    Name="BtnToRecycleBin"
+						    Click="BtnAddScan_Click"
+                            HorizontalAlignment="Right"
+						    >
+                        <Image Source="/AppManager;component/Resources/trash_16.png" Stretch="None"></Image>
+                    </Button>
+                </Grid>
 				<ListView
 					Margin="8,0,8,8"
 					Name="AppScanList"
@@ -598,5 +654,57 @@
 					</ListView>
 				</Grid>
 			</TabItem>
-		</TabControl>
+        <TabItem
+			Header="{x:Static am:Strings.RECYCLE_BIN}">
+            <Grid Name="DeletedApps">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+						Height="Auto" MinHeight="48" />
+                    <RowDefinition
+						Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock 
+                    Margin="8,8,63,8" 
+                    VerticalAlignment="Center">Recycle bin can be used as filter in search tab</TextBlock>
+                <Button
+					HorizontalAlignment="Right"
+					Margin="0,12,36,12"
+					Name="BtnResore"
+					Width="24" Click="BtnResore_Click">
+                    <Image
+						Source="/AppManager;component/Resources/agt_reload_3236_16_green.png" />
+                </Button>
+                <Button
+					HorizontalAlignment="Right"
+					Margin="0,12,8,12"
+					Name="BtnDeleteFromBin"
+					Width="24" Click="BtnDeleteFromBin_Click">
+                    <Image
+						Source="/AppManager;component/Resources/edit_remove_14_16.png" />
+                </Button>
+                <ListBox
+					Grid.Row="1"
+					Margin="8,0,8,8"
+					Name="DeletedAppList"
+					HorizontalContentAlignment="Stretch"
+					IsSynchronizedWithCurrentItem="True"
+					ItemTemplate="{StaticResource ReadOnlyAppInfo}"
+					ItemContainerStyle="{StaticResource AppTypeItemStyle}"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					SelectionMode="Extended"
+					>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel
+								Orientation="Vertical"
+								IsItemsHost="True"
+								Width="{Binding Path=ActualWidth, 
+											RelativeSource={RelativeSource Mode=FindAncestor, 
+											AncestorType= {x:Type ScrollContentPresenter}}}" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </cw:DialogWindow>

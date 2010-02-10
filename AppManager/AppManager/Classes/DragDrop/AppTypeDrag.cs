@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Windows;
+using AppManager.Entities;
 using DragDropLib;
-using System.Windows;
 
 
 namespace AppManager.DragDrop

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
+using AppManager.Entities;
 using CommonLib;
 
 

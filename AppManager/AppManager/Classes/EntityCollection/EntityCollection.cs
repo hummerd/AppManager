@@ -18,12 +18,12 @@ namespace AppManager.EntityCollection
 			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
 		}
 
-		//public EntityCollection(IEnumerable<TEntity> collection)
-		//    : base(collection)
-		//{
-		//    _Deleted = new List<TEntity>();
-		//    _DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
-		//}
+		public EntityCollection(IEnumerable<TEntity> collection)
+			: base(collection)
+		{
+			_Deleted = new List<TEntity>();
+			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
+		}
 
 
 		public ReadOnlyCollection<TEntity> DeletedItems

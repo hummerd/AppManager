@@ -18,7 +18,15 @@
 			<ColumnDefinition	Width="Auto" MinWidth="93" />
 			<ColumnDefinition	Width="200*" />
 		</Grid.ColumnDefinitions>
-		<ComboBox
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock
+			Grid.ColumnSpan="2"
+            x:Name="TxtMessage" Visibility="Collapsed" />
+        <ComboBox
+            Grid.Row="1"
 			Margin="0,12,12,0"
 			Name="CbxInput"
 			Height="24"
@@ -28,6 +36,7 @@
 			IsEditable="False"
 			Grid.Column="1" />
 		<TextBox
+            Grid.Row="1"
 			Grid.Column="1"
 			Margin="0,42,12,0"
 			Name="TxtNewTypeName"
@@ -37,6 +46,7 @@
 			VerticalAlignment="Top"
 			Grid.ColumnSpan="2" />
 		<TextBlock
+            Grid.Row="1"
 			Grid.Column="1"
 			Margin="0,74,12,0" 
 			Height="32"
@@ -44,6 +54,7 @@
 			VerticalAlignment="Top" 
 			TextWrapping="Wrap" />
 		<RadioButton
+            Grid.Row="1"
 			Content="{x:Static am:Strings.SELECT}"
 			Height="16"
 			Margin="12,16,12,0"
@@ -54,6 +65,7 @@
 			TabIndex="2"
 			Click="RadioExisting_Click" />
 		<RadioButton
+            Grid.Row="1"
 			Content="{x:Static am:Strings.NEW}"
 			Height="16"
 			Margin="12,45,12,0"
@@ -63,6 +75,7 @@
 			TabIndex="3"
 			Click="RadioNew_Click" />
 		<RadioButton
+            Grid.Row="1"
 			Content="{x:Static am:Strings.AUTO_GROUP}"
 			Height="16"
 			Margin="12,74,12,0"

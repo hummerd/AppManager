@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using AppManager.EntityCollection;
+using System.Collections.Specialized;
+using CommonLib;
 
 
-namespace AppManager
+namespace AppManager.Entities
 {
 	public class AppTypeCollection : EntityCollection<AppType>
 	{
@@ -24,6 +23,9 @@ namespace AppManager
 	[Serializable]
 	public class AppType : EntityBase<AppType>
 	{
+		public event EventHandler<ValueEventArgs<AppInfo>> AppInfoDeleted;
+
+
 		protected AppInfoCollection _AppInfos;
 		protected string _AppTypeName;
 
@@ -32,6 +34,19 @@ namespace AppManager
 		{
 			_AppInfos = new AppInfoCollection();
 			_AppInfos.CollectionChanged += (s, e) => OnPropertyChanged("AppTypeInfo");
+			_AppInfos.CollectionChanged += (s, e) =>
+				{
+					if (
+						e.Action == NotifyCollectionChangedAction.Remove ||
+						e.Action == NotifyCollectionChangedAction.Replace ||
+						e.Action == NotifyCollectionChangedAction.Reset)
+					{
+						foreach (AppInfo ai in e.OldItems)
+						{
+							OnAppInfoDeleted(ai);
+						}
+					}
+				};
 		}
 
 		
@@ -55,6 +70,12 @@ namespace AppManager
 			return _AppTypeName;
 		}
 
+
+		protected virtual void OnAppInfoDeleted(AppInfo appInfo)
+		{
+			if (AppInfoDeleted != null)
+				AppInfoDeleted(this, new ValueEventArgs<AppInfo>(appInfo));
+		}
 
 		protected override void MergeEntity(AppType source, bool clone)
 		{

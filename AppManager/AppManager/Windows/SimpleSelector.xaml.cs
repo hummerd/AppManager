@@ -15,13 +15,14 @@ namespace AppManager.Windows
 		protected object _ItemToSelect;
 
 
-		public SimpleSelector(IEnumerable items, object selectedItem, string displayPath, string title)
+		public SimpleSelector(IEnumerable items, object selectedItem, string displayPath, string title, bool autoVisible)
 		{
 			InitializeComponent();
 
 			Title = title;
 			CbxInput.DisplayMemberPath = displayPath;
 			CbxInput.ItemsSource = items;
+			RadioAutoGroup.Visibility = autoVisible ? Visibility.Visible : Visibility.Collapsed;
 
 			_ItemToSelect = selectedItem;
 		}

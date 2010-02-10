@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using CommonLib.Windows;
 using UpdateLib;
+using CommonLib.PInvoke;
 
 
 namespace AppManager.Commands
@@ -51,6 +52,7 @@ namespace AppManager.Commands
 
 			//Updater can consume a lot of memory
 			GC.Collect();
+			Kernel32.GropWorkingSet();
 
 			if (_SilentUpdate)
 			{

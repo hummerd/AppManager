@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using AppManager.DragDrop;
+using AppManager.Entities;
 using CommonLib;
-using CommonLib.UI;
 using CommonLib.PInvoke;
+using CommonLib.UI;
 
 
 namespace AppManager

@@ -5,11 +5,11 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
+using AppManager.Entities;
 using CommonLib;
+using CommonLib.Application;
 using CommonLib.PInvoke;
 using CommonLib.Shell;
-using CommonLib.Application;
 
 
 namespace AppManager

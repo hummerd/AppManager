@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Threading;
 using AppManager.Commands;
+using AppManager.Entities;
 using AppManager.Windows;
-using CommonLib.UI;
 using CommonLib.Windows;
 
 
@@ -35,31 +35,6 @@ namespace AppManager
 			appInfo.RequestAppImage();
 		}
 
-		//public void RemoveAppType(AppType appType)
-		//{
-		//    if (appType == null)
-		//        return;
-
-		//    _WorkItem.AppData.AppTypes.Remove(appType);
-		//}
-
-		//public void AddAppType()
-		//{
-		//    InputBox input = new InputBox(Strings.ENTER_APP_TYPE_NAME);
-		//    input.InputText = Strings.APPLICATIONS;
-		//    input.Owner = _WorkItem.MainWindow;
-		//    input.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-		//    if (input.ShowDialog() ?? false)
-		//    {
-		//        InsertAppType(
-		//            new AppType() { AppTypeName = input.InputText },
-		//            null);
-		//    }
-		//}
-
-
-
 		public void AddAppType(AppGroup appGroup, AppType beforeAppType)
 		{
 			//if (appType == null)
@@ -78,15 +53,6 @@ namespace AppManager
 					beforeAppType);
 			}
 		}
-
-		
-
-		//public void CreateDefaultType()
-		//{
-		//    _WorkItem.AppData.AppTypes.Add(
-		//        new AppType() { AppTypeName = Strings.APPLICATIONS }
-		//        );
-		//}
 
 		public void RenameAppType(AppType appType)
 		{
@@ -166,24 +132,6 @@ namespace AppManager
 				appInfo.AppName = input.InputText;
 			}
 		}
-
-		//public void DeleteItem(AppInfo appInfo)
-		//{
-		//    if (appInfo == null)
-		//        return;
-
-		//    if (!MsgBox.Show(
-		//            _WorkItem.MainWindow,
-		//            Strings.APP_TITLE,
-		//            string.Format(Strings.QUEST_DEL_APP, appInfo.AppName)
-		//            )
-		//        )
-		//        return;
-
-		//    AppType appType = _WorkItem.AppData.FindAppType(appInfo);
-		//    if (appType != null)
-		//        appType.AppInfos.Remove(appInfo);
-		//}
 
 		public void EditItem(AppInfo appInfo)
 		{

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using AppManager.Entities;
+using CommonLib.PInvoke;
+
 
 namespace AppManager.Commands
 {
@@ -18,12 +20,19 @@ namespace AppManager.Commands
 			mangerData.NeedAppImage += (s, e) => 
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
 			mangerData.ReInitImages();
+			var deletedData = new DeletedAppCollection((IEnumerable<DeletedApp>)_WorkItem.RecycleBin.Copy());
+			deletedData.RegisterSource(mangerData);
+			foreach (DeletedApp item in deletedData)
+			{
+				_WorkItem.ImageLoader.RequestImage(item.App);	
+			}
 
 			appManager.Init(
 				_WorkItem, 
 				mangerData,
 				parameter as AppInfo,
-				parameter as AppType);
+				parameter as AppType,
+				deletedData);
 
 			_WorkItem.Commands.Activate.Execute(null);
 			appManager.Owner = _WorkItem.MainWindow;
@@ -33,6 +42,14 @@ namespace AppManager.Commands
 				_WorkItem.AppData.MergeEntity(mangerData);
 				_WorkItem.Commands.Save.Execute(null);
 			}
+
+			foreach (DeletedApp item in deletedData)
+			{
+				item.App.AppImage = null;
+			}
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
 		}
 	}
 }

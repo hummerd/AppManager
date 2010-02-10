@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CommonLib.PInvoke;
 
 namespace AppManager.Commands
 {
@@ -14,11 +12,7 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			_WorkItem.MainWindow.Hide();
-
-			//GC.Collect();
-			//GC.WaitForPendingFinalizers();
-			//GC.Collect();
-			//GC.WaitForPendingFinalizers();
+			Kernel32.GropWorkingSet();
 		}
 	}
 }
