@@ -176,6 +176,7 @@
     <Compile Include="Classes\Entities\AppInfo.cs" />
     <Compile Include="Classes\AppManagerController.cs" />
     <Compile Include="Classes\Entities\AppType.cs" />
+    <Compile Include="Classes\Entities\DeletedApp.cs" />
     <Compile Include="Classes\EntityCollection\EntityBase.cs" />
     <Compile Include="Classes\EntityCollection\EntityCloner.cs" />
     <Compile Include="Classes\EntityCollection\EntityMerger.cs" />
@@ -334,6 +335,8 @@
     <Resource Include="Resources\view_remove_1232_16.png" />
     <Resource Include="Resources\edit_remove_14_16.png" />
     <Resource Include="Resources\edit_remove_14_12.png" />
+    <Resource Include="Resources\trash_16.png" />
+    <Resource Include="Resources\agt_reload_3236_16_green.png" />
     <Content Include="VersionManifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
