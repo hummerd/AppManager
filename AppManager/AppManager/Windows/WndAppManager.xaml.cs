@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AppManager.Entities;
 using AppManager.Windows;
 using CommonLib.Windows;
+using System.Collections;
 
 
 namespace AppManager
@@ -19,6 +21,7 @@ namespace AppManager
 		protected AppGroup _AppGroup;
 		protected AppTypeCollection _AppTypes;
 		protected bool _SearchAppCheck = true;
+		protected DeletedAppCollection _DeletedApps;
 
 
 		public WndAppManager()
@@ -27,13 +30,15 @@ namespace AppManager
 		}
 
 
-		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo, AppType appType)
+		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo, AppType appType, DeletedAppCollection deletedApps)
 		{
 			_AppGroup = appGroup;
 			_Controller = new AppManagerController(workItem);
 			AppTypes.ItemsSource = appGroup.AppTypes;
 			_AppTypes = appGroup.AppTypes;
 			AppTypeSelector.ItemsSource = appGroup.AppTypes;
+			DeletedAppList.ItemsSource = deletedApps;
+			_DeletedApps = deletedApps;
 			//AppScanType.ItemsSource = appGroup.AppTypes;
 
 			if (appInfo != null)
@@ -246,7 +251,8 @@ namespace AppManager
 				_AppTypes, 
 				AppTypes.SelectedItem, 
 				"AppTypeName", 
-				Strings.SELECT_APP_GROUP);
+				Strings.SELECT_APP_GROUP,
+				true);
 
 			ss.Owner = this;
 
@@ -334,6 +340,62 @@ namespace AppManager
 
 			BtnScanAllProgs.Width = nw;
 			BtnScanQuickLaunch.Width = nw;
+		}
+
+		private void BtnResore_Click(object sender, RoutedEventArgs e)
+		{
+			var delApp = DeletedAppList.SelectedItems;
+
+			AppType appType = null;
+			bool hasNoType = false;
+			foreach (DeletedApp da in delApp)
+			{
+				if (da.DeletedFrom == null)
+				{
+					hasNoType = true;
+					break;
+				}
+			}
+
+			if (hasNoType)
+			{
+				var ss = new SimpleSelector(
+					_AppTypes,
+					AppTypes.SelectedItem,
+					"AppTypeName",
+					Strings.SELECT_APP_GROUP,
+					false);
+
+				ss.Owner = this;
+				if (ss.ShowDialog() ?? false)
+				{
+					_Controller.RestoreApp(
+						_AppGroup,
+						new DeletedAppCollection(delApp),
+						_DeletedApps,
+						appType,
+						ss.NewName
+						);
+				}
+
+				return;
+			}
+
+			_Controller.RestoreApp(
+				_AppGroup,
+				new DeletedAppCollection(delApp),
+				_DeletedApps,
+				null,
+				null
+				);
+		}
+
+		private void BtnDeleteFromBin_Click(object sender, RoutedEventArgs e)
+		{
+			_Controller.DeleteFromBin(
+				_DeletedApps,
+				 new DeletedAppCollection(DeletedAppList.SelectedItems)
+				);
 		}
 	}
 }

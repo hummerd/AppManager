@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using AppManager.EntityCollection;
 using CommonLib;
 using CommonLib.IO;
 
 
-namespace AppManager
+namespace AppManager.Entities
 {
 	[Serializable]
 	public class AppGroup : EntityBase<AppGroup>
 	{
+		public event EventHandler<ValueEventArgs<AppInfo>> AppInfoDeleted;
 		public event EventHandler NeedAppImage;
 
 
 		protected AppTypeCollection _AppTypes;
 		protected int _LastAppInfoID = 1;
-		//protected AsyncImageLoader _ImageLoader = new AsyncImageLoader();
 
 
 		public AppGroup()
 		{
 			_AppTypes = new AppTypeCollection();
+			_AppTypes.CollectionChanged += AppTypesCollectionChanged;
 		}
 
 
@@ -62,12 +64,6 @@ namespace AppManager
 			app.NeedImage += (s, e) => OnNeedAppImage(s as AppInfo);
 			app.RequestAppImage();
 		}
-
-		//public void StartLoadImages()
-		//{
-		//    ReInitImages();
-		//    _ImageLoader.StartLoad();
-		//}
 
 		public int GetMaxAppCountPerType()
 		{
@@ -110,6 +106,17 @@ namespace AppManager
 			}
 
 			return result;
+		}
+
+		public AppType FindAppType(string appTypeName)
+		{
+			foreach (var item in _AppTypes)
+			{
+				if (string.Equals(item.AppTypeName, appTypeName, StringComparison.CurrentCultureIgnoreCase))
+					return item;
+			}
+
+			return null;
 		}
 
 		public AppType FindAppType(AppInfo appInfo)
@@ -233,6 +240,33 @@ namespace AppManager
 		}
 
 
+		protected void AppTypesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (e.Action == NotifyCollectionChangedAction.Add)
+			{
+				foreach (AppType at in e.NewItems)
+				{
+					at.AppInfoDeleted += OnAppInfoDeleted;
+				}
+			}
+			else if (
+				e.Action == NotifyCollectionChangedAction.Remove ||
+				e.Action == NotifyCollectionChangedAction.Replace ||
+				e.Action == NotifyCollectionChangedAction.Reset)
+			{
+				foreach (AppType at in e.OldItems)
+				{
+					at.AppInfoDeleted -= OnAppInfoDeleted;
+				}
+			}
+		}
+
+		protected virtual void OnAppInfoDeleted(object sender, ValueEventArgs<AppInfo> e)
+		{
+			if (AppInfoDeleted != null)
+				AppInfoDeleted(sender, e);
+		}
+
 		protected virtual void OnNeedAppImage(AppInfo app)
 		{
 			if (NeedAppImage != null)
@@ -276,14 +310,6 @@ namespace AppManager
 
 			return winApps;
 		}
-
-		//protected void RequestImage(AppInfo app)
-		//{
-		//    if (app == null)
-		//        return;
-
-		//    _ImageLoader.RequestImage(app);
-		//}
 
 		protected IEnumerable<AppInfo> AllApps()
 		{

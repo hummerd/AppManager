@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using AppManager.Commands;
 using AppManager.DragDrop;
+using AppManager.Entities;
 using AppManager.Settings;
 using CommonLib;
 using CommonLib.PInvoke;

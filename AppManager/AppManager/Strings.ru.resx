@@ -295,6 +295,9 @@
   <data name="QUICK_START" xml:space="preserve">
     <value>Меню Быстрый запуск</value>
   </data>
+  <data name="RECYCLE_BIN" xml:space="preserve">
+    <value>Корзина</value>
+  </data>
   <data name="REMOVE_LINK" xml:space="preserve">
     <value>Удалить ссылку</value>
   </data>

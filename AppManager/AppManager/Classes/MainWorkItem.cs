@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using AppManager.Commands;
+using AppManager.Entities;
 using AppManager.Settings;
 using CommonLib.PInvoke.WinHook;
 using WinForms = System.Windows.Forms;
@@ -17,6 +18,7 @@ namespace AppManager
 
 		protected AsyncImageLoader _ImageLoader;
 		protected AppGroup _AppData;
+		protected DeletedAppCollection _RecycleBin;
 		protected MainWindow _MainWindow;
 		protected App _Application;
 		protected KeyboardHook _KbrdHook;
@@ -40,6 +42,7 @@ namespace AppManager
 			_MainWindow = new MainWindow(this);
 			_TrayIcon = new WinForms.NotifyIcon();
 			_AppData = new AppGroup();
+			_RecycleBin = new DeletedAppCollection();
 			UpdateRunning = false;
 		}
 
@@ -125,6 +128,18 @@ namespace AppManager
 			set
 			{
 				_AppData = value;
+			}
+		}
+
+		public DeletedAppCollection RecycleBin
+		{
+			get
+			{
+				return _RecycleBin;
+			}
+			set
+			{
+				_RecycleBin = value;
 			}
 		}
 

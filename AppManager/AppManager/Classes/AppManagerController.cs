@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
+using AppManager.Entities;
 using WinForms = System.Windows.Forms;
+using AppManager.Windows;
 
 
 namespace AppManager
@@ -16,6 +18,40 @@ namespace AppManager
 			//_Data = data;
 		}
 
+
+		public void DeleteFromBin(DeletedAppCollection recycleBin, DeletedAppCollection deletedApp)
+		{
+			for (int i = 0; i < deletedApp.Count; i++)
+			{
+				recycleBin.Remove(deletedApp[i] as DeletedApp);
+			}
+		}
+
+		public void RestoreApp(AppGroup appGroup, DeletedAppCollection deletedApp, DeletedAppCollection recycleBin, AppType restore, string newAppTypeName)
+		{
+			if (deletedApp == null)
+				return;
+
+			if (newAppTypeName != null)
+			{
+				restore = new AppType() { AppTypeName = newAppTypeName };
+				appGroup.AppTypes.Add(restore);
+			}
+
+			for (int i = 0; i < deletedApp.Count; i++)
+			{
+				var item = deletedApp[i] as DeletedApp;
+				var at = appGroup.FindAppType((item.DeletedFrom ?? restore).AppTypeName);
+
+				var ai = appGroup.CreateNewAppInfo(
+					at,
+					item.App.AppName,
+					item.App.ExecPath,
+					item.App.ImagePath);
+
+				recycleBin.Remove(item);
+			}
+		}
 
 		public void AddEmptyAppType(AppGroup appGroup, AppType beforeAppType)
 		{

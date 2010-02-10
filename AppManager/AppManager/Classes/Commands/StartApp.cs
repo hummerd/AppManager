@@ -5,10 +5,12 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using AppManager.Entities;
 using AppManager.Properties;
 using AppManager.Windows;
 using CommonLib;
 using CommonLib.Application;
+using CommonLib.PInvoke;
 using CommonLib.PInvoke.WinHook;
 using WinForms = System.Windows.Forms;
 
@@ -73,7 +75,8 @@ namespace AppManager.Commands
 			if (_FirstStart)
 				_WorkItem.Commands.Help.Execute(false);
 
-			_WorkItem.Settings.PropertyChanged += (s, e) => OnSettingsChanged(e.PropertyName);
+			_WorkItem.Settings.PropertyChanged += (s, e) => 
+				OnSettingsChanged(e.PropertyName);
 		}
 
 
@@ -93,11 +96,13 @@ namespace AppManager.Commands
 
 			_WorkItem.AppData.NeedAppImage += (s, e) => 
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
+			_WorkItem.RecycleBin.RegisterSource(_WorkItem.AppData);
 			_WorkItem.ImageLoader.StartLoad();
 			_WorkItem.AppData.ReInitImages();
 
 			CreateActivationPanelWatcher();
 			CreateActivationPanel();
+			Kernel32.GropWorkingSet();
 		}
 
 		protected bool CheckSingleInstance()

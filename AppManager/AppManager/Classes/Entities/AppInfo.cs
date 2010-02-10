@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -8,7 +7,7 @@ using CommonLib;
 using CommonLib.IO;
 
 
-namespace AppManager
+namespace AppManager.Entities
 {
 	public class AppInfoCollection : EntityCollection<AppInfo>
 	{
@@ -331,7 +330,13 @@ namespace AppManager
 		{
 			return AppName;
 		}
-		
+
+		public bool EqualsByExecPath(AppInfo appInfo)
+		{
+			return
+				string.Equals(appInfo.ExecPath, ExecPath, StringComparison.CurrentCultureIgnoreCase);
+		}
+
 		public override bool Equals(object obj)
 		{
 			return ID == ((AppInfo)obj).ID;

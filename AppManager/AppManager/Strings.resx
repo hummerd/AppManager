@@ -295,6 +295,9 @@ group?</value>
   <data name="QUICK_START" xml:space="preserve">
     <value>Quick Start menu</value>
   </data>
+  <data name="RECYCLE_BIN" xml:space="preserve">
+    <value>Recycle bin</value>
+  </data>
   <data name="REMOVE_LINK" xml:space="preserve">
     <value>Remove link</value>
   </data>

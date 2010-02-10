@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 
@@ -6,6 +7,9 @@ namespace CommonLib.PInvoke
 {
 	public static class Kernel32
 	{
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+		public static extern int SetProcessWorkingSetSize(IntPtr hProcess, int dwMinimumWorkingSetSize, int dwMaximumWorkingSetSize);
+
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		public static extern int GetLastError();
 
@@ -17,6 +21,12 @@ namespace CommonLib.PInvoke
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, LoadLibraryExFlags dwFlags);
+
+
+		public static void GropWorkingSet()
+		{
+			SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, -1, -1);
+		}
 
 		public static void ZeroMemory(IntPtr ptr, int count)
 		{

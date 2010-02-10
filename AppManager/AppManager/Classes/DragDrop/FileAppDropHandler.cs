@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using AppManager.Entities;
 using CommonLib.IO;
 using DragDropLib;
 

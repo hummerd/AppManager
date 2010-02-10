@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using CommonLib.Windows;
-using CommonLib.PInvoke;
 using System.IO;
+using System.Text;
 using System.Windows;
+using AppManager.Entities;
 using AppManager.Windows;
-using CommonLib.UI;
 using CommonLib.IO;
+using CommonLib.PInvoke;
+using CommonLib.UI;
+using CommonLib.Windows;
 
 
 namespace AppManager
