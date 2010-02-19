@@ -260,14 +260,15 @@ namespace AppManager.Commands
 			{ ; }
 
 			if (!readNew)
-			try
-			{
-				apps = AppGroupLoader.Load(_WorkItem.DataPath);
-			}
-			catch
-			{ ; }
+				try
+				{
+					apps = AppGroupLoader.Load(_WorkItem.DataPath);
+				}
+				catch
+				{ ; }
 
-
+			_WorkItem.RecycleBin = AppGroupLoader.LoadRecycleBin(_WorkItem.RecycleBinPath);
+			
 			if (apps != null)
 			{
 				_WorkItem.AppData = apps;

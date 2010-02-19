@@ -321,9 +321,13 @@ namespace AppManager
 			var selected = GetSelected();
 
 			if (selected.Count > 0)
+			{
 				_Controller.AddToBin(
 					_DeletedApps,
 					selected);
+
+				AppTabs.SelectedItem = TabRecycleBin;
+			}
 		}
 
 
@@ -421,11 +425,12 @@ namespace AppManager
 		{
 			var result = new AppInfoCollection();
 			var foundApps = AppScanList.ItemsSource as List<AppInfoAdapter>;
-			foundApps.ForEach(aa =>
-				{
-					if (aa.Checked)
-						result.Add(aa.App);
-				});
+			if (foundApps != null)
+				foundApps.ForEach(aa =>
+					{
+						if (aa.Checked)
+							result.Add(aa.App);
+					});
 
 			return result;
 		}
