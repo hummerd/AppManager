@@ -630,7 +630,7 @@
             </Grid>
         </TabItem>
         <TabItem
-			Header="{x:Static am:Strings.RECYCLE_BIN}">
+			Header="{x:Static am:Strings.RECYCLE_BIN}" Name="TabRecycleBin">
             <Grid Name="DeletedApps">
                 <Grid.RowDefinitions>
                     <RowDefinition
@@ -640,7 +640,10 @@
                 </Grid.RowDefinitions>
                 <TextBlock 
                     Margin="8,12,66,0" 
-                    VerticalAlignment="Top" Height="30">Recycle bin can be used as filter in search tab</TextBlock>
+                    VerticalAlignment="Top" 
+                    Height="30"
+                    Text="{x:Static am:Strings.RECYCLE_BIN_TIP}"
+                    />
                 <Button
 					Name="BtnResore"
                     Margin="0,12,36,12"

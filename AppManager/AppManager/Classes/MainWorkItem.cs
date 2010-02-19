@@ -168,6 +168,18 @@ namespace AppManager
 			}
 		}
 
+		public string RecycleBinPath
+		{
+			get
+			{
+#if DEBUG
+				return Path.Combine(DataDir, "recyclebin.xml");
+#else
+				return Path.Combine(DataDir, "recyclebin.xml");
+#endif
+			}
+		}
+
 
 		public void NotifyUpdateCompleted()
 		{

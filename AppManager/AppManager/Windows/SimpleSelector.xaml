@@ -52,7 +52,7 @@
 			Height="32"
 			Text="{x:Static am:Strings.ADD_TO_AUTO_GROUPS}"
 			VerticalAlignment="Top" 
-			TextWrapping="Wrap" />
+			TextWrapping="Wrap" Name="LblAutoGroup" />
 		<RadioButton
             Grid.Row="1"
 			Content="{x:Static am:Strings.SELECT}"

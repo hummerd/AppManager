@@ -18,6 +18,7 @@ namespace AppManager.Commands
 			//   _WorkItem.DataPath);
 
 			AppGroupLoader.Save(_WorkItem.DataPath, _WorkItem.AppData);
+			AppGroupLoader.SaveRecycleBin(_WorkItem.RecycleBinPath, _WorkItem.RecycleBin);
 
 			_WorkItem.MainWindow.SaveState();
 			AMSetttingsFactory.DefaultSettingsBag.SaveSettings("appsettings.xml");

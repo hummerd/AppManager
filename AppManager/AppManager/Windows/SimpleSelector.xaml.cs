@@ -22,7 +22,8 @@ namespace AppManager.Windows
 			Title = title;
 			CbxInput.DisplayMemberPath = displayPath;
 			CbxInput.ItemsSource = items;
-			RadioAutoGroup.Visibility = autoVisible ? Visibility.Visible : Visibility.Collapsed;
+			RadioAutoGroup.Visibility =
+			LblAutoGroup.Visibility = autoVisible ? Visibility.Visible : Visibility.Collapsed;
 
 			_ItemToSelect = selectedItem;
 		}

@@ -53,32 +53,10 @@ namespace AppManager
 			}
 		}
 
-
-		public static string SaveRecycleBin(DeletedAppCollection recycleBin)
-		{
-			XmlWriterSettings sett = new XmlWriterSettings();
-			sett.Indent = true;
-			StringBuilder result = new StringBuilder(1000);
-
-			using (XmlWriter writer = XmlWriter.Create(result, sett))
-			{
-				writer.WriteStartElement("RecycleBin");
-				
-				foreach (var item in recycleBin)
-				{
-					WriteDeletedApp(writer, item);
-				}
-
-				writer.WriteEndElement();
-			}
-
-			return result.ToString();
-		}
-
 		public static AppGroup Load(string xmlPath)
 		{
-			AppGroup result = new AppGroup();
-			XmlReaderSettings sett = new XmlReaderSettings();
+			var result = new AppGroup();
+			var sett = new XmlReaderSettings();
 			sett.IgnoreWhitespace = true;
 			sett.IgnoreComments = true;
 			using (XmlReader reader = XmlReader.Create(xmlPath, sett))
@@ -186,7 +164,64 @@ namespace AppManager
 			}
 		}
 
+		public static void SaveRecycleBin(string xmlPath, DeletedAppCollection recycleBin)
+		{
+			XmlWriterSettings sett = new XmlWriterSettings();
+			sett.Indent = true;
 
+			using (XmlWriter writer = XmlWriter.Create(xmlPath, sett))
+			{
+				writer.WriteStartElement("RecycleBin");
+
+				foreach (var item in recycleBin)
+				{
+					WriteDeletedApp(writer, item);
+				}
+
+				writer.WriteEndElement();
+			}
+		}
+
+		public static DeletedAppCollection LoadRecycleBin(string xmlPath)
+		{
+			var result = new DeletedAppCollection();
+			XmlReaderSettings sett = new XmlReaderSettings();
+			sett.IgnoreWhitespace = true;
+			sett.IgnoreComments = true;
+
+			if (!File.Exists(xmlPath))
+				return result;
+
+			using (XmlReader reader = XmlReader.Create(xmlPath, sett))
+			{
+				reader.ReadStartElement("RecycleBin");
+
+				while (reader.IsStartElement())
+				{
+					reader.ReadStartElement("DeletedApp");
+
+					var appInfo = ReadAppInfo2(reader);
+
+					AppType appType = null;
+					if (reader.IsStartElement())
+						appType = ReadAppType(reader);
+
+					result.Add(new DeletedApp
+					{
+						App = appInfo,
+						DeletedFrom = appType
+					});
+
+					reader.ReadEndElement();
+				}
+
+				reader.ReadEndElement();
+			}
+
+			return result;
+		}
+
+		
 		private static void WriteDeletedApp(XmlWriter writer, DeletedApp delApp)
 		{
 			writer.WriteStartElement("DeletedApp");
