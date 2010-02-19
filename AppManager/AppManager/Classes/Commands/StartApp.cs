@@ -151,7 +151,7 @@ namespace AppManager.Commands
 					if (askScan.AddFromQickStart)
 						sl |= SearchLocation.QuickLaunch;
 
-					var apps = ctrl.FindApps(sl, null, false);
+					var apps = ctrl.FindApps(sl, null, null, false, false);
 					_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
 					_WorkItem.AppData.GroupByFolders(_WorkItem.AppData.AppTypes[0]);
 

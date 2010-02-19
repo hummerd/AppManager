@@ -195,6 +195,12 @@
   <data name="EXCLUDE_EXISTING_INFO" xml:space="preserve">
     <value>Exclude already added links from search</value>
   </data>
+  <data name="EXCLUDE_RECYCLE_BIN" xml:space="preserve">
+    <value>Exclude deleted links (to recycle bin)</value>
+  </data>
+  <data name="EXCLUDE_RECYCLE_BIN_INFO" xml:space="preserve">
+    <value>Exclude links deleted to recycle bin from search</value>
+  </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.en-en.rtf</value>
   </data>
@@ -297,6 +303,9 @@ group?</value>
   </data>
   <data name="RECYCLE_BIN" xml:space="preserve">
     <value>Recycle bin</value>
+  </data>
+  <data name="RECYCLE_BIN_TIP" xml:space="preserve">
+    <value>Recycle bin can be used as filter in "Search" tab</value>
   </data>
   <data name="REMOVE_LINK" xml:space="preserve">
     <value>Remove link</value>

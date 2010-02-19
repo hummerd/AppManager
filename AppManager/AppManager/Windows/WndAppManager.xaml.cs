@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AppManager.Entities;
+using AppManager.UIAdapter;
 using AppManager.Windows;
 using CommonLib.Windows;
-using System.Collections;
 
 
 namespace AppManager
@@ -232,12 +233,14 @@ namespace AppManager
 
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = _Controller.AdaptTo(
+			AppScanList.ItemsSource = AdaptTo(
 				_Controller.FindApps(
 					new List<string>() { TxtFolder.Text },
 					new List<string>() { "lnk", "exe", "jar" },
 					_AppGroup,
-					ChkExcludeExisting.IsChecked ?? false),
+					_DeletedApps,
+					ChkExcludeExisting.IsChecked ?? false,
+					ChkExcludeRecycleBin.IsChecked ?? false),
 				_SearchAppCheck);
 		}
 
@@ -258,15 +261,16 @@ namespace AppManager
 
 			if (ss.ShowDialog() ?? false)
 			{
-				var foundApps = AppScanList.ItemsSource as List<AppManagerController.AppInfoAdapter>;
+				var selectedApps = GetSelected();
+
 				if (ss.AutoGroup)
-					_Controller.AddScned(_AppGroup, foundApps);
+					_Controller.AddScned(_AppGroup, selectedApps);
 				else
 					_Controller.AddScned(
 						_AppGroup,
 						ss.SelectedItem as AppType,
 						ss.NewName,
-						foundApps);
+						selectedApps);
 			}
 		}
 
@@ -284,28 +288,42 @@ namespace AppManager
 			if (cb != null)
 			{
 				_SearchAppCheck = cb.IsChecked ?? false;
-				_Controller.SelectAllScan(AppScanList.ItemsSource, _SearchAppCheck);
+				SelectAllScan(AppScanList.ItemsSource, _SearchAppCheck);
 			}
 		}
 
 		private void BtnScanQuickLaunch_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = _Controller.AdaptTo(
+			AppScanList.ItemsSource = AdaptTo(
 				 _Controller.FindApps(
 					SearchLocation.QuickLaunch,
 					_AppGroup,
-					ChkExcludeExisting.IsChecked ?? false),
+					_DeletedApps,
+					ChkExcludeExisting.IsChecked ?? false,
+					ChkExcludeRecycleBin.IsChecked?? false),
 				_SearchAppCheck);
 		}
 
 		private void BtnScanAllProgs_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = _Controller.AdaptTo(
+			AppScanList.ItemsSource = AdaptTo(
 				 _Controller.FindApps(
 					SearchLocation.AllProgramsMenu, 
 					_AppGroup, 
-					ChkExcludeExisting.IsChecked ?? false), 
+					_DeletedApps,
+					ChkExcludeExisting.IsChecked ?? false,
+					ChkExcludeRecycleBin.IsChecked ?? false), 
 				_SearchAppCheck);
+		}
+
+		private void BtnToRecycleBin_Click(object sender, RoutedEventArgs e)
+		{
+			var selected = GetSelected();
+
+			if (selected.Count > 0)
+				_Controller.AddToBin(
+					_DeletedApps,
+					selected);
 		}
 
 
@@ -396,6 +414,40 @@ namespace AppManager
 				_DeletedApps,
 				 new DeletedAppCollection(DeletedAppList.SelectedItems)
 				);
+		}
+
+
+		protected AppInfoCollection GetSelected()
+		{
+			var result = new AppInfoCollection();
+			var foundApps = AppScanList.ItemsSource as List<AppInfoAdapter>;
+			foundApps.ForEach(aa =>
+				{
+					if (aa.Checked)
+						result.Add(aa.App);
+				});
+
+			return result;
+		}
+
+		protected AppInfoAdapterCollection AdaptTo(AppInfoCollection apps, bool check)
+		{
+			if (apps == null)
+				return new AppInfoAdapterCollection();
+
+			var result = new AppInfoAdapterCollection();
+
+			foreach (var app in apps)
+				result.Add(new AppInfoAdapter(app) { Checked = check });
+
+			return result;
+		}
+
+		protected void SelectAllScan(IEnumerable appAdps, bool check)
+		{
+			var apps = appAdps as List<AppInfoAdapter>;
+			if (apps != null)
+				apps.ForEach(a => a.Checked = check);
 		}
 	}
 }

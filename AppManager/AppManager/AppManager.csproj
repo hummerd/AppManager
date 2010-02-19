@@ -210,6 +210,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="UIAdapter\AppInfoAdapter.cs" />
     <Compile Include="Windows\FirstScan.xaml.cs">
       <DependentUpon>FirstScan.xaml</DependentUpon>
     </Compile>

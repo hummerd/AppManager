@@ -1,7 +1,7 @@
-﻿using AppManager.EntityCollection;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AppManager.EntityCollection;
 
 
 namespace AppManager.Entities
@@ -28,28 +28,56 @@ namespace AppManager.Entities
 		}
 
 
+		public DeletedApp FindByApp(AppType appType, AppInfo appInfo)
+		{
+			for (int i = 0; i < Count; i++)
+			{
+				var item = this[i];
+
+				if (item.App.EqualsByExecPath(appInfo) &&
+					SameOrWithoutAppType(item.DeletedFrom, appType))
+					return item;
+			}
+
+			return null;
+		}
+
 		public void RegisterSource(AppGroup appGroup)
 		{ 
 			appGroup.AppInfoDeleted += (s, e) =>
-				AddApp(s as AppType, e.Value);
+				AddApp(s as AppType, e.Value, true);
 		}
 
-		public void AddApp(AppType appType, AppInfo appInfo)
+		public void AddApp(AppType appType, AppInfo appInfo, bool resetImage)
 		{
-			foreach (var item in this)
-			{
-				if (item.App.EqualsByExecPath(appInfo) &&
-					string.Equals(
-						item.DeletedFrom.AppTypeName,
-						appType.AppTypeName,
-						StringComparison.CurrentCultureIgnoreCase))
-					return;
-			}
+			if (FindByApp(appType, appInfo) != null)
+				return;
+	
+			if (resetImage)
+				appInfo.AppImage = null;
 
-			appInfo.AppImage = null;
-			Add(new DeletedApp() { App = appInfo, DeletedFrom = appType });
+			if (appType != null)
+				appType = appType.CloneWithoutItems();
+
+			Add(new DeletedApp { App = appInfo, DeletedFrom = appType });
+		}
+
+
+		protected bool SameOrWithoutAppType(AppType appType1, AppType appType2)
+		{
+			if (appType1 == null &&  appType2 == null)
+				return true;
+			
+			if (appType1 != null ||  appType2 != null)
+				return false;
+
+			return string.Equals(
+				appType1.AppTypeName,
+				appType2.AppTypeName,
+				StringComparison.CurrentCultureIgnoreCase);
 		}
 	}
+
 
 	public class DeletedApp : EntityBase<DeletedApp>
 	{
@@ -66,6 +94,9 @@ namespace AppManager.Entities
 
 			if (DeletedFrom != source.DeletedFrom)
 				DeletedFrom = source.DeletedFrom;
+
+			if (!clone)
+				App.ImagePath = null;
 		}
 	}
 }

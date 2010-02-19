@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Collections;
 
 
 namespace AppManager.EntityCollection
@@ -10,6 +11,7 @@ namespace AppManager.EntityCollection
 	{
 		protected List<TEntity> _Deleted;
 		protected ReadOnlyCollection<TEntity> _DeletedItems;
+		protected bool _Resetting = false;
 
 
 		public EntityCollection()
@@ -33,8 +35,30 @@ namespace AppManager.EntityCollection
 		}
 
 
+		public void Reset()
+		{
+			try
+			{
+				_Resetting = true;
+				Clear();
+				_Deleted.Clear();
+			}
+			finally
+			{
+				_Resetting = false;
+			}
+		}
+
 		public void AddRange(IEnumerable<TEntity> items)
 		{
+			var list = Items as List<TEntity>;
+			if (list != null)
+			{
+				var coll = items as ICollection;
+				if (coll != null)
+					list.Capacity += coll.Count;
+			}
+
 			foreach (var item in items)
 				Add(item);
 		}
@@ -100,14 +124,17 @@ namespace AppManager.EntityCollection
 
 		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 		{
-			if (e.Action == NotifyCollectionChangedAction.Reset)
-				_Deleted.AddRange(this);
+			if (!_Resetting)
+			{
+				if (e.Action == NotifyCollectionChangedAction.Reset)
+					_Deleted.AddRange(this);
 
-			if (e.Action == NotifyCollectionChangedAction.Remove ||
-				 e.Action == NotifyCollectionChangedAction.Replace)
-				if (e.OldItems != null && e.OldItems.Count > 0)
-					foreach (object item in e.OldItems)
-						_Deleted.Add(item as TEntity);
+				if (e.Action == NotifyCollectionChangedAction.Remove ||
+					 e.Action == NotifyCollectionChangedAction.Replace)
+					if (e.OldItems != null && e.OldItems.Count > 0)
+						foreach (object item in e.OldItems)
+							_Deleted.Add(item as TEntity);
+			}
 
 			base.OnCollectionChanged(e);
 		}

@@ -195,6 +195,12 @@
   <data name="EXCLUDE_EXISTING_INFO" xml:space="preserve">
     <value>Исключить уже добавленные ссылки из поиска</value>
   </data>
+  <data name="EXCLUDE_RECYCLE_BIN" xml:space="preserve">
+    <value>Исключить удаленные (в корзину)</value>
+  </data>
+  <data name="EXCLUDE_RECYCLE_BIN_INFO" xml:space="preserve">
+    <value>Исключить из поиска ссылки из корзины</value>
+  </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.ru-ru.rtf</value>
   </data>
@@ -297,6 +303,9 @@
   </data>
   <data name="RECYCLE_BIN" xml:space="preserve">
     <value>Корзина</value>
+  </data>
+  <data name="RECYCLE_BIN_TIP" xml:space="preserve">
+    <value>Корзина может быть использована как фильтр на вкладке "Поиск"</value>
   </data>
   <data name="REMOVE_LINK" xml:space="preserve">
     <value>Удалить ссылку</value>
