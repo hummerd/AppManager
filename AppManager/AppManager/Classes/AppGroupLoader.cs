@@ -53,6 +53,28 @@ namespace AppManager
 			}
 		}
 
+
+		public static string SaveRecycleBin(DeletedAppCollection recycleBin)
+		{
+			XmlWriterSettings sett = new XmlWriterSettings();
+			sett.Indent = true;
+			StringBuilder result = new StringBuilder(1000);
+
+			using (XmlWriter writer = XmlWriter.Create(result, sett))
+			{
+				writer.WriteStartElement("RecycleBin");
+				
+				foreach (var item in recycleBin)
+				{
+					WriteDeletedApp(writer, item);
+				}
+
+				writer.WriteEndElement();
+			}
+
+			return result.ToString();
+		}
+
 		public static AppGroup Load(string xmlPath)
 		{
 			AppGroup result = new AppGroup();
@@ -164,6 +186,17 @@ namespace AppManager
 			}
 		}
 
+
+		private static void WriteDeletedApp(XmlWriter writer, DeletedApp delApp)
+		{
+			writer.WriteStartElement("DeletedApp");
+
+			WriteAppInfo(writer, delApp.App);
+			if (delApp.DeletedFrom != null)
+				WriteAppType(writer, delApp.DeletedFrom);
+
+			writer.WriteEndElement();
+		}
 
 		private static void WriteAppType(XmlWriter writer, AppType appType)
 		{

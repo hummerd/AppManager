@@ -18,197 +18,197 @@
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
 	Activated="AppsManagerWindow_Activated" Loaded="AppsManagerWindow_Loaded">
 
-	<Window.Resources>
-		<Style
+    <Window.Resources>
+        <Style
 			x:Key="AppTypeItemStyle"
 			TargetType="ListBoxItem">
-			<!--<Setter Property="Background" Value="Transparent"/>
+            <!--<Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="Padding" Value="2,0,0,0"/>-->
-			<Setter
+            <Setter
 				Property="Template">
-				<Setter.Value>
-					<ControlTemplate
+                <Setter.Value>
+                    <ControlTemplate
 						TargetType="{x:Type ListBoxItem}">
-						<Border
+                        <Border
 							x:Name="Bd"
 							SnapsToDevicePixels="true"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							Padding="{TemplateBinding Padding}">
-							<ContentPresenter
+                            <ContentPresenter
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger
 								Property="IsSelected"
 								Value="true">
-								<!--<Setter Property="Foreground" Value="Red"/>-->
-								<Setter
+                                <!--<Setter Property="Foreground" Value="Red"/>-->
+                                <Setter
 									Property="Background"
 									TargetName="Bd"
 									Value="#FFB0CCF7" />
-							</Trigger>
-							<MultiTrigger>
-								<MultiTrigger.Conditions>
-									<Condition
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition
 										Property="IsSelected"
 										Value="true" />
-									<Condition
+                                    <Condition
 										Property="Selector.IsSelectionActive"
 										Value="false" />
-								</MultiTrigger.Conditions>
-								<Setter
+                                </MultiTrigger.Conditions>
+                                <Setter
 									Property="Background"
 									TargetName="Bd"
 									Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-								</Setter>
-								<Setter
+                                </Setter>
+                                <Setter
 									Property="Foreground"
 									Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-							</MultiTrigger>
-							<Trigger
+                            </MultiTrigger>
+                            <Trigger
 								Property="IsEnabled"
 								Value="false">
-								<Setter
+                                <Setter
 									Property="Foreground"
 									Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<Style
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style
 			x:Key="AppItemStyle"
 			TargetType="ListViewItem">
-			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-			<Setter
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter
 				Property="Template">
-				<Setter.Value>
-					<ControlTemplate
+                <Setter.Value>
+                    <ControlTemplate
 						TargetType="{x:Type ListViewItem}">
-						<Border
+                        <Border
 							x:Name="Bd"
 							SnapsToDevicePixels="true"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							Padding="{TemplateBinding Padding}">
-							<GridViewRowPresenter
+                            <GridViewRowPresenter
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger
 								Property="IsSelected"
 								Value="true">
-								<!--<Setter Property="Foreground" Value="#FFDFDFDF"/>-->
-								<Setter
+                                <!--<Setter Property="Foreground" Value="#FFDFDFDF"/>-->
+                                <Setter
 									Property="Background"
 									TargetName="Bd"
 									Value="#FFB0CCF7" />
-							</Trigger>
-							<MultiTrigger>
-								<MultiTrigger.Conditions>
-									<Condition
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition
 										Property="IsSelected"
 										Value="true" />
-									<Condition
+                                    <Condition
 										Property="Selector.IsSelectionActive"
 										Value="false" />
-								</MultiTrigger.Conditions>
-								<Setter
+                                </MultiTrigger.Conditions>
+                                <Setter
 									Property="Background"
 									TargetName="Bd"
 									Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-								<Setter
+                                <Setter
 									Property="Foreground"
 									Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-							</MultiTrigger>
-							<Trigger
+                            </MultiTrigger>
+                            <Trigger
 								Property="IsEnabled"
 								Value="false">
-								<Setter
+                                <Setter
 									Property="Foreground"
 									Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<DataTemplate
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate
 			x:Key="myHeaderTemplate">
-			<DockPanel>
-				<CheckBox
+            <DockPanel>
+                <CheckBox
 					IsChecked="True"
 					Click="CheckBox_Click" />
-			</DockPanel>
-		</DataTemplate>
-		<DataTemplate
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate
 			x:Key="CheckCell">
-			<StackPanel
+            <StackPanel
 				x:Name="Back"
 				Orientation="Horizontal">
-				<CheckBox
+                <CheckBox
 					Name="SelectedCheckBox"
 					IsChecked="{Binding Path=Checked}" />
-			</StackPanel>
-		</DataTemplate>
-		<DataTemplate
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate
 			x:Key="AppTypeInfo">
-			<StackPanel
+            <StackPanel
 				x:Name="Back"
 				Orientation="Vertical"
 				Margin="4,2,0,2">
-				<TextBlock
+                <TextBlock
 					Name="TbAppTypeName"
 					Text="{Binding Path=AppTypeName}"
 					Initialized="TbAppTypeName_Initialized"
 					/>
-				<TextBlock
+                <TextBlock
 					Name="TbAppTypeInfo"
 					Initialized="TbAppTypeInfo_Initialized"
 					Text="{Binding Path=AppTypeInfo}"
 					Foreground="#FF7A7979" />
-			</StackPanel>
-		</DataTemplate>
-		<DataTemplate
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate
 			x:Key="EditableAppInfo">
-			<Border
+            <Border
 				Name="Back"
 				BorderThickness="0,0,0,1"
 				BorderBrush="#FFADADAD"
 				Padding="0,0,0,4">
-				<Grid
+                <Grid
 					Name="GridT">
-					<Grid.RowDefinitions>
-						<RowDefinition
+                    <Grid.RowDefinitions>
+                        <RowDefinition
 							Height="Auto" />
-						<RowDefinition
+                        <RowDefinition
 							Height="Auto" />
-						<RowDefinition
+                        <RowDefinition
 							Height="Auto" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
 							Width="40"
 							MaxWidth="40" />
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-					<Image
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image
 						Grid.RowSpan="2"
 						Source="{Binding Path=AppImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
 						Width="24"
 						Height="24" />
-					<TextBox
+                    <TextBox
 						Grid.Column="1"
 						Text="{Binding Path=AppName, Mode=TwoWay}"
 						BorderBrush="{x:Null}"
@@ -216,9 +216,9 @@
 						VerticalAlignment="Center"
 						GotFocus="TextBox_GotFocus"
 						Background="Transparent">
-					</TextBox>
+                    </TextBox>
                     <!--<TextBlock TextTrimming="WordEllipsis" Grid.Column="1" x:Name="AppItemPath" Grid.Row="1" Text="{Binding Path=AppPath, Mode=TwoWay}" Margin="4,4,0,0" HorizontalAlignment="Left"/>-->
-					<TextBox
+                    <TextBox
 						Grid.Column="1"
 						Grid.ColumnSpan="2"
 						Grid.Row="1"
@@ -228,8 +228,8 @@
 						HorizontalAlignment="Stretch"
 						GotFocus="TextBox_GotFocus"
 						Background="Transparent">
-					</TextBox>					
-					<TextBox
+                    </TextBox>
+                    <TextBox
 						Grid.Column="1"
 						Grid.ColumnSpan="2"
 						Grid.Row="2"
@@ -241,65 +241,65 @@
 						Background="Transparent"
                         >
                     </TextBox>
-					<StackPanel Orientation="Horizontal" Grid.Column="2">
-						<Button
+                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                        <Button
 						x:Name="AppItemRemove"
 						Width="28"
 						ToolTip="{x:Static am:Strings.REMOVE_LINK}"
                         PreviewMouseUp="AppItemRemove_MouseUp"
                         GotFocus="TextBox_GotFocus"
 						>
-							<Image Stretch="None" Source="/AppManager;component/Resources/edit_remove_14_12.png"></Image>
-						</Button>
-						<Button
+                            <Image Stretch="None" Source="/AppManager;component/Resources/edit_remove_14_12.png"></Image>
+                        </Button>
+                        <Button
 						x:Name="AppItemPathSelect"
 						Width="28"
 						ToolTip="{x:Static am:Strings.SELECT_APP}"
                         PreviewMouseUp="AppItemPathSelect_PreviewMouseUp"
                         GotFocus="TextBox_GotFocus"
 						>
-							<Image Source="/AppManager;component/Resources/view_remove_1232_16.png" Stretch="None"></Image>
-						</Button>
-						<Button
+                            <Image Source="/AppManager;component/Resources/view_remove_1232_16.png" Stretch="None"></Image>
+                        </Button>
+                        <Button
 						x:Name="AppItemIconPathSelect"
 						Width="28"
 						ToolTip="{x:Static am:Strings.CHANGE_ICON}"
                         PreviewMouseUp="AppItemIconPathSelect_PreviewMouseUp"
                         GotFocus="TextBox_GotFocus"
                         >
-							<Image Source="/AppManager;component/Resources/kcoloredit_1364_16.png" Stretch="None"></Image>
-						</Button>
-					</StackPanel>
-				</Grid>
-			</Border>
-		</DataTemplate>
-		<DataTemplate
+                            <Image Source="/AppManager;component/Resources/kcoloredit_1364_16.png" Stretch="None"></Image>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate
 			x:Key="SemiEditableAppInfo">
-			<Border
+            <Border
 				Name="BorderT"
 				BorderThickness="0,0,0,1"
 				BorderBrush="#FFADADAD"
 				Padding="0,0,0,4">
-				<Grid
+                <Grid
 					Name="GridT">
-					<Grid.RowDefinitions>
-						<RowDefinition
+                    <Grid.RowDefinitions>
+                        <RowDefinition
 							Height="50*" />
-						<RowDefinition
+                        <RowDefinition
 							Height="50*" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
 							Width="40" />
-						<ColumnDefinition
+                        <ColumnDefinition
 							Width="*" />
-					</Grid.ColumnDefinitions>
-					<Image
+                    </Grid.ColumnDefinitions>
+                    <Image
 						Grid.RowSpan="2"
 						Source="{Binding Path=AppImage, Mode=OneWay}"
 						Width="24"
 						Height="24" />
-					<TextBox
+                    <TextBox
 						Grid.Column="1"
 						Text="{Binding Path=AppName, Mode=TwoWay}"
 						BorderBrush="{x:Null}"
@@ -308,16 +308,16 @@
 						HorizontalAlignment="Stretch"
 						GotFocus="ScanTextBox_GotFocus"
 						/>
-					<TextBlock
+                    <TextBlock
 						Grid.Column="1"
 						x:Name="AppItemPath"
 						Grid.Row="1"
 						Text="{Binding Path=ExecPath, Mode=OneWay}"
 						Margin="4,4,0,0"
 						HorizontalAlignment="Left" />
-				</Grid>
-			</Border>
-		</DataTemplate>
+                </Grid>
+            </Border>
+        </DataTemplate>
         <DataTemplate
 			x:Key="ReadOnlyAppInfo">
             <Border
@@ -363,19 +363,19 @@
         </DataTemplate>
     </Window.Resources>
 
-	<TabControl
+    <TabControl
 		Name="AppTabs"
 		IsSynchronizedWithCurrentItem="True">
-		<TabItem
+        <TabItem
 			Header="{x:Static am:Strings.APP_TYPES}">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
 						Height="Auto" />
-					<RowDefinition
+                    <RowDefinition
 						Height="*" />
-				</Grid.RowDefinitions>
-				<ListBox
+                </Grid.RowDefinitions>
+                <ListBox
 					ItemTemplate="{StaticResource AppTypeInfo}"
 					ItemContainerStyle="{StaticResource AppTypeItemStyle}"
 					IsSynchronizedWithCurrentItem="True"
@@ -384,123 +384,114 @@
 					Grid.Row="1"
 					KeyUp="AppTypes_KeyUp"
 					SelectionChanged="AppTypes_SelectionChanged" />
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="Auto" />
-						<ColumnDefinition
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+							Width="Auto" MinWidth="78" />
+                        <ColumnDefinition
 							Width="100*" />
-						<ColumnDefinition
-							Width="Auto"
-							MinWidth="20" />
-						<ColumnDefinition
-							Width="Auto"
-							MinWidth="20" />
-						<ColumnDefinition
-							Width="Auto"
-							MinWidth="20" />
-						<ColumnDefinition
-							Width="Auto"
-							MinWidth="24" />
-					</Grid.ColumnDefinitions>
-					<Label
-						Margin="8,9,0,6"
+                        <ColumnDefinition
+							Width="Auto" MinWidth="28" />
+                        <ColumnDefinition
+							Width="Auto" MinWidth="28" />
+                        <ColumnDefinition
+							Width="Auto" MinWidth="28" />
+                        <ColumnDefinition
+							Width="Auto" MinWidth="32" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+						Margin="8,12,0,12"
 						Content="{x:Static am:Strings.APP_TYPE_NAME}"
 						x:Name="AppTypeLabel"
-						HorizontalAlignment="Left" />
-					<TextBox
+						HorizontalAlignment="Left" Width="69.863" />
+                    <TextBox
 						Text="{Binding Path=SelectedItem.AppTypeName, ElementName=AppTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						x:Name="AppTypeName"
 						Grid.Column="1"
 						Margin="4,12" />
-					<Button
-						Width="24"
+                    <Button
 						x:Name="BtnAppTypeUp"
 						Margin="0,12,4,12"
 						Grid.Column="2"
 						Click="BtnAppTypeUp_Click">
-						<Image
+                        <Image
+                            Stretch="None"
 							Source="/AppManager;component/Resources/up_16.png" />
-					</Button>
-					<Button
-						Width="24"
+                    </Button>
+                    <Button
 						x:Name="BtnAppTypeDown"
 						Margin="0,12,4,12"
 						Grid.Column="3"
 						Click="BtnAppTypeDown_Click">
-						<Image
+                        <Image
+                            Stretch="None"
 							Source="/AppManager;component/Resources/down_16.png" />
-					</Button>
-					<Button
-						Width="24"
+                    </Button>
+                    <Button
 						x:Name="BtnAddAppType"
 						Click="BtnAddAppType_Click"
 						Margin="0,12,4,12"
 						Grid.Column="4" >
-					<Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
-					</Button>
-					<Button
-						Width="24"
+                        <Image Stretch="None" Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
+                    </Button>
+                    <Button
 						x:Name="BtnRemoveAppType"
-						Click="BtnRemoveAppType_Click"
-						
+						Click="BtnRemoveAppType_Click"						
 						Grid.Column="5"
 						HorizontalAlignment="Left"
 						Margin="0,12,8,12" >
-						<Image Source="/AppManager;component/Resources/edit_remove_14_16.png"></Image>
-					</Button>
-				</Grid>
-			</Grid>
-		</TabItem>
-		<TabItem
+                        <Image Stretch="None" Source="/AppManager;component/Resources/edit_remove_14_16.png"></Image>
+                    </Button>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem
 			Header="{x:Static am:Strings.APPLICATIONS}">
-			<Grid Name="AppTypesApp">
-				<Grid.RowDefinitions>
-					<RowDefinition
+            <Grid Name="AppTypesApp">
+                <Grid.RowDefinitions>
+                    <RowDefinition
 						Height="Auto" />
-					<RowDefinition
+                    <RowDefinition
 						Height="*" />
-				</Grid.RowDefinitions>
-				<ComboBox
+                </Grid.RowDefinitions>
+                <ComboBox
 					DisplayMemberPath="AppTypeName"
 					Margin="8,12,120,12"
 					Name="AppTypeSelector"
 					SelectedItem="{Binding ElementName=AppTypes, Path=SelectedItem, Mode=TwoWay}" />
-				<Button
+                <Button
 					HorizontalAlignment="Right"
 					Margin="0,12,92,12"
 					Name="BtnAppUp"
-					Width="24"
 					Click="BtnAppUp_Click">
-					<Image
+                    <Image
+                        Stretch="None"
 						Source="/AppManager;component/Resources/up_16.png" />
-				</Button>
-				<Button
+                </Button>
+                <Button
 					HorizontalAlignment="Right"
 					Margin="0,12,64,12"
 					Name="BtnAppDown"
-					Width="24"
 					Click="BtnAppDown_Click">
-					<Image
+                    <Image
+                        Stretch="None"
 						Source="/AppManager;component/Resources/down_16.png" />
-				</Button>
-				<Button
+                </Button>
+                <Button
 					HorizontalAlignment="Right"
 					Margin="0,12,36,12"
 					Name="BtnAddApp" 
-					Width="24"
 					Click="BtnAddApp_Click">
-					<Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
-				</Button>
-				<Button
+                    <Image Stretch="None" Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
+                </Button>
+                <Button
 					HorizontalAlignment="Right"
 					Margin="0,12,8,12"
 					Name="BtnRemoveApp"
-					Width="24"
 					Click="BtnRemoveApp_Click">
-					<Image Source="/AppManager;component/Resources/edit_remove_14_16.png"></Image>
-				</Button>
-				<ListBox
+                    <Image Stretch="None" Source="/AppManager;component/Resources/edit_remove_14_16.png"></Image>
+                </Button>
+                <ListBox
 					Grid.Row="1"
 					Margin="8,0,8,8"
 					Name="AppList"
@@ -513,54 +504,43 @@
 					SelectionMode="Extended"
 					KeyUp="AppList_KeyUp"
 					>
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<VirtualizingStackPanel
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel
 								Orientation="Vertical"
 								IsItemsHost="True"
 								Width="{Binding Path=ActualWidth, 
 											RelativeSource={RelativeSource Mode=FindAncestor, 
 											AncestorType= {x:Type ScrollContentPresenter}}}" />
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-				</ListBox>				
-			</Grid>
-		</TabItem>
-		<TabItem
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
+        </TabItem>
+        <TabItem
 			Header="{x:Static am:Strings.SEARCH}" >
-			<Grid
+            <Grid
 				Height="Auto"
 				Width="Auto">
-				<Grid.RowDefinitions>
-					<RowDefinition
+                <Grid.RowDefinitions>
+                    <RowDefinition
 						Height="Auto" />
-					<RowDefinition
+                    <RowDefinition
 						Height="100*" />
-				</Grid.RowDefinitions>
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition
-							Height="Auto" MinHeight="42" />
-						<RowDefinition
-							Height="Auto" MinHeight="15" />
-                        <RowDefinition
-							Height="Auto" />
-                        <RowDefinition
-							Height="Auto" MinHeight="42" />
-                    </Grid.RowDefinitions>
-					<WrapPanel
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <WrapPanel
 						Margin="8,12,8,3"
-						Grid.ColumnSpan="6"
 						Orientation="Horizontal"
 						>
-						<Button
+                        <Button
                             MinHeight="24"
 							Name="BtnScanQuickLaunch"
 							Margin="0,0,4,3"
                             Padding="2,0,2,0"
 							Content="{x:Static am:Strings.SCAN_QUICK_LAUNCH}"
 							Click="BtnScanQuickLaunch_Click" />
-						<Button
+                        <Button
                             MinHeight="24"
 							Name="BtnScanAllProgs"
 							Margin="0,0,4,3"
@@ -568,92 +548,87 @@
 							Content="{x:Static am:Strings.SCAN_ALL_PROGS}"
 							Click="BtnScanAllProgs_Click" />
                     </WrapPanel>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <CheckBox 
+                    <WrapPanel Grid.Row="1" Orientation="Horizontal">
+                        <CheckBox 
                             Name="ChkExcludeExisting" 
                             Content="{x:Static am:Strings.EXCLUDE_EXISTING}"
                             ToolTip="{x:Static am:Strings.EXCLUDE_EXISTING_INFO}"
                             IsChecked="True"  
                             Margin="8,2,0,0" 
                             VerticalAlignment="Center">
-                    </CheckBox>
-                    <CheckBox 
+                        </CheckBox>
+                        <CheckBox 
                             Name="ChkExcludeRecycleBin" 
-                            Content="{x:Static am:Strings.EXCLUDE_EXISTING}"
-                            ToolTip="{x:Static am:Strings.EXCLUDE_EXISTING_INFO}"
+                            Content="{x:Static am:Strings.EXCLUDE_RECYCLE_BIN}"
+                            ToolTip="{x:Static am:Strings.EXCLUDE_RECYCLE_BIN_INFO}"
                             IsChecked="True"  
                             Margin="8,2,0,0" 
                             VerticalAlignment="Center">
-                    </CheckBox>
-                        </StackPanel>
-                        <TextBox
-                            Grid.Row="3"
-                            MinHeight="24"
-						    Margin="8,6,126,0"
-						    Name="TxtFolder" Height="24" VerticalAlignment="Top" />
-					    <Button
-                            MinHeight="24"
-						    Grid.Row="3"
-						    MinWidth="24"
-						    Margin="0,6,98,12"
-                            HorizontalAlignment="Right"
-						    Name="BtnFolder"
-						    Click="BtnFolder_Click"
+                        </CheckBox>
+                    </WrapPanel>
+                    <Grid Margin="8, 6, 8, 12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" ></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" ></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="TxtFolder" />
+                        <Button
+						   Grid.Column="1"
+						   MinWidth="24"
+						   Margin="4,0,0,0"
+						   Name="BtnFolder"
+						   Click="BtnFolder_Click"
 						    >...</Button>
-					    <Button
-                            Grid.Row="3"
-                            MinHeight="24"
-						    Margin="0,6,64,12"
+                        <Button
+                            Grid.Column="2"
+						    Margin="4,0,0,0"
 						    Name="_BtnSearch"
-                            HorizontalAlignment="Right"
 						    Click="BtnSearch_Click"
 						    Content="{x:Static am:Strings.SCAN}"
 						     />
-					    <Button
-                            Grid.Row="3"
-                            MinHeight="24"
+                        <Button
+                            Grid.Column="3"
 						    Width="24"
-						    Margin="0,6,36,12"
+						    Margin="4,0,0,0"
 						    Name="BtnAddScan"
 						    Click="BtnAddScan_Click"
-                            HorizontalAlignment="Right"
 						    >
-						    <Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
-					    </Button>
-                    <Button
-                            Grid.Row="3"
-                            MinHeight="24"
-						    Width="24"
-						    Margin="0,6,8,12"
+                            <Image Source="/AppManager;component/Resources/edit_add_1184_16.png"></Image>
+                        </Button>
+                        <Button
+                            Grid.Column="4"
+						    Margin="4,0,0,0"
 						    Name="BtnToRecycleBin"
-						    Click="BtnAddScan_Click"
-                            HorizontalAlignment="Right"
-						    >
-                        <Image Source="/AppManager;component/Resources/trash_16.png" Stretch="None"></Image>
-                    </Button>
-                </Grid>
-				<ListView
+						    Click="BtnToRecycleBin_Click">
+                            <Image Source="/AppManager;component/Resources/trash_16.png" Stretch="None"></Image>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+                <ListView
 					Margin="8,0,8,8"
 					Name="AppScanList"
 					Grid.Row="1"
 					HorizontalContentAlignment="Stretch"
 					ItemContainerStyle="{StaticResource AppItemStyle}"
 					>
-						<ListView.View>
-							<GridView AllowsColumnReorder="false">
-								<GridViewColumn 
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="false">
+                            <GridViewColumn 
 									CellTemplate="{StaticResource CheckCell}"
 									HeaderTemplate="{StaticResource myHeaderTemplate}"  
 									Width="26"/>
-								<GridViewColumn 
+                            <GridViewColumn 
 									CellTemplate="{StaticResource SemiEditableAppInfo}" 
 									Header="{x:Static am:Strings.APPLICATION}" 
 									Width="300"/>
-							</GridView>
-						</ListView.View>
-					</ListView>
-				</Grid>
-			</TabItem>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </TabItem>
         <TabItem
 			Header="{x:Static am:Strings.RECYCLE_BIN}">
             <Grid Name="DeletedApps">
@@ -664,22 +639,24 @@
 						Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock 
-                    Margin="8,8,63,8" 
-                    VerticalAlignment="Center">Recycle bin can be used as filter in search tab</TextBlock>
+                    Margin="8,12,66,0" 
+                    VerticalAlignment="Top" Height="30">Recycle bin can be used as filter in search tab</TextBlock>
                 <Button
-					HorizontalAlignment="Right"
-					Margin="0,12,36,12"
 					Name="BtnResore"
-					Width="24" Click="BtnResore_Click">
+                    Margin="0,12,36,12"
+                    HorizontalAlignment="Right"
+					Click="BtnResore_Click">
                     <Image
+                        Stretch="None"
 						Source="/AppManager;component/Resources/agt_reload_3236_16_green.png" />
                 </Button>
                 <Button
 					HorizontalAlignment="Right"
 					Margin="0,12,8,12"
 					Name="BtnDeleteFromBin"
-					Width="24" Click="BtnDeleteFromBin_Click">
+					Click="BtnDeleteFromBin_Click">
                     <Image
+                        Stretch="None"
 						Source="/AppManager;component/Resources/edit_remove_14_16.png" />
                 </Button>
                 <ListBox

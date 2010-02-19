@@ -63,7 +63,14 @@ namespace AppManager.Entities
 
 		public AppInfoCollection AppInfos
 		{ get { return _AppInfos; } }
-		
+
+
+		public AppType CloneWithoutItems()
+		{
+			var result = new AppType();
+			MergeEntity(result, true, false);
+			return result;
+		}
 
 		public override string ToString()
 		{
@@ -79,12 +86,18 @@ namespace AppManager.Entities
 
 		protected override void MergeEntity(AppType source, bool clone)
 		{
+			MergeEntity(source, clone, true);
+		}
+
+		protected void MergeEntity(AppType source, bool clone, bool cloneAppInfo)
+		{
 			base.MergeEntity(source, clone);
 
 			if (AppTypeName != source.AppTypeName)
 				AppTypeName = source.AppTypeName;
 
-			AppInfos.Combine(source.AppInfos, clone);
+			if (cloneAppInfo)
+				AppInfos.Combine(source.AppInfos, clone);
 		}
 	}
 }

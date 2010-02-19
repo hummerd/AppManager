@@ -40,6 +40,7 @@ namespace AppManager.Commands
 			if (appManager.ShowDialog() ?? false)
 			{
 				_WorkItem.AppData.MergeEntity(mangerData);
+				_WorkItem.RecycleBin.MergeCollection(deletedData);
 				_WorkItem.Commands.Save.Execute(null);
 			}
 
