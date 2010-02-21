@@ -94,8 +94,9 @@ namespace AppManager
 		//App type tab events===================================================
 		private void BtnAddAppType_Click(object sender, RoutedEventArgs e)
 		{
-			_Controller.AddEmptyAppType(_AppGroup, null);
-			AppTypes.SelectedIndex = AppTypes.Items.Count - 1;
+			var appType = _Controller.AddEmptyAppType(_AppGroup, null);
+			//AppTypes.SelectedIndex = AppTypes.Items.Count - 1;
+			AppTypes.SelectedItem = appType;
 			AppTypeName.Focus();
 		}
 
