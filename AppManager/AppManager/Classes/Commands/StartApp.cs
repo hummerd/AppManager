@@ -94,9 +94,9 @@ namespace AppManager.Commands
 			if (!noUpdate && _WorkItem.Settings.CheckNewVersionAtStartUp)
 				_WorkItem.Commands.CheckVersion.Execute(true);
 
-			_WorkItem.AppData.NeedAppImage += (s, e) => 
+			_WorkItem.AppData.NeedAppImage += (s, e) =>
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
-			_WorkItem.RecycleBin.RegisterSource(_WorkItem.AppData);
+			_WorkItem.RecycleBin.RegisterSource(_WorkItem.AppData, true);
 			_WorkItem.ImageLoader.StartLoad();
 			_WorkItem.AppData.ReInitImages();
 

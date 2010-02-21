@@ -13,6 +13,7 @@ namespace AppManager.Entities
 	public class AppGroup : EntityBase<AppGroup>
 	{
 		public event EventHandler<ValueEventArgs<AppInfo>> AppInfoDeleted;
+		public event EventHandler<ValueEventArgs<AppType>> AppTypeDeleted;
 		public event EventHandler NeedAppImage;
 
 
@@ -257,6 +258,7 @@ namespace AppManager.Entities
 				foreach (AppType at in e.OldItems)
 				{
 					at.AppInfoDeleted -= OnAppInfoDeleted;
+					OnAppTypeDeleted(this, new ValueEventArgs<AppType>(at));
 				}
 			}
 		}
@@ -265,6 +267,12 @@ namespace AppManager.Entities
 		{
 			if (AppInfoDeleted != null)
 				AppInfoDeleted(sender, e);
+		}
+
+		protected virtual void OnAppTypeDeleted(object sender, ValueEventArgs<AppType> e)
+		{
+			if (AppTypeDeleted != null)
+				AppTypeDeleted(sender, e);
 		}
 
 		protected virtual void OnNeedAppImage(AppInfo app)

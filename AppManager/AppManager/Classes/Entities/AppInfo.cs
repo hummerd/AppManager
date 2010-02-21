@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 using AppManager.EntityCollection;
 using CommonLib;
 using CommonLib.IO;
+using System.Collections;
 
 
 namespace AppManager.Entities
@@ -16,11 +17,11 @@ namespace AppManager.Entities
 
 		}
 
-        //public AppInfoCollection(IEnumerable<AppInfo> collection)
-        //    : base(collection)
-        //{
+		public AppInfoCollection(IList collection)
+			: base(collection)
+		{
 
-        //}
+		}
 	}
 
 	public class AppInfo : EntityBase<AppInfo>

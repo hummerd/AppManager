@@ -143,16 +143,16 @@
 					</Setter>
 				</Style>
 			</DataTemplate.Resources>
-			<am:ImageButton
+			<am:AppButton
 				Click="ImageButton_Click"
 				IsTabStop="False"
 				Margin="4,4,4,4"
 				ButtonImageSource="{Binding Path=AppImage}"
 				ButtonText="{Binding Path=AppName}">
-				<am:ImageButton.ToolTip>
+				<am:AppButton.ToolTip>
 					<ToolTip Style="{DynamicResource ToolTipStyle}" Content="{Binding Path=AppPathInfo}"/>	
-				</am:ImageButton.ToolTip>
-			</am:ImageButton>
+				</am:AppButton.ToolTip>
+			</am:AppButton>
 		</DataTemplate>
 	</ListBox.ItemTemplate>
 	<ListBox.ItemsPanel>

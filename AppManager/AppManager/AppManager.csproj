@@ -84,11 +84,11 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Page Include="Controls\MegaButton.xaml">
+    <Page Include="Controls\ImageButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ImageButton.xaml">
+    <Page Include="Controls\AppButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -100,11 +100,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Controls\MegaButton.xaml.cs">
-      <DependentUpon>MegaButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AppButton.xaml.cs">
+      <DependentUpon>AppButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ButtonList.xaml.cs">
       <DependentUpon>ButtonList.xaml</DependentUpon>
@@ -210,7 +210,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="ModelView\AppInfoAdapter.cs" />
     <Compile Include="Windows\FirstScan.xaml.cs">
       <DependentUpon>FirstScan.xaml</DependentUpon>
     </Compile>

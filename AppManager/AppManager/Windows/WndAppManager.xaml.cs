@@ -5,9 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AppManager.Entities;
-using AppManager.UIAdapter;
 using AppManager.Windows;
 using CommonLib.Windows;
+using System.Windows.Data;
 
 
 namespace AppManager
@@ -233,15 +233,16 @@ namespace AppManager
 
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = AdaptTo(
-				_Controller.FindApps(
-					new List<string>() { TxtFolder.Text },
-					new List<string>() { "lnk", "exe", "jar" },
-					_AppGroup,
-					_DeletedApps,
-					ChkExcludeExisting.IsChecked ?? false,
-					ChkExcludeRecycleBin.IsChecked ?? false),
-				_SearchAppCheck);
+			AppScanList.ItemsSource = _Controller.FindApps(
+				new List<string>() { TxtFolder.Text },
+				new List<string>() { "lnk", "exe", "jar" },
+				_AppGroup,
+				_DeletedApps,
+				ChkExcludeExisting.IsChecked ?? false,
+				ChkExcludeRecycleBin.IsChecked ?? false);
+
+			AppScanList.Focus();
+			AppScanList.SelectAll();
 		}
 
 		private void BtnAddScan_Click(object sender, RoutedEventArgs e)
@@ -282,38 +283,30 @@ namespace AppManager
 			AppScanList.SelectedIndex = AppScanList.ItemContainerGenerator.IndexFromContainer(dobj);
 		}
 
-		private void CheckBox_Click(object sender, RoutedEventArgs e)
-		{
-			CheckBox cb = sender as CheckBox;
-			if (cb != null)
-			{
-				_SearchAppCheck = cb.IsChecked ?? false;
-				SelectAllScan(AppScanList.ItemsSource, _SearchAppCheck);
-			}
-		}
-
 		private void BtnScanQuickLaunch_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = AdaptTo(
-				 _Controller.FindApps(
-					SearchLocation.QuickLaunch,
-					_AppGroup,
-					_DeletedApps,
-					ChkExcludeExisting.IsChecked ?? false,
-					ChkExcludeRecycleBin.IsChecked?? false),
-				_SearchAppCheck);
+			AppScanList.ItemsSource = _Controller.FindApps(
+				SearchLocation.QuickLaunch,
+				_AppGroup,
+				_DeletedApps,
+				ChkExcludeExisting.IsChecked ?? false,
+				ChkExcludeRecycleBin.IsChecked?? false);
+
+			AppScanList.Focus();
+			AppScanList.SelectAll();
 		}
 
 		private void BtnScanAllProgs_Click(object sender, RoutedEventArgs e)
 		{
-			AppScanList.ItemsSource = AdaptTo(
-				 _Controller.FindApps(
-					SearchLocation.AllProgramsMenu, 
-					_AppGroup, 
-					_DeletedApps,
-					ChkExcludeExisting.IsChecked ?? false,
-					ChkExcludeRecycleBin.IsChecked ?? false), 
-				_SearchAppCheck);
+			AppScanList.ItemsSource = _Controller.FindApps(
+				SearchLocation.AllProgramsMenu, 
+				_AppGroup, 
+				_DeletedApps,
+				ChkExcludeExisting.IsChecked ?? false,
+				ChkExcludeRecycleBin.IsChecked ?? false);
+
+			AppScanList.Focus();
+			AppScanList.SelectAll();
 		}
 
 		private void BtnToRecycleBin_Click(object sender, RoutedEventArgs e)
@@ -324,7 +317,8 @@ namespace AppManager
 			{
 				_Controller.AddToBin(
 					_DeletedApps,
-					selected);
+					selected,
+					AppScanList.ItemsSource as AppInfoCollection);
 
 				AppTabs.SelectedItem = TabRecycleBin;
 			}
@@ -423,36 +417,32 @@ namespace AppManager
 
 		protected AppInfoCollection GetSelected()
 		{
-			var result = new AppInfoCollection();
-			var foundApps = AppScanList.ItemsSource as List<AppInfoAdapter>;
-			if (foundApps != null)
-				foundApps.ForEach(aa =>
-					{
-						if (aa.Checked)
-							result.Add(aa.App);
-					});
-
-			return result;
+			return new AppInfoCollection(
+				AppScanList.SelectedItems);
 		}
+	}
 
-		protected AppInfoAdapterCollection AdaptTo(AppInfoCollection apps, bool check)
+	public class DeletedAppInfoConverter : IValueConverter
+	{
+		#region IValueConverter Members
+
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if (apps == null)
-				return new AppInfoAdapterCollection();
+			var ai = value as DeletedApp;
+			if (ai == null)
+				return string.Empty;
 
-			var result = new AppInfoAdapterCollection();
-
-			foreach (var app in apps)
-				result.Add(new AppInfoAdapter(app) { Checked = check });
-
-			return result;
+			return string.Format(
+				Strings.DELETED_FROM,
+				(ai.DeletedFrom == null ? Strings.NOT_SPECIFIED : ai.DeletedFrom.AppTypeName)
+				);
 		}
 
-		protected void SelectAllScan(IEnumerable appAdps, bool check)
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var apps = appAdps as List<AppInfoAdapter>;
-			if (apps != null)
-				apps.ForEach(a => a.Checked = check);
+			throw new NotImplementedException();
 		}
+
+		#endregion
 	}
 }

@@ -69,7 +69,7 @@ namespace AppManager
 			var input = InputHitTest(pt) as FrameworkElement;
 			if (input != null)
 			{
-				var ib = UIHelper.FindAncestorOrSelf<ImageButton>(input, null);
+				var ib = UIHelper.FindAncestorOrSelf<AppButton>(input, null);
 				if (ib != null && _LastMoved != ib)
 				{
 					ResetLastMove(e, true);
@@ -127,7 +127,7 @@ namespace AppManager
 
 		private void ImageButton_Click(object sender, RoutedEventArgs e)
 		{
-			ImageButton ib = sender as ImageButton;
+			AppButton ib = sender as AppButton;
 			if (ButtonClicked != null)
 				ButtonClicked(this, new ValueEventArgs<object>(ib.DataContext));
 		}

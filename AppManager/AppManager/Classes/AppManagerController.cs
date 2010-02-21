@@ -15,11 +15,13 @@ namespace AppManager
 		}
 
 
-		public void AddToBin(DeletedAppCollection recycleBin, IEnumerable<AppInfo> apps)
+		public void AddToBin(DeletedAppCollection recycleBin, IEnumerable<AppInfo> apps, AppInfoCollection allApps)
 		{
 			foreach (var app in apps)
 			{
 				recycleBin.AddApp(null, app, false);
+				if (allApps != null)
+					allApps.Remove(app);
 			}
 		}
 
@@ -45,7 +47,14 @@ namespace AppManager
 			for (int i = 0; i < deletedApp.Count; i++)
 			{
 				var item = deletedApp[i] as DeletedApp;
-				var at = appGroup.FindAppType((item.DeletedFrom ?? restore).AppTypeName);
+				var appTypeName = (item.DeletedFrom ?? restore).AppTypeName;
+				var at = appGroup.FindAppType(appTypeName);
+
+				if (at == null)
+				{
+					at = new AppType { AppTypeName = appTypeName };
+					appGroup.AppTypes.Add(at);
+				}
 
 				var ai = appGroup.CreateNewAppInfo(
 					at,
