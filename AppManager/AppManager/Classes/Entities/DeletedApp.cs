@@ -42,10 +42,13 @@ namespace AppManager.Entities
 			return null;
 		}
 
-		public void RegisterSource(AppGroup appGroup)
+		public void RegisterSource(AppGroup appGroup, bool resetImage)
 		{ 
 			appGroup.AppInfoDeleted += (s, e) =>
-				AddApp(s as AppType, e.Value, true);
+				AddApp(s as AppType, e.Value, resetImage);
+
+			appGroup.AppTypeDeleted += (s, e) => 
+				AddAppType(e.Value, resetImage);
 		}
 
 		public void AddApp(AppType appType, AppInfo appInfo, bool resetImage)
@@ -62,13 +65,29 @@ namespace AppManager.Entities
 			Add(new DeletedApp { App = appInfo, DeletedFrom = appType });
 		}
 
+		public void AddAppType(AppType appType, bool resetImage)
+		{
+			if (appType == null)
+				return;
+
+			var apps = appType.AppInfos;
+			for (int i = 0; i < apps.Count; i++)
+			{
+				var app = apps[i];
+				if (FindByApp(appType, app) != null)
+					continue;
+
+				Add(new DeletedApp { App = app, DeletedFrom = appType.CloneWithoutItems() });
+			}
+		}
+
 
 		protected bool SameOrWithoutAppType(AppType appType1, AppType appType2)
 		{
-			if (appType1 == null &&  appType2 == null)
+			if (appType1 == null && appType2 == null)
 				return true;
 			
-			if (appType1 != null ||  appType2 != null)
+			if (appType1 == null || appType2 == null)
 				return false;
 
 			return string.Equals(

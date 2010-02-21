@@ -27,6 +27,19 @@ namespace AppManager.EntityCollection
 			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
 		}
 
+		public EntityCollection(IList collection)
+		{
+			TryIncreaseCapacity(collection);
+
+			_Deleted = new List<TEntity>();
+			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
+
+			for (int i = 0; i < collection.Count; i++)
+			{
+				Add(collection[i] as TEntity);
+			}
+		}
+
 
 		public ReadOnlyCollection<TEntity> DeletedItems
 		{
@@ -51,14 +64,7 @@ namespace AppManager.EntityCollection
 
 		public void AddRange(IEnumerable<TEntity> items)
 		{
-			var list = Items as List<TEntity>;
-			if (list != null)
-			{
-				var coll = items as ICollection;
-				if (coll != null)
-					list.Capacity += coll.Count;
-			}
-
+			TryIncreaseCapacity(items);
 			foreach (var item in items)
 				Add(item);
 		}
@@ -121,6 +127,17 @@ namespace AppManager.EntityCollection
 				Remove(sourceCollection.DeletedItems[i].CloneSource);
 		}
 
+
+		protected void TryIncreaseCapacity(IEnumerable items)
+		{
+			var list = Items as List<TEntity>;
+			if (list != null)
+			{
+				var coll = items as ICollection;
+				if (coll != null)
+					list.Capacity += coll.Count;
+			}
+		}
 
 		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 		{

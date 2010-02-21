@@ -203,8 +203,8 @@ namespace AppManager
 					var appInfo = ReadAppInfo2(reader);
 
 					AppType appType = null;
-					if (reader.IsStartElement())
-						appType = ReadAppType(reader);
+					if (reader.IsStartElement() && reader.Name == "AppType")
+						appType = ReadAppType2(reader);
 
 					result.Add(new DeletedApp
 					{
@@ -214,8 +214,6 @@ namespace AppManager
 
 					reader.ReadEndElement();
 				}
-
-				reader.ReadEndElement();
 			}
 
 			return result;
@@ -277,7 +275,7 @@ namespace AppManager
 
 		private static AppType ReadAppType(XmlReader reader)
 		{
-			AppType result = new AppType();
+			var result = new AppType();
 
 			reader.ReadStartElement("AppType");
 
@@ -340,7 +338,7 @@ namespace AppManager
 				}
 			}
 
-			if (reader.NodeType == XmlNodeType.EndElement)
+			if (reader.Name == "AppType" && reader.NodeType == XmlNodeType.EndElement)
 				reader.ReadEndElement();
 
 			return result;

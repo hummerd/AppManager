@@ -5,72 +5,15 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="AppManager.ImageButton"
-	x:Name="ImageButton1"
-	HorizontalContentAlignment="Stretch"
-	VerticalContentAlignment="Stretch"
-	d:DesignWidth="436"
-	d:DesignHeight="312"
-	Width="88"
-	Height="54">
-	<Button.Resources>
-		<LinearGradientBrush
-			x:Key="AppNameBrush"
-			EndPoint="0.5,1"
-			StartPoint="0.5,0">
-			<GradientStop
-				Color="#FF158EC1"
-				Offset="0" />
-			<GradientStop
-				Color="#9A00587D"
-				Offset="0.996" />
-			<GradientStop
-				Color="#FF0D6488"
-				Offset="0.406" />
+	x:Name="SettingButton1"
+	d:DesignWidth="640" d:DesignHeight="480">
+	<Button.Content>
+		<Image Name="ButtonImage" Stretch="None" IsHitTestVisible="False" />
+	</Button.Content>
+	<!--<Button.Background>
+		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+			<GradientStop Color="#FFBBD5E5" Offset="0"/>
+			<GradientStop Color="#FF8DC3E5" Offset="0.9"/>
 		</LinearGradientBrush>
-	</Button.Resources>
-	<Button.Background>
-		<LinearGradientBrush
-			EndPoint="0.5,1"
-			StartPoint="0.5,0">
-			<GradientStop
-				Color="#FFCEE7F9"
-				Offset="0" />
-			<GradientStop
-				Color="#FFB2D8F5"
-				Offset="0.9" />
-			<GradientStop
-				Color="#FF8EC7F1"
-				Offset="0.714" />
-		</LinearGradientBrush>
-	</Button.Background>
-	<Grid
-		Name="ContentPanel">
-		<Grid.RowDefinitions>
-			<RowDefinition
-				Height="35*" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition
-				Width="10*" />
-			<ColumnDefinition
-				Width="60*" />
-			<ColumnDefinition
-				Width="10*" />
-		</Grid.ColumnDefinitions>
-		<Image
-			Grid.Column="1"
-			Name="ButtonImage"
-			Stretch="None"
-			IsHitTestVisible="False">
-			<Image.Width>
-				<Binding
-					Path="Source.PixelWidth">
-					<Binding.RelativeSource>
-						<RelativeSource
-							Mode="Self" />
-					</Binding.RelativeSource>
-				</Binding>
-			</Image.Width>
-		</Image>
-	</Grid>
+	</Button.Background>-->
 </Button>

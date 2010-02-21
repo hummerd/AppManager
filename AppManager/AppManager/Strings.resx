@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ADD_SCANNED" xml:space="preserve">
+    <value>Add selected applications</value>
+  </data>
   <data name="ADD_TO_AUTO_GROUPS" xml:space="preserve">
     <value>(Add to auto generated groups)</value>
   </data>
@@ -138,6 +141,15 @@
   <data name="APPS_IN_TYPE" xml:space="preserve">
     <value>Applications in group:</value>
   </data>
+  <data name="APP_ADD" xml:space="preserve">
+    <value>Add new link</value>
+  </data>
+  <data name="APP_DELETE" xml:space="preserve">
+    <value>Delete selected links</value>
+  </data>
+  <data name="APP_DOWN" xml:space="preserve">
+    <value>Move link down</value>
+  </data>
   <data name="APP_FILTER" xml:space="preserve">
     <value>All files (*.*)|*.*</value>
   </data>
@@ -153,6 +165,9 @@
   <data name="APP_TYPE_NAME" xml:space="preserve">
     <value>Group name</value>
   </data>
+  <data name="APP_UP" xml:space="preserve">
+    <value>Move link up</value>
+  </data>
   <data name="AUTO_GROUP" xml:space="preserve">
     <value>Auto group</value>
   </data>
@@ -167,6 +182,12 @@
   </data>
   <data name="CHECK_VERSION_AT_START" xml:space="preserve">
     <value>Check for updates at start</value>
+  </data>
+  <data name="DELETED_FROM" xml:space="preserve">
+    <value>deleted from: {0}</value>
+  </data>
+  <data name="DELETE_FROM_RECYCLE_BIN" xml:space="preserve">
+    <value>Delete selected links from recycle bin</value>
   </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Open application data file</value>
@@ -200,6 +221,18 @@
   </data>
   <data name="EXCLUDE_RECYCLE_BIN_INFO" xml:space="preserve">
     <value>Exclude links deleted to recycle bin from search</value>
+  </data>
+  <data name="GROUP_ADD" xml:space="preserve">
+    <value>Add new group</value>
+  </data>
+  <data name="GROUP_DELETE" xml:space="preserve">
+    <value>Delete selected groups</value>
+  </data>
+  <data name="GROUP_DOWN" xml:space="preserve">
+    <value>Move group down</value>
+  </data>
+  <data name="GROUP_UP" xml:space="preserve">
+    <value>Move group up</value>
   </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.en-en.rtf</value>
@@ -267,11 +300,17 @@
   <data name="MNU_SHOW" xml:space="preserve">
     <value>Show StartUp</value>
   </data>
+  <data name="MOVE_TO_RECYCLE_BIN" xml:space="preserve">
+    <value>Move selected application links to recycle bin</value>
+  </data>
   <data name="NEW" xml:space="preserve">
     <value>New</value>
   </data>
   <data name="NEW_APP" xml:space="preserve">
     <value>New application</value>
+  </data>
+  <data name="NOT_SPECIFIED" xml:space="preserve">
+    <value>not specified</value>
   </data>
   <data name="NO_NEW_VERSION" xml:space="preserve">
     <value>You use {0} latest version.</value>
@@ -310,11 +349,17 @@ group?</value>
   <data name="REMOVE_LINK" xml:space="preserve">
     <value>Remove link</value>
   </data>
+  <data name="RESTORE_APP" xml:space="preserve">
+    <value>Restore selected links form recycle bin</value>
+  </data>
   <data name="SCAN" xml:space="preserve">
     <value>Scan</value>
   </data>
   <data name="SCAN_ALL_PROGS" xml:space="preserve">
     <value>Scan "All Programs" menu</value>
+  </data>
+  <data name="SCAN_PATH" xml:space="preserve">
+    <value>Sacn selected path</value>
   </data>
   <data name="SCAN_QUICK_LAUNCH" xml:space="preserve">
     <value>Scan "Quick Launch" menu</value>
@@ -330,6 +375,9 @@ group?</value>
   </data>
   <data name="SELECT_APP_GROUP" xml:space="preserve">
     <value>Select group to add applications to</value>
+  </data>
+  <data name="SELECT_PATH" xml:space="preserve">
+    <value>Select search path</value>
   </data>
   <data name="SEL_ACT_PANEL_COLOR" xml:space="preserve">
     <value>Select activation panel color</value>

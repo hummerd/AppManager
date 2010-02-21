@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ADD_SCANNED" xml:space="preserve">
+    <value>Добавить выбранные приложения</value>
+  </data>
   <data name="ADD_TO_AUTO_GROUPS" xml:space="preserve">
     <value>(Добавить к автоматически сгенерированным группам )</value>
   </data>
@@ -138,6 +141,15 @@
   <data name="APPS_IN_TYPE" xml:space="preserve">
     <value>Ссылок в группе:</value>
   </data>
+  <data name="APP_ADD" xml:space="preserve">
+    <value>Добавить новую ссылку</value>
+  </data>
+  <data name="APP_DELETE" xml:space="preserve">
+    <value>Удалить выбранные ссылки</value>
+  </data>
+  <data name="APP_DOWN" xml:space="preserve">
+    <value>Передвинуть ссылку вниз</value>
+  </data>
   <data name="APP_FILTER" xml:space="preserve">
     <value>Все файлы (*.*)|*.*</value>
   </data>
@@ -153,6 +165,9 @@
   <data name="APP_TYPE_NAME" xml:space="preserve">
     <value>Имя группы</value>
   </data>
+  <data name="APP_UP" xml:space="preserve">
+    <value>Передвинуть ссылку вверх</value>
+  </data>
   <data name="AUTO_GROUP" xml:space="preserve">
     <value>Авто группировка</value>
   </data>
@@ -167,6 +182,12 @@
   </data>
   <data name="CHECK_VERSION_AT_START" xml:space="preserve">
     <value>Проверять наличие обновлений при старте</value>
+  </data>
+  <data name="DELETED_FROM" xml:space="preserve">
+    <value>удален из: {0}</value>
+  </data>
+  <data name="DELETE_FROM_RECYCLE_BIN" xml:space="preserve">
+    <value>Удалить выбранные ссылки из корзины</value>
   </data>
   <data name="EDIT_APP_DATA" xml:space="preserve">
     <value>Редактировать файл приложений</value>
@@ -200,6 +221,18 @@
   </data>
   <data name="EXCLUDE_RECYCLE_BIN_INFO" xml:space="preserve">
     <value>Исключить из поиска ссылки из корзины</value>
+  </data>
+  <data name="GROUP_ADD" xml:space="preserve">
+    <value>Добавить новую группу</value>
+  </data>
+  <data name="GROUP_DELETE" xml:space="preserve">
+    <value>Удалить выбранные группы</value>
+  </data>
+  <data name="GROUP_DOWN" xml:space="preserve">
+    <value>Передвинуть группу вниз</value>
+  </data>
+  <data name="GROUP_UP" xml:space="preserve">
+    <value>Передвинуть группу вверх</value>
   </data>
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.ru-ru.rtf</value>
@@ -267,11 +300,17 @@
   <data name="MNU_SHOW" xml:space="preserve">
     <value>Показать Стартер</value>
   </data>
+  <data name="MOVE_TO_RECYCLE_BIN" xml:space="preserve">
+    <value>Переместить выбранные ссылки в корзину</value>
+  </data>
   <data name="NEW" xml:space="preserve">
     <value>Новая</value>
   </data>
   <data name="NEW_APP" xml:space="preserve">
     <value>Новая ссылка</value>
+  </data>
+  <data name="NOT_SPECIFIED" xml:space="preserve">
+    <value>не указано</value>
   </data>
   <data name="NO_NEW_VERSION" xml:space="preserve">
     <value>Вы пользуетесь последней версией программы {0}.</value>
@@ -310,11 +349,17 @@
   <data name="REMOVE_LINK" xml:space="preserve">
     <value>Удалить ссылку</value>
   </data>
+  <data name="RESTORE_APP" xml:space="preserve">
+    <value>Восстановить выбранные ссылки из корзины</value>
+  </data>
   <data name="SCAN" xml:space="preserve">
     <value>Искать</value>
   </data>
   <data name="SCAN_ALL_PROGS" xml:space="preserve">
     <value>Искать в меню "Все программы"</value>
+  </data>
+  <data name="SCAN_PATH" xml:space="preserve">
+    <value>Искать приложения</value>
   </data>
   <data name="SCAN_QUICK_LAUNCH" xml:space="preserve">
     <value>Искать в меню "Быстрый запуск"</value>
@@ -330,6 +375,9 @@
   </data>
   <data name="SELECT_APP_GROUP" xml:space="preserve">
     <value>Выберите группу к которой будут добавлены приложения</value>
+  </data>
+  <data name="SELECT_PATH" xml:space="preserve">
+    <value>Выбрать путь для поиска </value>
   </data>
   <data name="SEL_ACT_PANEL_COLOR" xml:space="preserve">
     <value>Задать цвет панели активации</value>

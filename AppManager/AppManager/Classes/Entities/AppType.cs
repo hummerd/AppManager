@@ -68,7 +68,7 @@ namespace AppManager.Entities
 		public AppType CloneWithoutItems()
 		{
 			var result = new AppType();
-			MergeEntity(result, true, false);
+			result.MergeEntity(this, true, false);
 			return result;
 		}
 

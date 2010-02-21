@@ -32,6 +32,18 @@
 			<BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
 
 			<Style
+				x:Key="BlueButton"
+				TargetType="Button">
+				<Setter Property="Background">
+					<Setter.Value>
+						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+							<GradientStop Color="#FFBBD5E5" Offset="0"/>
+							<GradientStop Color="#FF8DC3E5" Offset="0.9"/>
+						</LinearGradientBrush>
+					</Setter.Value>	
+				</Setter>
+			</Style>
+			<Style
 				x:Key="MainWndCloseButton"
 				TargetType="Button">
 				<Setter Property="Template">
@@ -367,12 +379,12 @@
 						>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="49" />
-						<ColumnDefinition	Width="49" />
-						<ColumnDefinition	Width="*" />
+						<ColumnDefinition Width="49" />
+						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="28" />
 						<ColumnDefinition Width="28" />
 					</Grid.ColumnDefinitions>
-					<am:SettingButton
+					<am:ImageButton
 						x:Name="BtnConfigure"
 						Width="45"
 						Height="26"
@@ -380,8 +392,10 @@
 						Command="{Binding Path=Commands.Settings}"
 						ToolTip="{x:Static am:Strings.SETTINGS}"
 						ButtonImageSource="/AppManager;component/Resources/gear_2526_16.png"
-						Grid.Column="0" />
-					<am:SettingButton
+						Style="{StaticResource BlueButton}"
+						Grid.Column="0" 
+						/>
+					<am:ImageButton
 						x:Name="BtnManageApps"
 						Width="45"
 						Height="26"
@@ -390,6 +404,7 @@
 						Command="{Binding Path=Commands.ManageApps}"
 						ToolTip="{x:Static am:Strings.APP_MANAGER}"
 						ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
+						Style="{StaticResource BlueButton}"
 						Grid.Column="1" />
 					<TextBlock
 						Name="CaptionTextShadow"

@@ -21,7 +21,7 @@ namespace AppManager.Commands
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
 			mangerData.ReInitImages();
 			var deletedData = new DeletedAppCollection((IEnumerable<DeletedApp>)_WorkItem.RecycleBin.Copy());
-			deletedData.RegisterSource(mangerData);
+			deletedData.RegisterSource(mangerData, false);
 			foreach (DeletedApp item in deletedData)
 			{
 				_WorkItem.ImageLoader.RequestImage(item.App);	
