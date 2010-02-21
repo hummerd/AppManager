@@ -66,12 +66,16 @@ namespace AppManager
 			}
 		}
 
-		public void AddEmptyAppType(AppGroup appGroup, AppType beforeAppType)
+		public AppType AddEmptyAppType(AppGroup appGroup, AppType beforeAppType)
 		{
+			var newAppType = new AppType() { AppTypeName = Strings.APPLICATIONS };
+
 			InsertAppType(
 				appGroup,
-				new AppType() { AppTypeName = Strings.APPLICATIONS },
+				newAppType,
 				beforeAppType);
+
+			return newAppType;
 		}
 
 		public void MoveType(AppGroup appGroup, AppType appType, bool up)
