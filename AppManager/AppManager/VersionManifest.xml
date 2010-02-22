@@ -3,69 +3,69 @@
 	<VersionNumberString>1.0.25.35</VersionNumberString>
 	<VersionItems>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/AppManager.exe.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/AppManager.exe.gzip</Location>
 			<Path />
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.343</VersionNumberString>
 			<Base64Hash>7pdONYQq8WvaBTEtRCv9tA==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/AppManager.exe.config.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/AppManager.exe.config.gzip</Location>
 			<Path />
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.35</VersionNumberString>
 			<Base64Hash>IwJfqf1k8QDOQT0+OJktbg==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/CommonLib.dll.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/CommonLib.dll.gzip</Location>
 			<Path />
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.340</VersionNumberString>
 			<Base64Hash>1U/1VObeUra4QimvinSoKw==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/DragDropLib.dll.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/DragDropLib.dll.gzip</Location>
 			<Path />
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.340</VersionNumberString>
 			<Base64Hash>gLl50L4wL0XOsmViJm8WRQ==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/Interop.IWshRuntimeLibrary.dll.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/Interop.IWshRuntimeLibrary.dll.gzip</Location>
 			<Path />
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.0</VersionNumberString>
 			<Base64Hash>W1+7AqYHD121MAgbDy47Vg==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/UpdateLib.dll.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/UpdateLib.dll.gzip</Location>
 			<Path />
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.341</VersionNumberString>
 			<Base64Hash>avO1mns3bBiZ3ssY2IRshw==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/ru/AppManager.resources.dll.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/ru/AppManager.resources.dll.gzip</Location>
 			<Path>ru</Path>
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.343</VersionNumberString>
 			<Base64Hash>9bPXBjVcUaThJ/CBkqNtmQ==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/ru/CommonLib.resources.dll.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/ru/CommonLib.resources.dll.gzip</Location>
 			<Path>ru</Path>
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.340</VersionNumberString>
 			<Base64Hash>oVqurtsaIRKqgvP9g/DjSg==</Base64Hash>
 		</VersionItem>
 		<VersionItem>
-			<Location>http://hummerd.selfip.com:10080/AppManagerUpdate/ru/UpdateLib.resources.dll.gzip</Location>
+			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/ru/UpdateLib.resources.dll.gzip</Location>
 			<Path>ru</Path>
 			<InstallAction>Copy</InstallAction>
 			<VersionNumberString>1.0.26.341</VersionNumberString>
 			<Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
 		</VersionItem>
 	</VersionItems>
-	<UpdateUri>http://dimanick.ru/MySoft/AppManager/Update</UpdateUri>
-	<UpdateUriAlt>http://hummerd.selfip.com:10080/AppManagerUpdate</UpdateUriAlt>
+	<UpdateUri>http://dimanick.ru/MySoft/AppManager/UpdateBeta</UpdateUri>
+	<UpdateUriAlt>http://dimanick.ru/MySoft/AppManager/UpdateBeta</UpdateUriAlt>
 </VersionManifest>

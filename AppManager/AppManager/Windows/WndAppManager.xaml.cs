@@ -98,6 +98,7 @@ namespace AppManager
 			//AppTypes.SelectedIndex = AppTypes.Items.Count - 1;
 			AppTypes.SelectedItem = appType;
 			AppTypeName.Focus();
+			AppTypeName.SelectAll();
 		}
 
 		private void BtnRemoveAppType_Click(object sender, RoutedEventArgs e)
