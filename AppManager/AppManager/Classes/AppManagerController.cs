@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Windows.Media.Imaging;
 using AppManager.Entities;
+using CommonLib;
 using WinForms = System.Windows.Forms;
 
 
@@ -14,16 +19,6 @@ namespace AppManager
 			//_Data = data;
 		}
 
-
-		public void AddToBin(DeletedAppCollection recycleBin, IEnumerable<AppInfo> apps, AppInfoCollection allApps)
-		{
-			foreach (var app in apps)
-			{
-				recycleBin.AddApp(null, app, false);
-				if (allApps != null)
-					allApps.Remove(app);
-			}
-		}
 
 		public void DeleteFromBin(DeletedAppCollection recycleBin, DeletedAppCollection deletedApp)
 		{
@@ -47,14 +42,7 @@ namespace AppManager
 			for (int i = 0; i < deletedApp.Count; i++)
 			{
 				var item = deletedApp[i] as DeletedApp;
-				var appTypeName = (item.DeletedFrom ?? restore).AppTypeName;
-				var at = appGroup.FindAppType(appTypeName);
-
-				if (at == null)
-				{
-					at = new AppType { AppTypeName = appTypeName };
-					appGroup.AppTypes.Add(at);
-				}
+				var at = appGroup.FindAppType((item.DeletedFrom ?? restore).AppTypeName);
 
 				var ai = appGroup.CreateNewAppInfo(
 					at,
@@ -66,16 +54,12 @@ namespace AppManager
 			}
 		}
 
-		public AppType AddEmptyAppType(AppGroup appGroup, AppType beforeAppType)
+		public void AddEmptyAppType(AppGroup appGroup, AppType beforeAppType)
 		{
-			var newAppType = new AppType() { AppTypeName = Strings.APPLICATIONS };
-
 			InsertAppType(
 				appGroup,
-				newAppType,
+				new AppType() { AppTypeName = Strings.APPLICATIONS },
 				beforeAppType);
-
-			return newAppType;
 		}
 
 		public void MoveType(AppGroup appGroup, AppType appType, bool up)
@@ -118,20 +102,29 @@ namespace AppManager
 			if (appInfo == null)
 				return;
 
-			string path = SelectFile();
+			var path = PathHelper.IsPathUNC(appInfo.AppPath) ?
+				Path.GetDirectoryName(appInfo.AppPath) : PathHelper.GetFirstDrivePath();
+			path = SelectFile(path);
+
 			if (!String.IsNullOrEmpty(path))
 			{
-				appInfo.ExecPath = path;
-				appInfo.SetAutoAppName();
+				var app = FindApp(path);
+				if (app != null)
+				{
+					appInfo.ExecPath = app.ExecPath;
+					appInfo.SetAutoAppName();
+				}
 			}
 		}
 
-		public string SelectFile()
+		public string SelectFile(string initDir)
 		{
 			using (WinForms.OpenFileDialog ofd = new WinForms.OpenFileDialog())
 			{
 				ofd.Title = Strings.SELECT_APP;
 				ofd.Filter = Strings.APP_FILTER;
+				ofd.InitialDirectory = PathHelper.GetExistingPath(initDir);
+				ofd.DereferenceLinks = false;
 
 				if (ofd.ShowDialog() == WinForms.DialogResult.OK)
 					return ofd.FileName;
@@ -150,7 +143,7 @@ namespace AppManager
 			return string.Empty;
 		}
 
-		public void AddScned(AppGroup appGroup, AppType appType, string newAppTypeName, IEnumerable<AppInfo> list)
+		public void AddScned(AppGroup appGroup, AppType appType, string newAppTypeName, List<AppInfoAdapter> list)
 		{
 			if (list == null)
 				return;
@@ -164,18 +157,120 @@ namespace AppManager
 				appGroup.AppTypes.Add(appType);
 			}
 
-			appType.AppInfos.AddRange(list);
+			foreach (AppInfoAdapter infoAdp in list)
+			{
+				if (infoAdp.Checked)
+					appType.AppInfos.Add(infoAdp.App);
+			}
 		}
 
-		public void AddScned(AppGroup appGroup, IEnumerable<AppInfo> list)
+		public void AddScned(AppGroup appGroup, List<AppInfoAdapter> list)
 		{
 			if (list == null)
 				return;
 
 			var appType = new AppType() { AppTypeName = appGroup.GetDefaultTypeName() };
 			appGroup.AppTypes.Add(appType);
-			appType.AppInfos.AddRange(list);
+
+			foreach (AppInfoAdapter infoAdp in list)
+			{
+				if (infoAdp.Checked)
+					appType.AppInfos.Add(infoAdp.App);
+			}
+
 			appGroup.GroupByFolders(appType);
+		}
+
+		public void SelectAllScan(IEnumerable appAdps, bool check)
+		{
+			var apps = appAdps as List<AppInfoAdapter>;
+			if (apps != null)
+				foreach (AppInfoAdapter infoAdp in apps)
+					infoAdp.Checked = check;
+		}
+
+		public AppInfoAdapterCollection AdaptTo(AppInfoCollection apps, bool check)
+		{
+			if (apps == null)
+				return new AppInfoAdapterCollection();
+
+			var result = new AppInfoAdapterCollection();
+
+			foreach (var app in apps)
+				result.Add(new AppInfoAdapter(app) { Checked = check });
+
+			return result;
+		}
+
+
+		public class AppInfoAdapterCollection : List<AppInfoAdapter>
+		{
+			public AppInfoAdapter FindByNameStart(string start, int greaterThen)
+			{
+				if (greaterThen >= Count - 1)
+					greaterThen = 0;
+				else
+					greaterThen++;
+
+				//look in tale
+				for (int i = greaterThen; i < Count; i++)
+				{
+					if (this[i].AppName.StartsWith(start, StringComparison.CurrentCultureIgnoreCase))
+						return this[i];
+				}
+
+				//if not found in tale look in head
+				for (int i = 0; i < greaterThen; i++)
+				{
+					if (this[i].AppName.StartsWith(start, StringComparison.CurrentCultureIgnoreCase))
+						return this[i];
+				}
+
+				return null;
+			}
+		}
+
+		public class AppInfoAdapter : INotifyPropertyChanged
+		{
+			protected AppInfo _Source;
+			protected bool _Checked = true;
+
+
+			public AppInfoAdapter(AppInfo source)
+			{
+				_Source = source;
+				_Source.PropertyChanged += (s, e) => OnPropertyChanged(e.PropertyName);
+			}
+
+
+			public AppInfo App { get { return _Source; } }
+
+			public string AppName { get { return _Source.AppName; } set { _Source.AppName = value; } }
+			public string ExecPath { get { return _Source.ExecPath; } set { } }
+			public BitmapSource AppImage { get { return _Source.AppImage; } }
+
+			public bool Checked
+			{
+				get { return _Checked; }
+				set { _Checked = value; OnPropertyChanged("Checked"); }
+			}
+
+			#region INotifyPropertyChanged Members
+
+			public event PropertyChangedEventHandler PropertyChanged;
+
+			protected void OnPropertyChanged(string propName)
+			{
+				if (PropertyChanged != null)
+					PropertyChanged(this, new PropertyChangedEventArgs(propName));
+			}
+
+			#endregion
+
+			public override string ToString()
+			{
+				return _Source.ToString();
+			}
 		}
 	}
 }

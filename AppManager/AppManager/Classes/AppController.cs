@@ -140,12 +140,7 @@ namespace AppManager
 		}
 
 
-		public AppInfoCollection FindApps(
-			SearchLocation location, 
-			AppGroup appData, 
-			DeletedAppCollection recycleBin,
-			bool excludeExisting,
-			bool excludeBin)
+		public AppInfoCollection FindApps(SearchLocation location, AppGroup appData, bool excludeExisting)
 		{
 			if (location == SearchLocation.None)
 				return new AppInfoCollection();
@@ -159,22 +154,14 @@ namespace AppManager
 				searchPaths.AddRange(_SearchPaths[SearchLocation.AllProgramsMenu]);
 
 			return FindApps(
-				searchPaths,
+				 searchPaths,
 				new List<string>() { "lnk" },
 				appData,
-				recycleBin,
-				excludeExisting,
-				excludeBin
+				excludeExisting
 				);
 		}
 
-		public AppInfoCollection FindApps(
-			IEnumerable<string> pathList, 
-			IEnumerable<string> extList, 
-			AppGroup appData, 
-			DeletedAppCollection recycleBin,
-			bool excludeExisting, 
-			bool excludeBin)
+		public AppInfoCollection FindApps(IEnumerable<string> pathList, IEnumerable<string> extList, AppGroup appData, bool excludeExisting)
 		{
 			var result = FindApps(
 				pathList,
@@ -188,22 +175,21 @@ namespace AppManager
 						result.RemoveAt(i);
 				}
 
-			if (excludeBin && result != null)
-				for (int i = result.Count - 1; i >= 0; i--)
-				{
-					if (recycleBin.FindByApp(null, result[i]) != null)
-						result.RemoveAt(i);
-				}
-
 			return result;
 		}
-		
+
+		public AppInfo FindApp(string file)
+		{
+			var uniq = new Dictionary<string, object>(1);
+			return GetAppInfo(file, false, uniq);
+		}
+
 		public AppInfoCollection FindApps(
 			IEnumerable<string> files)
 		{
 			return FindApps(files, false);
 		}
-
+		
 		public AppInfoCollection FindApps(
 			IEnumerable<string> pathList,
 			IEnumerable<string> extList,
@@ -252,84 +238,93 @@ namespace AppManager
 
 			var uniq = new Dictionary<string, object>(100);
 
-
-			//WinSh.WshShell shell = new WinSh.WshShellClass();
-
 			foreach (var path in files)
 			{
-				//Add files
-				if (File.Exists(path))
+				var ai = GetAppInfo(path, onlyPrograms, uniq);
+				if (ai != null)
+					result.Add(ai);
+			}
+
+			return result;
+		}
+
+		protected AppInfo GetAppInfo(string path, bool onlyPrograms, Dictionary<string, object> uniq)
+		{
+			//Add files
+			if (File.Exists(path))
+			{
+				string ext = System.IO.Path.GetExtension(path).ToLower();
+				string fullPath = String.Empty;
+				string appPath = String.Empty;
+				string appArgs = String.Empty;
+				string imagePath = String.Empty;
+
+				if (ext == ".lnk")
 				{
-					string ext = System.IO.Path.GetExtension(path).ToLower();
-					string fullPath = String.Empty;
-					string appPath = String.Empty;
-					string appArgs = String.Empty;
-					string imagePath = String.Empty;
+					var shortcut = LnkHelper.OpenLnk(path);
 
-					if (ext == ".lnk")
+					appPath = shortcut.TargetPath;
+					appArgs = shortcut.Arguments;
+					var icoLocation = shortcut.IconLocation;
+
+					if (appArgs == null)
+						appArgs = String.Empty;
+
+					if (appPath.Contains("{"))
+						appPath = MsiShortcutParser.ParseShortcut(path);
+					else if (!icoLocation.Contains("{"))
+						imagePath = icoLocation;
+
+					if (!String.IsNullOrEmpty(appArgs))
+						fullPath = "\"" + appPath + "\"" + " " + appArgs;
+					else
+						fullPath = appPath;
+
+					if (!String.IsNullOrEmpty(imagePath))
 					{
-						//WinSh.WshShortcut shortcut = shell.CreateShortcut(path) as WinSh.WshShortcut;
-						var shortcut = LnkHelper.OpenLnk(path);
-
-						appPath = shortcut.TargetPath;
-						appArgs = shortcut.Arguments;
-						var icoLocation = shortcut.IconLocation;
-
-						if (appArgs == null)
-							appArgs = String.Empty;
-
-						if (appPath.Contains("{"))
-							appPath = MsiShortcutParser.ParseShortcut(path);
-						else if (!icoLocation.Contains("{"))
-							imagePath = icoLocation;
-
-						if (!String.IsNullOrEmpty(appArgs))
-							fullPath = "\"" + appPath + "\"" + " " + appArgs;
+						var imageLocation = imagePath.Split(',');
+						if (imageLocation.Length > 0)
+							imagePath = imageLocation[0].Trim();
 						else
-							fullPath = appPath;
-
-						if (!String.IsNullOrEmpty(imagePath))
-						{
-							var imageLocation = imagePath.Split(',');
-							if (imageLocation.Length > 0)
-								imagePath = imageLocation[0].Trim();
-							else
-								imagePath = String.Empty;
-						}
-					}
-					else //if (ext == ".exe")
-						appPath = fullPath = path;
-
-					if (String.IsNullOrEmpty(appPath))
-						continue;
-
-					if (onlyPrograms && !FilterApps(appPath, appArgs))
-						continue;
-
-					if (!String.IsNullOrEmpty(fullPath))
-					{
-						if (!uniq.ContainsKey(fullPath.ToLower()))
-						{
-							string appName = Path.GetFileNameWithoutExtension(path);
-							uniq.Add(fullPath.ToLower(), null);
-							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, appName, fullPath, imagePath));
-						}
+							imagePath = String.Empty;
 					}
 				}
-				else if (!onlyPrograms)// Add folders
+				else
+					appPath = fullPath = path;
+
+				if (String.IsNullOrEmpty(appPath))
+					return null;
+					//continue;
+
+				if (onlyPrograms && !FilterApps(appPath, appArgs))
+					return null;
+					//continue;
+
+				if (!String.IsNullOrEmpty(fullPath))
 				{
-					if (Directory.Exists(path))
+					if (!uniq.ContainsKey(fullPath.ToLower()))
 					{
-						if (!uniq.ContainsKey(path.ToLower()))
-						{
-							uniq.Add(path.ToLower(), null);
-							result.Add(_WorkItem.AppData.CreateNewAppInfo(null, path));
-						}
+						string appName = Path.GetFileNameWithoutExtension(path);
+						uniq.Add(fullPath.ToLower(), null);
+						return _WorkItem.AppData.CreateNewAppInfo(null, appName, fullPath, imagePath);
+						//result.Add(_WorkItem.AppData.CreateNewAppInfo(null, appName, fullPath, imagePath));
+					}
+				}
+			}
+			else if (!onlyPrograms)// Add folders
+			{
+				if (Directory.Exists(path))
+				{
+					if (!uniq.ContainsKey(path.ToLower()))
+					{
+						uniq.Add(path.ToLower(), null);
+						return _WorkItem.AppData.CreateNewAppInfo(null, path);
+						//result.Add(_WorkItem.AppData.CreateNewAppInfo(null, path));
 					}
 				}
 			}
 
-			return result;
+			return null;
 		}
 
 		protected bool FilterApps(string appPath, string appArgs)

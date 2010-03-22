@@ -5,7 +5,6 @@ using System.Windows.Media.Imaging;
 using AppManager.EntityCollection;
 using CommonLib;
 using CommonLib.IO;
-using System.Collections;
 
 
 namespace AppManager.Entities
@@ -17,11 +16,11 @@ namespace AppManager.Entities
 
 		}
 
-		public AppInfoCollection(IList collection)
-			: base(collection)
-		{
+        //public AppInfoCollection(IEnumerable<AppInfo> collection)
+        //    : base(collection)
+        //{
 
-		}
+        //}
 	}
 
 	public class AppInfo : EntityBase<AppInfo>
@@ -261,13 +260,7 @@ namespace AppManager.Entities
 				}
 				else
 				{
-					while (!String.IsNullOrEmpty(dir))
-					{
-						dir = PathHelper.GetUpperPath(dir);
-						if (Directory.Exists(dir))
-							break;
-					}
-
+					dir = PathHelper.GetExistingPath(dir);
 					p.StartInfo.FileName = dir;
 					p.StartInfo.WorkingDirectory = dir;
 				}
@@ -351,7 +344,7 @@ namespace AppManager.Entities
 
 		protected virtual void OnNeedImage()
 		{
-			if (NeedImage != null)
+			if (NeedImage != null && File.Exists(AppPath))
 				NeedImage(this, EventArgs.Empty);
 		}
 

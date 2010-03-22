@@ -7,6 +7,33 @@ namespace CommonLib
 {
 	public static class PathHelper
 	{
+		public static string GetFirstDrivePath()
+		{ 
+			var drvs = DriveInfo.GetDrives();
+			foreach (var item in drvs)
+			{
+				if (item.DriveType == DriveType.Fixed)
+					return item.RootDirectory.FullName;
+			}
+
+			return String.Empty;
+		}
+
+		public static string GetExistingPath(string dir)
+		{
+			if (Directory.Exists(dir))
+				return dir;
+
+			while (!String.IsNullOrEmpty(dir))
+			{
+				dir = PathHelper.GetUpperPath(dir);
+				if (Directory.Exists(dir))
+					break;
+			}
+
+			return dir;
+		}
+
 		public static bool ComparePath(string path1, string path2)
 		{
 			if (String.IsNullOrEmpty(path1) &&
