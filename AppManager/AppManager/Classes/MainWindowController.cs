@@ -148,9 +148,7 @@ namespace AppManager
 
 			appInfo.OpenFolder();
 		}
-
-
-
+		
 		public void AddFiles(AppType appType, string[] files)
 		{
 			if (appType == null)
