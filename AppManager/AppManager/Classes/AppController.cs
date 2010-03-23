@@ -140,7 +140,18 @@ namespace AppManager
 		}
 
 
-		public AppInfoCollection FindApps(SearchLocation location, AppGroup appData, bool excludeExisting)
+		public AppInfo FindApp(string file)
+		{
+			var uniq = new Dictionary<string, object>(1);
+			return GetAppInfo(file, false, uniq);
+		}
+
+		public AppInfoCollection FindApps(
+			SearchLocation location, 
+			AppGroup appData, 
+			DeletedAppCollection recycleBin,
+			bool excludeExisting,
+			bool excludeBin)
 		{
 			if (location == SearchLocation.None)
 				return new AppInfoCollection();
@@ -154,14 +165,22 @@ namespace AppManager
 				searchPaths.AddRange(_SearchPaths[SearchLocation.AllProgramsMenu]);
 
 			return FindApps(
-				 searchPaths,
+				searchPaths,
 				new List<string>() { "lnk" },
 				appData,
-				excludeExisting
+				recycleBin,
+				excludeExisting,
+				excludeBin
 				);
 		}
 
-		public AppInfoCollection FindApps(IEnumerable<string> pathList, IEnumerable<string> extList, AppGroup appData, bool excludeExisting)
+		public AppInfoCollection FindApps(
+			IEnumerable<string> pathList, 
+			IEnumerable<string> extList, 
+			AppGroup appData, 
+			DeletedAppCollection recycleBin,
+			bool excludeExisting, 
+			bool excludeBin)
 		{
 			var result = FindApps(
 				pathList,
@@ -175,21 +194,22 @@ namespace AppManager
 						result.RemoveAt(i);
 				}
 
+			if (excludeBin && result != null)
+				for (int i = result.Count - 1; i >= 0; i--)
+				{
+					if (recycleBin.FindByApp(null, result[i]) != null)
+						result.RemoveAt(i);
+				}
+
 			return result;
 		}
-
-		public AppInfo FindApp(string file)
-		{
-			var uniq = new Dictionary<string, object>(1);
-			return GetAppInfo(file, false, uniq);
-		}
-
+		
 		public AppInfoCollection FindApps(
 			IEnumerable<string> files)
 		{
 			return FindApps(files, false);
 		}
-		
+
 		public AppInfoCollection FindApps(
 			IEnumerable<string> pathList,
 			IEnumerable<string> extList,
@@ -247,7 +267,7 @@ namespace AppManager
 
 			return result;
 		}
-
+		
 		protected AppInfo GetAppInfo(string path, bool onlyPrograms, Dictionary<string, object> uniq)
 		{
 			//Add files
@@ -294,11 +314,11 @@ namespace AppManager
 
 				if (String.IsNullOrEmpty(appPath))
 					return null;
-					//continue;
+				//continue;
 
 				if (onlyPrograms && !FilterApps(appPath, appArgs))
 					return null;
-					//continue;
+				//continue;
 
 				if (!String.IsNullOrEmpty(fullPath))
 				{
