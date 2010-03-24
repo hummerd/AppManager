@@ -120,7 +120,7 @@ namespace AppManager
 			if (appInfo == null)
 				return;
 
-			var path = PathHelper.IsPathUNC(appInfo.AppPath) ?
+			var path = PathHelper.IsAbsolutePath(appInfo.AppPath) ?
 				Path.GetDirectoryName(appInfo.AppPath) : PathHelper.GetFirstDrivePath();
 			path = SelectFile(path);
 
@@ -139,9 +139,12 @@ namespace AppManager
 		{
 			using (WinForms.OpenFileDialog ofd = new WinForms.OpenFileDialog())
 			{
+				var existPath = PathHelper.GetExistingPath(initDir);
+				existPath = String.IsNullOrEmpty(existPath) ? PathHelper.GetFirstDrivePath() : existPath;
+
 				ofd.Title = Strings.SELECT_APP;
 				ofd.Filter = Strings.APP_FILTER;
-				ofd.InitialDirectory = PathHelper.GetExistingPath(initDir);
+				ofd.InitialDirectory = existPath;
 				ofd.DereferenceLinks = false;
 
 				if (ofd.ShowDialog() == WinForms.DialogResult.OK)

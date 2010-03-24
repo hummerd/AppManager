@@ -166,6 +166,21 @@ namespace CommonLib
 			return path.Substring(0, ix);
 		}
 
+		public static bool IsAbsolutePath(string path)
+		{
+			var invalidChars = Path.GetInvalidPathChars();
+			for (int i = 0; i < invalidChars.Length; i++)
+			{
+				if (path.IndexOf(invalidChars[i]) >= 0)
+					return false;
+			}
+
+			if (!Path.IsPathRooted(path))
+				return false;
+
+			return true;
+		}
+
 		public static bool IsPathUNC(string path)
 		{
 			Uri uri;
