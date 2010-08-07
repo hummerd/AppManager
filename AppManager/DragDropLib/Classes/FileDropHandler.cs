@@ -17,7 +17,13 @@ namespace DragDropLib
 			if (!dragData.Data.GetDataPresent(DataFormats.FileDrop))
 				return DragDropEffects.None;
 
-			return DragDropEffects.Copy;
+			if ((dragData.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy)
+				return DragDropEffects.Copy;
+
+			if ((dragData.AllowedEffects & DragDropEffects.Link) == DragDropEffects.Link)
+				return DragDropEffects.Link;
+
+			return dragData.AllowedEffects;
 		}
 
 		public virtual bool HandleDragData(FrameworkElement element, DragEventArgs dragData)
