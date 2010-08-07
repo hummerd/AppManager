@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows;
 using AppManager.Windows;
 
 
@@ -20,6 +19,9 @@ namespace AppManager.Commands
 		{
 			if (_HelpWnd != null)
 			{
+				if (_HelpWnd.WindowState == WindowState.Minimized)
+					_HelpWnd.WindowState = WindowState.Normal;
+
 				_HelpWnd.Activate();
 				return;
 			}

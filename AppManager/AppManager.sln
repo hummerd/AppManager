@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppManager", "AppManager\AppManager.csproj", "{84BCE999-E9A9-4649-8297-9C31AFA13BF6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A48F4FA2-23E7-4630-BC21-FAF40A08D4B8} = {A48F4FA2-23E7-4630-BC21-FAF40A08D4B8}
@@ -20,7 +20,7 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 7
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs07.codeplex.com/
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs07
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = AppManager\\AppManager.csproj
 		SccProjectName1 = AppManager
