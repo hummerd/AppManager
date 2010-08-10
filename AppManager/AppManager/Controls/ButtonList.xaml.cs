@@ -29,6 +29,8 @@ namespace AppManager
 
 		public ButtonList()
 		{
+			IsSetUp = false;
+
 			this.InitializeComponent();
 
 			_DragHelper = new ButtonListDrag(this, typeof(AppInfo));
@@ -38,6 +40,9 @@ namespace AppManager
 			_DragHelper.NeedTargetObject += (s, e) => e.Value = GetLastItems();
 		}
 
+
+		public bool IsSetUp
+		{ get; set; }
 
 		public ContextMenu EditMenu
 		{

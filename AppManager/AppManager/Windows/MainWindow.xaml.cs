@@ -154,6 +154,9 @@ namespace AppManager
 
 		protected void InitButtonList(ButtonList groupContent)
 		{
+			if (groupContent.IsSetUp)
+				return;
+
 			groupContent.DragHelper.DragHandlers.Add(_FileDrop);
 			groupContent.DragHelper.DragHandlers.Add(_AppTypeDrop);
 
@@ -170,6 +173,8 @@ namespace AppManager
 
 			groupContent.ContextMenuOpening += (s, e) =>
 				e.Handled = OnAppListContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
+
+			groupContent.IsSetUp = true;
 		}
 
 		protected void InitAppTypeGroupBox(GroupBox group)
