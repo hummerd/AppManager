@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 
 
 namespace CommonLib.Windows
@@ -17,8 +19,17 @@ namespace CommonLib.Windows
 
 		public static void Show(string title, Exception exc)
 		{
-			var eb = new ErrorBox(title, exc.Message, exc.ToString());
-			eb.ShowDialog();
+			try
+			{
+				var srcName = Assembly.GetEntryAssembly().GetName().Name;
+				if (!EventLog.Exists(srcName))
+					EventLog.WriteEntry(srcName, exc.ToString(), EventLogEntryType.Error);
+
+				var eb = new ErrorBox(title, exc.Message, exc.ToString());
+				eb.ShowDialog();
+			}
+			catch
+			{ ; }
 		}
 
 
