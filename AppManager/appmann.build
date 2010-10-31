@@ -3,18 +3,19 @@
 	<description>Create new version of AppManager</description>
 	
 	<property name="projpath" value="c:\tmp\amb" />
-	<property name="tfpath" value="c:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\TF.exe" />
-	<property name="tfs" value="https://tfs07.codeplex.com:443" />
-	<property name="tflogin" value="..." />
+	<property name="tfpath" value="C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\TF.exe" />
+	<property name="tfs" value="https://tfs.codeplex.com/tfs/tfs07" />
+	<property name="tflogin" value="***,***" />
 	<property name="msbpath" value="c:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
 	<property name="vbpath" value="${projpath}\AppManager\AppManager\VersionBuilder\bin\Release\VersionBuilder.exe" />
 	
 	<property name="projecttobuild" value="${projpath}\AppManager\AppManager\AppManager.sln" />
 	
 	<property name="versionsource" value="${projpath}\AppManager\AppManager\AppManager\bin\Release" />
+	<property name="updatersource" value="${projpath}\AppManager\AppManager\Updater\bin\Release" />
 	<property name="updatesource" value="http://dimanick.ru/MySoft/AppManager/Update" />
 	<!-- <property name="updatesource" value="http://hummerd.selfip.com:10080/AppManagerUpdate" /> -->
-	<property name="versionnumber" value="1.0.70.70" />
+	<property name="versionnumber" value="1.2.75.77" />
 	
 	
 	<target name="createversion">
@@ -92,6 +93,7 @@
 			<arg value="-${updatesource}" />
 			<arg value="-pdb,manifest,application" />
 			<arg value="-ru,en" />
+			<arg value="-&quot;${updatersource}&quot;" />
 		</exec>	
 	</target>
 </project>
