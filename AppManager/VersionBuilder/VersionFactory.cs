@@ -11,7 +11,7 @@ namespace VersionBuilder
 {
 	public class VersionFactory
 	{
-		public void CreateVersion(string dir, Version version, string location, string excludeExt, string locales)
+		public void CreateVersion(string dir, Version version, string location, string excludeExt, string locales, string updaterSrcDir)
 		{
 			if (!Directory.Exists(dir))
 				throw new Exception("Source dir " + dir + " does not exist");
@@ -20,6 +20,7 @@ namespace VersionBuilder
 				dir = dir.Substring(0, dir.Length - 1);
 
 			string versionDir = dir + "_" + version;
+			string updaterDir = dir + "_" + version + "_Updater";
 
 			if (Directory.Exists(versionDir))
 				Directory.Delete(versionDir, true);
@@ -32,39 +33,11 @@ namespace VersionBuilder
 
 			foreach (var item in files)
 			{
-				string newPath = item.Replace(dir, versionDir) + ".gzip";
-				string newDir = Path.GetDirectoryName(newPath);
-				if (!Directory.Exists(newDir))
-					Directory.CreateDirectory(newDir);
-
+				string newPath;
 				string itemPath;
-				if (newDir.Length <= versionDir.Length)
-					itemPath = String.Empty;
-				else
-				{
-					itemPath = newDir.Substring(versionDir.Length + 1, newDir.Length - versionDir.Length - 1);
+				CompressFile(item, dir, versionDir, out newPath, out itemPath);
 
-					if (String.IsNullOrEmpty(itemPath))
-						itemPath = String.Empty;
-				}
-
-				//For assemblies version in manifest is assembly version
-				//for another files version is system version
-				AssemblyName an;
-				try
-				{
-					an = AssemblyName.GetAssemblyName(item);
-				}
-				catch
-				{
-					an = null;
-				}
-				
-				var ver = new Version(
-					version.Major, 
-					version.Minor, 
-					version.Build, 
-					(an == null ? version : an.Version).Revision);
+				var ver = CreateVersion(version, item);
 
 				verManifest.VersionItems.Add(new VersionItem()
 					{
@@ -74,10 +47,23 @@ namespace VersionBuilder
 						VersionNumber = ver,
 						Base64Hash = FileHash.GetBase64FileHash(item)
 					});
-				
-				GZipCompression.CompressFile(item, newPath);
 			}
 
+			files = GetVersionFiles(updaterSrcDir, excludeExt);
+
+			foreach (var item in files)
+			{
+				string newPath;
+				string itemPath;
+				CompressFile(item, updaterSrcDir, updaterDir, out newPath, out itemPath);
+
+				verManifest.BootStrapper.Add(new LocationHash()
+				{
+					Location = location + newPath.Replace(versionDir, String.Empty).Replace('\\', delim),
+					Base64Hash = FileHash.GetBase64FileHash(item)
+				});
+			}
+			
 			XmlSerializeHelper.SerializeItem(
 				verManifest, 
 				Path.Combine(versionDir, VersionManifest.VersionManifestFileName));
@@ -99,6 +85,47 @@ namespace VersionBuilder
 		}
 
 
+		protected void CompressFile(string path, string srcDir, string dstDir, out string newPath, out string itemPath)
+		{
+			newPath = path.Replace(srcDir, dstDir) + ".gzip";
+			string newDir = Path.GetDirectoryName(newPath);
+			if (!Directory.Exists(newDir))
+				Directory.CreateDirectory(newDir);
+
+			if (newDir.Length <= dstDir.Length)
+				itemPath = String.Empty;
+			else
+			{
+				itemPath = newDir.Substring(dstDir.Length + 1, newDir.Length - dstDir.Length - 1);
+
+				if (String.IsNullOrEmpty(itemPath))
+					itemPath = String.Empty;
+			}
+
+			GZipCompression.CompressFile(path, newPath);
+		}
+
+		protected Version CreateVersion(Version baseVersion, string path)
+		{
+			//For assemblies version in manifest is assembly version
+			//for another files version is system version
+			AssemblyName an;
+			try
+			{
+				an = AssemblyName.GetAssemblyName(path);
+			}
+			catch
+			{
+				an = null;
+			}
+
+			return new Version(
+				baseVersion.Major,
+				baseVersion.Minor,
+				baseVersion.Build,
+				(an == null ? baseVersion : an.Version).Revision);
+		}
+		
 		protected List<string> GetVersionFiles(string dir, string excludeExt)
 		{
 			var files = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories);

@@ -27,7 +27,8 @@ namespace VersionBuilder
 						new Version(e.Args[1].Substring(1, e.Args[1].Length - 1)),
 						e.Args[2].Substring(1, e.Args[2].Length - 1),
 						e.Args[3].Substring(1, e.Args[3].Length - 1),
-						e.Args[4].Substring(1, e.Args[4].Length - 1)
+						e.Args[4].Substring(1, e.Args[4].Length - 1),
+						e.Args[5].Substring(1, e.Args[5].Length - 1)
 						);
 
 					Shutdown();

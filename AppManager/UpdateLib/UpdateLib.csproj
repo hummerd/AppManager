@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpdStr.resx</DependentUpon>
     </Compile>
+    <Compile Include="VersionInfo\LocationHash.cs" />
     <Compile Include="VersionInfo\VersionSource.cs" />
     <Compile Include="VersionManifestLoader.cs" />
     <Compile Include="VersionNumberFactory.cs" />

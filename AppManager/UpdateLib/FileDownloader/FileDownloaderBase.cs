@@ -10,30 +10,13 @@ namespace UpdateLib.FileDownloader
 	public abstract class FileDownloaderBase : IFileDownloader, IDisposable
 	{
 		public event EventHandler<FileDownloadProgress> DownloadFileStarted;
-		//public event EventHandler<ValueEventArgs<bool>> DownloadFileSetCompleted;
 
 
-		//protected BackgroundWorker _Downloader = new BackgroundWorker();
 		protected volatile bool _Cancel;
 
 
 		public FileDownloaderBase()
 		{
-			//_Downloader.WorkerReportsProgress = true;
-			//_Downloader.WorkerSupportsCancellation = true;
-
-			//_Downloader.DoWork += (s, e) => e.Result = DownloadAsync(
-			//   (e.Argument as object[])[0] as IEnumerable<VersionItem>,
-			//   (e.Argument as object[])[1] as string
-			//   );
-			//_Downloader.RunWorkerCompleted += (s, e) => OnDownloadFileSetCompleted((bool)e.Result);
-			//_Downloader.ProgressChanged += (s, e) => OnDownloadFileStarted(
-			//   new FileDownloadProgress()
-			//      { 
-			//         FilePath = (string)(e.UserState as object[])[1],
-			//         DownloadedSize = e.ProgressPercentage,
-			//         ToltalSize = (long)(e.UserState as object[])[0]
-			//      });
 		}
 
 
@@ -46,11 +29,6 @@ namespace UpdateLib.FileDownloader
 
 		public void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath, bool waitFor)
 		{
-			//_Downloader.RunWorkerAsync(new object[] { fileLocation, tempPath });
-			//if (waitFor)
-			//   while (_Downloader.IsBusy)
-			//      System.Windows.Forms.Application.DoEvents();
-			//      //DispatcherHelper.DoEvents();
 		}
 
 		public void DownloadFileSet(IEnumerable<VersionItem> fileLocation, string tempPath)
