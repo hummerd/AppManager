@@ -68,4 +68,18 @@
 	</VersionItems>
 	<UpdateUri>http://dimanick.ru/MySoft/AppManager/UpdateBeta</UpdateUri>
 	<UpdateUriAlt>http://dimanick.ru/MySoft/AppManager/UpdateBeta</UpdateUriAlt>
+  <BootStrapper>
+    <LocationHash>
+      <Location>http://dimanick.ru/MySoft/AppManager/Update/Updater.exe</Location>
+      <Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
+    </LocationHash>
+    <LocationHash>
+      <Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/ru/UpdateLib.resources.dll.gzip</Location>
+      <Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
+    </LocationHash>
+    <LocationHash>
+      <Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/ru/UpdateLib.resources.dll.gzip</Location>
+      <Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
+    </LocationHash>
+  </BootStrapper>
 </VersionManifest>

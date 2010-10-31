@@ -46,6 +46,9 @@ namespace UpdateLib.VersionInfo
 		public string UpdateUriAlt
 		{ get; set; }
 
+		public List<LocationHash> BootStrapper
+		{ get; set; }
+
 
 		public VersionManifest GetUpdateManifest(VersionManifest currentVersionManifest)
 		{

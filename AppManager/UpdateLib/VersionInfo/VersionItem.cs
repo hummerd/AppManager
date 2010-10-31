@@ -19,15 +19,13 @@ namespace UpdateLib.VersionInfo
 	}
 
 	[Serializable]
-	public class VersionItem
+	public class VersionItem : LocationHash
 	{
 		public VersionItem()
 		{
 			VersionNumber = new Version();
 		}
 
-		public string Location
-		{ get; set; }
 		public string Path
 		{ get; set; }
 		public InstallAction InstallAction
@@ -46,12 +44,7 @@ namespace UpdateLib.VersionInfo
 				VersionNumber = new Version(value);
 			}
 		}
-		public string Base64Hash
-		{
-			get;
-			set;
-		}
-
+		
 		public string GetItemFullPath()
 		{
 			if (Location == null)
