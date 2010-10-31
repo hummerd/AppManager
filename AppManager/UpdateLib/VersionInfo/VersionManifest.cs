@@ -19,6 +19,7 @@ namespace UpdateLib.VersionInfo
 		{
 			VersionItems = new VersionItemList();
 			VersionNumber = new Version();
+			BootStrapper = new List<LocationHash>();
 		}
 
 		[XmlIgnore]
