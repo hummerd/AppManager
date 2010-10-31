@@ -26,8 +26,6 @@ namespace UpdateLib.VersionInfo
 			VersionNumber = new Version();
 		}
 
-		public string Path
-		{ get; set; }
 		public InstallAction InstallAction
 		{ get; set; }
 		[XmlIgnore]

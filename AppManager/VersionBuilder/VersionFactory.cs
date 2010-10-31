@@ -60,6 +60,7 @@ namespace VersionBuilder
 				verManifest.BootStrapper.Add(new LocationHash()
 				{
 					Location = location + newPath.Replace(updaterDir, String.Empty).Replace('\\', delim),
+					Path = itemPath,
 					Base64Hash = FileHash.GetBase64FileHash(item)
 				});
 			}
