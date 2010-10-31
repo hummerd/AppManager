@@ -510,25 +510,14 @@ namespace UpdateLib
 			string installerPath = Path.Combine(installerDir, "Updater.exe");
 			Assembly assembly = Assembly.GetExecutingAssembly();
 
-			using (Stream stream = assembly.GetManifestResourceStream("UpdateLib.Resources.Updater.exe"))
-			{
-				BinaryReader br = new BinaryReader(stream);
-				var updater = br.ReadBytes((int)br.BaseStream.Length);
-
-				File.WriteAllBytes(installerPath, updater);
-			}
-			
+			//Extract updater
+			CopyResource("UpdateLib.Resources.Updater.exe", installerPath);
+			//Extract updater config
+			CopyResource("UpdateLib.Resources.Updater.exe.config", installerPath + ".config");
 			//Copy CommonLib
 			CopyAssembly(installerDir, Assembly.GetAssembly(typeof(XmlSerializeHelper)));
-			//string commonLibPath = Assembly.GetAssembly(typeof(XmlSerializeHelper)).Location;
-			//string temp = Path.Combine(installerDir, Path.GetFileName(commonLibPath));
-			//File.Copy(commonLibPath, temp, true);
-
 			//Copy UpdateLib
 			CopyAssembly(installerDir, Assembly.GetExecutingAssembly());
-			//string updateLibPath = Assembly.GetExecutingAssembly().Location;
-			//temp = Path.Combine(installerDir, Path.GetFileName(updateLibPath));
-			//File.Copy(updateLibPath, temp, true);
 
 			//Saving install info
 			XmlSerializeHelper.SerializeItem(
@@ -536,6 +525,18 @@ namespace UpdateLib
 				Path.Combine(installerDir, InstallInfo.InstallInfoFileName));
 
 			return installerPath;
+		}
+
+		protected void CopyResource(string resourceName, string filePath)
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			using (var stream = assembly.GetManifestResourceStream(resourceName))
+			{
+				BinaryReader br = new BinaryReader(stream);
+				var updater = br.ReadBytes((int)br.BaseStream.Length);
+
+				File.WriteAllBytes(filePath, updater);
+			}
 		}
 
 		protected void CopyAssembly(string destDir, Assembly asm)
