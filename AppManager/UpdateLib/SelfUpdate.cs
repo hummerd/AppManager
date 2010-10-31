@@ -205,8 +205,7 @@ namespace UpdateLib
 
 						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
-						var tempPath = CreateTempDir(appName, latestManifest.VersionNumber);
-						DownloadVersion(updateManifest, tempPath, lastVersion.SourceUri.AbsoluteUri);
+						var tempPath = DownloadVersion(updateManifest, appName, lastVersion.VersionData.VersionNumber, lastVersion.SourceUri.AbsoluteUri);
 						VersionDownloadCompleted(
 							displayAppName,
 							updateManifest,
@@ -424,11 +423,14 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected void DownloadVersion(
+		protected string DownloadVersion(
 			VersionManifest downloadManifest, 
-			string tempPath, 
+			string appName,
+			Version latestVersion,
 			string updateUri)
 		{
+			string tempPath = String.Empty;
+
 			if (UIDownloadProgress != null)
 			{
 			   DispatcherHelper.Invoke(new SimpleMathod(UIDownloadProgress.Show));
@@ -443,8 +445,21 @@ namespace UpdateLib
 					DispatcherHelper.Invoke(new UpdateDownloadProgress(
 						UIDownloadProgress.SetDownloadProgress), e.FilePath, e.ToltalSize, e.DownloadedSize);
 
+				var downloadItems = new List<LocationHash>(downloadManifest.VersionItems.Count);
+				foreach (var item in downloadManifest.VersionItems)
+				{
+					if (item.InstallAction != InstallAction.Delete)
+					downloadItems.Add(item);
+				}
+
+				tempPath = CreateTempDir(appName, latestVersion);
 				fileDownloader.DownloadFileSet(
-					downloadManifest.VersionItems,
+					downloadItems,
+					tempPath);
+
+				var installerDir = GetInstallerDir(tempPath, appName, latestVersion);
+				fileDownloader.DownloadFileSet(
+					downloadManifest.BootStrapper,
 					tempPath);
 			}
 			finally
@@ -453,6 +468,8 @@ namespace UpdateLib
 					DispatcherHelper.Invoke(
 						new SimpleMathod(UIDownloadProgress.Close));
 			}
+
+			return tempPath;
 		}
 
 		protected void VersionDownloadCompleted(
