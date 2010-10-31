@@ -3,7 +3,7 @@
    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
    Title="Version builder" 
-	Height="296" 
+	Height="320" 
 	MinHeight="250"
 	Width="545"
 	MinWidth="400">
@@ -64,8 +64,16 @@
 			TextDecorations="None" Text="ru,en" TabIndex="4" Height="23" VerticalAlignment="Top" />
 		<Label
 			HorizontalAlignment="Left"
-			Margin="12,0,0,105"
-			Name="LblLocales"
-			VerticalAlignment="Bottom" Height="23.277" Width="101.927">Locales</Label>
-	</Grid>
+			Margin="12,130,0,0"
+			Name="LblLocales" Width="101.927" Height="23" VerticalAlignment="Top">Locales</Label>
+        <Label
+			HorizontalAlignment="Left"
+			Margin="12,157,0,0"
+			Name="LblUpdaterLocation"
+			VerticalAlignment="Top">Updater location</Label>
+        <TextBox
+			Margin="120,159,12,0"
+			Name="TxtUpdaterLocations"
+			TextDecorations="None" Text="C:\MyProjects\Project\Release" TabIndex="4" Height="23" VerticalAlignment="Top" />
+    </Grid>
 </Window>

@@ -29,7 +29,8 @@ namespace VersionBuilder
 					ver, 
 					TxtLocation.Text, 
 					TxtExcludeExt.Text,
-					TxtLocales.Text);
+					TxtLocales.Text,
+					TxtUpdaterLocations.Text);
 			}
 			catch(Exception exc)
 			{
