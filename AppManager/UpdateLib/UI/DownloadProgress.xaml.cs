@@ -21,7 +21,9 @@ namespace UpdateLib.UI
 
 		public void SetDownloadInfo(VersionManifest manifest)
 		{
-			PrgTotal.Maximum = manifest.VersionItems.Count;
+			PrgTotal.Maximum = 
+				manifest.VersionItems.Count + 
+				manifest.BootStrapper.Count;
 		}
 
 		public void SetDownloadProgress(string location, long total, long progress)

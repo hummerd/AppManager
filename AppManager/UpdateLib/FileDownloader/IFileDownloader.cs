@@ -14,7 +14,7 @@ namespace UpdateLib.FileDownloader
 		 bool Cancel
 		 { get; set; }
 
-		 void DownloadFileSet(IEnumerable<VersionItem> fileLocation, string tempPath);
-		 void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath, bool waitFor);
+		 void DownloadFileSet(IEnumerable<LocationHash> fileLocation, string tempPath);
+		 void DownloadFileSetAsync(IEnumerable<LocationHash> fileLocation, string tempPath, bool waitFor);
     }
 }

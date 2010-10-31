@@ -27,20 +27,17 @@ namespace UpdateLib.FileDownloader
 		}
 
 
-		public void DownloadFileSetAsync(IEnumerable<VersionItem> fileLocation, string tempPath, bool waitFor)
+		public void DownloadFileSetAsync(IEnumerable<LocationHash> fileLocation, string tempPath, bool waitFor)
 		{
 		}
 
-		public void DownloadFileSet(IEnumerable<VersionItem> fileLocation, string tempPath)
+		public void DownloadFileSet(IEnumerable<LocationHash> fileLocation, string tempPath)
 		{
 			int buffSize = 4096;
 			byte[] buff = new byte[buffSize];
 
 			foreach (var item in fileLocation)
 			{
-				if (item.InstallAction == InstallAction.Delete)
-					continue;
-
 				var location = new Uri(item.Location);
 				var tempDir = Path.Combine(tempPath, item.Path);
 				var tempFile = Path.Combine(tempPath, item.GetItemFullPath());
