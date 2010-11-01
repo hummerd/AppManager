@@ -26,11 +26,14 @@ namespace UpdateLib.VersionInfo
 			VersionNumber = new Version();
 		}
 
+		[XmlElement(Order = 21)]
 		public InstallAction InstallAction
 		{ get; set; }
 		[XmlIgnore]
 		public Version VersionNumber
 		{ get; set; }
+
+		[XmlElement(Order = 24)]
 		public string VersionNumberString
 		{
 			get

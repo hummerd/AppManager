@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
+
 
 namespace UpdateLib.VersionInfo
 {
 	[Serializable]
 	public class LocationHash
 	{
-		public string Path
-		{ get; set; }
-
+		[XmlElement(Order = 10)]
 		public string Location
 		{ get; set; }
 
+		[XmlElement(Order=20)]
+		public string Path
+		{ get; set; }
+
+		[XmlElement(Order=30)]
 		public string Base64Hash
 		{ get; set; }
 

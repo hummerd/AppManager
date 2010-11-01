@@ -205,7 +205,11 @@ namespace UpdateLib
 
 						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
 
-						var tempPath = DownloadVersion(updateManifest, appName, lastVersion.VersionData.VersionNumber, lastVersion.SourceUri.AbsoluteUri);
+						string tempPath;
+						string tempInstallerPath;
+						
+						DownloadVersion(updateManifest, appName, lastVersion.VersionData.VersionNumber, lastVersion.SourceUri.AbsoluteUri, out tempPath, out tempInstallerPath);
+
 						VersionDownloadCompleted(
 							displayAppName,
 							updateManifest,
@@ -423,13 +427,16 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected string DownloadVersion(
+		protected void DownloadVersion(
 			VersionManifest downloadManifest, 
 			string appName,
 			Version latestVersion,
-			string updateUri)
+			string updateUri,
+			out string tempApplicationPath,
+			out string tempInstallerPath
+			)
 		{
-			string tempPath = String.Empty;
+			tempApplicationPath = String.Empty;
 
 			if (UIDownloadProgress != null)
 			{
@@ -452,15 +459,15 @@ namespace UpdateLib
 					downloadItems.Add(item);
 				}
 
-				tempPath = CreateTempDir(appName, latestVersion);
+				tempApplicationPath = CreateTempDir(appName, latestVersion);
 				fileDownloader.DownloadFileSet(
 					downloadItems,
-					tempPath);
+					tempApplicationPath);
 
-				var installerDir = GetInstallerDir(tempPath, appName, latestVersion);
+				tempInstallerPath = GetInstallerDir(tempApplicationPath, appName, latestVersion);
 				fileDownloader.DownloadFileSet(
 					downloadManifest.BootStrapper,
-					tempPath);
+					tempApplicationPath);
 			}
 			finally
 			{
@@ -468,8 +475,6 @@ namespace UpdateLib
 					DispatcherHelper.Invoke(
 						new SimpleMathod(UIDownloadProgress.Close));
 			}
-
-			return tempPath;
 		}
 
 		protected void VersionDownloadCompleted(
@@ -484,6 +489,15 @@ namespace UpdateLib
 			
 			//Unzip
 			foreach (var item in downloadManifest.VersionItems)
+			{
+				var tempFile = Path.Combine(installInfo.TempPath, item.GetItemFullPath());
+				var tempFileUnzip = Path.Combine(installInfo.TempPath, item.GetUnzipItemFullPath());
+
+				GZipCompression.DecompressFile(tempFile, tempFileUnzip);
+			}
+
+			//Unzip
+			foreach (var item in downloadManifest.BootStrapper)
 			{
 				var tempFile = Path.Combine(installInfo.TempPath, item.GetItemFullPath());
 				var tempFileUnzip = Path.Combine(installInfo.TempPath, item.GetUnzipItemFullPath());
