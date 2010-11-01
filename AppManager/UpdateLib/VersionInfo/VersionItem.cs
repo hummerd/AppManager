@@ -19,21 +19,27 @@ namespace UpdateLib.VersionInfo
 	}
 
 	[Serializable]
-	public class VersionItem : LocationHash
+	public class VersionItem
 	{
 		public VersionItem()
 		{
 			VersionNumber = new Version();
 		}
 
-		[XmlElement(Order = 21)]
+
+		public string Location
+		{ get; set; }
+
+		public string Path
+		{ get; set; }
+
 		public InstallAction InstallAction
 		{ get; set; }
+
 		[XmlIgnore]
 		public Version VersionNumber
 		{ get; set; }
 
-		[XmlElement(Order = 24)]
 		public string VersionNumberString
 		{
 			get
@@ -45,7 +51,41 @@ namespace UpdateLib.VersionInfo
 				VersionNumber = new Version(value);
 			}
 		}
-		
+
+		public string Base64Hash
+		{ get; set; }
+
+
+		public LocationHash GetLocationHash()
+		{
+			return new LocationHash
+			{
+				Base64Hash = Base64Hash,
+				Location = Location,
+				Path = Path,
+			};
+		}
+
+		public string GetItemFullPath()
+		{
+			if (Location == null)
+				return Path;
+
+			var location = new Uri(Location);
+			return System.IO.Path.Combine(Path, location.Segments[location.Segments.Length - 1]);
+		}
+
+		public string GetUnzipItemFullPath()
+		{
+			var itemFullPath = GetItemFullPath();
+
+			if (itemFullPath.EndsWith(".gzip", StringComparison.InvariantCultureIgnoreCase))
+				return itemFullPath.Substring(
+					0,
+					itemFullPath.Length - System.IO.Path.GetExtension(itemFullPath).Length);
+			else
+				return itemFullPath;
+		}
 
 		public bool NeedCopyItem()
 		{
