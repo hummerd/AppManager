@@ -456,7 +456,7 @@ namespace UpdateLib
 				foreach (var item in downloadManifest.VersionItems)
 				{
 					if (item.InstallAction != InstallAction.Delete)
-					downloadItems.Add(item);
+					downloadItems.Add(item.GetLocationHash());
 				}
 
 				tempApplicationPath = CreateTempDir(appName, latestVersion);
