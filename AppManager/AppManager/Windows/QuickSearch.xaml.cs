@@ -3,6 +3,7 @@ using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CommonLib.PInvoke;
 
 
@@ -17,9 +18,19 @@ namespace AppManager.Windows
 		public event EventHandler ItemSelected;
 
 
+		protected DispatcherTimer _SearchTimer = new DispatcherTimer();
+
+
 		public QuickSearch()
 		{
 			InitializeComponent();
+
+			_SearchTimer.Interval = new TimeSpan(0, 0, 0, 0, 400);
+			_SearchTimer.Tick += (s, e) => 
+			{ 
+				_SearchTimer.Stop(); 
+				OnSearchStringChanged(); 
+			};
 		}
 
 
@@ -136,7 +147,8 @@ namespace AppManager.Windows
 
 		private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			OnSearchStringChanged();
+			_SearchTimer.Start();
+			//OnSearchStringChanged();
 		}
 
 		private void TxtSearch_KeyDown(object sender, KeyEventArgs e)

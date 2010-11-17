@@ -371,12 +371,15 @@ namespace UpdateLib
 			return true;
 		}
 
-		protected void CleanUp(string appName, VersionManifest currentManifest)
+		protected void CleanUp(string appName, VersionManifest manifest)
 		{
+			if (manifest == null)
+				return;
+
 			try
 			{
-				var tempPath = GetTempDir(appName, currentManifest.VersionNumber);
-				var instDir = GetInstallerDir(tempPath, appName, currentManifest.VersionNumber);
+				var tempPath = GetTempDir(appName, manifest.VersionNumber);
+				var instDir = GetInstallerDir(tempPath, appName, manifest.VersionNumber);
 
 				if (Directory.Exists(tempPath))
 					Directory.Delete(tempPath, true);

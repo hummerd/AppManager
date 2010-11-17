@@ -82,7 +82,7 @@ namespace AppManager
 				_QuickSearchWnd.Closed += (s, e) => EndSearch();
 				_QuickSearchWnd.ItemSelected += (s, e) => SearchSucceded();
 
-				_QuickSearchWnd.FoundItems = appGroup.FindApps(appNamePart);
+				//_QuickSearchWnd.FoundItems = appGroup.FindApps(appNamePart);
 	
 				_QuickSearchWnd.Show();
 				_SearchTimer.IsEnabled = true;
