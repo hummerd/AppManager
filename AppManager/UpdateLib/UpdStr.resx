@@ -120,6 +120,9 @@
   <data name="ASK_FOR_INSTALL" xml:space="preserve">
     <value>Do you want to install {0} new version {1}?</value>
   </data>
+  <data name="BAD_VERSION" xml:space="preserve">
+    <value>Downloaded version is corrupted.</value>
+  </data>
   <data name="DOWNLOADING" xml:space="preserve">
     <value>Downloading</value>
   </data>

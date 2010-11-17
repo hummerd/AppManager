@@ -334,7 +334,11 @@ namespace AppManager.Entities
 
 		public override bool Equals(object obj)
 		{
-			return ID == ((AppInfo)obj).ID;
+			var ai = obj as AppInfo;
+			if (ai == null)
+				return false;
+
+			return ID == ai.ID;
 		}
 
 		public override int GetHashCode()

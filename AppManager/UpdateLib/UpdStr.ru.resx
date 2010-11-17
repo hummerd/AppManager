@@ -120,6 +120,9 @@
   <data name="ASK_FOR_INSTALL" xml:space="preserve">
     <value>Установить новую версию {1} программы {0}?</value>
   </data>
+  <data name="BAD_VERSION" xml:space="preserve">
+    <value>Загруженная версия повреждена.</value>
+  </data>
   <data name="DOWNLOADING" xml:space="preserve">
     <value>Загружается</value>
   </data>

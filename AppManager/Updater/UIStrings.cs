@@ -25,7 +25,7 @@ namespace Updater
 
 			var ruStrings = new Dictionary<string, string>();
 			ruStrings.Add("UPDATER", "Обновление");
-			ruStrings.Add("BAD_VERSION", "Загруженная версия повреждениа.");
+			ruStrings.Add("BAD_VERSION", "Загруженная версия повреждена.");
 			ruStrings.Add("RETRY", "Повтор");
 			ruStrings.Add("CANCEL", "Отмена");
 			ruStrings.Add("WAIT_MSG", "Для продолжения закройте указанные программы и нажмите Повтор");

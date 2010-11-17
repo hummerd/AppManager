@@ -171,6 +171,7 @@ namespace UpdateLib
 			string[] lockProcesses,
 			string defaultUpdateUri)
 		{
+			VersionManifest latestManifest = null;
 			try
 			{
 				_UpdateRunning = true;
@@ -198,17 +199,14 @@ namespace UpdateLib
 					{
 						var manifestUri = currentManifest.GetManifestUri(lastVersion.SourceUri);
 
-						VersionManifest latestManifest = lastVersion.VNP.GetLatestVersionManifest(manifestUri);
+						latestManifest = lastVersion.VNP.GetLatestVersionManifest(manifestUri);
 						//failed to download latest version manifest
 						if (latestManifest == null)
 							return false;
 
 						VersionManifest updateManifest = latestManifest.GetUpdateManifest(currentManifest);
-
-						string tempPath;
-						string tempInstallerPath;
-						
-						DownloadVersion(updateManifest, appName, lastVersion.VersionData.VersionNumber, lastVersion.SourceUri.AbsoluteUri, out tempPath, out tempInstallerPath);
+					
+						var tempPath = DownloadVersion(updateManifest, appName, lastVersion.VersionData.VersionNumber, lastVersion.SourceUri.AbsoluteUri);
 
 						VersionDownloadCompleted(
 							displayAppName,
@@ -251,6 +249,7 @@ namespace UpdateLib
 				if (_UpdatingFlag != null)
 					_UpdatingFlag.Close();
 
+				CleanUp(appName, latestManifest);
 				_UpdateRunning = false;
 			}
 
@@ -379,6 +378,9 @@ namespace UpdateLib
 				var tempPath = GetTempDir(appName, currentManifest.VersionNumber);
 				var instDir = GetInstallerDir(tempPath, appName, currentManifest.VersionNumber);
 
+				if (Directory.Exists(tempPath))
+					Directory.Delete(tempPath, true);
+
 				if (Directory.Exists(instDir))
 					Directory.Delete(instDir, true);
 			}
@@ -427,16 +429,14 @@ namespace UpdateLib
 			return UIAskInstall.AskForInstall(appName, versionInfo);
 		}
 
-		protected void DownloadVersion(
+		protected string DownloadVersion(
 			VersionManifest downloadManifest, 
 			string appName,
 			Version latestVersion,
-			string updateUri,
-			out string tempApplicationPath,
-			out string tempInstallerPath
+			string updateUri
 			)
 		{
-			tempApplicationPath = String.Empty;
+			var tempApplicationPath = String.Empty;
 
 			if (UIDownloadProgress != null)
 			{
@@ -464,10 +464,10 @@ namespace UpdateLib
 					downloadItems,
 					tempApplicationPath);
 
-				tempInstallerPath = GetInstallerDir(tempApplicationPath, appName, latestVersion);
+				var tempInstallerPath = CreateInstallerDir(tempApplicationPath, appName, latestVersion);
 				fileDownloader.DownloadFileSet(
 					downloadManifest.BootStrapper,
-					tempApplicationPath);
+					tempInstallerPath);
 			}
 			finally
 			{
@@ -475,6 +475,8 @@ namespace UpdateLib
 					DispatcherHelper.Invoke(
 						new SimpleMathod(UIDownloadProgress.Close));
 			}
+
+			return tempApplicationPath;
 		}
 
 		protected void VersionDownloadCompleted(
@@ -487,7 +489,7 @@ namespace UpdateLib
 			if (!AskUserForInstall(displayAppName, latestVersionInfo))
 				return;
 			
-			//Unzip
+			//Unzip downloaded version
 			foreach (var item in downloadManifest.VersionItems)
 			{
 				var tempFile = Path.Combine(installInfo.TempPath, item.GetItemFullPath());
@@ -496,15 +498,27 @@ namespace UpdateLib
 				GZipCompression.DecompressFile(tempFile, tempFileUnzip);
 			}
 
-			//Unzip
+			LocationHash badLocation;
+			if (!CheckHash(installInfo.TempPath, downloadManifest.VersionItems.ConvertAll(vi => vi.GetLocationHash()), out badLocation))
+			{
+				throw new UpdateException(UpdStr.BAD_VERSION);
+			}
+			
+			//Unzip bootstrapper
+			var tempInstallerPath = GetInstallerDir(installInfo.TempPath, installInfo.AppName, latestManifest.VersionNumber);
 			foreach (var item in downloadManifest.BootStrapper)
 			{
-				var tempFile = Path.Combine(installInfo.TempPath, item.GetItemFullPath());
-				var tempFileUnzip = Path.Combine(installInfo.TempPath, item.GetUnzipItemFullPath());
+				var tempFile = Path.Combine(tempInstallerPath, item.GetItemFullPath());
+				var tempFileUnzip = Path.Combine(tempInstallerPath, item.GetUnzipItemFullPath());
 
 				GZipCompression.DecompressFile(tempFile, tempFileUnzip);
 			}
 
+			if (!CheckHash(tempInstallerPath, downloadManifest.BootStrapper, out badLocation))
+			{
+				throw new UpdateException(UpdStr.BAD_VERSION);
+			}
+			
 			//Saving latest manifest
 			XmlSerializeHelper.SerializeItem(
 				latestManifest,
@@ -515,8 +529,15 @@ namespace UpdateLib
 				downloadManifest,
 				Path.Combine(installInfo.TempPath, VersionManifest.DownloadedVersionManifestFileName));
 
-			var installerPath = CopyInstaller(installInfo.TempPath, installInfo.AppName, latestManifest.VersionNumber, installInfo);
-			
+			//var installerPath = CopyInstaller(installInfo.TempPath, installInfo.AppName, latestManifest.VersionNumber, installInfo);
+			var installerDir = GetInstallerDir(installInfo.TempPath, installInfo.AppName, latestManifest.VersionNumber);
+			var installerPath = Path.Combine(installerDir, "Updater.exe");
+
+			//Saving install info
+			XmlSerializeHelper.SerializeItem(
+				installInfo,
+				Path.Combine(installerDir, InstallInfo.InstallInfoFileName));
+
 			//Start installing
 			Process.Start(installerPath);
 			//_UpdatingFlag.Close();
@@ -525,11 +546,30 @@ namespace UpdateLib
 			DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
 		}
 
-		protected string CopyInstaller(
+		protected bool CheckHash(string tempPath, List<LocationHash> versionItems, out LocationHash badOne)
+		{
+			badOne = null;
+
+			foreach (var item in versionItems)
+			{
+				//if (item.InstallAction == InstallAction.Delete)
+				//    continue;
+
+				if (FileHash.GetBase64FileHash(Path.Combine(tempPath, item.GetUnzipItemFullPath())) !=
+					item.Base64Hash)
+				{
+					badOne = item;
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		protected string CreateInstallerDir(
 			string tempPath, 
 			string appName, 
-			Version latestVersion, 
-			InstallInfo installInfo)
+			Version latestVersion)
 		{
 			var installerDir = GetInstallerDir(tempPath, appName, latestVersion);
 
@@ -537,80 +577,8 @@ namespace UpdateLib
 				Directory.Delete(installerDir, true);
 
 			Directory.CreateDirectory(installerDir);
-
-			string installerPath = Path.Combine(installerDir, "Updater.exe");
-			Assembly assembly = Assembly.GetExecutingAssembly();
-
-			//Extract updater
-			CopyResource("UpdateLib.Resources.Updater.exe", installerPath);
-			//Extract updater config
-			CopyResource("UpdateLib.Resources.Updater.exe.config", installerPath + ".config");
-			//Copy CommonLib
-			CopyAssembly(installerDir, Assembly.GetAssembly(typeof(XmlSerializeHelper)));
-			//Copy UpdateLib
-			CopyAssembly(installerDir, Assembly.GetExecutingAssembly());
-
-			//Saving install info
-			XmlSerializeHelper.SerializeItem(
-				installInfo,
-				Path.Combine(installerDir, InstallInfo.InstallInfoFileName));
-
-			return installerPath;
+			return installerDir;
 		}
-
-		protected void CopyResource(string resourceName, string filePath)
-		{
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			using (var stream = assembly.GetManifestResourceStream(resourceName))
-			{
-				BinaryReader br = new BinaryReader(stream);
-				var updater = br.ReadBytes((int)br.BaseStream.Length);
-
-				File.WriteAllBytes(filePath, updater);
-			}
-		}
-
-		protected void CopyAssembly(string destDir, Assembly asm)
-		{
-			string asmDir = Path.GetDirectoryName(asm.Location);
-			File.Copy(asm.Location, asm.Location.Replace(asmDir, destDir), true);
-
-			var sats = GetSateliteAsms(asm);
-			foreach (var item in sats)
-			{
-				//asmDir = Path.GetDirectoryName(item.Location);
-				var destPath = item.Location.Replace(asmDir, destDir);
-				var destAsmDir = Path.GetDirectoryName(destPath);
-				if (!Directory.Exists(destAsmDir))
-					Directory.CreateDirectory(destAsmDir);
-
-				File.Copy(item.Location, destPath, true);
-			}
-		}
-
-		protected List<Assembly> GetSateliteAsms(Assembly asm)
-		{
-			var result = new List<Assembly>();
-
-			try
-			{
-				var cults = CultureInfo.GetCultureInfo("ru");
-				var sa = asm.GetSatelliteAssembly(cults);
-				result.Add(sa);
-			}
-			catch
-			{ ; }
-			//foreach (var item in cults)
-			//{
-			//   var sa = asm.GetSatelliteAssembly(item);
-			//   if (sa != null)
-			//      result.Add(sa);
-			//}
-
-			return result;
-
-		}
-	
 
 		protected virtual void OnNeedCloseApp()
 		{
