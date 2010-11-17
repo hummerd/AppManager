@@ -70,6 +70,15 @@ namespace UpdateLib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloaded version is corrupted..
+        /// </summary>
+        internal static string BAD_VERSION {
+            get {
+                return ResourceManager.GetString("BAD_VERSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downloading.
         /// </summary>
         internal static string DOWNLOADING {

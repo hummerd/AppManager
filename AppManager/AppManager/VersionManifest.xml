@@ -70,16 +70,34 @@
 	<UpdateUriAlt>http://dimanick.ru/MySoft/AppManager/UpdateBeta</UpdateUriAlt>
   <BootStrapper>
     <LocationHash>
-      <Location>http://dimanick.ru/MySoft/AppManager/Update/Updater.exe</Location>
-      <Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
+      <Location>http://dimanick.ru/MySoft/AppManager/Update/CommonLib.dll.gzip</Location>
+      <Path />
+      <Base64Hash>N/9iuKBxHR7gagudJ79g0w==</Base64Hash>
     </LocationHash>
     <LocationHash>
-      <Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/ru/UpdateLib.resources.dll.gzip</Location>
-      <Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
+      <Location>http://dimanick.ru/MySoft/AppManager/Update/UpdateLib.dll.gzip</Location>
+      <Path />
+      <Base64Hash>GENjjIhB6QE0kgb1R21tdg==</Base64Hash>
     </LocationHash>
     <LocationHash>
-      <Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/ru/UpdateLib.resources.dll.gzip</Location>
-      <Base64Hash>WUcihS78RPjxldlj7UBgzw==</Base64Hash>
+      <Location>http://dimanick.ru/MySoft/AppManager/Update/Updater.exe.gzip</Location>
+      <Path />
+      <Base64Hash>cb4cfz/McdSvZvDACzsxGA==</Base64Hash>
+    </LocationHash>
+    <LocationHash>
+      <Location>http://dimanick.ru/MySoft/AppManager/Update/Updater.exe.config.gzip</Location>
+      <Path />
+      <Base64Hash>Fjh9KV0dHhj6DCcwm8ePiQ==</Base64Hash>
+    </LocationHash>
+    <LocationHash>
+      <Location>http://dimanick.ru/MySoft/AppManager/Update/ru/CommonLib.resources.dll.gzip</Location>
+      <Path>ru</Path>
+      <Base64Hash>yAf5b2uQF25+PptzpNqJbw==</Base64Hash>
+    </LocationHash>
+    <LocationHash>
+      <Location>http://dimanick.ru/MySoft/AppManager/Update/ru/UpdateLib.resources.dll.gzip</Location>
+      <Path>ru</Path>
+      <Base64Hash>xVP/NCuDC2d8Iy0+TFsb/Q==</Base64Hash>
     </LocationHash>
   </BootStrapper>
 </VersionManifest>

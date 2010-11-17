@@ -86,6 +86,16 @@ namespace UpdateLib
 			result.UpdateUriAlt = reader.ReadContentAsString();
 			reader.ReadEndElement();
 
+			reader.ReadStartElement("BootStrapper");
+
+			if (reader.Name == "LocationHash")
+			{
+				while (reader.IsStartElement())
+				{
+					result.BootStrapper.Add(ReadBootStrapperItem(reader));
+				}
+			}
+
 			return result;
 		}
 
@@ -144,6 +154,34 @@ namespace UpdateLib
 
 			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "Description")
 				reader.ReadEndElement();
+
+			reader.ReadEndElement();
+
+			return result;
+		}
+
+		private static LocationHash ReadBootStrapperItem(XmlReader reader)
+		{
+			var result = new LocationHash();
+
+			reader.ReadStartElement("LocationHash");
+
+			reader.ReadStartElement("Location");
+			result.Location = reader.ReadContentAsString();
+			reader.ReadEndElement();
+
+			reader.ReadStartElement("Path");
+			if (reader.NodeType == XmlNodeType.Text)
+			{
+				result.Path = reader.ReadContentAsString();
+				reader.ReadEndElement();
+			}
+			else
+				result.Path = String.Empty;
+
+			reader.ReadStartElement("Base64Hash");
+			result.Base64Hash = reader.ReadContentAsString();
+			reader.ReadEndElement();
 
 			reader.ReadEndElement();
 

@@ -55,18 +55,18 @@ namespace Updater
 					Path.Combine(installInfo.TempPath, VersionManifest.DownloadedVersionManifestFileName)
 					) as VersionManifest;
 
-				VersionItem badItem;
-				if (!CheckHash(installInfo.TempPath, downloadManifest.VersionItems, out badItem))
-				{
-					ErrorBox.Show(
-						UIStrings.Str("UPDATER"), 
-						UIStrings.Str("BAD_VERSION"),
-						badItem == null ? String.Empty : badItem.InstallAction + " - " + badItem.Location);
-					RunExecutables(installInfo.InstallPath, installInfo.ExecutePaths, null);
-					CleanUp(installInfo.TempPath);
-					Application.Current.Shutdown();
-					return;
-				}
+				//VersionItem badItem;
+				//if (!CheckHash(installInfo.TempPath, downloadManifest.VersionItems, out badItem))
+				//{
+				//    ErrorBox.Show(
+				//        UIStrings.Str("UPDATER"), 
+				//        UIStrings.Str("BAD_VERSION"),
+				//        badItem == null ? String.Empty : badItem.InstallAction + " - " + badItem.Location);
+				//    RunExecutables(installInfo.InstallPath, installInfo.ExecutePaths, null);
+				//    CleanUp(installInfo.TempPath);
+				//    Application.Current.Shutdown();
+				//    return;
+				//}
 				
 				WaitForProccesses(installInfo.LockProcess);
 				InstallUpdate(installInfo.TempPath, installInfo.InstallPath, downloadManifest.VersionItems);
@@ -88,25 +88,7 @@ namespace Updater
 		}
 
 
-		protected bool CheckHash(string tempPath, VersionItemList versionItems, out VersionItem badOne)
-		{
-			badOne = null;
 
-			foreach (var item in versionItems)
-			{
-				if (item.InstallAction == InstallAction.Delete)
-					continue;
-
-				if (FileHash.GetBase64FileHash(Path.Combine(tempPath, item.GetUnzipItemFullPath())) !=
-					item.Base64Hash)
-				{
-					badOne = item;
-					return false;
-				}
-			}
-
-			return true;
-		}
 
 		protected bool WaitForProccesses(string[] lockProcesses)
 		{

@@ -55,6 +55,7 @@ namespace UpdateLib.VersionInfo
 		{
 			VersionManifest result = new VersionManifest();
 			result.VersionNumberString = VersionNumberString;
+			result.BootStrapper.AddRange(BootStrapper);
 
 			foreach (var item in VersionItems)
 			{
