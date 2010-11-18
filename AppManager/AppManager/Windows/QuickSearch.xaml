@@ -10,6 +10,7 @@
 	ResizeMode="NoResize"
 	PreviewTextInput="Window_PreviewTextInput"
 	Deactivated="Window_Deactivated"
+    Closed="Window_Closed"
 	PreviewKeyUp="Window_PreviewKeyUp"
 	Activated="Window_Activated">
 
