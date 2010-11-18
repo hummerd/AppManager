@@ -212,5 +212,10 @@ namespace AppManager.Windows
 		{
 			OnItemSelected();
 		}
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			_SearchTimer.Stop(); 
+		}
 	}
 }
