@@ -236,11 +236,13 @@ namespace UpdateLib
 			}
 			catch (UpdateException exc)
 			{
+				CleanUp(appName, latestManifest);
 				InvokeUpdateCompleted(false, false, exc.Message);
 				return false;				
 			}
 			catch (Exception exc)
 			{
+				CleanUp(appName, latestManifest);
 				InvokeUpdateCompleted(false, false, exc.ToString());
 				return false;
 			}
@@ -249,7 +251,6 @@ namespace UpdateLib
 				if (_UpdatingFlag != null)
 					_UpdatingFlag.Close();
 
-				CleanUp(appName, latestManifest);
 				_UpdateRunning = false;
 			}
 
@@ -378,7 +379,7 @@ namespace UpdateLib
 
 			try
 			{
-				var tempPath = GetTempDir(appName, manifest.VersionNumber);
+				var tempPath = GetTempVersionDir(appName, manifest.VersionNumber);
 				var instDir = GetInstallerDir(tempPath, appName, manifest.VersionNumber);
 
 				if (Directory.Exists(tempPath))
@@ -386,6 +387,16 @@ namespace UpdateLib
 
 				if (Directory.Exists(instDir))
 					Directory.Delete(instDir, true);
+
+				//Delete old trash
+				//probably it was unseccesfull installations
+				var tmpDir = GetTempDir(appName);
+				if (Directory.Exists(tmpDir))
+				{
+					var tmp = new DirectoryInfo(tmpDir);
+					var dirs = tmp.GetDirectories();
+					Array.ForEach(dirs, d => d.Delete(true));
+				}
 			}
 			catch
 			{ ; }
@@ -396,19 +407,24 @@ namespace UpdateLib
 			return UIAskDownload.AskForDownload(appName, versionInfo, sourecUri);
 		}
 
-		protected string GetTempDir(string appName, Version latestVersion)
+		protected string GetTempDir(string appName)
 		{
 			string path = Path.GetTempPath();
 			path = Path.Combine(path, "UpdateLib");
 			path = Path.Combine(path, appName);
-			path = Path.Combine(path, latestVersion.ToString());
 
+			return path;
+		}
+
+		protected string GetTempVersionDir(string appName, Version latestVersion)
+		{
+			var path = Path.Combine(GetTempDir(appName), latestVersion.ToString());
 			return path;
 		}
 
 		protected string CreateTempDir(string appName, Version latestVersion)
 		{
-			string path = GetTempDir(appName, latestVersion);
+			string path = GetTempVersionDir(appName, latestVersion);
 
 			if (Directory.Exists(path))
 				Directory.Delete(path, true);
