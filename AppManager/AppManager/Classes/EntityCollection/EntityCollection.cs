@@ -20,12 +20,13 @@ namespace AppManager.EntityCollection
 			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
 		}
 
-		public EntityCollection(IEnumerable<TEntity> collection)
-			: base(collection)
-		{
-			_Deleted = new List<TEntity>();
-			_DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
-		}
+		//Not supported in .net 3.0
+		//public EntityCollection(IEnumerable<TEntity> collection)
+		//    : base(collection)
+		//{
+		//    _Deleted = new List<TEntity>();
+		//    _DeletedItems = new ReadOnlyCollection<TEntity>(_Deleted);
+		//}
 
 		public EntityCollection(IList collection)
 		{

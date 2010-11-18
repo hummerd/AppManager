@@ -13,18 +13,10 @@ namespace AppManager.Entities
 
 		}
 
-		public DeletedAppCollection(IEnumerable<DeletedApp> collection)
+		public DeletedAppCollection(IList collection)
 			: base(collection)
 		{
 
-		}
-
-		public DeletedAppCollection(IList collection)
-		{
-			foreach (DeletedApp item in collection)
-			{
-				Add(item);
-			}
 		}
 
 
