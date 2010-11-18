@@ -395,7 +395,11 @@ namespace UpdateLib
 				{
 					var tmp = new DirectoryInfo(tmpDir);
 					var dirs = tmp.GetDirectories();
-					Array.ForEach(dirs, d => d.Delete(true));
+					foreach (var dir in dirs)
+					{
+						if ((DateTime.Now - dir.LastAccessTime).TotalHours > 24)
+							dir.Delete(true);
+					}
 				}
 			}
 			catch
