@@ -20,7 +20,7 @@ namespace AppManager.Commands
 			mangerData.NeedAppImage += (s, e) => 
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
 			mangerData.ReInitImages();
-			var deletedData = new DeletedAppCollection((IEnumerable<DeletedApp>)_WorkItem.RecycleBin.Copy());
+			var deletedData = new DeletedAppCollection(_WorkItem.RecycleBin.Copy());
 			deletedData.RegisterSource(mangerData, false);
 			foreach (DeletedApp item in deletedData)
 			{
