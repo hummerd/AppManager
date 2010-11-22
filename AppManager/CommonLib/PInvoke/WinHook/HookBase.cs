@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Diagnostics;
 
 
 namespace CommonLib.PInvoke.WinHook
@@ -54,15 +55,13 @@ namespace CommonLib.PInvoke.WinHook
 			if (_HookHandle != IntPtr.Zero)
 				return;
 
-			// need instance handle to module to create a system-wide hook
-			Module[] list = System.Reflection.Assembly.GetExecutingAssembly().GetModules();
-			System.Diagnostics.Debug.Assert(list != null && list.Length > 0);
+			var mod = ModuleHelper.GetCurrentModule();
 
 			// install system-wide hook
 			_HookHandle = HookAPI.SetWindowsHookEx(
 				_HookType,
 				_HookFunction, 
-				Marshal.GetHINSTANCE(list[0]), 
+				mod.BaseAddress, 
 				0);
 		}
 
