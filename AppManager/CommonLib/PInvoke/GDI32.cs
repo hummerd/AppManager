@@ -49,6 +49,9 @@ namespace CommonLib.PInvoke
 		[DllImport("gdi32.dll")]
 		public static extern int GetDeviceCaps(IntPtr hdc, DeviceCap deviceCap);
 
+		[DllImport("gdiplus.dll")]
+		public static extern bool DeleteObject(IntPtr hgdi);
+
 		#region GDI32 Enums
 		/// <summary>
 		/// Specifies a raster-operation code.
