@@ -241,9 +241,9 @@ namespace DragDropLib
 				return;
 			}
 
-			throw Marshal.GetExceptionForHR(DV_E_FORMATETC);
+			//throw Marshal.GetExceptionForHR(DV_E_FORMATETC);
 			// Didn't find it. Return an empty data medium.
-			//medium = default(STGMEDIUM);
+			medium = new STGMEDIUM();
 		}
 
 		/// <summary>
