@@ -177,8 +177,11 @@ namespace AppManager
 			groupContent.IsSetUp = true;
 		}
 
-		protected void InitAppTypeGroupBox(GroupBox group)
+		protected void InitAppTypeGroupBox(ContentControl group)
 		{
+			if (group == null)
+				return;
+
 			group.ContextMenu = CreateAppTypeContextMenu();
 			group.ContextMenuOpening += (s, e) =>
 				e.Handled = OnAppTypeContextMenuOpening(s as FrameworkElement);
@@ -636,7 +639,7 @@ namespace AppManager
 
 		private void GroupBox_Initialized(object sender, EventArgs e)
 		{
-			InitAppTypeGroupBox(sender as GroupBox);
+			InitAppTypeGroupBox(sender as ContentControl);
 		}
 
 		private void ButtonList_Loaded(object sender, RoutedEventArgs e)

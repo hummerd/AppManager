@@ -44,11 +44,11 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			if (!CheckSingleInstance())
-			{
-				App.Current.Shutdown();
-				return;
-			}
+			//if (!CheckSingleInstance())
+			//{
+			//    App.Current.Shutdown();
+			//    return;
+			//}
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
