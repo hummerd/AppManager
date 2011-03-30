@@ -551,7 +551,7 @@
 					Height="Auto"
 					SnapsToDevicePixels="True"
 					FlowDirection="LeftToRight">
-					<ItemsControl
+                    <ItemsControl
 						Background="Transparent"
 						Name="AppTypeContent"
 						SnapsToDevicePixels="True"
@@ -590,7 +590,6 @@
 									MinRowHeight="94"
 									Focusable="False"
 									/>
-								<!--Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType= {x:Type ScrollContentPresenter}}}"-->
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
@@ -600,30 +599,26 @@
 											<RowDefinition Height="*"/>
 											<RowDefinition Height="6"/>
 										</Grid.RowDefinitions>
-										<amc:BPC
-                                            
+                                    <amc:BorderedPanel
 											x:Name="AppTypeGroup"
 											SnapsToDevicePixels="True"
 											AllowDrop="True"
-											
-											
 											Grid.Row="0"
 											Focusable="False"
-											
+                                            Foreground="Blue"
 											Initialized="GroupBox_Initialized"
 											>
-										
-										<am:ButtonList
+										    <am:ButtonList
+                                                Background="Azure"
 												SnapsToDevicePixels="True"
 												BorderBrush="Transparent"
-												Background="Transparent"
 												AllowDrop="True"
 												Focusable="False"
+                                                Margin="6,0,6,4"
 												Loaded="ButtonList_Loaded"
-                                                Margin="12,24,12,12"
 												ItemsSource="{Binding Path=AppInfos}"
 												/>
-                                    </amc:BPC>							
+                                    </amc:BorderedPanel>
 										<Label
 											Grid.Row="1"
 											Initialized="Resizer_Initialized"

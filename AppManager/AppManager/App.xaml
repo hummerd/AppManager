@@ -10,21 +10,19 @@
 
 	<Application.Resources>
 
-        <Style TargetType="{x:Type amc:BPC}">
+        <Style TargetType="{x:Type amc:BorderedPanel}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type amc:BPC}">
-                        <StackPanel Background="Red">
+                    <ControlTemplate TargetType="{x:Type amc:BorderedPanel}">
+                        <StackPanel>
                             <Label 
                             x:Name="HeaderText"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            Foreground="{TemplateBinding Foreground}"
+                            Padding="4,0,4,0"
                             Margin="8,0,0,0">Some Text</Label>
-
-                            <ContentPresenter 
-                            
-                                  Margin="42,24,12,12"/>
-                            <!--Content="{TemplateBinding Content}"-->
+                            <ContentPresenter/>
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
@@ -743,18 +741,18 @@
 			<MenuItem Name="RenameAppType" Header="{x:Static am:Strings.MNU_ADD_APP_TYPE}" />
 			<MenuItem Name="DeleteAppType" />
 			<Separator />
-			<MenuItem x:Name="Cancel" Header="{x:Static с:CommStr.CANCEL}" />
+			<MenuItem x:Name="AppTypeCancel" Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
 		<ContextMenu
 			x:Key="AddAppTypeMenu"
 			Style="{DynamicResource SpecialContextMenu}"
 			ItemContainerStyle="{DynamicResource SpecialMenuItem}">
 			<MenuItem
-				x:Name="AddAppType"
+				x:Name="AddAppTypeATM"
 				Header="{x:Static am:Strings.MNU_ADD_APP_TYPE}" />
 			<Separator />
 			<MenuItem
-				x:Name="Cancel"
+				x:Name="AppTypeMenuCancel"
 				Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
 
