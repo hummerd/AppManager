@@ -63,6 +63,14 @@ namespace CommonLib.PInvoke.WinHook
 				_HookFunction, 
 				mod.BaseAddress, 
 				0);
+
+			if (_HookHandle == IntPtr.Zero)
+			{
+				EventLog.WriteEntry(
+					"HookApp",
+					string.Format("Failed to set hook. Error {0}.", Marshal.GetLastWin32Error()),
+					EventLogEntryType.Warning);
+			}
 		}
 
 		protected void Uninstall()
