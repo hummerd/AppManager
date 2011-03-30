@@ -39,6 +39,8 @@ namespace CommonLib.PInvoke.WinHook
 
 		protected override bool ProcessHook(IntPtr wParam, KeyboardHook.KBDLLHOOKSTRUCT param)
 		{
+			var handled = base.ProcessHook(wParam, param);
+
 			var hookEA = new KbrdHookEventArgs(param.vkCode);
 			if ((param.flags & 0x80) == 0)
 			{
@@ -51,7 +53,8 @@ namespace CommonLib.PInvoke.WinHook
 					KeyDown(this, hookEA);
 			}
 
-			return !hookEA.Handled;
+			handled = handled && !hookEA.Handled;
+			return handled;
 		}
 	}
 
