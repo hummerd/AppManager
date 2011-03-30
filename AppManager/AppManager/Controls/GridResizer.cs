@@ -14,6 +14,7 @@ namespace AppManager.Controls
 		public GridResizer()
 		{
 			TargetGridName = String.Empty;
+			SnapsToDevicePixels = true;
 		}
 		
 		

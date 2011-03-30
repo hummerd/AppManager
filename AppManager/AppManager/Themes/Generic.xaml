@@ -1,0 +1,29 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:amc="clr-namespace:AppManager.Controls"
+    >
+
+
+    <!--<Style TargetType="{x:Type amc:BPC}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type amc:BPC}">
+                    <Grid
+                        Background="Red"
+                        >
+                        <Label 
+                            x:Name="HeaderText"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="8,0,0,0">Some Text</Label>
+                        
+                        <ContentPresenter 
+                            Content="{TemplateBinding Content}"
+                                  Margin="42,24,12,12"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+</ResourceDictionary>

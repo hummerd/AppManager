@@ -4,12 +4,35 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:s="clr-namespace:System;assembly=mscorlib"
 	xmlns:am="clr-namespace:AppManager"
+    xmlns:amc="clr-namespace:AppManager.Controls"
 	xmlns:с="clr-namespace:CommonLib;assembly=CommonLib"
     ShutdownMode="OnExplicitShutdown">
 
 	<Application.Resources>
 
-		<Style
+        <Style TargetType="{x:Type amc:BPC}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type amc:BPC}">
+                        <StackPanel Background="Red">
+                            <Label 
+                            x:Name="HeaderText"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="8,0,0,0">Some Text</Label>
+
+                            <ContentPresenter 
+                            
+                                  Margin="42,24,12,12"/>
+                            <!--Content="{TemplateBinding Content}"-->
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style
 			TargetType="Separator"
 			x:Key="SpecialSeparator">
 			<Style.Resources>
@@ -708,7 +731,7 @@
 			<MenuItem Name="Delete" />
 			<MenuItem Name="GoTo" />
             <Separator />
-			<MenuItem Name="Cancel" Header="{x:Static с:CommStr.CANCEL}" />
+			<MenuItem x:Name="Cancel" Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
 		<ContextMenu
 			x:Key="AppTypeMenu"
@@ -720,18 +743,18 @@
 			<MenuItem Name="RenameAppType" Header="{x:Static am:Strings.MNU_ADD_APP_TYPE}" />
 			<MenuItem Name="DeleteAppType" />
 			<Separator />
-			<MenuItem Name="Cancel"	Header="{x:Static с:CommStr.CANCEL}" />
+			<MenuItem x:Name="Cancel" Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
 		<ContextMenu
 			x:Key="AddAppTypeMenu"
 			Style="{DynamicResource SpecialContextMenu}"
 			ItemContainerStyle="{DynamicResource SpecialMenuItem}">
 			<MenuItem
-				Name="AddAppType"
+				x:Name="AddAppType"
 				Header="{x:Static am:Strings.MNU_ADD_APP_TYPE}" />
 			<Separator />
 			<MenuItem
-				Name="Cancel"
+				x:Name="Cancel"
 				Header="{x:Static с:CommStr.CANCEL}" />
 		</ContextMenu>
 
