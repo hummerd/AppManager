@@ -15,83 +15,95 @@ namespace AppManager.Controls
 {
 	public class BorderedPanel : UserControl
 	{
+		public static readonly DependencyProperty FrameBrushProperty =
+			DependencyProperty.Register("FrameBrush", typeof(Brush), typeof(BorderedPanel), new UIPropertyMetadata(Brushes.Transparent));
+
+
 		protected FrameworkElement m_Header;
 
 
 		public BorderedPanel()
 		{
 		}
+		
 
+		public Brush FrameBrush
+		{
+			get { return (Brush)GetValue(FrameBrushProperty); }
+			set 
+			{ 
+				SetValue(FrameBrushProperty, value);
+			}
+		}
+		
 
 		public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
 
-			m_Header = (FrameworkElement)GetTemplateChild("HeaderText");
+			m_Header = (FrameworkElement)GetTemplateChild("Header");
 		}
 
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
 			base.OnRender(drawingContext);
-
+			
 			int s = 1;
 			int r = 4;
 			int rs = s + r;
 			var top = m_Header.RenderSize.Height / 2;
 			var radius = new Size(r, r);
-
-			var b = new SolidColorBrush(Color.FromArgb(0xFF, 0xDF, 0xCB, 0x9A));
-			var p = new Pen(b, 1.0);
+			var pen = new Pen(FrameBrush, 1.0);
 
 			// left - top
-			DrawArc(drawingContext, null, p,
+			DrawArc(drawingContext, null, pen,
 				new Point(s, r + top),
 				new Point(rs, top),
 				radius);
 
 			// right top
-			DrawArc(drawingContext, null, p,
+			DrawArc(drawingContext, null, pen,
 				new Point(RenderSize.Width - rs, top),
 				new Point(RenderSize.Width - s, r + top),
 				radius);
 
 			// right bottom
-			DrawArc(drawingContext, null, p,
+			DrawArc(drawingContext, null, pen,
 				new Point(RenderSize.Width - s, RenderSize.Height - rs),
 				new Point(RenderSize.Width - rs, RenderSize.Height - s),
 				radius);
 
 			// bottom left
-			DrawArc(drawingContext, null, p,
+			DrawArc(drawingContext, null, pen,
 				new Point(rs, RenderSize.Height - s),
 				new Point(s, RenderSize.Height - rs),
 				radius);
 
 			//top left
-			DrawLine(drawingContext, null, p,
+			DrawLine(drawingContext, null, pen,
 				new Point(rs, top),
 				new Point(8, top)
 				);
 			//top right
-			DrawLine(drawingContext, null, p,
+			DrawLine(drawingContext, null, pen,
 				new Point(8 + m_Header.RenderSize.Width, top),
 				new Point(RenderSize.Width - rs, top)
 				);
 
 			//left
-			DrawLine(drawingContext, null, p,
+			DrawLine(drawingContext, null, pen,
 				new Point(s, r + top),
 				new Point(s, RenderSize.Height - rs)
 				);
 			//right
-			DrawLine(drawingContext, null, p,
+			DrawLine(drawingContext, null, pen,
 				new Point(RenderSize.Width - s, r + top),
 				new Point(RenderSize.Width - s, RenderSize.Height - rs)
 				);
 			//bottom
 			DrawLine(
-				drawingContext, null, p,
+				drawingContext, null, pen,
 				new Point(RenderSize.Width - rs, RenderSize.Height - s),
 				new Point(rs, RenderSize.Height - s)
 				);

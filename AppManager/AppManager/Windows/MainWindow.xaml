@@ -587,7 +587,7 @@
 									x:Name="ContentGrid"
 									IsItemsHost="True"
 									Margin="8"
-									MinRowHeight="94"
+									MinRowHeight="90"
 									Focusable="False"
 									/>
 							</ItemsPanelTemplate>
@@ -605,6 +605,7 @@
 											AllowDrop="True"
 											Grid.Row="0"
 											Focusable="False"
+                                            FrameBrush="#FFDFCB9A"
                                             Foreground="Blue"
 											Initialized="GroupBox_Initialized"
 											>
@@ -614,7 +615,7 @@
 												BorderBrush="Transparent"
 												AllowDrop="True"
 												Focusable="False"
-                                                Margin="6,0,6,4"
+                                                Margin="6,0,6,0"
 												Loaded="ButtonList_Loaded"
 												ItemsSource="{Binding Path=AppInfos}"
 												/>

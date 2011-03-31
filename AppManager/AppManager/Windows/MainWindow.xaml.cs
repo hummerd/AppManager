@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using AppManager.Commands;
+using AppManager.Controls;
 using AppManager.DragDrop;
 using AppManager.Entities;
 using AppManager.Settings;
@@ -261,7 +262,7 @@ namespace AppManager
 			((MenuItem)menu.Items[8]).Click += (s, ea) =>
 				{
 					var f = ((s as MenuItem).Parent as ContextMenu).PlacementTarget;
-					var gb = UIHelper.FindAncestorOrSelf<GroupBox>(f, "AppTypeGroup");
+					var gb = UIHelper.FindAncestorOrSelf<BorderedPanel>(f, "AppTypeGroup");
 					var at = gb.DataContext as AppType;
 					_Controller.DeleteAppInfo(at, (s as FrameworkElement).DataContext as AppInfo, false);
 				};
