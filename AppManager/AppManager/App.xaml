@@ -27,7 +27,7 @@
                                 Grid.Row="0"
                                 Foreground="{TemplateBinding Foreground}"
                                 Padding="4,0,4,0"
-                                Margin="8,0,0,0">Some Text</Label>
+                                Margin="8,0,0,0" />
                                 <ContentPresenter
                                     Grid.Row="1" />
                         </Grid>

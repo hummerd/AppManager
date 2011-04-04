@@ -594,24 +594,23 @@
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-									<Grid SnapsToDevicePixels="True" Focusable="False">
-										<Grid.RowDefinitions>
-											<RowDefinition Height="*"/>
-											<RowDefinition Height="6"/>
-										</Grid.RowDefinitions>
+                                <Grid
+                                    Focusable="False">
+									<Grid.RowDefinitions>
+										<RowDefinition Height="*"/>
+										<RowDefinition Height="6"/>
+									</Grid.RowDefinitions>
                                     <amc:BorderedPanel
-											x:Name="AppTypeGroup"
-											SnapsToDevicePixels="True"
-											AllowDrop="True"
-											Grid.Row="0"
-											Focusable="False"
-                                            FrameBrush="#FFDFCB9A"
-                                            Foreground="Blue"
-											Initialized="GroupBox_Initialized"
-											>
+										x:Name="AppTypeGroup"
+										SnapsToDevicePixels="True"
+										AllowDrop="True"
+										Focusable="False"
+                                        FrameBrush="#FFDFCB9A"
+                                        Foreground="DarkBlue"
+                                        TitleText="{Binding Path=AppTypeName}"
+										Initialized="GroupBox_Initialized"
+										>
 										    <am:ButtonList
-                                                Background="Azure"
-												SnapsToDevicePixels="True"
 												BorderBrush="Transparent"
 												AllowDrop="True"
 												Focusable="False"
@@ -620,61 +619,15 @@
 												ItemsSource="{Binding Path=AppInfos}"
 												/>
                                     </amc:BorderedPanel>
-										<Label
+									<Label
 											Grid.Row="1"
+                                            Height="6"
 											Initialized="Resizer_Initialized"
 											/>
-									</Grid>						
+                                </Grid>						
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
-					<!--<Grid
-						x:Name="ContentPanel"
-						Canvas.Top="Auto"
-						Grid.Row="1"
-						Opacity="1"
-						SnapsToDevicePixels="True"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						AllowDrop="True"
-						DragOver="ContentPanel_DragOver"
-						Background="{x:Null}">
-						<Grid.Width>
-							<Binding
-								Path="ActualWidth">
-								<Binding.RelativeSource>
-									<RelativeSource
-										Mode="FindAncestor"
-										AncestorType="Canvas" />
-								</Binding.RelativeSource>
-							</Binding>
-						</Grid.Width>
-						<Grid.Height>
-							<Binding
-								Path="ActualHeight">
-								<Binding.RelativeSource>
-									<RelativeSource
-										Mode="FindAncestor"
-										AncestorType="Canvas" />
-								</Binding.RelativeSource>
-							</Binding>
-						</Grid.Height>
-						<GroupBox
-							Width="Auto"
-							Height="228"
-							Header="GroupBox"
-							Margin="8,8,8,0"
-							VerticalAlignment="Top"
-							d:LayoutOverrides="VerticalAlignment"
-							BorderBrush="#FFDFCB9A" />
-						<GroupBox
-							Width="Auto"
-							Header="GroupBox"
-							Margin="8,240,8,53"
-							Style="{StaticResource CustomGB}"
-							Foreground="Blue"
-							BorderBrush="#FFDFCB9A" />
-					</Grid>-->
 					<Image
 						Visibility="Collapsed"
 						HorizontalAlignment="Stretch"

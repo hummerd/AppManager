@@ -44,11 +44,11 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			//if (!CheckSingleInstance())
-			//{
-			//    App.Current.Shutdown();
-			//    return;
-			//}
+			if (!CheckSingleInstance())
+			{
+				App.Current.Shutdown();
+				return;
+			}
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
@@ -102,7 +102,8 @@ namespace AppManager.Commands
 
 			CreateActivationPanelWatcher();
 			CreateActivationPanel();
-			Kernel32.GropWorkingSet();
+
+			MemoryHelper.Clean();
 		}
 
 		protected bool CheckSingleInstance()
@@ -396,7 +397,8 @@ namespace AppManager.Commands
 		{
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{
-				ChangeActiveState();
+				ThreadPool.QueueUserWorkItem(o => DispatcherHelper.Invoke(new SimpleMathod(ChangeActiveState)));
+				//ChangeActiveState();
 				e.Handled = true;
 			}
 		}

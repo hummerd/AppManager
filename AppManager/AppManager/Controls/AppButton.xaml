@@ -43,34 +43,16 @@
 				Offset="0.714" />
 		</LinearGradientBrush>
 	</Button.Background>
-	<Grid
-		Name="ContentPanel">
-		<Grid.RowDefinitions>
-			<RowDefinition
-				Height="35*" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition
-				Width="10*" />
-			<ColumnDefinition
-				Width="60*" />
-			<ColumnDefinition
-				Width="10*" />
-		</Grid.ColumnDefinitions>
-		<Image
-			Grid.Column="1"
+    
+    <DockPanel
+        Name="ContentPanel"
+        VerticalAlignment="Stretch"
+        >
+        <Image
 			Name="ButtonImage"
 			Stretch="None"
+            DockPanel.Dock="Top"
 			IsHitTestVisible="False">
-			<Image.Width>
-				<Binding
-					Path="Source.PixelWidth">
-					<Binding.RelativeSource>
-						<RelativeSource
-							Mode="Self" />
-					</Binding.RelativeSource>
-				</Binding>
-			</Image.Width>
-		</Image>
-	</Grid>
+        </Image>
+    </DockPanel>
 </Button>

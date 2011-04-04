@@ -1,4 +1,6 @@
 ﻿using CommonLib.PInvoke;
+using System;
+using CommonLib.Application;
 
 namespace AppManager.Commands
 {
@@ -12,7 +14,9 @@ namespace AppManager.Commands
 		public override void Execute(object parameter)
 		{
 			_WorkItem.MainWindow.Hide();
-			Kernel32.GropWorkingSet();
+
+			MemoryHelper.Collect();
+			//Kernel32.GropWorkingSet();
 		}
 	}
 }

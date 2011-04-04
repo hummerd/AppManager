@@ -18,30 +18,68 @@ namespace AppManager.Controls
 		public static readonly DependencyProperty FrameBrushProperty =
 			DependencyProperty.Register("FrameBrush", typeof(Brush), typeof(BorderedPanel), new UIPropertyMetadata(Brushes.Transparent));
 
+		public static readonly DependencyProperty TitleTextProperty =
+			DependencyProperty.Register("TitleText", typeof(string), typeof(BorderedPanel), new UIPropertyMetadata(String.Empty));
 
-		protected FrameworkElement m_Header;
+
+		protected ContentControl m_Header;
+		protected object m_HeaderContent;
+		protected Pen m_FramePen;
 
 
 		public BorderedPanel()
 		{
 		}
-		
+
 
 		public Brush FrameBrush
 		{
 			get { return (Brush)GetValue(FrameBrushProperty); }
-			set 
-			{ 
-				SetValue(FrameBrushProperty, value);
+			set { SetValue(FrameBrushProperty, value); }
+		}
+
+		public string TitleText
+		{
+			get { return (string)GetValue(TitleTextProperty); }
+			set { SetValue(TitleTextProperty, value); }
+		}
+
+
+		protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+		{
+			base.OnPropertyChanged(e);
+
+			if (e.Property == FrameBrushProperty)
+			{
+				m_FramePen = new Pen(FrameBrush, 1.0);
+			}
+			else if (e.Property == TitleTextProperty)
+			{
+				m_HeaderContent = e.NewValue;
+				if (m_Header != null)
+					m_Header.Content = m_HeaderContent;
 			}
 		}
-		
 
 		public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
 
-			m_Header = (FrameworkElement)GetTemplateChild("Header");
+			m_Header = (ContentControl)GetTemplateChild("Header");
+			m_Header.Content = m_HeaderContent;
+		}
+
+
+		protected override Size MeasureOverride(Size constraint)
+		{
+			var r = base.MeasureOverride(constraint);
+			return r;
+		}
+
+		protected override Size ArrangeOverride(Size arrangeBounds)
+		{
+			var r = base.ArrangeOverride(arrangeBounds);
+			return r;
 		}
 
 
@@ -54,56 +92,56 @@ namespace AppManager.Controls
 			int rs = s + r;
 			var top = m_Header.RenderSize.Height / 2;
 			var radius = new Size(r, r);
-			var pen = new Pen(FrameBrush, 1.0);
+			
 
 			// left - top
-			DrawArc(drawingContext, null, pen,
+			DrawArc(drawingContext, null, m_FramePen,
 				new Point(s, r + top),
 				new Point(rs, top),
 				radius);
 
 			// right top
-			DrawArc(drawingContext, null, pen,
+			DrawArc(drawingContext, null, m_FramePen,
 				new Point(RenderSize.Width - rs, top),
 				new Point(RenderSize.Width - s, r + top),
 				radius);
 
 			// right bottom
-			DrawArc(drawingContext, null, pen,
+			DrawArc(drawingContext, null, m_FramePen,
 				new Point(RenderSize.Width - s, RenderSize.Height - rs),
 				new Point(RenderSize.Width - rs, RenderSize.Height - s),
 				radius);
 
 			// bottom left
-			DrawArc(drawingContext, null, pen,
+			DrawArc(drawingContext, null, m_FramePen,
 				new Point(rs, RenderSize.Height - s),
 				new Point(s, RenderSize.Height - rs),
 				radius);
 
 			//top left
-			DrawLine(drawingContext, null, pen,
+			DrawLine(drawingContext, null, m_FramePen,
 				new Point(rs, top),
 				new Point(8, top)
 				);
 			//top right
-			DrawLine(drawingContext, null, pen,
+			DrawLine(drawingContext, null, m_FramePen,
 				new Point(8 + m_Header.RenderSize.Width, top),
 				new Point(RenderSize.Width - rs, top)
 				);
 
 			//left
-			DrawLine(drawingContext, null, pen,
+			DrawLine(drawingContext, null, m_FramePen,
 				new Point(s, r + top),
 				new Point(s, RenderSize.Height - rs)
 				);
 			//right
-			DrawLine(drawingContext, null, pen,
+			DrawLine(drawingContext, null, m_FramePen,
 				new Point(RenderSize.Width - s, r + top),
 				new Point(RenderSize.Width - s, RenderSize.Height - rs)
 				);
 			//bottom
 			DrawLine(
-				drawingContext, null, pen,
+				drawingContext, null, m_FramePen,
 				new Point(RenderSize.Width - rs, RenderSize.Height - s),
 				new Point(rs, RenderSize.Height - s)
 				);
