@@ -1,4 +1,5 @@
 ﻿using CommonLib.PInvoke;
+using CommonLib.Application;
 
 
 namespace AppManager.Commands
@@ -16,6 +17,8 @@ namespace AppManager.Commands
 			wnd.Show();
 			User32.ActivateWindow(wnd);
 			wnd.SetFocus();
+
+			MemoryHelper.Clean();
 		}
 	}
 }

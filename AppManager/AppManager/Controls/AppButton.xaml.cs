@@ -26,7 +26,7 @@ namespace AppManager
 			 DependencyProperty.Register("ButtonImageSource", typeof(BitmapSource), typeof(AppButton), new UIPropertyMetadata(null));
 
 
-		protected TextBlock _ButtonText = null;
+		protected Label _ButtonText = null;
 		//protected FadeAnimarion _Animation = null;
 
 
@@ -93,7 +93,6 @@ namespace AppManager
 		{
 			if (text == null)
 			{
-				ContentPanel.RowDefinitions.RemoveAt(1);
 				ContentPanel.Children.Remove(_ButtonText);
 				_ButtonText = null;
 			}
@@ -101,23 +100,21 @@ namespace AppManager
 			{
 				if (_ButtonText == null)
 				{
-					RowDefinition rd = new RowDefinition();
-					rd.Height = new GridLength(14.0, GridUnitType.Star);
-					ContentPanel.RowDefinitions.Add(rd);
-
-					_ButtonText = new TextBlock();
+					_ButtonText = new Label();
 					_ButtonText.FontFamily = new FontFamily("Tahoma");
 					_ButtonText.FontSize = 11;
-					_ButtonText.TextAlignment = TextAlignment.Center;
 					_ButtonText.Foreground = Resources["AppNameBrush"] as Brush;
 					_ButtonText.IsHitTestVisible = false;
-					Grid.SetColumn(_ButtonText, 0);
-					Grid.SetRow(_ButtonText, 1);
-					Grid.SetColumnSpan(_ButtonText, 3);
+
+					_ButtonText.VerticalContentAlignment = System.Windows.VerticalAlignment.Bottom;
+					_ButtonText.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+					_ButtonText.Padding = new Thickness(0.0);
+					DockPanel.SetDock(_ButtonText, Dock.Bottom);
 
 					ContentPanel.Children.Add(_ButtonText);
 				}
-				_ButtonText.Text = text;
+
+				_ButtonText.Content = text;
 			}
 		}
 	}

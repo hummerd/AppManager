@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Application\AutoStart.cs" />
     <Compile Include="Application\DispatcherHelper.cs" />
+    <Compile Include="Application\MemoryHelper.cs" />
     <Compile Include="IO\FileHash.cs" />
     <Compile Include="IO\GZipCompression.cs" />
     <Compile Include="IO\LnkHelper.cs" />
