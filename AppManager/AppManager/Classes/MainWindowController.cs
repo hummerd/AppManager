@@ -171,7 +171,7 @@ namespace AppManager
 			if (input.ShowDialog() ?? false)
 			{
 				_WorkItem.Commands.RunApp.Execute(
-					new StartParams(appInfo) { Args = input.InputText}
+					new AppStartParams(appInfo) { Args = input.InputText}
 					);
 			}
 		}
@@ -184,7 +184,7 @@ namespace AppManager
 				return;
 
 			_QuickSearchWnd.Close();
-			_WorkItem.Commands.RunApp.Execute(new StartParams(si as AppInfo));
+			_WorkItem.Commands.RunApp.Execute(new AppStartParams(si as AppInfo));
 		}
 
 		protected void EndSearch()

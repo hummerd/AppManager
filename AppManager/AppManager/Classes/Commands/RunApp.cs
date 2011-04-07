@@ -24,7 +24,7 @@ namespace AppManager.Commands
 			if (parameter == null)
 				return;
 
-			var prm = parameter as StartParams;
+			var prm = parameter as AppStartParams;
 			if (prm.App == null)
 				return;
 
@@ -35,22 +35,45 @@ namespace AppManager.Commands
 
 			if (unc || File.Exists(appPath) || Directory.Exists(appPath))
 			{
+				string args = String.Empty;
+				string runAs = String.Empty;
+
 				try
 				{
 					using (Process p = new Process())
 					{
 						p.StartInfo.FileName = prm.App.AppPath;
 						p.StartInfo.WorkingDirectory = Path.GetDirectoryName(prm.App.AppPath);
-						p.StartInfo.Arguments = String.IsNullOrEmpty(prm.Args) ?
-							prm.App.AppArgs : prm.Args;
-						if (prm.RunAs && Array.IndexOf(p.StartInfo.Verbs, "runas") >= 0)
-							p.StartInfo.Verb = "runas";
 
+						p.StartInfo.
+							Arguments =
+							args = String.IsNullOrEmpty(prm.Args) ?
+								prm.App.AppArgs : 
+								prm.Args;
+
+						if (prm.RunAs && Array.IndexOf(p.StartInfo.Verbs, "runas") >= 0)
+						{
+							p.StartInfo.
+								Verb = 
+								runAs = "runas";
+						}
+							
 						p.Start();
 					}
 				}
 				catch
 				{ ; }
+
+				prm.App.RunHistory.Add(
+					new AppRunInfo
+					{
+						RunTime = DateTime.Now,
+						Areguments = new StartArgs 
+						{
+							Args = args,
+							RunAs = !String.IsNullOrEmpty(runAs),
+						}
+					});
 			}
 
 			_WorkItem.MainWindow.InvalidateVisual();
@@ -61,16 +84,20 @@ namespace AppManager.Commands
 		}
 	}
 
-	public class StartParams
+	public class AppStartParams : StartArgs
 	{
-		public StartParams(AppInfo app)
+		public AppStartParams(AppInfo app)
 		{
 			App = app;
 			RunAs = false;
 		}
 
 		public AppInfo App { get; set; }
+	}
+
+	public class StartArgs
+	{
 		public string Args { get; set; }
-		public bool RunAs { get; set; }
+		public bool RunAs { get; set; }	
 	}
 }

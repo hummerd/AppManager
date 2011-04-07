@@ -167,7 +167,7 @@ namespace AppManager
 
 			groupContent.ButtonClicked += (s, e) => 
 				_Controller.WorkItem.Commands.RunApp.Execute(
-					new StartParams(e.Value as AppInfo));
+					new AppStartParams(e.Value as AppInfo));
 
 			groupContent.CommonMenu = CreateAppTypeContextMenu();
 			groupContent.EditMenu = CreateAppContextMenu();
@@ -235,12 +235,12 @@ namespace AppManager
 
 			((MenuItem)menu.Items[0]).Click += (s, ea) =>
 				_Controller.WorkItem.Commands.RunApp.Execute(
-					new StartParams((s as FrameworkElement).DataContext as AppInfo)
+					new AppStartParams((s as FrameworkElement).DataContext as AppInfo)
 					);
 
 			((MenuItem)menu.Items[1]).Click += (s, ea) =>
 				_Controller.WorkItem.Commands.RunApp.Execute(
-					new StartParams((s as FrameworkElement).DataContext as AppInfo) 
+					new AppStartParams((s as FrameworkElement).DataContext as AppInfo) 
 						{ RunAs = true }
 					);
 
@@ -452,7 +452,7 @@ namespace AppManager
 					var appInfo = input.DataContext as AppInfo;
 					if (appInfo != null)
 						_Controller.WorkItem.Commands.RunApp.Execute(
-							new StartParams(appInfo) { Args = "\"" + e.Files[0] + "\"" }
+							new AppStartParams(appInfo) { Args = "\"" + e.Files[0] + "\"" }
 							);
 				}
 			}
