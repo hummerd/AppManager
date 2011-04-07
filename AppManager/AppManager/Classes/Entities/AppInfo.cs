@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using AppManager.EntityCollection;
 using CommonLib;
 using CommonLib.IO;
+using System.Collections.Generic;
 
 
 namespace AppManager.Entities
@@ -97,11 +98,12 @@ namespace AppManager.Entities
 		protected string _ExecPath;
 		protected string _AppName;
 		protected string _ImagePath;
+		protected AppRunInfoCollection _RunHostory;
 
 
 		public AppInfo()
 		{
-		
+			_RunHostory = new AppRunInfoCollection();
 		}
 
 
@@ -231,6 +233,11 @@ namespace AppManager.Entities
 			{
 				return AppName + Environment.NewLine + AppPath;
 			}
+		}
+
+		public AppRunInfoCollection RunHistory
+		{
+			get { return _RunHostory; }
 		}
 
 
