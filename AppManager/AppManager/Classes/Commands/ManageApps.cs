@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using AppManager.Entities;
 using CommonLib.PInvoke;
+using CommonLib.Application;
+using AppManager.Classes.ViewModel;
 
 
 namespace AppManager.Commands
@@ -15,24 +17,34 @@ namespace AppManager.Commands
 
 		public override void Execute(object parameter)
 		{
-			WndAppManager appManager = new WndAppManager();
-			AppGroup mangerData = _WorkItem.AppData.CloneEntity();
-			mangerData.NeedAppImage += (s, e) => 
+			ShowWndManager(parameter);
+			MemoryHelper.Clean();
+		}
+
+
+		protected void ShowWndManager(object parameter)
+		{
+			var appManager = new WndAppManager();
+			var mangerData = _WorkItem.AppData.CloneEntity();
+			mangerData.NeedAppImage += (s, e) =>
 				_WorkItem.ImageLoader.RequestImage(s as AppInfo);
 			mangerData.ReInitImages();
+			var appStat = new AppStatCollection(mangerData);
 			var deletedData = new DeletedAppCollection(_WorkItem.RecycleBin.Copy());
 			deletedData.RegisterSource(mangerData, false);
 			foreach (DeletedApp item in deletedData)
 			{
-				_WorkItem.ImageLoader.RequestImage(item.App);	
+				_WorkItem.ImageLoader.RequestImage(item.App);
 			}
 
 			appManager.Init(
-				_WorkItem, 
+				_WorkItem,
 				mangerData,
 				parameter as AppInfo,
 				parameter as AppType,
-				deletedData);
+				deletedData,
+				appStat
+				);
 
 			_WorkItem.Commands.Activate.Execute(null);
 			appManager.Owner = _WorkItem.MainWindow;
@@ -48,9 +60,6 @@ namespace AppManager.Commands
 			{
 				item.App.AppImage = null;
 			}
-
-			GC.Collect();
-			GC.WaitForPendingFinalizers();
 		}
 	}
 }

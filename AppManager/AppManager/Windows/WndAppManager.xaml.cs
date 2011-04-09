@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using AppManager.Classes.ViewModel;
 using AppManager.Entities;
 using AppManager.Windows;
 using CommonLib.Windows;
-using System.Windows.Data;
 
 
 namespace AppManager
@@ -31,7 +31,13 @@ namespace AppManager
 		}
 
 
-		public void Init(MainWorkItem workItem, AppGroup appGroup, AppInfo appInfo, AppType appType, DeletedAppCollection deletedApps)
+		public void Init(
+			MainWorkItem workItem, 
+			AppGroup appGroup, 
+			AppInfo appInfo, 
+			AppType appType, 
+			DeletedAppCollection deletedApps,
+			AppStatCollection stat)
 		{
 			_AppGroup = appGroup;
 			_Controller = new AppManagerController(workItem);
@@ -40,6 +46,7 @@ namespace AppManager
 			AppTypeSelector.ItemsSource = appGroup.AppTypes;
 			DeletedAppList.ItemsSource = deletedApps;
 			_DeletedApps = deletedApps;
+			StatList.ItemsSource = stat;
 			//AppScanType.ItemsSource = appGroup.AppTypes;
 
 			if (appInfo != null)
