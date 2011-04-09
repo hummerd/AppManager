@@ -25,6 +25,7 @@ namespace AppManager
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		protected System.Windows.Interop.WindowInteropHelper _NativeWindow;
 		protected MainWindowController	_Controller;
 		protected ItemsControl			_FocusElement;
 		protected FileAppDropHandler	_FileDrop = new FileAppDropHandler();
@@ -38,6 +39,7 @@ namespace AppManager
 			InitializeComponent();
 
 			_FocusElement = AppTypeContent;
+			_NativeWindow = new System.Windows.Interop.WindowInteropHelper(this);
 			//ContentPanel.Children.Clear();
 			//ContentPanel.RowDefinitions.Clear();
 
@@ -203,28 +205,6 @@ namespace AppManager
 				OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
 		}
 
-		//protected ButtonList CreateButtonList(int rowi, AppType appType)
-		//{
-		//   //ButtonList groupContent = new ButtonList()
-		//   //{
-		//   //   TabIndex = rowi,
-		//   //   AllowDrop = true,
-		//   //   SnapsToDevicePixels = true
-		//   //};
-			
-		//   //groupContent.CommonMenu = CreateAppTypeContextMenu();
-		//   //groupContent.EditMenu = CreateAppContextMenu();
-		//   //groupContent.ContextMenuOpening += (s, e) =>
-		//   //   e.Handled = OnAppListContextMenuOpening(s as ButtonList, e.OriginalSource as FrameworkElement);
-
-		//   //groupContent.SetBinding(ButtonList.ItemsSourceProperty, "AppInfos");
-		//   //groupContent.DataContext = appType;
-
-		//   //return groupContent;
-
-		//   return null;
-		//}
-
 		protected ContextMenu CreateAppContextMenu()
 		{
 			var menu = MenuHelper.CopyMenu(App.Current.Resources["ItemMenu"] as ContextMenu);
@@ -337,35 +317,6 @@ namespace AppManager
 			return true;
 		}
 
-		//protected GroupBox CreateGroupBox(object content, AppType appType)
-		//{
-		//   GroupBox group = new GroupBox()
-		//   {
-		//      Margin = new Thickness(7.0),
-		//      SnapsToDevicePixels = true,
-		//      Content = content,
-		//      Foreground = Brushes.Blue,
-		//      Style = Resources["CustomGB"] as Style,
-		//      AllowDrop = true
-		//   };
-
-		//   group.ContextMenu = CreateAppTypeContextMenu();
-		//   group.ContextMenuOpening += (s, e) => 
-		//      e.Handled = OnAppTypeContextMenuOpening(s as FrameworkElement);
-		//   group.SetBinding(GroupBox.HeaderProperty, "AppTypeName");
-		//   group.DataContext = appType;
-
-		//   var drag = new AppTypeDrag(group);
-		//   (drag.DragHandlers[0] as SimpleDragDataHandler).ObjectDroped +=
-		//      (s, e) => _Controller.InsertAppType(e.DropObject as AppType, (s as FrameworkElement).DataContext as AppType);
-		//   drag.DragHandlers.Add(_FileDrop);
-		//   drag.DragStart += (s, e) => OnDragStarted();
-		//   drag.DragEnd += (s, e) => OnDragEnded();
-		//   drag.DragEnd += (s, e) => OnAppTypeDragEnded(e.DropEffects, e.DropObject as AppType);
-
-		//   return group;
-		//}
-
 		protected bool OnAppTypeContextMenuOpening(FrameworkElement sender)
 		{
 			if (sender == null)
@@ -375,7 +326,6 @@ namespace AppManager
 			return false;
 		}
 
-
 		protected void PrepareAppTypeContextMenu(ContextMenu menu, object dataContext)
 		{
 			menu.DataContext = dataContext;
@@ -383,24 +333,6 @@ namespace AppManager
 			((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_RENAME_APP_TYPE, dataContext);
 			((MenuItem)menu.Items[3]).Header = String.Format(Strings.MNU_DELETE_TYPE, dataContext);
 		}
-
-		//protected GridSplitter CreateGridSplitter(int rowi)
-		//{
-		//   var split = new GridSplitter()
-		//   {
-		//      ResizeDirection = GridResizeDirection.Rows,
-		//      Height = 3,
-		//      VerticalAlignment = VerticalAlignment.Top,
-		//      HorizontalAlignment = HorizontalAlignment.Stretch,
-		//      ShowsPreview = true,
-		//      Background = Brushes.Transparent
-		//   };
-
-		//   split.DragCompleted += (s, e) => SaveRowHeight();
-		//   Grid.SetRow(split, rowi - 1);
-
-		//   return split;
-		//}
 
 		protected void SaveRowHeight()
 		{
@@ -532,8 +464,7 @@ namespace AppManager
 			//GDI32.CombineRgn(windowArea, titleArea, clientArea, GDI32.CombineRgnStyles.RGN_OR);
 
 			// Last, SetWindowRgn tells GDI what the windows final shape will look like
-			var win = new System.Windows.Interop.WindowInteropHelper(this);
-			User32.SetWindowRgn(win.Handle, titleArea, true);
+			User32.SetWindowRgn(_NativeWindow.Handle, titleArea, true);
 		}
 
 
