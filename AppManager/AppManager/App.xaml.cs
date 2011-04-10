@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using System;
-using CommonLib.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Threading;
+using CommonLib.Windows;
 
 
 namespace AppManager

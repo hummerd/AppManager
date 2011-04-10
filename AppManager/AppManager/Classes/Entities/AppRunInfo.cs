@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AppManager.EntityCollection;
 using AppManager.Commands;
+using AppManager.EntityCollection;
 
 
 namespace AppManager.Entities
