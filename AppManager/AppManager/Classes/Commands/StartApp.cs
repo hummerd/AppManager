@@ -251,7 +251,10 @@ namespace AppManager.Commands
 			bool readNew = false;
 			try
 			{
-				apps = AppGroupLoader.Load2(_WorkItem.DataPath);
+				apps = AppGroupLoader.Load2(
+					_WorkItem.DataPath,
+					_WorkItem.StatPath);
+
 				readNew = true;
 				//apps = XmlSerializeHelper.DeserializeItem(
 				//   _WorkItem.AppData.GetType(),

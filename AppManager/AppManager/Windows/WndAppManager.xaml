@@ -351,7 +351,9 @@
                                     </Binding.Converter>
                                 </Binding>
                             </ColumnDefinition.Width>
-                        </ColumnDefinition>                     
+                        </ColumnDefinition>
+                        <ColumnDefinition
+							Width="4" />
                     </Grid.ColumnDefinitions>
                     <Image
 						Grid.RowSpan="2"
@@ -365,11 +367,18 @@
                         Margin="4,4,0,0"
 						HorizontalAlignment="Left"
 						/>
+                    <TextBlock
+						Grid.Column="1"
+                        Grid.ColumnSpan="2"
+						Text="{Binding Path=RunCount, Mode=OneWay}"
+                        Margin="0,4,0,0"
+						HorizontalAlignment="Right"
+						/>                    
                     <Border
                         Grid.Row="1"
                         Grid.Column="1"
                         Margin="4,4,0,0"
-                        Background="Red"
+                        Background="DarkBlue"
                         >
                     </Border>
                 </Grid>
@@ -772,7 +781,7 @@
 			</Grid>
 		</TabItem>
         <TabItem
-            Header="{x:Static am:Strings.RECYCLE_BIN}" Name="TabStatistics">
+            Header="{x:Static am:Strings.APP_STAT}" Name="TabStatistics">
             <ListBox
 				Margin="8,8,8,8"
 				Name="StatList"

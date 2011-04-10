@@ -4,6 +4,8 @@ using System.Text;
 using System.Xml;
 using AppManager.Entities;
 using DragDropLib;
+using System.Globalization;
+using System.Collections.Generic;
 
 
 namespace AppManager
@@ -81,13 +83,17 @@ namespace AppManager
 			return result;
 		}
 
-		public static AppGroup Load2(string xmlPath)
+		public static AppGroup Load2(string appDataPath, string appStatPath)
 		{
-			AppGroup result = new AppGroup();
+			var result = new AppGroup();
 			XmlReaderSettings sett = new XmlReaderSettings();
 			sett.IgnoreWhitespace = true;
 			sett.IgnoreComments = true;
-			using (XmlReader reader = XmlReader.Create(xmlPath, sett))
+
+			if (!File.Exists(appDataPath))
+				return result;
+
+			using (XmlReader reader = XmlReader.Create(appDataPath, sett))
 			{
 				reader.ReadToFollowing("AppGroup");
 								
@@ -111,8 +117,41 @@ namespace AppManager
 					reader.ReadEndElement();
 			}
 
+			if (!File.Exists(appStatPath))
+				return result;
+
+			var appStat = new Dictionary<int, AppRunInfoCollection>(result.AppTypes.Count * 10);
+			using (XmlReader reader = XmlReader.Create(appStatPath, sett))
+			{
+				reader.ReadToFollowing("AppStat");
+				reader.Read();
+
+				if (reader.Name == "AppInfo")
+				{
+					while (reader.IsStartElement())
+					{
+						if (reader.Name == "AppInfo")
+							ReadAppInfo(reader, appStat);
+
+						reader.Read();
+					}
+				}
+
+				if (reader.NodeType == XmlNodeType.EndElement)
+					reader.ReadEndElement();
+			}
+
+			foreach (var appType in result.AppTypes)
+				foreach (var app in appType.AppInfos)
+				{
+					AppRunInfoCollection stat;
+					if (appStat.TryGetValue(app.ID, out stat))
+						app.RunHistory.AddRange(stat);
+				}
+
 			return result;
 		}
+
 
 		public static string SaveAppType(AppType appType)
 		{
@@ -182,6 +221,25 @@ namespace AppManager
 			}
 		}
 
+		public static void SaveAppStat(string xmlPath, AppGroup appData)
+		{
+			XmlWriterSettings sett = new XmlWriterSettings();
+			sett.Indent = true;
+
+			using (XmlWriter writer = XmlWriter.Create(xmlPath, sett))
+			{
+				writer.WriteStartElement("AppStat");
+
+				foreach (var appType in appData.AppTypes)
+					foreach (var app in appType.AppInfos)
+					{
+						WriteAppStat(writer, app);
+					}
+
+				writer.WriteEndElement();
+			}
+		}
+
 		public static DeletedAppCollection LoadRecycleBin(string xmlPath)
 		{
 			var result = new DeletedAppCollection();
@@ -231,6 +289,41 @@ namespace AppManager
 			writer.WriteEndElement();
 		}
 
+		private static void WriteAppStat(XmlWriter writer, AppInfo appInfo)
+		{
+			writer.WriteStartElement("AppInfo");
+
+			writer.WriteStartAttribute("ID");
+			writer.WriteValue(appInfo.ID);
+			writer.WriteEndAttribute();
+
+			foreach (var item in appInfo.RunHistory)
+			{
+				WriteRunEvent(writer, item);
+			}
+
+			writer.WriteEndElement();
+		}
+
+		private static void WriteRunEvent(XmlWriter writer, AppRunInfo run)
+		{
+			writer.WriteStartElement("Run");
+
+			writer.WriteStartAttribute("Time");
+			writer.WriteValue(run.RunTime.ToString(CultureInfo.InvariantCulture));
+			writer.WriteEndAttribute();
+
+			writer.WriteStartAttribute("Args");
+			writer.WriteValue(run.Areguments.Args);
+			writer.WriteEndAttribute();
+
+			writer.WriteStartAttribute("RunAs");
+			writer.WriteValue(run.Areguments.RunAs);
+			writer.WriteEndAttribute();
+
+			writer.WriteEndElement();
+		}
+
 		private static void WriteAppType(XmlWriter writer, AppType appType)
 		{
 			writer.WriteStartElement("AppType");
@@ -271,6 +364,42 @@ namespace AppManager
 			}
 
 			writer.WriteEndElement();
+		}
+
+
+		private static void ReadAppInfo(XmlReader reader, Dictionary<int, AppRunInfoCollection> appStat)
+		{
+			reader.MoveToAttribute("ID");
+			var appId = reader.ReadContentAsInt();
+			var runHistory = new AppRunInfoCollection();
+			appStat[appId] = runHistory;
+
+			reader.Read();
+
+			while (reader.IsStartElement())
+			{
+				if (reader.Name == "Run")
+					runHistory.Add(ReadRunEvent(reader));
+
+				reader.Read();
+			}
+		}
+
+		private static AppRunInfo ReadRunEvent(XmlReader reader)
+		{
+			var result = new AppRunInfo();
+			result.Areguments = new Commands.StartArgs();
+
+			reader.MoveToAttribute("Time");
+			result.RunTime = DateTime.Parse(reader.ReadContentAsString(), CultureInfo.InvariantCulture);
+
+			reader.MoveToAttribute("Args");
+			result.Areguments.Args = reader.ReadContentAsString();
+
+			reader.MoveToAttribute("RunAs");
+			result.Areguments.RunAs = reader.ReadContentAsBoolean();
+
+			return result;
 		}
 
 		private static AppType ReadAppType(XmlReader reader)

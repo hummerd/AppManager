@@ -156,6 +156,9 @@
   <data name="APP_MANAGER" xml:space="preserve">
     <value>Менеджер ссылок</value>
   </data>
+  <data name="APP_STAT" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
   <data name="APP_TITLE" xml:space="preserve">
     <value>Стартер</value>
   </data>

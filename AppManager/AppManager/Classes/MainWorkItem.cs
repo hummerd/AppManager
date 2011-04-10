@@ -168,6 +168,18 @@ namespace AppManager
 			}
 		}
 
+		public string StatPath
+		{
+			get
+			{
+#if DEBUG
+				return Path.Combine(DataDir, "appstat.xml");
+#else
+				return Path.Combine(DataDir, "appstat.xml");
+#endif
+			}
+		}
+
 		public string RecycleBinPath
 		{
 			get
