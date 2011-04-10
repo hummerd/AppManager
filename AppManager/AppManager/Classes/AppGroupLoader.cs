@@ -132,8 +132,6 @@ namespace AppManager
 					{
 						if (reader.Name == "AppInfo")
 							ReadAppInfo(reader, appStat);
-
-						reader.Read();
 					}
 				}
 
@@ -259,6 +257,7 @@ namespace AppManager
 					reader.ReadStartElement("DeletedApp");
 
 					var appInfo = ReadAppInfo2(reader);
+					reader.Read();
 
 					AppType appType = null;
 					if (reader.IsStartElement() && reader.Name == "AppType")
@@ -369,20 +368,26 @@ namespace AppManager
 
 		private static void ReadAppInfo(XmlReader reader, Dictionary<int, AppRunInfoCollection> appStat)
 		{
+			//We are at AppInfo
 			reader.MoveToAttribute("ID");
 			var appId = reader.ReadContentAsInt();
-			var runHistory = new AppRunInfoCollection();
-			appStat[appId] = runHistory;
 
 			reader.Read();
 
-			while (reader.IsStartElement())
+			if (reader.Name == "Run")
 			{
-				if (reader.Name == "Run")
-					runHistory.Add(ReadRunEvent(reader));
+				var runHistory = new AppRunInfoCollection();
+				appStat[appId] = runHistory;
 
-				reader.Read();
+				while (reader.IsStartElement())
+				{
+					runHistory.Add(ReadRunEvent(reader));
+					reader.Read();
+				}
 			}
+
+			if (reader.Name == "AppInfo" && reader.NodeType == XmlNodeType.EndElement)
+				reader.ReadEndElement();
 		}
 
 		private static AppRunInfo ReadRunEvent(XmlReader reader)
@@ -390,13 +395,13 @@ namespace AppManager
 			var result = new AppRunInfo();
 			result.Areguments = new Commands.StartArgs();
 
-			reader.MoveToAttribute("Time");
+			reader.MoveToNextAttribute();
 			result.RunTime = DateTime.Parse(reader.ReadContentAsString(), CultureInfo.InvariantCulture);
 
-			reader.MoveToAttribute("Args");
+			reader.MoveToNextAttribute();
 			result.Areguments.Args = reader.ReadContentAsString();
 
-			reader.MoveToAttribute("RunAs");
+			reader.MoveToNextAttribute();
 			result.Areguments.RunAs = reader.ReadContentAsBoolean();
 
 			return result;
@@ -452,9 +457,8 @@ namespace AppManager
 		{
 			AppType result = new AppType();
 
-			//reader.ReadStartElement("AppType");
-
-			reader.MoveToAttribute("Name");
+			//We are at AppType
+			reader.MoveToNextAttribute();
 			result.AppTypeName = reader.ReadContentAsString();
 
 			reader.Read();
@@ -464,6 +468,7 @@ namespace AppManager
 				while (reader.IsStartElement())
 				{
 					result.AppInfos.Add(ReadAppInfo2(reader));
+					reader.Read();
 				}
 			}
 
@@ -475,24 +480,20 @@ namespace AppManager
 
 		private static AppInfo ReadAppInfo2(XmlReader reader)
 		{
-			AppInfo result = new AppInfo();
+			var result = new AppInfo();
 
-			//reader.ReadStartElement("AppInfo");
-
-			reader.MoveToAttribute("ID");
+			reader.MoveToNextAttribute();
 			result.ID = reader.ReadContentAsInt();
 
-			reader.MoveToAttribute("Name");
+			reader.MoveToNextAttribute();
 			result.AppName = reader.ReadContentAsString();
 
-			reader.MoveToAttribute("ExecPath");
+			reader.MoveToNextAttribute();
 			result.ExecPath = reader.ReadContentAsString();
 
-			reader.MoveToAttribute("ImagePath");
+			reader.MoveToNextAttribute();
 			if (reader.Name == "ImagePath")
 				result.LoadImagePath = reader.ReadContentAsString();
-
-			reader.Read();
 
 			return result;
 		}
