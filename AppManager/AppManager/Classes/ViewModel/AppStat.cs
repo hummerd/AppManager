@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AppManager.Entities;
-using System.Windows.Data;
-using System.Windows;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Data;
+using AppManager.Entities;
 
 
 namespace AppManager.Classes.ViewModel
