@@ -395,6 +395,7 @@ namespace AppManager.Entities
 			if (ExecPath != source.ExecPath)
 				ExecPath = source.ExecPath;
 
+			RunHistory.Reset();
 			RunHistory.MergeCollection(source.RunHistory);
 		}
 	}
