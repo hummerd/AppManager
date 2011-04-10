@@ -68,7 +68,6 @@ namespace AppManager.Classes.ViewModel
 		#endregion
 	}
 
-
 	public class GridSizeRelativeConverter : IValueConverter
 	{
 		#region IValueConverter Members
