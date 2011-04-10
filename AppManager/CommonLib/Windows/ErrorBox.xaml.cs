@@ -22,8 +22,13 @@ namespace CommonLib.Windows
 			try
 			{
 				var srcName = Assembly.GetEntryAssembly().GetName().Name;
-				if (!EventLog.Exists(srcName))
-					EventLog.WriteEntry(srcName, exc.ToString(), EventLogEntryType.Error);
+				try
+				{
+					if (!EventLog.Exists(srcName))
+						EventLog.WriteEntry(srcName, exc.ToString(), EventLogEntryType.Error);
+				}
+				catch
+				{ ; }
 
 				var eb = new ErrorBox(title, exc.Message, exc.ToString());
 				eb.ShowDialog();
