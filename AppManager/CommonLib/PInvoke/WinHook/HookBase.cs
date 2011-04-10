@@ -66,10 +66,15 @@ namespace CommonLib.PInvoke.WinHook
 
 			if (_HookHandle == IntPtr.Zero)
 			{
-				EventLog.WriteEntry(
-					"HookApp",
-					string.Format("Failed to set hook. Error {0}.", Marshal.GetLastWin32Error()),
-					EventLogEntryType.Warning);
+				try
+				{
+					EventLog.WriteEntry(
+						"HookApp",
+						string.Format("Failed to set hook. Error {0}.", Marshal.GetLastWin32Error()),
+						EventLogEntryType.Warning);
+				}
+				catch
+				{ ; }
 			}
 		}
 
