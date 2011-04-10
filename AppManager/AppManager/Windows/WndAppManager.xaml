@@ -144,11 +144,6 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-		<Style
-			x:Key="MarginRight"
-			TargetType="Button">
-			<Setter Property="Margin" Value="0,0,4,0" />
-		</Style>
 		<DataTemplate
 			x:Key="AppTypeInfo">
 			<StackPanel
@@ -495,18 +490,24 @@
 					<Label
 						Content="{x:Static am:Strings.APP_TYPE_NAME}"
 						x:Name="AppTypeLabel"
-						HorizontalAlignment="Left" />
+						HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Padding="0"
+                        Margin="0,0,4,0"
+                        />
 					<TextBox
 						Text="{Binding Path=SelectedItem.AppTypeName, ElementName=AppTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						x:Name="AppTypeName"
 						Grid.Column="1"
-						Margin="4,0,4,0" />
+						Margin="0,0,4,0"
+                        />
 					<am:ImageButton
 						Grid.Column="2"
+                        Margin="4,0,4,0"
 						x:Name="BtnAppTypeUp"
 						ToolTip="{x:Static am:Strings.GROUP_UP}"
 						ButtonImageSource="/AppManager;component/Resources/up_16.png"
-						Style="{StaticResource MarginRight}"
 						Click="BtnAppTypeUp_Click" 
 						/>
 					<am:ImageButton
@@ -514,7 +515,7 @@
 						x:Name="BtnAppTypeDown"
 						ToolTip="{x:Static am:Strings.GROUP_DOWN}"
 						ButtonImageSource="/AppManager;component/Resources/down_16.png"
-						Style="{StaticResource MarginRight}"
+						Margin="0,0,4,0"
 						Click="BtnAppTypeDown_Click"
 						/>
 					<am:ImageButton
@@ -523,7 +524,7 @@
 						Click="BtnAddAppType_Click"
 						ToolTip="{x:Static am:Strings.GROUP_ADD}"
 						ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
-						Style="{StaticResource MarginRight}"
+						Margin="0,0,4,0"
 						/>
 					<am:ImageButton
 						Grid.Column="5"
@@ -561,17 +562,18 @@
 						<RowDefinition SharedSizeGroup="toolHeight"/>
 					</Grid.RowDefinitions>
 					<ComboBox
-					Grid.IsSharedSizeScope="True"
-					DisplayMemberPath="AppTypeName"
-					Margin="0,0,4,0"
-					Name="AppTypeSelector"
-					SelectedItem="{Binding ElementName=AppTypes, Path=SelectedItem, Mode=TwoWay}" />
+					    Grid.IsSharedSizeScope="True"
+					    DisplayMemberPath="AppTypeName"
+					    Margin="0,0,4,0"
+					    Name="AppTypeSelector"
+					    SelectedItem="{Binding ElementName=AppTypes, Path=SelectedItem, Mode=TwoWay}" 
+                        />
 					<am:ImageButton
 						Grid.Column="1"
 						x:Name="BtnAppUp"
 						ToolTip="{x:Static am:Strings.APP_UP}"
 						ButtonImageSource="/AppManager;component/Resources/up_16.png"
-						Style="{StaticResource MarginRight}"
+						Margin="4,0,4,0"
 						Click="BtnAppUp_Click"
 						/>
 					<am:ImageButton
@@ -579,7 +581,7 @@
 						x:Name="BtnAppDown"
 						ToolTip="{x:Static am:Strings.APP_DOWN}"
 						ButtonImageSource="/AppManager;component/Resources/down_16.png"
-						Style="{StaticResource MarginRight}"
+						Margin="0,0,4,0"
 						Click="BtnAppDown_Click"
 						/>
 					<am:ImageButton
@@ -587,7 +589,7 @@
 						x:Name="BtnAddApp" 
 						ToolTip="{x:Static am:Strings.APP_ADD}"
 						ButtonImageSource="/AppManager;component/Resources/edit_add_1184_16.png"
-						Style="{StaticResource MarginRight}"
+						Margin="0,0,4,0"
 						Click="BtnAddApp_Click"
 						/>
 					<am:ImageButton
@@ -732,36 +734,44 @@
 			Header="{x:Static am:Strings.RECYCLE_BIN}" Name="TabRecycleBin">
 			<Grid Name="DeletedApps">
 				<Grid.RowDefinitions>
-					<RowDefinition
-						Height="Auto" MinHeight="48" />
-					<RowDefinition
-						Height="*" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<TextBlock 
-                    Margin="8,12,66,0" 
-                    VerticalAlignment="Top" 
-                    Height="30"
-                    Text="{x:Static am:Strings.RECYCLE_BIN_TIP}"
-                    />
-				<am:ImageButton
-					x:Name="BtnResore"
-                    Margin="0,12,36,12"
-                    HorizontalAlignment="Right"
-					ToolTip="{x:Static am:Strings.RESTORE_APP}"
-					ButtonImageSource="/AppManager;component/Resources/agt_reload_3236_16_green.png"
-					Click="BtnResore_Click"
-					/>
-				<am:ImageButton
-					x:Name="BtnDeleteFromBin"
-					Margin="0,12,8,12"
-					HorizontalAlignment="Right"
-					ToolTip="{x:Static am:Strings.DELETE_FROM_RECYCLE_BIN}"
-					ButtonImageSource="/AppManager;component/Resources/edit_remove_14_16.png"
-					Click="BtnDeleteFromBin_Click"
-					/>
+                <Grid Margin="8,8,8,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        TextWrapping="Wrap"
+                        Margin="0,0,4,0"
+                        Text="{x:Static am:Strings.RECYCLE_BIN_TIP}"
+                        />
+                    <am:ImageButton
+                        Grid.Column="1"
+					    x:Name="BtnResore"
+                        Margin="4,0,4,0"
+                        VerticalAlignment="Center"
+					    ToolTip="{x:Static am:Strings.RESTORE_APP}"
+					    ButtonImageSource="/AppManager;component/Resources/agt_reload_3236_16_green.png"
+					    Click="BtnResore_Click"
+					    />                    
+                    <am:ImageButton
+                        Grid.Column="2"
+					    x:Name="BtnDeleteFromBin"
+                        Margin="0,0,0,0"
+                        VerticalAlignment="Center"
+					    ToolTip="{x:Static am:Strings.DELETE_FROM_RECYCLE_BIN}"
+					    ButtonImageSource="/AppManager;component/Resources/edit_remove_14_16.png"
+					    Click="BtnDeleteFromBin_Click"
+					    />                    
+                </Grid>
 				<ListBox
 					Grid.Row="1"
-					Margin="8,0,8,8"
+					Margin="8,8,8,8"
 					Name="DeletedAppList"
 					HorizontalContentAlignment="Stretch"
 					IsSynchronizedWithCurrentItem="True"

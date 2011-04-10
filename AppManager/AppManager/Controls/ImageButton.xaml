@@ -5,15 +5,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="AppManager.ImageButton"
-	x:Name="SettingButton1"
-	d:DesignWidth="640" d:DesignHeight="480">
+	d:DesignWidth="140" 
+    d:DesignHeight="80">
 	<Button.Content>
 		<Image Name="ButtonImage" Stretch="None" IsHitTestVisible="False" />
 	</Button.Content>
-	<!--<Button.Background>
-		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-			<GradientStop Color="#FFBBD5E5" Offset="0"/>
-			<GradientStop Color="#FF8DC3E5" Offset="0.9"/>
-		</LinearGradientBrush>
-	</Button.Background>-->
 </Button>
