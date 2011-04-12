@@ -53,16 +53,18 @@ namespace AppManager
 			_LoadThread.Start();
 		}
 
-		protected void SetImage(AppInfo appInfo, System.Drawing.Icon loadResult)
+		protected void SetImage(object arg)
 		{
-			if (loadResult != null)
+			var appImage = arg as Pair<AppInfo, System.Drawing.Icon>;
+
+			if (appImage.Second != null)
 			{
-				appInfo.AppImage = Imaging.CreateBitmapSourceFromHIcon(
-					loadResult.Handle,
+				appImage.First.AppImage = Imaging.CreateBitmapSourceFromHIcon(
+					appImage.Second.Handle,
 					Int32Rect.Empty,
 					BitmapSizeOptions.FromEmptyOptions());
 
-				User32.DestroyIcon(loadResult.Handle);
+				User32.DestroyIcon(appImage.Second.Handle);
 			}
 		}
 
@@ -87,13 +89,13 @@ namespace AppManager
 
 						var src = LoadImage(app.LoadImagePath);
 
-						DispatcherHelper.InvokeBackground(
-							(SimpleMathod)(
-								() => SetImage(
-									app, 
-									src))
-							);
-
+						var appImage = new Pair<AppInfo, System.Drawing.Icon>
+						{
+							First = app,
+							Second = src,
+						};
+						DispatcherHelper.InvokeBackground((SimpleMathodArg)SetImage, appImage);
+						
 						lock (_RequestSync)
 						{
 							doLoad = _RequestedImages.Count > 0;

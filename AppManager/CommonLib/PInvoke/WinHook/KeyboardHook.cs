@@ -27,8 +27,8 @@ namespace CommonLib.PInvoke.WinHook
 
 
 		// events
-		public event EventHandler<KbrdHookEventArgs> KeyDown;
-		public event EventHandler<KbrdHookEventArgs> KeyUp;
+		public event KbrdHookEventHandler KeyDown;
+		public event KbrdHookEventHandler KeyUp;
 
 
 		public KeyboardHook()
@@ -41,7 +41,7 @@ namespace CommonLib.PInvoke.WinHook
 		{
 			var handled = base.ProcessHook(wParam, param);
 
-			var hookEA = new KbrdHookEventArgs(param.vkCode);
+			KbrdHookEventArgs hookEA = new KbrdHookEventArgs(param.vkCode);
 			if ((param.flags & 0x80) == 0)
 			{
 				// KeyUp event
@@ -58,7 +58,10 @@ namespace CommonLib.PInvoke.WinHook
 		}
 	}
 
-	public class KbrdHookEventArgs : EventArgs
+	[Serializable]
+	public delegate void KbrdHookEventHandler(object sender, KbrdHookEventArgs e);
+
+	public struct KbrdHookEventArgs
 	{
 		// using Windows.Forms.Keys instead of Input.Key since the Forms.Keys maps
 		// to the Win32 KBDLLHOOKSTRUCT virtual key member, where Input.Key does not
@@ -66,7 +69,7 @@ namespace CommonLib.PInvoke.WinHook
 		public bool Alt;
 		public bool Control;
 		public bool Shift;
-		public bool Handled = false;
+		public bool Handled;
 
 		public KbrdHookEventArgs(UInt32 keyCode)
 		{
@@ -74,10 +77,11 @@ namespace CommonLib.PInvoke.WinHook
 			// Windows.Forms.Control.ModifierKeys instead of Keyboard.Modifiers
 			// since Keyboard.Modifiers does not correctly get the state of the 
 			// modifier keys when the application does not have focus
-			this.Key = (WinForms.Keys)keyCode;
-			this.Alt = (WinForms.Control.ModifierKeys & WinForms.Keys.Alt) != 0;
-			this.Control = (WinForms.Control.ModifierKeys & WinForms.Keys.Control) != 0;
-			this.Shift = (WinForms.Control.ModifierKeys & WinForms.Keys.Shift) != 0;
+			Key = (WinForms.Keys)keyCode;
+			Alt = (WinForms.Control.ModifierKeys & WinForms.Keys.Alt) != 0;
+			Control = (WinForms.Control.ModifierKeys & WinForms.Keys.Control) != 0;
+			Shift = (WinForms.Control.ModifierKeys & WinForms.Keys.Shift) != 0;
+			Handled = false;
 		}
 	}
 }
