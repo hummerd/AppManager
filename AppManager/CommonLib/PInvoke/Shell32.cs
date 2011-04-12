@@ -13,7 +13,10 @@ namespace CommonLib.PInvoke
 		{ 
 			IntPtr[] largeIcons = new IntPtr[1];
 			Shell32.ExtractIconEx(szFile, nIconIndex, largeIcons, null, 1);
-			return Icon.FromHandle(largeIcons[0]);
+			return 
+				largeIcons[0] == IntPtr.Zero ?
+					null :
+					Icon.FromHandle(largeIcons[0]);
 		}
 
 		[DllImport("shell32.dll")]
