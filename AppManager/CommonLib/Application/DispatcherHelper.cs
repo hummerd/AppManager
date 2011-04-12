@@ -29,6 +29,12 @@ namespace CommonLib.Application
 			//Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, method);
 		}
 
+		public static void InvokeBackground(Delegate method, object arg)
+		{
+			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, method, arg);
+			//Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, method);
+		}
+
 		public static void Invoke(Delegate method)
 		{
 			System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, method);
@@ -68,4 +74,5 @@ namespace CommonLib.Application
 	}
 
 	public delegate void SimpleMathod();
+	public delegate void SimpleMathodArg(object arg);
 }
