@@ -50,7 +50,8 @@
         >
         <Image
 			Name="ButtonImage"
-			Stretch="None"
+            MaxHeight="32"
+			Stretch="Uniform"
             DockPanel.Dock="Top"
 			IsHitTestVisible="False">
         </Image>
