@@ -273,7 +273,9 @@ namespace AppManager.Commands
 
 			_WorkItem.RecycleBin = AppGroupLoader.LoadRecycleBin(_WorkItem.RecycleBinPath);
 			
-			if (apps != null)
+			if (apps != null && 
+				apps.AppTypes != null && 
+				apps.AppTypes.Count > 0)
 			{
 				_WorkItem.AppData = apps;
 				_WorkItem.AppData.CorrectAppInfoID();
