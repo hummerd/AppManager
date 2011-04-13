@@ -4,9 +4,9 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:am="clr-namespace:AppManager"
+    xmlns:amc="clr-namespace:AppManager.Controls"
 	mc:Ignorable="d"
 	x:Class="AppManager.ButtonList"
-	x:Name="ButtonList1"
 	d:DesignHeight="75" 
 	d:DesignWidth="105" 
 	Background="Transparent"
@@ -146,9 +146,18 @@
 			<am:AppButton
 				Click="ImageButton_Click"
 				IsTabStop="False"
-				Margin="4,4,4,4"
+				Margin="4,4,4,4"             
 				ButtonImageSource="{Binding Path=AppImage}"
-				ButtonText="{Binding Path=AppName}">
+				ButtonText="{Binding Path=AppName}"
+                >
+                <am:AppButton.Width>
+                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType= {x:Type ListBoxItem}}">
+                        <Binding.Converter>
+                            <am:WidthCorrector />
+                        </Binding.Converter>
+                        <Binding.ConverterParameter>12.0</Binding.ConverterParameter>
+                    </Binding>
+                </am:AppButton.Width>
 				<am:AppButton.ToolTip>
 					<ToolTip Style="{DynamicResource ToolTipStyle}" Content="{Binding Path=AppPathInfo}"/>	
 				</am:AppButton.ToolTip>
@@ -157,10 +166,10 @@
 	</ListBox.ItemTemplate>
 	<ListBox.ItemsPanel>
 		<ItemsPanelTemplate>
-			<WrapPanel
-				 Orientation="Horizontal" 
-				 IsItemsHost="True"
-				 Width="{Binding Path=Width, 
+            <amc:AdjustedWrapPanel
+				Orientation="Horizontal" 
+				IsItemsHost="True"
+				Width="{Binding Path=Width, 
 						RelativeSource={RelativeSource Mode=FindAncestor, 
 						AncestorType= {x:Type ScrollContentPresenter}}}"
 			/>

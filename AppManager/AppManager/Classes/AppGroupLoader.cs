@@ -55,13 +55,18 @@ namespace AppManager
 			}
 		}
 
-		public static AppGroup Load(string xmlPath)
+		public static AppGroup Load(string appDataPath)
 		{
-			var result = new AppGroup();
 			var sett = new XmlReaderSettings();
 			sett.IgnoreWhitespace = true;
 			sett.IgnoreComments = true;
-			using (XmlReader reader = XmlReader.Create(xmlPath, sett))
+
+			if (!File.Exists(appDataPath))
+				return null;
+
+			var result = new AppGroup();
+
+			using (XmlReader reader = XmlReader.Create(appDataPath, sett))
 			{
 				reader.ReadStartElement("AppGroup");
 				reader.ReadStartElement("AppTypes");
@@ -85,13 +90,14 @@ namespace AppManager
 
 		public static AppGroup Load2(string appDataPath, string appStatPath)
 		{
-			var result = new AppGroup();
 			XmlReaderSettings sett = new XmlReaderSettings();
 			sett.IgnoreWhitespace = true;
 			sett.IgnoreComments = true;
 
 			if (!File.Exists(appDataPath))
-				return result;
+				return null;
+
+			var result = new AppGroup();
 
 			using (XmlReader reader = XmlReader.Create(appDataPath, sett))
 			{
