@@ -75,7 +75,11 @@ namespace AppManager
 					{
 						var anim = new FadeAnimarion(ButtonImage);
 						anim.SetLoadingState(true);
-						anim.ElementHidden += (s, ea) => ButtonImage.Source = (BitmapSource)e.NewValue;
+						anim.ElementHidden += (s, ea) =>
+							{
+								ButtonImage.Source = (BitmapSource)e.NewValue;
+								this.UpdateLayout();
+							};
 					}
 				}
 			}
@@ -103,6 +107,7 @@ namespace AppManager
 					_ButtonText = new Label();
 					_ButtonText.FontFamily = new FontFamily("Tahoma");
 					_ButtonText.FontSize = 11;
+					_ButtonText.MaxWidth = 80;
 					_ButtonText.Foreground = Resources["AppNameBrush"] as Brush;
 					_ButtonText.IsHitTestVisible = false;
 

@@ -115,6 +115,7 @@
     </Page>
     <Compile Include="Classes\Entities\AppRunInfo.cs" />
     <Compile Include="Classes\ViewModel\AppStat.cs" />
+    <Compile Include="Controls\AdjustedWrapPanel.cs" />
     <Compile Include="Controls\BorderedPanel.cs" />
     <Compile Include="Controls\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>

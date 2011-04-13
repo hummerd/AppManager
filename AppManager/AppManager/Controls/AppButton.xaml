@@ -5,13 +5,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="AppManager.AppButton"
-	x:Name="ImageButton1"
-	HorizontalContentAlignment="Stretch"
-	VerticalContentAlignment="Stretch"
-	d:DesignWidth="436"
-	d:DesignHeight="312"
-	Width="88"
-	Height="54">
+    d:DesignWidth="88"
+	d:DesignHeight="60"
+    >
 	<Button.Resources>
 		<LinearGradientBrush
 			x:Key="AppNameBrush"
@@ -45,15 +41,17 @@
 	</Button.Background>
     
     <DockPanel
+        Background="Red"
         Name="ContentPanel"
         VerticalAlignment="Stretch"
+        Margin="4"
         >
         <Image
 			Name="ButtonImage"
-            MaxHeight="32"
-			Stretch="Uniform"
+			Stretch="None"
             DockPanel.Dock="Top"
-			IsHitTestVisible="False">
+            HorizontalAlignment="Center"
+			Cursor="Cross">
         </Image>
     </DockPanel>
 </Button>
