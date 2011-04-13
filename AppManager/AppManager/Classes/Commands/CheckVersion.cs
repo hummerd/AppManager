@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using CommonLib.PInvoke;
 using CommonLib.Windows;
 using UpdateLib;
-using CommonLib.PInvoke;
 
 
 namespace AppManager.Commands

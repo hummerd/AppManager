@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 using AppManager.EntityCollection;
 using CommonLib;
 using CommonLib.IO;
-using System.Collections.Generic;
 
 
 namespace AppManager.Entities

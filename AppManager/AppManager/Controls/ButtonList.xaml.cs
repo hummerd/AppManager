@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using AppManager.DragDrop;
@@ -8,8 +10,6 @@ using AppManager.Entities;
 using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.UI;
-using System.Windows.Data;
-using System.Globalization;
 
 
 namespace AppManager

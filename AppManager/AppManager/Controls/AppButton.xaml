@@ -41,17 +41,15 @@
 	</Button.Background>
     
     <DockPanel
-        Background="Red"
         Name="ContentPanel"
         VerticalAlignment="Stretch"
-        Margin="4"
         >
         <Image
 			Name="ButtonImage"
 			Stretch="None"
             DockPanel.Dock="Top"
             HorizontalAlignment="Center"
-			Cursor="Cross">
+			>
         </Image>
     </DockPanel>
 </Button>
