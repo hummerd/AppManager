@@ -1,5 +1,5 @@
-﻿using CommonLib.PInvoke;
-using CommonLib.Application;
+﻿using CommonLib.Application;
+using CommonLib.PInvoke;
 
 
 namespace AppManager.Commands

@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CommonLib.UI;
+
 
 namespace AppManager
 {
@@ -75,22 +69,10 @@ namespace AppManager
 					{
 						var anim = new FadeAnimarion(ButtonImage);
 						anim.SetLoadingState(true);
-						anim.ElementHidden += (s, ea) =>
-							{
-								ButtonImage.Source = (BitmapSource)e.NewValue;
-								this.UpdateLayout();
-							};
+						anim.ElementHidden += (s, ea) => ButtonImage.Source = (BitmapSource)e.NewValue;
 					}
 				}
 			}
-		}
-				
-		protected override Size ArrangeOverride(Size arrangeBounds)
-		{
-			ContentPanel.Width = this.Width - 8;
-			ContentPanel.Height = this.Height - 8;
-
-			return base.ArrangeOverride(arrangeBounds);
 		}
 
 		protected void SetButtonText(string text)
@@ -111,8 +93,8 @@ namespace AppManager
 					_ButtonText.Foreground = Resources["AppNameBrush"] as Brush;
 					_ButtonText.IsHitTestVisible = false;
 
-					_ButtonText.VerticalContentAlignment = System.Windows.VerticalAlignment.Bottom;
-					_ButtonText.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+					_ButtonText.VerticalContentAlignment = VerticalAlignment.Bottom;
+					_ButtonText.HorizontalContentAlignment = HorizontalAlignment.Center;
 					_ButtonText.Padding = new Thickness(0.0);
 					DockPanel.SetDock(_ButtonText, Dock.Bottom);
 

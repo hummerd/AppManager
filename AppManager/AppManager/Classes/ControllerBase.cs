@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Windows;
-using CommonLib.PInvoke;
-using CommonLib.IO;
-
+﻿
 
 namespace AppManager
 {

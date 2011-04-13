@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AppManager.Classes.ViewModel;
 using AppManager.Entities;
-using CommonLib.PInvoke;
 using CommonLib.Application;
-using AppManager.Classes.ViewModel;
 
 
 namespace AppManager.Commands
