@@ -12,6 +12,9 @@ namespace CommonLib.PInvoke
 	/// </summary>
 	public class User32
 	{
+		[DllImport("user32.dll")]
+		public static extern int GetSystemMetrics(SystemMetrics nIndex);
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WINDOWINFO
 		{
@@ -212,6 +215,12 @@ namespace CommonLib.PInvoke
 
 	#region User32 Enums
 
+	public enum SystemMetrics
+	{
+		SM_CXICON = 11,
+		SM_CYICON = 12,
+	}
+		
 	public enum ImeNotify
 	{
 		IMN_CLOSESTATUSWINDOW = 0x0001,

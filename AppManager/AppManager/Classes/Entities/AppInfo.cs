@@ -6,6 +6,8 @@ using System.Windows.Media.Imaging;
 using AppManager.EntityCollection;
 using CommonLib;
 using CommonLib.IO;
+using CommonLib.PInvoke;
+using System.Windows.Media;
 
 
 namespace AppManager.Entities
@@ -33,61 +35,38 @@ namespace AppManager.Entities
 		{
 			if (_BlankImage == null)
 			{
-				//using (var bmp = AppManager.Properties.Resources.Window)
-				//{
-				//   _BlankImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-				//      bmp.GetHbitmap(),
-				//      IntPtr.Zero,
-				//      Int32Rect.Empty,
-				//      System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-				//}
-				//in all other cases we've got size {5, 5} instead of {16, 16}
-
-				//Uri pngSrc = new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute);
-
-				//_BlankImage = new BitmapImage();
-				//_BlankImage.BeginInit();
-				//_BlankImage.DecodePixelWidth = 48;
-				//_BlankImage.UriSource = pngSrc;
-				//_BlankImage.EndInit();
-
-				//PngBitmapDecoder decoder = new PngBitmapDecoder(pngSrc, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-				//_BlankImage = decoder.Frames[0];
-
-				//_BlankImage = new CroppedBitmap(
-				//   new BitmapImage(
-				//      new Uri(@"..\..\Resources\Window.png", UriKind.RelativeOrAbsolute)), 
-				//   new Int32Rect(0, 0, 16, 16));
-
-
-				//The deal was in images DPI
+				//Remember about DPI
 				//http://genesisconduit.wordpress.com/2008/07/05/wpf-images-and-dpi-independence/
 				_BlankImage = new BitmapImage(
 					new Uri(@"pack://application:,,/Resources/Window.png"));
+
+				//Scale to system large icon
+				var cx = User32.GetSystemMetrics(SystemMetrics.SM_CXICON);
+				var cy = User32.GetSystemMetrics(SystemMetrics.SM_CYICON);
+
+				if (cx != (int)_BlankImage.Width ||
+					cy != (int)_BlankImage.Height)
+				{
+					_BlankImage = new TransformedBitmap(
+						_BlankImage,
+						new ScaleTransform(cx / _BlankImage.Width, cy / _BlankImage.Height)
+						);
+				}
 			}
 
 			return _BlankImage;
 		}
+
 		private static BitmapSource GetFolderImage()
 		{
 			if (_FolderImage == null)
 			{
-				//using (var bmp = AppManager.Properties.Resources.folder)
-				//{
-				//_FolderImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-				//   bmp.GetHbitmap(),
-				//   IntPtr.Zero,
-				//   Int32Rect.Empty,
-				//   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-				//}
-
 				_FolderImage = new BitmapImage(
 					new Uri(@"pack://application:,,/Resources/folder.png"));
 			}
 
 			return _FolderImage;
 		}
-
 
 		public event EventHandler NeedImage;
 		
