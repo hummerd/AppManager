@@ -15,25 +15,6 @@
 	ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 	ScrollViewer.VerticalScrollBarVisibility="Auto"
 	>
-	<ListBox.ItemContainerStyle>
-		<Style
-			TargetType="ListBoxItem">
-			<Setter
-				Property="Template">
-				<Setter.Value>
-					<ControlTemplate
-						TargetType="{x:Type ListBoxItem}">
-						<ContentPresenter
-							Name="Bd"
-							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</ListBox.ItemContainerStyle>
-	
 	<ListBox.ItemTemplate>
 		<DataTemplate>
 			<DataTemplate.Resources>
