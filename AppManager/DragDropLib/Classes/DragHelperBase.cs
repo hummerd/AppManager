@@ -164,12 +164,16 @@ namespace DragDropLib
 			Size size = element.RenderSize;
 
 			// Get the device's DPI so we render at full size
-			int dpix, dpiy;
-			GetDeviceDpi(element, out dpix, out dpiy);
+			double xt, yt;
+			GetDeviceTarnsform(element, out xt, out yt);
 
 			// Create our renderer at full size
 			RenderTargetBitmap renderSource = new RenderTargetBitmap(
-				(int)size.Width, (int)size.Height, dpix, dpiy, PixelFormats.Pbgra32);
+				(int)(size.Width * xt),
+				(int)(size.Height * yt),
+				96 * xt,
+				96 * yt, 
+				PixelFormats.Pbgra32);
 
 			// Render the element
 			renderSource.Render(element);
@@ -185,11 +189,15 @@ namespace DragDropLib
 		/// <param name="reference">A reference UIElement for getting the relevant device caps.</param>
 		/// <param name="dpix">The horizontal DPI.</param>
 		/// <param name="dpiy">The vertical DPI.</param>
-		protected void GetDeviceDpi(Visual reference, out int dpix, out int dpiy)
+		protected void GetDeviceTarnsform(Visual reference, out double xTransform, out double yTransform)
 		{
-			Matrix m = PresentationSource.FromVisual(reference).CompositionTarget.TransformToDevice;
-			dpix = (int)(96 * m.M11);
-			dpiy = (int)(96 * m.M22);
+			var m = PresentationSource.
+				FromVisual(reference).
+				CompositionTarget.
+				TransformToDevice;
+
+			xTransform = m.M11;
+			yTransform = m.M22;
 		}
 
 		/// <summary>
