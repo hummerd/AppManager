@@ -15,7 +15,24 @@
 	ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 	ScrollViewer.VerticalScrollBarVisibility="Auto"
 	>
-	<ListBox.ItemTemplate>
+    <ListBox.ItemContainerStyle>
+        <Style TargetType="ListBoxItem" >
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate
+						TargetType="{x:Type ListBoxItem}">
+                        <ContentPresenter
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                            />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ListBox.ItemContainerStyle>
+    <ListBox.ItemTemplate>
 		<DataTemplate>
 			<DataTemplate.Resources>
 				<LinearGradientBrush
@@ -76,7 +93,8 @@
 			<am:AppButton
 				Click="ImageButton_Click"
 				IsTabStop="False"
-				Margin="4,4,4,4"             
+				Margin="4,4,4,4"   
+                x:Name="AppButton"
 				ButtonImageSource="{Binding Path=AppImage}"
 				ButtonText="{Binding Path=AppName}"
                 >
