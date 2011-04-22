@@ -41,16 +41,6 @@ namespace AppManager.Controls
 			var point = new Point();
 			foreach (UIElement child in InternalChildren)
 			{
-				var childControl = child as Control;
-				if (childControl != null)
-				{
-					if (childControl.HorizontalContentAlignment != HorizontalAlignment.Stretch)
-						childControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-
-					if (childControl.VerticalContentAlignment != VerticalAlignment.Stretch)
-						childControl.VerticalContentAlignment = VerticalAlignment.Stretch;
-				}
-
 				child.Arrange(new Rect(point, new Size(maxWidth, maxHeight)));
 				point = new Point(point.X + maxWidth, point.Y);
 				if (point.X + maxWidth > arrangeBounds.Width)
