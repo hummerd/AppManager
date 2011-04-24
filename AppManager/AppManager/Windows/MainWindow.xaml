@@ -587,7 +587,7 @@
 									x:Name="ContentGrid"
 									IsItemsHost="True"
 									Margin="8"
-									MinRowHeight="88"
+									MinRowHeight="92"
 									Focusable="False"
 									/>
 							</ItemsPanelTemplate>
