@@ -43,6 +43,7 @@
     <DockPanel
         Name="ContentPanel"
         VerticalAlignment="Stretch"
+        Margin="0,2,0,1"
         >
         <Image
 			Name="ButtonImage"
