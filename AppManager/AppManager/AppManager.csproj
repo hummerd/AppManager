@@ -57,7 +57,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -114,7 +114,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Classes\Entities\AppRunInfo.cs" />
+    <Compile Include="Classes\ViewModel\AppGroupView.cs" />
+    <Compile Include="Classes\ViewModel\AppInfoView.cs" />
     <Compile Include="Classes\ViewModel\AppStat.cs" />
+    <Compile Include="Classes\ViewModel\AppTypeView.cs" />
     <Compile Include="Controls\AdjustedWrapPanel.cs" />
     <Compile Include="Controls\BorderedPanel.cs" />
     <Compile Include="Controls\ImageButton.xaml.cs">

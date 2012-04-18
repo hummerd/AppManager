@@ -95,11 +95,12 @@
 				IsTabStop="False"
 				Margin="4,4,4,4"   
                 x:Name="AppButton"
-				ButtonImageSource="{Binding Path=AppImage}"
-				ButtonText="{Binding Path=AppName}"
+				ButtonImageSource="{Binding Path=Source.AppImage}"
+				ButtonText="{Binding Path=Source.AppName}"
+                IsTitleVisible="{Binding Path=ShowTitle}"
                 >
 				<am:AppButton.ToolTip>
-					<ToolTip Style="{DynamicResource ToolTipStyle}" Content="{Binding Path=AppPathInfo}"/>	
+                    <ToolTip Style="{DynamicResource ToolTipStyle}" Content="{Binding Path=Source.AppPathInfo}"/>	
 				</am:AppButton.ToolTip>
 			</am:AppButton>
 		</DataTemplate>

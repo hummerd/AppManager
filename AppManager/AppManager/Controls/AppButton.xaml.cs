@@ -13,6 +13,9 @@ namespace AppManager
 	/// </summary>
 	public partial class AppButton
 	{
+		public static readonly DependencyProperty IsTitleVisibleProperty =
+			DependencyProperty.Register("IsTitleVisible", typeof(bool), typeof(AppButton), new UIPropertyMetadata(true));
+
 		public static readonly DependencyProperty ButtonTextProperty =
 			 DependencyProperty.Register("ButtonText", typeof(string), typeof(AppButton), new UIPropertyMetadata(String.Empty));
 
@@ -21,7 +24,6 @@ namespace AppManager
 
 
 		protected Label _ButtonText = null;
-		//protected FadeAnimarion _Animation = null;
 
 
 		public AppButton()
@@ -30,6 +32,19 @@ namespace AppManager
 			//_Animation = new FadeAnimarion(ButtonImage);
 		}
 
+
+		public bool IsTitleVisible
+		{
+			get 
+			{
+				return (bool)GetValue(IsTitleVisibleProperty); 
+			}
+			set 
+			{
+				SetValue(IsTitleVisibleProperty, value);
+				SetAppTitleVisibility(value);
+			}
+		}
 
 		public string ButtonText
 		{
@@ -49,7 +64,7 @@ namespace AppManager
 			get { return (BitmapSource)GetValue(ButtonImageSourceProperty); }
 			set { SetValue(ButtonImageSourceProperty, value); ButtonImage.Source = value; }
 		}
-
+		
 
 		protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
@@ -73,14 +88,33 @@ namespace AppManager
 					}
 				}
 			}
+			else if (e.Property == IsTitleVisibleProperty)
+			{
+				if (e.NewValue != null)
+					SetAppTitleVisibility((bool)e.NewValue);
+			}
+		}
+
+		protected void SetAppTitleVisibility(bool visible)
+		{
+			if (_ButtonText == null)
+				return;
+
+			if (!visible)
+				ContentPanel.Children.Remove(_ButtonText);
+			else if (!ContentPanel.Children.Contains(_ButtonText))
+				ContentPanel.Children.Add(_ButtonText);
 		}
 
 		protected void SetButtonText(string text)
 		{
 			if (text == null)
 			{
-				ContentPanel.Children.Remove(_ButtonText);
-				_ButtonText = null;
+				if (_ButtonText != null)
+				{
+					ContentPanel.Children.Remove(_ButtonText);
+					_ButtonText = null;
+				}
 			}
 			else
 			{
@@ -98,7 +132,8 @@ namespace AppManager
 					_ButtonText.Padding = new Thickness(0.0);
 					DockPanel.SetDock(_ButtonText, Dock.Bottom);
 
-					ContentPanel.Children.Add(_ButtonText);
+					if (IsTitleVisible)
+						ContentPanel.Children.Add(_ButtonText);
 				}
 
 				_ButtonText.Content = text;

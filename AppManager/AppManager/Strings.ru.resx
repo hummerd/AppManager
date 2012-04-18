@@ -388,6 +388,9 @@
   <data name="SETTINGS" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="SHOW_APP_TITLES" xml:space="preserve">
+    <value>Показывать заголовки приложений</value>
+  </data>
   <data name="SPECIAL_THANKS" xml:space="preserve">
     <value>Особое спасибо моим друзьям за тестирование, идеи по улучшению Стартера и помощь с переводом на английский.</value>
   </data>

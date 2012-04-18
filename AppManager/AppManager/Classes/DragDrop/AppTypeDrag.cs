@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using AppManager.Entities;
+using CommonLib;
 using DragDropLib;
 
 
@@ -20,6 +21,12 @@ namespace AppManager.DragDrop
 				AppGroupLoader.Default)
 		{
 
+		}
+
+		protected override object GetDragObject(FrameworkElement element)
+		{
+			var sr = base.GetDragObject(element) as ISourceReference<AppType>;
+			return sr.Source;
 		}
 	}
 }

@@ -36,6 +36,12 @@
 			Margin="12,8,0,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" TabIndex="4" />
+        <CheckBox
+			Content="{x:Static am:Strings.SHOW_APP_TITLES}"
+			Name="ChkShowAppTitles"
+			Margin="12,8,0,0"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left" TabIndex="5" />
 		<CheckBox
 			Content="{x:Static am:Strings.ENABLE_ACT_PANEL}"
 			Name="ChkEnableAcivationPanel"
@@ -43,20 +49,20 @@
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" 
 			Checked="ChkEnableAcivationPanel_Checked" 
-			Unchecked="ChkEnableAcivationPanel_Unchecked" TabIndex="5" />
+			Unchecked="ChkEnableAcivationPanel_Unchecked" TabIndex="6" />
 		<CheckBox
 			Content="{x:Static am:Strings.USE_SHORT_ACT_PANEL}"
 			Name="ChkUseShortActivationPanel"
 			Margin="24,8,12,0"
 			VerticalAlignment="Top"
-			HorizontalAlignment="Left" TabIndex="6" />
+			HorizontalAlignment="Left" TabIndex="7" />
         <CheckBox
 			Content="{x:Static am:Strings.TRANS_ACT_PANEL}"
 			Name="ChkUseTransparentActivationPanel"
 			Margin="24,8,12,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" 
-            TabIndex="7" 
+            TabIndex="8" 
             Checked="ChkEnableAcivationPanel_Checked" 
             Unchecked="ChkEnableAcivationPanel_Unchecked" />
         <StackPanel Orientation="Horizontal" Margin="42,0,0,0">
@@ -74,7 +80,7 @@
 				Margin="0,4,12,0" 
 				HorizontalAlignment="Left"
 				Content="{x:Static am:Strings.SEL_ACT_PANEL_COLOR}"
-                TabIndex="8" 
+                TabIndex="9" 
                 MouseUp="ActivationPanelColor_MouseUp">
 			</Label>
 		</StackPanel>
@@ -91,7 +97,8 @@
 			Width="Auto"
 			Margin="12,12,0,0"
 			Name="BtnOpenAppDataPath"
-			Click="BtnOpenAppDataPath_Click" TabIndex="9" />
+			Click="BtnOpenAppDataPath_Click" 
+            TabIndex="100" />
 		<Button
 			Content="{x:Static am:Strings.EDIT_APP_DATA}"
 			Margin="12,8,0,36"
@@ -100,6 +107,8 @@
 			HorizontalAlignment="Left"
 			Width="{Binding Path=ActualWidth, ElementName=BtnOpenAppDataPath, Mode=Default}"
 			Height="28"
-			VerticalAlignment="Top" TabIndex="10" IsTabStop="True" />
+			VerticalAlignment="Top" 
+            TabIndex="101"
+            IsTabStop="True" />
 	</StackPanel>
 </cw:DialogWindow>

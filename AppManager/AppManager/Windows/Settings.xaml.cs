@@ -27,6 +27,7 @@ namespace AppManager.Windows
 			ChkStartMinimized.IsChecked = workItem.Settings.StartMinimized;
 			ChkEnableAcivationPanel.IsChecked = workItem.Settings.EnableActivationPanel;
 			ChkUseTransparentActivationPanel.IsChecked = workItem.Settings.TransparentActivationPanel;
+			ChkShowAppTitles.IsChecked = workItem.Settings.ShowAppTitles;
 			ChkUseShortActivationPanel.IsChecked = workItem.Settings.UseShortActivationPanel;
 			ChkCeckNewVersionAtStartup.IsChecked = workItem.Settings.CheckNewVersionAtStartUp;
 			_ActivationPanelColor = workItem.Settings.ActivationPanelColor;
@@ -71,6 +72,7 @@ namespace AppManager.Windows
 				sett.UseShortActivationPanel = ChkUseShortActivationPanel.IsChecked ?? false;
 				sett.CheckNewVersionAtStartUp = ChkCeckNewVersionAtStartup.IsChecked ?? false;
 				sett.TransparentActivationPanel = ChkUseTransparentActivationPanel.IsChecked ?? false;
+				sett.ShowAppTitles = ChkShowAppTitles.IsChecked ?? false;
 				sett.ActivationPanelColor = _ActivationPanelColor;
 				sett.NotifyPropertyChanged = true;
 

@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using AppManager.Classes.ViewModel;
 using AppManager.Commands;
 using AppManager.Controls;
 using AppManager.DragDrop;
@@ -32,6 +33,7 @@ namespace AppManager
 		protected SimpleDragDataHandler	_AppTypeDrop;
 		protected SimpleDragDataHandler	_AppDrop;
 		protected AppGroup				_AppData;
+		protected bool					_IsAppTitleVisible;
 
 
 		public MainWindow(MainWorkItem workItem)
@@ -47,7 +49,7 @@ namespace AppManager
 			InitCommands(_Controller.WorkItem.Commands);
 
 			_AppDrop = new SimpleDragDataHandler(
-				ButtonListDrag.DragDataFormat, typeof(AppInfo), AppGroupLoader.Default);
+				ButtonListDrag<AppInfo>.DragDataFormat, typeof(AppInfo), AppGroupLoader.Default);
 			_AppDrop.ObjectDroped += (s, e) =>
 				_Controller.AddApp(
 					(s as FrameworkElement).DataContext as AppType,
@@ -165,7 +167,7 @@ namespace AppManager
 
 			groupContent.DragHelper.DragStart += (s, e) => OnDragStarted();
 			groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
-			groupContent.DragHelper.PrepareItem += (s, e) => _Controller.PrepareItem(e.Value as AppInfo);
+			groupContent.DragHelper.PrepareItem += (s, e) => e.Value = _Controller.PrepareItem(e.Value as AppInfo);
 
 			groupContent.ButtonClicked += (s, e) => 
 				_Controller.WorkItem.Commands.RunApp.Execute(
@@ -381,21 +383,21 @@ namespace AppManager
 				var input = (target as ItemsControl).InputHitTest(e.DropPoint) as FrameworkElement;
 				if (input != null)
 				{
-					var appInfo = input.DataContext as AppInfo;
+					var appInfo = input.DataContext as AppInfoView;
 					if (appInfo != null)
 						_Controller.WorkItem.Commands.RunApp.Execute(
-							new AppStartParams(appInfo) { Args = "\"" + e.Files[0] + "\"" }
+							new AppStartParams(appInfo.Source) { Args = "\"" + e.Files[0] + "\"" }
 							);
 				}
 			}
 			else // add new application
 			{
 			
-				var appType = target.DataContext as AppType;
+				var appType = target.DataContext as AppTypeView;
 				if (appType == null)
 					return;
 
-				_Controller.AddFiles(appType, e.Files);
+				_Controller.AddFiles(appType.Source, e.Files);
 			}
 		}
 
@@ -498,7 +500,7 @@ namespace AppManager
 
 		private void TrashMark_Drop(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat))
+			if (e.Data.GetDataPresent(ButtonListDrag<AppInfo>.DragDataFormat))
 				e.Effects = DragDropEffects.Move;
 
 			if (e.Data.GetDataPresent(AppTypeDrag.DragDataFormat))
@@ -507,7 +509,7 @@ namespace AppManager
 
 		private void TrashMark_DragOver(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent(ButtonListDrag.DragDataFormat) ||
+			if (e.Data.GetDataPresent(ButtonListDrag<AppInfo>.DragDataFormat) ||
 				 e.Data.GetDataPresent(AppTypeDrag.DragDataFormat))
 				e.Effects = DragDropEffects.Move;
 			else

@@ -104,6 +104,10 @@ namespace AppManager.Settings
 					writer.WriteValue(settings.TransparentActivationPanel);
 					writer.WriteEndElement();
 
+					writer.WriteStartElement("ShowAppTitles");
+					writer.WriteValue(settings.ShowAppTitles);
+					writer.WriteEndElement();
+
 				writer.WriteEndElement();
 			}
 		}
@@ -271,6 +275,13 @@ namespace AppManager.Settings
 					reader.ReadEndElement();
 				}
 
+				if (reader.NodeType == XmlNodeType.Element)
+				{
+					reader.ReadStartElement("ShowAppTitles");
+					result.ShowAppTitles = reader.ReadContentAsBoolean();
+					reader.ReadEndElement();
+				}
+				
 				reader.ReadEndElement();
 			}
 
