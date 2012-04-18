@@ -7,6 +7,7 @@ using AppManager.Entities;
 using AppManager.Settings;
 using CommonLib.PInvoke.WinHook;
 using WinForms = System.Windows.Forms;
+using AppManager.Classes.ViewModel;
 
 
 namespace AppManager
@@ -18,6 +19,7 @@ namespace AppManager
 
 		protected AsyncImageLoader _ImageLoader;
 		protected AppGroup _AppData;
+		protected AppGroupView m_DataView;
 		protected DeletedAppCollection _RecycleBin;
 		protected MainWindow _MainWindow;
 		protected App _Application;
@@ -118,7 +120,15 @@ namespace AppManager
 			}
 		}
 
-		
+
+		public AppGroupView DataView
+		{
+			get 
+			{
+				return m_DataView;
+			}
+		}
+
 		public AppGroup AppData
 		{
 			get
@@ -128,6 +138,8 @@ namespace AppManager
 			set
 			{
 				_AppData = value;
+				m_DataView = new AppGroupView();
+				m_DataView.Init(_AppData);
 			}
 		}
 

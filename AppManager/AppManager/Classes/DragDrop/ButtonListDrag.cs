@@ -5,13 +5,13 @@ using DragDropLib;
 
 namespace AppManager.DragDrop
 {
-	public class ButtonListDrag : ItemsDragHelper
+	public class ButtonListDrag<TItemType> : ItemsViewDragHelper<TItemType>
 	{
 		public const string DragDataFormat = "AM_AppInfoDataFormat";
 
 
-		public ButtonListDrag(ItemsControl control, Type dataType)
-			: base(control, DragDataFormat, dataType, AppGroupLoader.Default)
+		public ButtonListDrag(ItemsControl control)
+			: base(control, DragDataFormat,  AppGroupLoader.Default)
 		{
 
 		}

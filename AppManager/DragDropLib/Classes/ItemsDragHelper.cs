@@ -120,17 +120,23 @@ namespace DragDropLib
 			IList coll = _ItemsControl.ItemsSource as IList;
 			int dropIx = coll.IndexOf(targetObject);
 
-			PrepeareDropedObject(dropObject);
+			var readyObject = PrepeareDropedObject(dropObject);
 
 			if (dropIx < 0)
 				dropIx = coll.Count;
-			coll.Insert(dropIx, dropObject);
+			coll.Insert(dropIx, readyObject);
 		}
 
-		protected virtual void PrepeareDropedObject(object item)
+		protected virtual object PrepeareDropedObject(object item)
 		{
 			if (PrepareItem != null)
-				PrepareItem(this, new ValueEventArgs<object>(item));
+			{
+				var ea = new ValueEventArgs<object>(item);
+				PrepareItem(this, ea);
+				return ea.Value;
+			}
+
+			return null;
 		}
 		
 		protected override void DragEnded(DragDropEffects effects, object dragItem, FrameworkElement dragSource)

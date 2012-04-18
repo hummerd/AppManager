@@ -12,6 +12,7 @@ using CommonLib;
 using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
 using WinForms = System.Windows.Forms;
+using AppManager.Classes.ViewModel;
 
 
 namespace AppManager.Commands
@@ -53,7 +54,10 @@ namespace AppManager.Commands
 
 			LoadData();
 			_FirstStart = FirstLoad();
-			
+
+			_WorkItem.DataView.SetAppTitleView(
+				_WorkItem.Settings.ShowAppTitles);
+
 			_WorkItem.MainWindow.InitData(_WorkItem);
 			_WorkItem.MainWindow.LoadState();
 			_WorkItem.MainWindow.Deactivated += (s, e) =>
@@ -314,6 +318,15 @@ namespace AppManager.Commands
 				settName == "All"
 				)
 				CreateActivationPanel();
+
+			if (settName == "ShowAppTitles" ||
+				settName == "All")
+			{
+				_WorkItem.DataView.SetAppTitleView(
+					_WorkItem.Settings.ShowAppTitles);
+				//_WorkItem.MainWindow.SetAppTitlesVisibility(
+				//	_WorkItem.Settings.ShowAppTitles);
+			}
 		}
 
 		protected void CreateActivationPanelWatcher()

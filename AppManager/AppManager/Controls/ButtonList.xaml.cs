@@ -10,6 +10,11 @@ using AppManager.Entities;
 using CommonLib;
 using CommonLib.PInvoke;
 using CommonLib.UI;
+using System.Collections.Specialized;
+using System.Collections.Generic;
+using System.Collections;
+using System.Windows.Controls.Primitives;
+using AppManager.Classes.ViewModel;
 
 
 namespace AppManager
@@ -20,13 +25,14 @@ namespace AppManager
 	public partial class ButtonList : ListBox
 	{
 		public event EventHandler<ValueEventArgs<object>> ButtonClicked;
-		
-		protected ButtonListDrag _DragHelper;
+
+		protected ButtonListDrag<AppInfo> _DragHelper;
 
 		protected ContextMenu _EditMenu;
 		protected ContextMenu _CommonMenu;
 		protected FrameworkElement _LastMoved = null;
 		protected Rect _LastRect;
+		protected bool _IsAppTitleVisible;
 
 
 		public ButtonList()
@@ -35,7 +41,7 @@ namespace AppManager
 
 			this.InitializeComponent();
 
-			_DragHelper = new ButtonListDrag(this, typeof(AppInfo));
+			_DragHelper = new ButtonListDrag<AppInfo>(this);
 			_DragHelper.DragOver += (s, e) => OnDragHelperDragOver(e);
 			_DragHelper.DragLeave += (s, e) => ResetLastMove(e, false);
 			_DragHelper.DragDroped += (s, e) => ResetLastMove(e, true);
@@ -58,7 +64,7 @@ namespace AppManager
 			set { _CommonMenu = value; }
 		}
 
-		public ButtonListDrag DragHelper
+		public ButtonListDrag<AppInfo> DragHelper
 		{
 			get
 			{
@@ -118,7 +124,7 @@ namespace AppManager
 			return _LastMoved;
 		}
 
-		
+
 		private void ButtonList_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			if (ButtonClicked != null &&

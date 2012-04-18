@@ -555,7 +555,7 @@
 						Background="Transparent"
 						Name="AppTypeContent"
 						SnapsToDevicePixels="True"
-						ItemsSource="{Binding Path=AppData.AppTypes}"
+						ItemsSource="{Binding Path=DataView.AppTypes}"
 						AllowDrop="True"
 						Focusable="False"
 						DragOver="ContentPanel_DragOver"
@@ -607,10 +607,11 @@
 										Focusable="False"
                                         FrameBrush="#FFDFCB9A"
                                         Foreground="DarkBlue"
-                                        TitleText="{Binding Path=AppTypeName}"
+                                        TitleText="{Binding Path=Source.AppTypeName}"
 										Initialized="GroupBox_Initialized"
 										>
 										    <am:ButtonList
+                                                x:Name="ButtonAppList"
 												BorderBrush="Transparent"
 												AllowDrop="True"
 												Focusable="False"

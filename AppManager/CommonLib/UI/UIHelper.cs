@@ -1,11 +1,31 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using System;
 
 
 namespace CommonLib
 {
-	public class UIHelper
+	public static class UIHelper
 	{
+		public static void UpdateOnLoaded(FrameworkElement element, Action<FrameworkElement> act)
+		{
+			if (element.IsLoaded)
+			{
+				act(element);
+			}
+			else
+			{
+				RoutedEventHandler eh = null;
+				eh = new RoutedEventHandler(delegate
+				{
+					act(element);
+					element.Loaded -= eh;
+				});
+				element.Loaded += eh;//new RoutedEventHandler(element_Loaded);
+			}
+		}
+
+
 		public static Color FromARGB(int argb)
 		{
 			return Color.FromArgb(
@@ -84,6 +104,14 @@ namespace CommonLib
 			return null;
 		}
 
+
+		private static void element_Loaded(object sender, RoutedEventArgs e)
+		{
+			var element = sender as FrameworkElement;
+			element.Loaded -= element_Loaded;
+
+
+		}
 
 		private static DependencyObject GetParent(DependencyObject obj)
 		{

@@ -388,6 +388,9 @@ group?</value>
   <data name="SETTINGS" xml:space="preserve">
     <value>Preferences</value>
   </data>
+  <data name="SHOW_APP_TITLES" xml:space="preserve">
+    <value>Show application titles</value>
+  </data>
   <data name="SPECIAL_THANKS" xml:space="preserve">
     <value>Special thanks to my friends for testing, feature requests and help with translating into english.</value>
   </data>

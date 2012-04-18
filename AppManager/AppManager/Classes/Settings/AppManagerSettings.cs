@@ -15,6 +15,7 @@ namespace AppManager.Settings
 		protected bool _EnableActivationPanel;
 		protected bool _UseShortActivationPanel;
 		protected bool _CheckNewVersionAtStartUp;
+		protected bool _ShowAppTitles;
 
 
 		public AppManagerSettings()
@@ -133,6 +134,19 @@ namespace AppManager.Settings
 			}
 		}
 
+		public bool ShowAppTitles
+		{
+			get
+			{
+				return _ShowAppTitles;
+			}
+			set
+			{
+				_ShowAppTitles = value;
+				OnPropertyChanged("ShowAppTitles");
+			}
+		}
+		
 
 		public void NotifyAllPropertyChanged()
 		{
