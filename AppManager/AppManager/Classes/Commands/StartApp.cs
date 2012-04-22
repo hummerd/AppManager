@@ -55,8 +55,7 @@ namespace AppManager.Commands
 			LoadData();
 			_FirstStart = FirstLoad();
 
-			_WorkItem.DataView.SetAppTitleView(
-				_WorkItem.Settings.ShowAppTitles);
+			_WorkItem.DataView.SetAppTitleView();
 
 			_WorkItem.MainWindow.InitData(_WorkItem);
 			_WorkItem.MainWindow.LoadState();
@@ -136,8 +135,9 @@ namespace AppManager.Commands
 
 		protected bool FirstLoad()
 		{
-			if (_WorkItem.AppData.AppTypes.Count == 1 &&
-				 _WorkItem.AppData.AppTypes[0].AppInfos.Count == 0)
+            if (_WorkItem.AppData.AppTypes.Count == 0 ||
+                (_WorkItem.AppData.AppTypes.Count == 1 &&
+			     _WorkItem.AppData.AppTypes[0].AppInfos.Count == 0))
 			{
 				FirstScan askScan = new FirstScan();
 				askScan.Title = Strings.APP_TITLE;
@@ -156,6 +156,14 @@ namespace AppManager.Commands
 						sl |= SearchLocation.QuickLaunch;
 
 					var apps = ctrl.FindApps(sl, null, null, false, false);
+                    if (_WorkItem.AppData.AppTypes.Count == 0)
+                    { 
+                        _WorkItem.AppData.AppTypes.Add(
+                            new AppType() 
+                            { 
+                                AppTypeName = Strings.APPLICATIONS 
+                            });
+                    }
 					_WorkItem.AppData.AppTypes[0].AppInfos.AddRange(apps);
 					_WorkItem.AppData.GroupByFolders(_WorkItem.AppData.AppTypes[0]);
 
@@ -322,10 +330,7 @@ namespace AppManager.Commands
 			if (settName == "ShowAppTitles" ||
 				settName == "All")
 			{
-				_WorkItem.DataView.SetAppTitleView(
-					_WorkItem.Settings.ShowAppTitles);
-				//_WorkItem.MainWindow.SetAppTitlesVisibility(
-				//	_WorkItem.Settings.ShowAppTitles);
+				_WorkItem.DataView.SetAppTitleView();
 			}
 		}
 

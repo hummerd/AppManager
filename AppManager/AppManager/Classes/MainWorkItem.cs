@@ -138,7 +138,7 @@ namespace AppManager
 			set
 			{
 				_AppData = value;
-				m_DataView = new AppGroupView();
+				m_DataView = new AppGroupView(this);
 				m_DataView.Init(_AppData);
 			}
 		}
