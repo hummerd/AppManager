@@ -5,7 +5,7 @@
 	<property name="projpath" value="c:\tmp\amb" />
 	<property name="tfpath" value="c:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\TF.exe" />
 	<property name="tfs" value="https://tfs.codeplex.com/tfs/tfs07" />
-	<property name="tflogin" value="snd\hummerd_cp,Agamemnon" />
+	<property name="tflogin" value="login,password" />
 	<property name="msbpath" value="c:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
 	<property name="vbpath" value="${projpath}\AppManager\AppManager\VersionBuilder\bin\Release\VersionBuilder.exe" />
 	
