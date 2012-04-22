@@ -6,8 +6,7 @@ using System.Windows.Media.Imaging;
 using AppManager.EntityCollection;
 using CommonLib;
 using CommonLib.IO;
-using CommonLib.PInvoke;
-using System.Windows.Media;
+using CommonLib.UI;
 
 
 namespace AppManager.Entities
@@ -40,18 +39,7 @@ namespace AppManager.Entities
 				_BlankImage = new BitmapImage(
 					new Uri(@"pack://application:,,/Resources/Window.png"));
 
-				//Scale to system large icon
-				var cx = User32.GetSystemMetrics(SystemMetrics.SM_CXICON);
-				var cy = User32.GetSystemMetrics(SystemMetrics.SM_CYICON);
-
-				if (cx != (int)_BlankImage.Width ||
-					cy != (int)_BlankImage.Height)
-				{
-					_BlankImage = new TransformedBitmap(
-						_BlankImage,
-						new ScaleTransform(cx / _BlankImage.Width, cy / _BlankImage.Height)
-						);
-				}
+                _BlankImage = ImageHelper.TransformToLargeIcon(_BlankImage);
 			}
 
 			return _BlankImage;
@@ -63,6 +51,8 @@ namespace AppManager.Entities
 			{
 				_FolderImage = new BitmapImage(
 					new Uri(@"pack://application:,,/Resources/folder.png"));
+
+                _FolderImage = ImageHelper.TransformToLargeIcon(_FolderImage);
 			}
 
 			return _FolderImage;

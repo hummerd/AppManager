@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace AppManager.Classes.ViewModel
 {
-	public class AppTypeView : ISourceReference<AppType>
+	public class AppTypeView : ViewBase<AppType>
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -17,11 +17,9 @@ namespace AppManager.Classes.ViewModel
 		protected CollectionSyncronizer<AppInfo, AppInfoView> m_AppInfoSync;
 
 
-		public AppType Source
-		{
-			get;
-			set;
-		}
+		public AppTypeView(MainWorkItem workItem)
+			: base(workItem)
+		{ ; }
 
 		public ObservableCollection<AppInfoView> AppInfos
 		{ get; set; }
@@ -31,6 +29,11 @@ namespace AppManager.Classes.ViewModel
 		{
 			Source = appType;
 			AppInfos = new ObservableCollection<AppInfoView>();
+
+			if (m_AppInfoSync != null)
+			{
+				m_AppInfoSync.TargetUpdated -= OnTargetUpdated;
+			}
 
 			m_AppInfoSync = new CollectionSyncronizer<AppInfo, AppInfoView>(
 				appType.AppInfos,
@@ -43,6 +46,20 @@ namespace AppManager.Classes.ViewModel
 					return result;
 				},
 				true);
+
+            m_AppInfoSync.TargetUpdated += OnTargetUpdated;
 		}
+
+		public void SetAppTitleView()
+		{
+            foreach (var av in AppInfos)
+				av.ShowTitle = m_WorkItem.Settings.ShowAppTitles;
+		}
+
+
+        protected void OnTargetUpdated(object sender, CollectionEventArgs<AppInfoView> ea)
+        {
+            SetAppTitleView();
+        }
 	}
 }

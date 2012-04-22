@@ -13,17 +13,29 @@ namespace CommonLib
 		T Source { get; set; }
 	}
 
+    public class CollectionEventArgs<TTarget> : EventArgs
+    {
+        public CollectionEventArgs(ICollection<TTarget> collection)
+        {
+            Collection = collection;
+        }
+
+        public ICollection<TTarget> Collection { get; private set; }
+    }
+
 	public class CollectionSyncronizer<TSource, TTarget>
 		where TTarget : ISourceReference<TSource>
 	{
+        public event EventHandler<CollectionEventArgs<TTarget>> TargetUpdated;
+
 		protected ObservableCollection<TSource> m_Source;
-		protected ICollection<TTarget> m_Target;
+		protected IList<TTarget> m_Target;
 		protected Converter<TSource, TTarget> m_Converter;
 
 
 		public CollectionSyncronizer(
 			ObservableCollection<TSource> source, 
-			ICollection<TTarget> target,
+			IList<TTarget> target,
 			Converter<TSource, TTarget> converter,
 			bool fillTarget
 			)
@@ -43,14 +55,15 @@ namespace CommonLib
 
 		protected void FillTarget()
 		{
-			FillTarget(m_Source);
+			FillTarget(m_Source, 0);
 		}
 
-		protected void FillTarget(IEnumerable items)
+		protected void FillTarget(IEnumerable items, int startAt)
 		{
+            int j = startAt;
 			foreach (var item in items)
 			{
-				m_Target.Add(m_Converter((TSource)item));
+				m_Target.Insert(j++, m_Converter((TSource)item));
 			}
 		}
 
@@ -74,11 +87,17 @@ namespace CommonLib
 			return default(TTarget);
 		}
 
+        protected virtual void OnTargetUpdated()
+        {
+            if (TargetUpdated != null)
+                TargetUpdated(this, new CollectionEventArgs<TTarget>(m_Target));
+        }
+
 		private void source_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (e.Action == NotifyCollectionChangedAction.Add)
 			{
-				FillTarget(e.NewItems);
+				FillTarget(e.NewItems, e.NewStartingIndex);
 			}
 			else if (e.Action == NotifyCollectionChangedAction.Remove)
 			{
@@ -97,6 +116,8 @@ namespace CommonLib
 				m_Target.Clear();
 				FillTarget();
 			}
+
+            OnTargetUpdated();
 		}
 	}
 }

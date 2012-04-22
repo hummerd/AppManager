@@ -8,16 +8,14 @@ using CommonLib;
 
 namespace AppManager.Classes.ViewModel
 {
-	public class AppGroupView : ISourceReference<AppGroup>
+    public class AppGroupView : ViewBase<AppGroup>
 	{
 		protected CollectionSyncronizer<AppType, AppTypeView> m_AppTypeSync;
 
 
-		public AppGroup Source
-		{
-			get;
-			set;
-		}
+        public AppGroupView(MainWorkItem workItem)
+            : base(workItem)
+        { ; }
 
 		public ObservableCollection<AppTypeView> AppTypes { get; set; }
 
@@ -27,32 +25,36 @@ namespace AppManager.Classes.ViewModel
 			Source = group;
 			AppTypes = new ObservableCollection<AppTypeView>();
 
+            if (m_AppTypeSync != null)
+            {
+                m_AppTypeSync.TargetUpdated -= OnTargetUpdated;
+            }
+            
 			m_AppTypeSync = new CollectionSyncronizer<AppType, AppTypeView>(
 				group.AppTypes,
 				AppTypes,
 				s => 
 				{
-					var result = new AppTypeView();
+					var result = new AppTypeView(m_WorkItem);
 					result.Source = s;
 					result.Init(s);
 					return result;
 				},
 				true);
+
+            m_AppTypeSync.TargetUpdated += OnTargetUpdated;
 		}
 
-		public void SetAppTitleView(bool visible)
+		public void SetAppTitleView()
 		{
-			foreach (var av in EnumAppViews())
-				av.ShowTitle = visible;
+            foreach (var at in AppTypes)
+                at.SetAppTitleView();
 		}
 
-
-		protected IEnumerable<AppInfoView> EnumAppViews()
-		{
-			foreach (var atv in AppTypes)
-				foreach (var av in atv.AppInfos)
-					yield return av;
-		}
+        protected void OnTargetUpdated(object sender, CollectionEventArgs<AppTypeView> ea)
+        {
+            SetAppTitleView();
+        }
 
 		protected ObservableCollection<AppInfoView> GetAppInfoView(IEnumerable<AppInfo> appInfos)
 		{

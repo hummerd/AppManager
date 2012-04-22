@@ -9,7 +9,6 @@ using CommonLib.IO;
 using CommonLib.PInvoke;
 using CommonLib.UI;
 using CommonLib.Windows;
-using AppManager.Classes.ViewModel;
 
 
 namespace AppManager
@@ -77,7 +76,7 @@ namespace AppManager
 			}
 		}
 
-		public AppInfoView PrepareItem(AppInfo appInfo)
+        public AppInfo PrepareItem(AppInfo appInfo)
 		{
 			if (appInfo == null)
 				return null;
@@ -85,11 +84,7 @@ namespace AppManager
 			appInfo.ID = _WorkItem.AppData.LastAppInfoID;
 			_WorkItem.AppData.LastAppInfoID += 1;
 			_WorkItem.AppData.RequestAppImage(appInfo);
-
-			return new AppInfoView
-			{
-				Source = appInfo,
-			};
+            return appInfo;
 		}
 
 		public void DeleteAppType(AppGroup appGroup, AppType appType, bool silent)
