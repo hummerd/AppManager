@@ -8,7 +8,7 @@ namespace CommonLib.Application
 		public static void Clean()
 		{
 			Collect();
-			Kernel32.GropWorkingSet();
+			//Kernel32.GropWorkingSet();
 		}
 
 		public static void Collect()
