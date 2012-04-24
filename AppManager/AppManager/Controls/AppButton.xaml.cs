@@ -100,10 +100,16 @@ namespace AppManager
 			if (_ButtonText == null)
 				return;
 
-			if (!visible)
-				ContentPanel.Children.Remove(_ButtonText);
-			else if (!ContentPanel.Children.Contains(_ButtonText))
-				ContentPanel.Children.Add(_ButtonText);
+            if (!visible)
+            {
+                ContentPanel.Children.Remove(_ButtonText);
+                ContentPanel.Margin = new Thickness(0, 4, 0, 4);
+            }
+            else if (!ContentPanel.Children.Contains(_ButtonText))
+            {
+                ContentPanel.Children.Add(_ButtonText);
+                ContentPanel.Margin = new Thickness(0, 2, 0, 1);
+            }
 		}
 
 		protected void SetButtonText(string text)
@@ -113,7 +119,7 @@ namespace AppManager
 				if (_ButtonText != null)
 				{
 					ContentPanel.Children.Remove(_ButtonText);
-					_ButtonText = null;
+                    _ButtonText = null;
 				}
 			}
 			else
@@ -132,8 +138,10 @@ namespace AppManager
 					_ButtonText.Padding = new Thickness(0.0);
 					DockPanel.SetDock(_ButtonText, Dock.Bottom);
 
-					if (IsTitleVisible)
-						ContentPanel.Children.Add(_ButtonText);
+                    if (IsTitleVisible)
+                    {
+                        ContentPanel.Children.Add(_ButtonText);
+                    }
 				}
 
 				_ButtonText.Content = text;
