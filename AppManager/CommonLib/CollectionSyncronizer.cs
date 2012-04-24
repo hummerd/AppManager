@@ -63,8 +63,13 @@ namespace CommonLib
             int j = startAt;
 			foreach (var item in items)
 			{
-				m_Target.Insert(j++, m_Converter((TSource)item));
-			}
+                if (j >= m_Target.Count)
+                    m_Target.Add(m_Converter((TSource)item));
+                else
+                    m_Target.Insert(j, m_Converter((TSource)item));
+
+                j++;
+            }
 		}
 
 		protected void RemoveTarget(IEnumerable items)
