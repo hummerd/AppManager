@@ -174,7 +174,7 @@ namespace AppManager
 
 			groupContent.ButtonClicked += (s, e) => 
 				_Controller.WorkItem.Commands.RunApp.Execute(
-					new AppStartParams(e.Value as AppInfo));
+					new AppStartParams((e.Value as AppInfoView).Source));
 
 			groupContent.CommonMenu = CreateAppTypeContextMenu();
 			groupContent.EditMenu = CreateAppContextMenu();

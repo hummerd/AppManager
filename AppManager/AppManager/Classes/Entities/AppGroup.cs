@@ -206,9 +206,10 @@ namespace AppManager.Entities
 			if (LnkHelper.CompareIconPath(execPath, imagePath))
 				imagePath = String.Empty;
 
-			newInfo.NeedImage += (s, e) => OnNeedAppImage(s as AppInfo);
 			newInfo.ImagePath = imagePath;
 			newInfo.ExecPath = execPath;
+            newInfo.NeedImage += (s, e) => OnNeedAppImage(s as AppInfo);
+            newInfo.RequestAppImage();
 			newInfo.SetAutoAppName();
 
 			if (appType != null)
