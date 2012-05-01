@@ -26,6 +26,7 @@ namespace AppManager.Settings
 			_UseShortActivationPanel = true;
 			_CheckNewVersionAtStartUp = true;
 			_ActivationPanelColor = Colors.Aqua;
+            _ShowAppTitles = true;
 			// if version greater then xp
 			_TransparentActivationPanel = Environment.OSVersion.Version.Major > 5;
 

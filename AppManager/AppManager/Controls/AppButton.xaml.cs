@@ -97,18 +97,20 @@ namespace AppManager
 
 		protected void SetAppTitleVisibility(bool visible)
 		{
-			if (_ButtonText == null)
+            ContentPanel.Margin = visible
+                ? new Thickness(0, 2, 0, 1)
+                : new Thickness(0, 4, 0, 4);
+
+            if (_ButtonText == null)
 				return;
 
             if (!visible)
             {
                 ContentPanel.Children.Remove(_ButtonText);
-                ContentPanel.Margin = new Thickness(0, 4, 0, 4);
             }
             else if (!ContentPanel.Children.Contains(_ButtonText))
             {
                 ContentPanel.Children.Add(_ButtonText);
-                ContentPanel.Margin = new Thickness(0, 2, 0, 1);
             }
 		}
 

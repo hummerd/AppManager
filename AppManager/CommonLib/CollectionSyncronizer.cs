@@ -26,16 +26,92 @@ namespace CommonLib
 	public class CollectionSyncronizer<TSource, TTarget>
 		where TTarget : ISourceReference<TSource>
 	{
+        public delegate bool Equal<T1, T2>(T1 obj1, T2 obj2);
+
+
+        public static void FillCollection<TSrc, TDst>(
+            IList<TDst> collection,
+            Converter<TSrc, TDst> converter,
+            IEnumerable items,
+            int startAt)
+        {
+            int j = startAt;
+            foreach (var item in items)
+            {
+                if (j >= collection.Count)
+                    collection.Add(converter((TSrc)item));
+                else
+                    collection.Insert(j, converter((TSrc)item));
+
+                j++;
+            }
+        }
+
+        public static void Syncronize<TSrc, TTrg>(
+            NotifyCollectionChangedAction action,
+            IList<TTrg> collection,
+            Equal<TTrg, object> eq,
+            Converter<TSrc, TTrg> converter,
+            IEnumerable items,
+            int startAt)
+            //where TTrg : ISourceReference<TSrc>
+        {
+            if (action == NotifyCollectionChangedAction.Add)
+            {
+                FillCollection(collection, converter, items, startAt);
+            }
+            else if (action == NotifyCollectionChangedAction.Remove)
+            {
+                RemoveItems(collection, eq, items);
+            }
+            else if (action == NotifyCollectionChangedAction.Move)
+            {
+
+            }
+            else if (action == NotifyCollectionChangedAction.Replace)
+            {
+
+            }
+            else if (action == NotifyCollectionChangedAction.Reset)
+            {
+                collection.Clear();
+                FillCollection(collection, converter, items, 0);
+            }
+        }
+
+        public static void RemoveItems<T>(IList<T> collection, Equal<T, object> eq, IEnumerable items)
+        {
+            foreach (var item in items)
+            {
+                collection.Remove(
+                    FindElement(collection, t => eq(t, item)));
+            }
+        }
+
+        public static T FindElement<T>(IEnumerable<T> collection, Predicate<T> predicate)
+        {
+            foreach (var item in collection)
+            {
+                if (predicate(item))
+                    return item;
+            }
+
+            return default(T);
+        }
+
+
         public event EventHandler<CollectionEventArgs<TTarget>> TargetUpdated;
 
 		protected ObservableCollection<TSource> m_Source;
 		protected IList<TTarget> m_Target;
 		protected Converter<TSource, TTarget> m_Converter;
+        protected Converter<TTarget, TSource> m_Restorer;
+        protected bool m_DisableUpdate = false;
 
 
 		public CollectionSyncronizer(
-			ObservableCollection<TSource> source, 
-			IList<TTarget> target,
+			ObservableCollection<TSource> source,
+            ObservableCollection<TTarget> target,
 			Converter<TSource, TTarget> converter,
 			bool fillTarget
 			)
@@ -47,6 +123,9 @@ namespace CommonLib
 			source.CollectionChanged -= source_CollectionChanged;
 			source.CollectionChanged += source_CollectionChanged;
 
+            target.CollectionChanged -= target_CollectionChanged;
+            target.CollectionChanged += target_CollectionChanged;
+
 			if (fillTarget)
 			{
 				FillTarget();
@@ -55,42 +134,17 @@ namespace CommonLib
 
 		protected void FillTarget()
 		{
-			FillTarget(m_Source, 0);
+            m_DisableUpdate = true;
+            Syncronize<TSource, TTarget>(
+                NotifyCollectionChangedAction.Reset,
+                m_Target,
+                null,
+                m_Converter,
+                m_Source,
+                0);
+            m_DisableUpdate = false;
 		}
-
-		protected void FillTarget(IEnumerable items, int startAt)
-		{
-            int j = startAt;
-			foreach (var item in items)
-			{
-                if (j >= m_Target.Count)
-                    m_Target.Add(m_Converter((TSource)item));
-                else
-                    m_Target.Insert(j, m_Converter((TSource)item));
-
-                j++;
-            }
-		}
-
-		protected void RemoveTarget(IEnumerable items)
-		{
-			foreach (var item in items)
-			{
-				m_Target.Remove(
-					FindTarget(t => ReferenceEquals(t.Source, item)));
-			}
-		}
-
-		protected TTarget FindTarget(Predicate<TTarget> predicate)
-		{
-			foreach (var item in m_Target)
-			{
-				if (predicate(item))
-					return item;
-			}
-
-			return default(TTarget);
-		}
+        
 
         protected virtual void OnTargetUpdated()
         {
@@ -98,31 +152,45 @@ namespace CommonLib
                 TargetUpdated(this, new CollectionEventArgs<TTarget>(m_Target));
         }
 
+
 		private void source_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (e.Action == NotifyCollectionChangedAction.Add)
-			{
-				FillTarget(e.NewItems, e.NewStartingIndex);
-			}
-			else if (e.Action == NotifyCollectionChangedAction.Remove)
-			{
-				RemoveTarget(e.OldItems);
-			}
-			else if (e.Action == NotifyCollectionChangedAction.Move)
-			{
-			
-			}
-			else if (e.Action == NotifyCollectionChangedAction.Replace)
-			{
+            if (m_DisableUpdate)
+                return;
 
-			}
-			else if (e.Action == NotifyCollectionChangedAction.Reset)
-			{
-				m_Target.Clear();
-				FillTarget();
-			}
-
+            var items = e.Action == NotifyCollectionChangedAction.Remove
+                ? e.OldItems
+                : e.NewItems;
+            Syncronize(
+                e.Action,
+                m_Target,
+                (t, d) => ReferenceEquals(t.Source, d),
+                m_Converter, 
+                items, 
+                e.NewStartingIndex);
             OnTargetUpdated();
 		}
+
+        private void target_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (m_DisableUpdate)
+                return;
+
+            var items = e.Action == NotifyCollectionChangedAction.Remove
+                ? e.OldItems
+                : e.NewItems;
+            m_DisableUpdate = true;
+
+            Syncronize<TTarget, TSource>(
+                e.Action,
+                m_Source,
+                (s, d) => ReferenceEquals(s, ((TTarget)d).Source),
+                o => o.Source,
+                items,
+                e.NewStartingIndex);
+
+            m_DisableUpdate = false;
+           // OnTargetUpdated();
+        }
 	}
 }
