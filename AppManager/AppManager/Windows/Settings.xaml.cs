@@ -72,7 +72,7 @@ namespace AppManager.Windows
 				sett.UseShortActivationPanel = ChkUseShortActivationPanel.IsChecked ?? false;
 				sett.CheckNewVersionAtStartUp = ChkCeckNewVersionAtStartup.IsChecked ?? false;
 				sett.TransparentActivationPanel = ChkUseTransparentActivationPanel.IsChecked ?? false;
-				sett.ShowAppTitles = ChkShowAppTitles.IsChecked ?? true;
+				sett.ShowAppTitles = ChkShowAppTitles.IsChecked ?? false;
 				sett.ActivationPanelColor = _ActivationPanelColor;
 				sett.NotifyPropertyChanged = true;
 
