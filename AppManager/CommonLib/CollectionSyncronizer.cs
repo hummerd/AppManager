@@ -66,7 +66,12 @@ namespace CommonLib
             }
             else if (action == NotifyCollectionChangedAction.Move)
             {
-
+                foreach (var item in items)
+                {
+                    var found = FindElement(collection, t => eq(t, item));
+                    collection.Remove(found);
+                    collection.Insert(startAt++, found);
+                }
             }
             else if (action == NotifyCollectionChangedAction.Replace)
             {
@@ -161,6 +166,8 @@ namespace CommonLib
             var items = e.Action == NotifyCollectionChangedAction.Remove
                 ? e.OldItems
                 : e.NewItems;
+            m_DisableUpdate = true;
+
             Syncronize(
                 e.Action,
                 m_Target,
@@ -168,6 +175,8 @@ namespace CommonLib
                 m_Converter, 
                 items, 
                 e.NewStartingIndex);
+
+            m_DisableUpdate = false;
             OnTargetUpdated();
 		}
 
