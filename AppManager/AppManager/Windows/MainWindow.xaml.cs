@@ -292,7 +292,7 @@ namespace AppManager
 				menu.DataContext = item.DataContext;
 
 				((MenuItem)menu.Items[0]).Header = String.Format(
-					Strings.MNU_RUN, item.DataContext);
+					Strings.MNU_RUN, ((AppInfoView)item.DataContext).Source);
 
 				if (Environment.OSVersion.Version.Major < 6)// before Vista
 					((MenuItem)menu.Items[1]).Header = Strings.MNU_RUNAS;
