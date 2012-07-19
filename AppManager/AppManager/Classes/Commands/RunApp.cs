@@ -33,7 +33,7 @@ namespace AppManager.Commands
 			string appPath = Environment.ExpandEnvironmentVariables(prm.App.AppPath);
 			bool unc = PathHelper.IsPathUNC(appPath);
 
-			if (unc || File.Exists(appPath) || Directory.Exists(appPath))
+			if (unc || File.Exists(appPath) || PathHelper.FileExists(appPath))
 			{
 				string args = String.Empty;
 				string runAs = String.Empty;
