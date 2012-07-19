@@ -7,6 +7,45 @@ namespace CommonLib
 {
 	public static class PathHelper
 	{
+		/// <summary>
+		/// Trying to locate file in system dirs
+		/// </summary>
+		/// <remarks>
+		///	1. Windows system directory
+		///	2. Windows directory
+		///	3. The directories that are listed in the PATH
+		/// </remarks>
+		/// <returns></returns>
+		public static string ResolveFilePath(string fileFullName)
+		{ 
+			var dir = Environment.GetFolderPath(Environment.SpecialFolder.System);
+			if (File.Exists(Path.Combine(dir, fileFullName)))
+			{
+				return dir;
+			}
+
+			dir = Environment.ExpandEnvironmentVariables("%WINDIR%");
+			if (File.Exists(Path.Combine(dir, fileFullName)))
+			{
+				return dir;
+			}
+
+			var path = Environment.GetEnvironmentVariable("PATH");
+			if (string.IsNullOrEmpty(path))
+				return null;
+
+			var dirs = path.Split(';');
+			foreach (var pathDir in dirs)
+			{
+				if (File.Exists(Path.Combine(pathDir, fileFullName)))
+				{
+					return pathDir;
+				}
+			}
+
+			return null;
+		}
+
 		public static string GetFirstDrivePath()
 		{ 
 			var drvs = DriveInfo.GetDrives();
@@ -89,7 +128,7 @@ namespace CommonLib
 			argsTemp = argsTemp.Trim(' ', '\"');
 			args = argsTemp;
 
-			if (!Directory.Exists(tempPath) && !File.Exists(tempPath))
+			if (!Directory.Exists(tempPath) && !FileExists(tempPath))
 				return trimPath;
 
 			return tempPath;
@@ -122,6 +161,18 @@ namespace CommonLib
 			//}
 
 			//return filePath;
+		}
+
+		public static bool FileExists(string path)
+		{
+			if (File.Exists(path))
+				return true;
+
+			var dir = ResolveFilePath(path);
+			if (string.IsNullOrEmpty(dir))
+				return false;
+
+			return File.Exists(Path.Combine(dir, path));
 		}
 
 		public static string GetNextPathLevel(string path, string begin)

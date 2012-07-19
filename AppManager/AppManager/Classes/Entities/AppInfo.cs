@@ -324,7 +324,7 @@ namespace AppManager.Entities
 
 		protected virtual void OnNeedImage()
 		{
-			if (NeedImage != null && File.Exists(AppPath))
+			if (NeedImage != null && PathHelper.FileExists(AppPath))
 				NeedImage(this, EventArgs.Empty);
 		}
 

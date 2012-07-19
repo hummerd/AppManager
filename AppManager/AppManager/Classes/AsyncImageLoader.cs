@@ -130,7 +130,7 @@ namespace AppManager
 
 				path = Environment.ExpandEnvironmentVariables(iconIx[0]);
 
-				if (!File.Exists(path))
+				if (!PathHelper.FileExists(path))
 					return null;
 
 				if (PathHelper.IsPathUNC(path))
