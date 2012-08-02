@@ -333,10 +333,11 @@ namespace AppManager
 
 		protected void PrepareAppTypeContextMenu(ContextMenu menu, object dataContext)
 		{
-			menu.DataContext = dataContext;
+            menu.DataContext = dataContext;
+            var appType = ((AppTypeView)dataContext).Source;
 
-			((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_RENAME_APP_TYPE, dataContext);
-			((MenuItem)menu.Items[3]).Header = String.Format(Strings.MNU_DELETE_TYPE, dataContext);
+            ((MenuItem)menu.Items[2]).Header = String.Format(Strings.MNU_RENAME_APP_TYPE, appType);
+            ((MenuItem)menu.Items[3]).Header = String.Format(Strings.MNU_DELETE_TYPE, appType);
 		}
 
 		protected void SaveRowHeight()
