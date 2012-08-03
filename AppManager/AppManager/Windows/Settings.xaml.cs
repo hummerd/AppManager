@@ -4,6 +4,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AppManager.Classes;
 using CommonLib.Windows;
+using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 
 namespace AppManager.Windows
@@ -15,12 +18,15 @@ namespace AppManager.Windows
 	{
 		protected SettingsController _Controller;
 		protected Color _ActivationPanelColor;
+        protected readonly Dictionary<FrameworkElement, string> _HelpContent; 
 
 
 		public Settings(MainWorkItem workItem)
 		{
 			InitializeComponent();
 
+            var periods = new[] { 1, 3, 6, 12 };
+            cmbStatPeriod.ItemsSource = periods;
 			_Controller = new SettingsController(workItem);
 			ChkAutoStart.IsChecked = _Controller.IsStartupFileExists();
 			ChkAlwaysOnTop.IsChecked = workItem.Settings.AlwaysOnTop;
@@ -32,9 +38,34 @@ namespace AppManager.Windows
 			ChkCeckNewVersionAtStartup.IsChecked = workItem.Settings.CheckNewVersionAtStartUp;
 			_ActivationPanelColor = workItem.Settings.ActivationPanelColor;
 			ActivationPanelColor.Fill = new SolidColorBrush(workItem.Settings.ActivationPanelColor);
+            cmbStatPeriod.SelectedItem = workItem.Settings.StatisticPeriod;
+
+            SetHelpText(ChkAutoStart, Strings.HLP_AUTO_START);
+            SetHelpText(ChkAlwaysOnTop, Strings.HLP_ALWAYS_ON_TOP);
+            SetHelpText(ChkStartMinimized, Strings.HLP_START_MINIMIZED);
+            SetHelpText(ChkEnableAcivationPanel, Strings.HLP_ENABLE_ACT_PAN);
+            SetHelpText(ChkUseTransparentActivationPanel, Strings.HLP_TRANS_ACT_PANEL);
+            SetHelpText(ChkUseShortActivationPanel, Strings.HLP_SHORT_ACT_PANEL);
+            SetHelpText(ActivationPanelColor, Strings.HLP_ACT_PANEL_COLOR);
+            SetHelpText(ActivationPanelColorLabel, Strings.HLP_ACT_PANEL_COLOR);
+            SetHelpText(ChkShowAppTitles, Strings.HLP_SHOW_TITLES);
+            SetHelpText(ChkCeckNewVersionAtStartup, Strings.HLP_CHECK_NEW_AT_START);
+            SetHelpText(cmbStatPeriod, Strings.HLP_KEEP_STAT);
+            SetHelpText(cmbStatPeriodLabel, Strings.HLP_KEEP_STAT);
 		}
 
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            SizeToContent = System.Windows.SizeToContent.Manual;
+        }
 
+        protected void SetHelpText(FrameworkElement element, string helpText)
+        {
+            element.MouseEnter += (e, a) => txtHelp.Text = helpText;
+            element.MouseLeave += (e, a) => txtHelp.Text = String.Empty;
+        }
+        
 		protected void SetEnabledState()
 		{
 			bool actPanelEnabled = ChkEnableAcivationPanel.IsChecked ?? false;
@@ -74,8 +105,9 @@ namespace AppManager.Windows
 				sett.TransparentActivationPanel = ChkUseTransparentActivationPanel.IsChecked ?? false;
 				sett.ShowAppTitles = ChkShowAppTitles.IsChecked ?? false;
 				sett.ActivationPanelColor = _ActivationPanelColor;
+                sett.StatisticPeriod = (int)cmbStatPeriod.SelectedItem;
 				sett.NotifyPropertyChanged = true;
-
+                
 				sett.NotifyAllPropertyChanged();
 			}
 		}

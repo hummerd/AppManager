@@ -81,6 +81,7 @@
     <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialogHook.cs" />
     <Compile Include="Shell\OpenFileDialogExtension\OpenFileDialogEx.cs" />
     <Compile Include="Shell\ShFileInfo.cs" />
+    <Compile Include="TimePeriod.cs" />
     <Compile Include="UI\BorderResizer.cs" />
     <Compile Include="UI\FadeAnimation.cs" />
     <Compile Include="UI\ImageHelper.cs" />

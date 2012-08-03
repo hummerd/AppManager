@@ -40,7 +40,7 @@ namespace AppManager.Settings
 		{
 			XmlWriterSettings sett = new XmlWriterSettings();
 			sett.Indent = true;
-			using (XmlWriter writer = XmlWriter.Create(path, sett))
+			using (var writer = XmlWriter.Create(path, sett))
 			{
 				writer.WriteStartElement("AppManagerSettings");
 
@@ -107,6 +107,10 @@ namespace AppManager.Settings
 					writer.WriteStartElement("ShowAppTitles");
 					writer.WriteValue(settings.ShowAppTitles);
 					writer.WriteEndElement();
+
+                    writer.WriteStartElement("StatisticPeriod");
+                    writer.WriteValue(settings.StatisticPeriod);
+                    writer.WriteEndElement();
 
 				writer.WriteEndElement();
 			}
@@ -281,7 +285,14 @@ namespace AppManager.Settings
 					result.ShowAppTitles = reader.ReadContentAsBoolean();
 					reader.ReadEndElement();
 				}
-				
+
+                if (reader.NodeType == XmlNodeType.Element)
+                {
+                    reader.ReadStartElement("StatisticPeriod");
+                    result.StatisticPeriod = reader.ReadContentAsInt();
+                    reader.ReadEndElement();
+                }
+
 				reader.ReadEndElement();
 			}
 

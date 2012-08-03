@@ -240,6 +240,36 @@
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.ru-ru.rtf</value>
   </data>
+  <data name="HLP_ACT_PANEL_COLOR" xml:space="preserve">
+    <value>Выберите цвет"панели активации"</value>
+  </data>
+  <data name="HLP_ALWAYS_ON_TOP" xml:space="preserve">
+    <value>Показывать главное окно программы поверх остальных окон.</value>
+  </data>
+  <data name="HLP_AUTO_START" xml:space="preserve">
+    <value>Запускать программу вместе с компьютером.</value>
+  </data>
+  <data name="HLP_CHECK_NEW_AT_START" xml:space="preserve">
+    <value>Проверять наличие новой версии при старте программы. Вы можете проверить обновление вручную в окне справки.</value>
+  </data>
+  <data name="HLP_ENABLE_ACT_PAN" xml:space="preserve">
+    <value>Включить "панель активации" - маленькое прозрачное окно в левом верхнем углу экрана. Если увести мышь в этот угол и щелкнуть там, откроется главное окно программы.</value>
+  </data>
+  <data name="HLP_KEEP_STAT" xml:space="preserve">
+    <value>Сохранять статистику запуска приложений за указанное количество месяцев. Вы можете просмотреть статистику запуска в менеджере ссылок.</value>
+  </data>
+  <data name="HLP_SHORT_ACT_PANEL" xml:space="preserve">
+    <value>Сделать "панель активации" короткой. Иначе она будет растянута вдоль всего левого края экрана.</value>
+  </data>
+  <data name="HLP_SHOW_TITLES" xml:space="preserve">
+    <value>Показывать названия программ на кнопках</value>
+  </data>
+  <data name="HLP_START_MINIMIZED" xml:space="preserve">
+    <value>Не показывать главное окно при старте программы, показывать только иконку.</value>
+  </data>
+  <data name="HLP_TRANS_ACT_PANEL" xml:space="preserve">
+    <value>Сделать "панель активации" прозрачной. Не рекомендуется для windows xp, из-за бага в этой ОС, вызывающего 100% загрузку процессора при использовании прозрачных окон.</value>
+  </data>
   <data name="ICON_FILTER" xml:space="preserve">
     <value>Файлы с иконками (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx</value>
   </data>

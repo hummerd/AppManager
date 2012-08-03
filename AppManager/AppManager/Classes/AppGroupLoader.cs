@@ -149,8 +149,10 @@ namespace AppManager
 				foreach (var app in appType.AppInfos)
 				{
 					AppRunInfoCollection stat;
-					if (appStat.TryGetValue(app.ID, out stat))
-						app.RunHistory.AddRange(stat);
+                    if (appStat.TryGetValue(app.ID, out stat))
+                    {
+                        app.RunHistory.AddRange(stat);
+                    }
 				}
 
 			return result;

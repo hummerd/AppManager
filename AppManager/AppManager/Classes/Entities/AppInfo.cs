@@ -85,6 +85,7 @@ namespace AppManager.Entities
 			{
 				_AppName = value;
 				OnPropertyChanged("AppName");
+                OnPropertyChanged("AppPathInfo");
 			}
 		}
 
@@ -103,6 +104,8 @@ namespace AppManager.Entities
 				}
 
 				OnPropertyChanged("ExecPath");
+                OnPropertyChanged("AppPath");
+                OnPropertyChanged("AppPathInfo");
 			}
 		}
 
@@ -116,6 +119,10 @@ namespace AppManager.Entities
 			set
 			{
 				SetExecPath(value, AppArgs);
+
+                OnPropertyChanged("ExecPath");
+                OnPropertyChanged("AppPath");
+                OnPropertyChanged("AppPathInfo");
 			}
 		}
 
