@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System;
 
 
 namespace AppManager.EntityCollection
@@ -127,6 +128,26 @@ namespace AppManager.EntityCollection
 			for (int i = 0; i < sourceCollection.DeletedItems.Count; i++)
 				Remove(sourceCollection.DeletedItems[i].CloneSource);
 		}
+
+        public void DeleteAll(Predicate<TEntity> predicate)
+        {
+            if (Count <= 0)
+                return;
+
+            _Resetting = true;
+            try
+            {
+                for (int i = Count - 1; i >= 0; i--)
+                {
+                    if (predicate(this[i]))
+                        RemoveAt(i);
+                }
+            }
+            finally
+            {
+                _Resetting = false;
+            }
+        }
 
 
 		protected void TryIncreaseCapacity(IEnumerable items)

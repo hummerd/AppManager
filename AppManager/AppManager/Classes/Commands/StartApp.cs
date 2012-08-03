@@ -48,7 +48,7 @@ namespace AppManager.Commands
 			{
 				App.Current.Shutdown();
 				return;
-			}
+			} 
 
 			System.Diagnostics.Debug.WriteLine(DateTime.Now.TimeOfDay + " Start");
 
@@ -266,6 +266,7 @@ namespace AppManager.Commands
 					_WorkItem.DataPath,
 					_WorkItem.StatPath);
 
+                CleanStatistic(apps);
 				readNew = true;
 				//apps = XmlSerializeHelper.DeserializeItem(
 				//   _WorkItem.AppData.GetType(),
@@ -295,6 +296,19 @@ namespace AppManager.Commands
 				_WorkItem.AppData.AppTypes.Add(new AppType() { AppTypeName = Strings.APPLICATIONS });
 			}
 		}
+
+        protected void CleanStatistic(AppGroup apps)
+        {
+            var statPeriod = DateTime.Now.AddMonths(-_WorkItem.Settings.StatisticPeriod);
+
+            foreach (var appTypes in apps.AppTypes)
+            {
+                foreach (var item in appTypes.AppInfos)
+                {
+                    item.RunHistory.DeleteAll(s => s.RunTime < statPeriod);
+                }
+            }
+        }
 
 		protected void ChangeActiveState()
 		{

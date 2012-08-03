@@ -4,21 +4,33 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:am="clr-namespace:AppManager"
 	xmlns:cw="clr-namespace:CommonLib.Windows;assembly=CommonLib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
 	Title="{x:Static am:Strings.SETTINGS}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
-	MinWidth="310"
-	MinHeight="380"
+	MinWidth="380"
+	MinHeight="455"
 	Icon="/AppManager;component/Resources/1leftarrow_1159.ico"
-	Closing="DialogWindow_Closing" SizeToContent="WidthAndHeight">
-	<StackPanel>
-		<CheckBox
+	Closing="DialogWindow_Closing" 
+    SizeToContent="WidthAndHeight" 
+    mc:Ignorable="d" 
+    d:DesignHeight="455" 
+    d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+        <CheckBox
 			Content="{x:Static am:Strings.AUTO_START}"
 			Name="ChkAutoStart"
 			Margin="12,12,0,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" TabIndex="1" />
-		<CheckBox
+        <CheckBox
 			Content="{x:Static am:Strings.START_MINIMIZED}"
 			Name="ChkStartMinimized"
 			Margin="12,8,0,0"
@@ -42,7 +54,7 @@
 			Margin="12,8,0,0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left" TabIndex="5" />
-		<CheckBox
+        <CheckBox
 			Content="{x:Static am:Strings.ENABLE_ACT_PANEL}"
 			Name="ChkEnableAcivationPanel"
 			Margin="12,8,12,0"
@@ -50,7 +62,7 @@
 			HorizontalAlignment="Left" 
 			Checked="ChkEnableAcivationPanel_Checked" 
 			Unchecked="ChkEnableAcivationPanel_Unchecked" TabIndex="6" />
-		<CheckBox
+        <CheckBox
 			Content="{x:Static am:Strings.USE_SHORT_ACT_PANEL}"
 			Name="ChkUseShortActivationPanel"
 			Margin="24,8,12,0"
@@ -65,50 +77,62 @@
             TabIndex="8" 
             Checked="ChkEnableAcivationPanel_Checked" 
             Unchecked="ChkEnableAcivationPanel_Unchecked" />
-        <StackPanel Orientation="Horizontal" Margin="42,0,0,0">
-			<Rectangle 
+        <StackPanel Orientation="Horizontal" Margin="42,4,0,0">
+            <Rectangle 
 				Name="ActivationPanelColor" 
 				HorizontalAlignment="Left" 
-				Margin="0,4,0,0" 
-				Height="16" Width="16" 
+				Height="16" 
+                Width="16" 
 				MouseUp="ActivationPanelColor_MouseUp" 
 				StrokeThickness="2" 
 				Stroke="#FF325BCE"></Rectangle>
-			<Label 
+            <Label 
 				Name="ActivationPanelColorLabel" 
-				Padding="3,4"
-				Margin="0,4,12,0" 
 				HorizontalAlignment="Left"
 				Content="{x:Static am:Strings.SEL_ACT_PANEL_COLOR}"
                 TabIndex="9" 
                 MouseUp="ActivationPanelColor_MouseUp">
-			</Label>
-		</StackPanel>
-		<Border 
-			BorderBrush="#FF325BCE" 
+            </Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="12,4,0,0">
+                <Label x:Name="cmbStatPeriodLabel" Padding="0" VerticalAlignment="Center">Keep statistic for (months)</Label>
+            <ComboBox x:Name="cmbStatPeriod" Margin="4,0" MinWidth="48" TabIndex="10" />
+        </StackPanel>
+        <Border 
+			BorderBrush="#FFADC7E6" 
 			Margin="8,8,8,0"
 			IsHitTestVisible="False"
 			BorderThickness="1" />
-		<Button
-			Content="{x:Static am:Strings.OPEN_APP_DATA}"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Height="28"
-			Width="Auto"
-			Margin="12,12,0,0"
-			Name="BtnOpenAppDataPath"
-			Click="BtnOpenAppDataPath_Click" 
-            TabIndex="100" />
-		<Button
-			Content="{x:Static am:Strings.EDIT_APP_DATA}"
-			Margin="12,8,0,36"
-			Name="BtnEditAppData"
-			Click="BtnEditAppData_Click"
-			HorizontalAlignment="Left"
-			Width="{Binding Path=ActualWidth, ElementName=BtnOpenAppDataPath, Mode=Default}"
-			Height="28"
-			VerticalAlignment="Top" 
-            TabIndex="101"
-            IsTabStop="True" />
-	</StackPanel>
+        </StackPanel>
+        <TextBlock 
+            Grid.Row="1"
+            x:Name="txtHelp"
+            Margin="12,0" 
+            Padding="0,4" 
+            TextWrapping="Wrap" 
+            HorizontalAlignment="Stretch" />
+        <StackPanel Grid.Row="2">
+            <Button
+			    Content="{x:Static am:Strings.OPEN_APP_DATA}"
+			    HorizontalAlignment="Left"
+			    VerticalAlignment="Top"
+			    Height="28"
+			    Width="Auto"
+			    Margin="12,12,0,0"
+			    Name="BtnOpenAppDataPath"
+			    Click="BtnOpenAppDataPath_Click" 
+                TabIndex="100" />
+            <Button
+			    Content="{x:Static am:Strings.EDIT_APP_DATA}"
+			    Margin="12,8,0,0"
+			    Name="BtnEditAppData"
+			    Click="BtnEditAppData_Click"
+			    HorizontalAlignment="Left"
+			    Width="{Binding Path=ActualWidth, ElementName=BtnOpenAppDataPath, Mode=Default}"
+			    Height="28"
+			    VerticalAlignment="Top" 
+                TabIndex="101"
+                IsTabStop="True" />
+        </StackPanel>
+    </Grid>
 </cw:DialogWindow>

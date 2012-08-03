@@ -240,6 +240,36 @@
   <data name="HELP_FILE" xml:space="preserve">
     <value>Resources/Help.en-en.rtf</value>
   </data>
+  <data name="HLP_ACT_PANEL_COLOR" xml:space="preserve">
+    <value>Choose color for activation panel</value>
+  </data>
+  <data name="HLP_ALWAYS_ON_TOP" xml:space="preserve">
+    <value>Keep main window on top of others</value>
+  </data>
+  <data name="HLP_AUTO_START" xml:space="preserve">
+    <value>Start program when you turn on your computer</value>
+  </data>
+  <data name="HLP_CHECK_NEW_AT_START" xml:space="preserve">
+    <value>Check for new version when application starts. You can check for new version manually using help window</value>
+  </data>
+  <data name="HLP_ENABLE_ACT_PAN" xml:space="preserve">
+    <value>Enable "activation panel" - small transparent window in the upper left corner of the screen. Put your mouse there and make a click and main window will appear.</value>
+  </data>
+  <data name="HLP_KEEP_STAT" xml:space="preserve">
+    <value>Keep statistic for launched applications for specified number of months.You can view statistic in links manager </value>
+  </data>
+  <data name="HLP_SHORT_ACT_PANEL" xml:space="preserve">
+    <value>Make "activation panel" short otherwise it will be plcaed along the left edge of the screen</value>
+  </data>
+  <data name="HLP_SHOW_TITLES" xml:space="preserve">
+    <value>Show titles for application buttons</value>
+  </data>
+  <data name="HLP_START_MINIMIZED" xml:space="preserve">
+    <value>Do not show main window when program starts. Only tray icon will be shown</value>
+  </data>
+  <data name="HLP_TRANS_ACT_PANEL" xml:space="preserve">
+    <value>Make "activation panel" transparent. Not recommended on windows xp, because of bug in this version of OS that can cause 100 cpu load</value>
+  </data>
   <data name="ICON_FILTER" xml:space="preserve">
     <value>Icon files (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx</value>
   </data>

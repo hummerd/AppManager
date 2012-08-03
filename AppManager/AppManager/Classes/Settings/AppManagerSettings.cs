@@ -16,6 +16,7 @@ namespace AppManager.Settings
 		protected bool _UseShortActivationPanel;
 		protected bool _CheckNewVersionAtStartUp;
 		protected bool _ShowAppTitles;
+        protected int  _StatisticPeriod;
 
 
 		public AppManagerSettings()
@@ -29,6 +30,7 @@ namespace AppManager.Settings
             _ShowAppTitles = true;
 			// if version greater then xp
 			_TransparentActivationPanel = Environment.OSVersion.Version.Major > 5;
+            _StatisticPeriod = 6;
 
 			NotifyPropertyChanged = true;
 		}
@@ -147,7 +149,20 @@ namespace AppManager.Settings
 				OnPropertyChanged("ShowAppTitles");
 			}
 		}
-		
+
+        public int StatisticPeriod
+        {
+            get
+            {
+                return _StatisticPeriod;
+            }
+            set
+            {
+                _StatisticPeriod = value;
+                OnPropertyChanged("StatisticPeriod");
+            }
+        }
+
 
 		public void NotifyAllPropertyChanged()
 		{
