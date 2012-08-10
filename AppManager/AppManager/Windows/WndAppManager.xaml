@@ -266,9 +266,9 @@
 							<Image Source="/AppManager;component/Resources/kcoloredit_1364_16.png" Stretch="None"></Image>
 						</Button>
 					</StackPanel>
-					<Label Margin="0" Content="Название" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-					<Label Margin="0" Content="Путь" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-					<Label Margin="0" Content="Аргументы" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <Label Margin="0" Content="{x:Static am:Strings.LBL_APP_NAME}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Margin="0" Content="{x:Static am:Strings.LBL_APP_PATH}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Margin="0" Content="{x:Static am:Strings.LBL_APP_IMAGE_PATH}" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 				</Grid>
 			</Border>
 		</DataTemplate>

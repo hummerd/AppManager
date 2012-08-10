@@ -273,6 +273,15 @@
   <data name="ICON_FILTER" xml:space="preserve">
     <value>Файлы с иконками (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx</value>
   </data>
+  <data name="LBL_APP_IMAGE_PATH" xml:space="preserve">
+    <value>Иконка</value>
+  </data>
+  <data name="LBL_APP_NAME" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="LBL_APP_PATH" xml:space="preserve">
+    <value>Путь</value>
+  </data>
   <data name="LOOK_FOR_NEW_VER" xml:space="preserve">
     <value>Проверяется наличие новой версии...</value>
   </data>

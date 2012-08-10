@@ -529,6 +529,33 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Icon.
+        /// </summary>
+        public static string LBL_APP_IMAGE_PATH {
+            get {
+                return ResourceManager.GetString("LBL_APP_IMAGE_PATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string LBL_APP_NAME {
+            get {
+                return ResourceManager.GetString("LBL_APP_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        public static string LBL_APP_PATH {
+            get {
+                return ResourceManager.GetString("LBL_APP_PATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Looking for new version....
         /// </summary>
         public static string LOOK_FOR_NEW_VER {
