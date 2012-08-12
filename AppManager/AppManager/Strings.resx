@@ -273,6 +273,9 @@
   <data name="ICON_FILTER" xml:space="preserve">
     <value>Icon files (*.ico;*.dll;*.exe;*.ocx)|*.ico;*.dll;*.exe;*.ocx</value>
   </data>
+  <data name="KEEP_STAT" xml:space="preserve">
+    <value>Keep statistic for (months)</value>
+  </data>
   <data name="LBL_APP_IMAGE_PATH" xml:space="preserve">
     <value>Icon</value>
   </data>
