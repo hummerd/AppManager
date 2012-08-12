@@ -95,7 +95,11 @@
             </Label>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="12,4,0,0">
-                <Label x:Name="cmbStatPeriodLabel" Padding="0" VerticalAlignment="Center">Keep statistic for (months)</Label>
+                <Label x:Name="cmbStatPeriodLabel" 
+                       Padding="0" 
+                       VerticalAlignment="Center"
+                       Content="{x:Static am:Strings.KEEP_STAT}"
+                       />
             <ComboBox x:Name="cmbStatPeriod" Margin="4,0" MinWidth="48" TabIndex="10" />
         </StackPanel>
         <Border 

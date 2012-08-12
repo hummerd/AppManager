@@ -529,6 +529,15 @@ namespace AppManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keep statistic for (months).
+        /// </summary>
+        public static string KEEP_STAT {
+            get {
+                return ResourceManager.GetString("KEEP_STAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Icon.
         /// </summary>
         public static string LBL_APP_IMAGE_PATH {
