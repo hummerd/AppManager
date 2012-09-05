@@ -28,6 +28,7 @@ namespace AppManager.Commands
 		protected DateTime			_LostTime = DateTime.Now;
 		protected Window			_WndActivation = null;
 		protected DispatcherTimer	_ActivationWndPinger;
+        protected Thread            _ActivationThread = null;
 
 
 		public StartApp(MainWorkItem workItem)
@@ -102,9 +103,7 @@ namespace AppManager.Commands
 			_WorkItem.ImageLoader.StartLoad();
 			_WorkItem.AppData.ReInitImages();
 
-			CreateActivationPanelWatcher();
-			CreateActivationPanel();
-
+            CreateActivationPanelOnBackThread();
 			MemoryHelper.Clean();
 		}
 
@@ -339,7 +338,7 @@ namespace AppManager.Commands
 				settName == "TransparentActivationPanel" ||
 				settName == "All"
 				)
-				CreateActivationPanel();
+                CreateActivationPanelOnBackThread();
 
 			if (settName == "ShowAppTitles" ||
 				settName == "All")
@@ -347,22 +346,28 @@ namespace AppManager.Commands
 				_WorkItem.DataView.SetAppTitleView();
 			}
 		}
+        
+        protected void CreateActivationPanelOnBackThread()
+        {
+            if (_ActivationThread == null)
+            {
+                _ActivationThread = new Thread(ActivationPanelThread);
+                _ActivationThread.IsBackground = true;
+                _ActivationThread.SetApartmentState(ApartmentState.STA);
+                _ActivationThread.Start();
+            }
+            else
+            {
+                var disp = Dispatcher.FromThread(_ActivationThread);
+                disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)CreateActivationPanel);
+            }
+        }
 
-		protected void CreateActivationPanelWatcher()
-		{
-			_ActivationWndPinger = new DispatcherTimer();
-			_ActivationWndPinger.Interval = new TimeSpan(0, 0, 5);
-			_ActivationWndPinger.Tick += delegate
-			{
-				if (_WndActivation != null)
-				{
-					_WndActivation.Show();
-					_WndActivation.Topmost = false;
-					_WndActivation.Topmost = true;
-				}
-			};
-			_ActivationWndPinger.Start();
-		}
+        protected void ActivationPanelThread()
+        {
+            CreateActivationPanel();
+            CreateActivationPanelWatcher();
+        }
 
 		protected void CreateActivationPanel()
 		{
@@ -394,10 +399,7 @@ namespace AppManager.Commands
 				_WndActivation.Width = 1;
 				_WndActivation.MouseDown += (s, e) =>
 					{
-						if (e.ChangedButton == MouseButton.Left)
-							ChangeActiveState();
-						else
-							_WorkItem.TrayIcon.ContextMenuStrip.Show(0, 0);
+                        DispatcherHelper.Invoke(new SimpleMethodArg(ActivateFromActivator), e);
 					};
 				_WndActivation.Closed += (s, e) => _WndActivation = null;
 			//}
@@ -416,8 +418,34 @@ namespace AppManager.Commands
 			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
 				16 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
 			_WndActivation.Show();
+            Dispatcher.Run();
 		}
 
+        protected void CreateActivationPanelWatcher()
+        {
+            var disp = Dispatcher.FromThread(_ActivationThread);
+            _ActivationWndPinger = new DispatcherTimer(DispatcherPriority.Background);
+            _ActivationWndPinger.Interval = new TimeSpan(0, 0, 5);
+            _ActivationWndPinger.Tick += delegate
+            {
+                if (_WndActivation != null)
+                {
+                    _WndActivation.Show();
+                    _WndActivation.Topmost = false;
+                    _WndActivation.Topmost = true;
+                }
+            };
+            _ActivationWndPinger.Start();
+        }
+
+        private void ActivateFromActivator(object arg)
+        {
+            var e = (MouseButtonEventArgs)arg;
+            if (e.ChangedButton == MouseButton.Left)
+                ChangeActiveState();
+            else
+                _WorkItem.TrayIcon.ContextMenuStrip.Show(0, 0);        
+        }
 
 		private void TrayIcon_MouseUp(object sender, WinForms.MouseEventArgs e)
 		{
@@ -431,7 +459,7 @@ namespace AppManager.Commands
 		{
 			if (e.Alt && e.Key == System.Windows.Forms.Keys.Oemtilde)
 			{
-				ThreadPool.QueueUserWorkItem(o => DispatcherHelper.Invoke(new SimpleMathod(ChangeActiveState)));
+				ThreadPool.QueueUserWorkItem(o => DispatcherHelper.Invoke(new SimpleMethod(ChangeActiveState)));
 				//ChangeActiveState();
 				e.Handled = true;
 			}

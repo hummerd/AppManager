@@ -94,7 +94,7 @@ namespace AppManager
 							First = app,
 							Second = src,
 						};
-						DispatcherHelper.InvokeBackground((SimpleMathodArg)SetImage, appImage);
+						DispatcherHelper.InvokeBackground((SimpleMethodArg)SetImage, appImage);
 						
 						lock (_RequestSync)
 						{
