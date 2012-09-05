@@ -241,7 +241,7 @@
     <value>Resources/Help.ru-ru.rtf</value>
   </data>
   <data name="HLP_ACT_PANEL_COLOR" xml:space="preserve">
-    <value>Выберите цвет"панели активации"</value>
+    <value>Выберите цвет"панели активации".</value>
   </data>
   <data name="HLP_ALWAYS_ON_TOP" xml:space="preserve">
     <value>Показывать главное окно программы поверх остальных окон.</value>
@@ -262,7 +262,7 @@
     <value>Сделать "панель активации" короткой. Иначе она будет растянута вдоль всего левого края экрана.</value>
   </data>
   <data name="HLP_SHOW_TITLES" xml:space="preserve">
-    <value>Показывать названия программ на кнопках</value>
+    <value>Показывать названия программ на кнопках.</value>
   </data>
   <data name="HLP_START_MINIMIZED" xml:space="preserve">
     <value>Не показывать главное окно при старте программы, показывать только иконку.</value>

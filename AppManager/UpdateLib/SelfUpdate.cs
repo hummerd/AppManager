@@ -463,7 +463,7 @@ namespace UpdateLib
 
 			if (UIDownloadProgress != null)
 			{
-			   DispatcherHelper.Invoke(new SimpleMathod(UIDownloadProgress.Show));
+			   DispatcherHelper.Invoke(new SimpleMethod(UIDownloadProgress.Show));
 			   DispatcherHelper.Invoke(new SetDownloadProgressInfo(UIDownloadProgress.SetDownloadInfo),
 					downloadManifest);
 			}
@@ -496,7 +496,7 @@ namespace UpdateLib
 			{
 				if (UIDownloadProgress != null)
 					DispatcherHelper.Invoke(
-						new SimpleMathod(UIDownloadProgress.Close));
+						new SimpleMethod(UIDownloadProgress.Close));
 			}
 
 			return tempApplicationPath;
@@ -566,7 +566,7 @@ namespace UpdateLib
 			//_UpdatingFlag.Close();
 
 			InvokeUpdateCompleted(true, true, null);
-			DispatcherHelper.Invoke(new SimpleMathod(OnNeedCloseApp));
+			DispatcherHelper.Invoke(new SimpleMethod(OnNeedCloseApp));
 		}
 
 		protected bool CheckHash(string tempPath, List<LocationHash> versionItems, out LocationHash badOne)

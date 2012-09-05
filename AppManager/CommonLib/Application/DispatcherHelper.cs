@@ -45,7 +45,7 @@ namespace CommonLib.Application
 		{
 			System.Windows.Application.Current.Dispatcher.Invoke(
 				DispatcherPriority.Send,
-				(SimpleMathod)delegate()
+				(SimpleMethod)delegate()
 				{
 					// THIS CODE RUNS BACK ON THE MAIN UI THREAD
 					throw new Exception(CommStr.ERR_BACK_THREAD, exc);
@@ -73,6 +73,6 @@ namespace CommonLib.Application
 		}
 	}
 
-	public delegate void SimpleMathod();
-	public delegate void SimpleMathodArg(object arg);
+	public delegate void SimpleMethod();
+	public delegate void SimpleMethodArg(object arg);
 }
