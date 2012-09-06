@@ -367,6 +367,7 @@ namespace AppManager.Commands
         {
             CreateActivationPanel();
             CreateActivationPanelWatcher();
+            Dispatcher.Run();
         }
 
 		protected void CreateActivationPanel()
@@ -418,7 +419,6 @@ namespace AppManager.Commands
 			_WndActivation.Height = _WorkItem.Settings.UseShortActivationPanel ?
 				16 : System.Windows.Forms.SystemInformation.WorkingArea.Height;
 			_WndActivation.Show();
-            Dispatcher.Run();
 		}
 
         protected void CreateActivationPanelWatcher()
