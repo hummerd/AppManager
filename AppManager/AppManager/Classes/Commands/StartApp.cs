@@ -13,6 +13,7 @@ using CommonLib.Application;
 using CommonLib.PInvoke.WinHook;
 using WinForms = System.Windows.Forms;
 using AppManager.Classes.ViewModel;
+using System.Diagnostics;
 
 
 namespace AppManager.Commands
@@ -29,6 +30,7 @@ namespace AppManager.Commands
 		protected Window			_WndActivation = null;
 		protected DispatcherTimer	_ActivationWndPinger;
         protected Thread            _ActivationThread = null;
+        protected Dispatcher        _ActivationDispatcher = null;
 
 
 		public StartApp(MainWorkItem workItem)
@@ -103,7 +105,7 @@ namespace AppManager.Commands
 			_WorkItem.ImageLoader.StartLoad();
 			_WorkItem.AppData.ReInitImages();
 
-            CreateActivationPanelOnBackThread();
+            SetActivationPanelState();
 			MemoryHelper.Clean();
 		}
 
@@ -332,13 +334,13 @@ namespace AppManager.Commands
 
 		protected void OnSettingsChanged(string settName)
 		{
-			if (settName == "EnableActivationPanel" || 
-				settName == "UseShortActivationPanel" ||
-				settName == "ActivationPanelColor" ||
-				settName == "TransparentActivationPanel" ||
-				settName == "All"
-				)
-                CreateActivationPanelOnBackThread();
+            if (settName == "EnableActivationPanel" ||
+                settName == "UseShortActivationPanel" ||
+                settName == "ActivationPanelColor" ||
+                settName == "TransparentActivationPanel" ||
+                settName == "All"
+                )
+                SetActivationPanelState();
 
 			if (settName == "ShowAppTitles" ||
 				settName == "All")
@@ -346,40 +348,58 @@ namespace AppManager.Commands
 				_WorkItem.DataView.SetAppTitleView();
 			}
 		}
-        
-        protected void CreateActivationPanelOnBackThread()
+
+        protected void SetActivationPanelState()
+        {
+            if (_WorkItem.Settings.EnableActivationPanel)
+            {
+                EnableActivationPanel();
+            }
+            else
+            {
+                DisableActivationPanel();
+            }
+        }
+
+        protected void EnableActivationPanel()
         {
             if (_ActivationThread == null)
             {
-                _ActivationThread = new Thread(ActivationPanelThread);
+                _ActivationDispatcher = null;
+                _ActivationThread = new Thread(() => 
+                    {
+                        _ActivationDispatcher = Dispatcher.CurrentDispatcher;
+                        Dispatcher.Run();
+                    });
                 _ActivationThread.IsBackground = true;
                 _ActivationThread.SetApartmentState(ApartmentState.STA);
                 _ActivationThread.Start();
             }
-            else
-            {
-                var disp = Dispatcher.FromThread(_ActivationThread);
-                disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)CreateActivationPanel);
-            }
+            
+            Dispatcher disp = null;
+            while(Interlocked.Exchange(ref disp, _ActivationDispatcher) == null) 
+            { Thread.Sleep(0); }
+            
+            disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)CreateActivationPanel);
+            disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)CreateActivationPanelWatcher);
         }
 
-        protected void ActivationPanelThread()
+        protected void DisableActivationPanel()
         {
-            CreateActivationPanel();
-            CreateActivationPanelWatcher();
-            Dispatcher.Run();
+            if (_ActivationThread == null)
+            {
+                return;
+            }
+
+            var disp = Dispatcher.FromThread(_ActivationThread);
+            disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)DestroyActivationPanel);
+            disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)DestroyActivationPanelWatcher);
+            disp.InvokeShutdown();
+            _ActivationThread = null;
         }
 
 		protected void CreateActivationPanel()
 		{
-			if (!_WorkItem.Settings.EnableActivationPanel)
-			{
-				if (_WndActivation != null)
-					_WndActivation.Hide();
-
-				return;
-			}
-
 			if (_WndActivation != null)
 				_WndActivation.Close();
 
@@ -421,9 +441,19 @@ namespace AppManager.Commands
 			_WndActivation.Show();
 		}
 
+        protected void DestroyActivationPanel()
+        {
+            if (_WndActivation == null)
+            {
+                return;
+            }
+
+            _WndActivation.Close();
+            _WndActivation = null;
+        }
+
         protected void CreateActivationPanelWatcher()
         {
-            var disp = Dispatcher.FromThread(_ActivationThread);
             _ActivationWndPinger = new DispatcherTimer(DispatcherPriority.Background);
             _ActivationWndPinger.Interval = new TimeSpan(0, 0, 5);
             _ActivationWndPinger.Tick += delegate
@@ -436,6 +466,17 @@ namespace AppManager.Commands
                 }
             };
             _ActivationWndPinger.Start();
+        }
+
+        protected void DestroyActivationPanelWatcher()
+        {
+            if (_ActivationWndPinger == null)
+            {
+                return;
+            }
+
+            _ActivationWndPinger.Stop();
+            _ActivationWndPinger = null;
         }
 
         private void ActivateFromActivator(object arg)

@@ -40,6 +40,8 @@ namespace AppManager.Windows
 			ActivationPanelColor.Fill = new SolidColorBrush(workItem.Settings.ActivationPanelColor);
             cmbStatPeriod.SelectedItem = workItem.Settings.StatisticPeriod;
 
+            SetEnabledState();
+
             SetHelpText(ChkAutoStart, Strings.HLP_AUTO_START);
             SetHelpText(ChkAlwaysOnTop, Strings.HLP_ALWAYS_ON_TOP);
             SetHelpText(ChkStartMinimized, Strings.HLP_START_MINIMIZED);
