@@ -1,12 +1,33 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 
 namespace CommonLib
 {
 	public static class PathHelper
 	{
+        private static readonly IEnumerable<string> s_pathContens;
+        private static readonly string s_winDirPath;
+
+
+        static PathHelper()
+        {
+            s_winDirPath = Environment.ExpandEnvironmentVariables("%WINDIR%");
+
+            var path = Environment.GetEnvironmentVariable("PATH");
+			if (string.IsNullOrEmpty(path))
+            {
+				s_pathContens = new string[0];
+            }
+            else
+            {
+                s_pathContens = path.Split(';');
+            }
+        }
+
+
 		/// <summary>
 		/// Trying to locate file in system dirs
 		/// </summary>
@@ -24,18 +45,13 @@ namespace CommonLib
 				return dir;
 			}
 
-			dir = Environment.ExpandEnvironmentVariables("%WINDIR%");
+            dir = s_winDirPath;
 			if (File.Exists(Path.Combine(dir, fileFullName)))
 			{
 				return dir;
 			}
 
-			var path = Environment.GetEnvironmentVariable("PATH");
-			if (string.IsNullOrEmpty(path))
-				return null;
-
-			var dirs = path.Split(';');
-			foreach (var pathDir in dirs)
+            foreach (var pathDir in s_pathContens)
 			{
 				if (File.Exists(Path.Combine(pathDir, fileFullName)))
 				{

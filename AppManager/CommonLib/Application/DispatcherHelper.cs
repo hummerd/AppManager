@@ -9,19 +9,24 @@ namespace CommonLib.Application
 	{
 		public static void DoEvents()
 		{
-			DispatcherFrame frame = new DispatcherFrame();
-
-			Dispatcher.CurrentDispatcher.BeginInvoke(
-				DispatcherPriority.Background,
-				(SendOrPostCallback)delegate(object arg)
-				{
-					DispatcherFrame fr = arg as DispatcherFrame;
-					fr.Continue = true;
-				}, 
-				frame);
-
-			Dispatcher.PushFrame(frame);
+            DoEvents(Dispatcher.CurrentDispatcher);
 		}
+
+        public static void DoEvents(Dispatcher dispatcher)
+        {
+            DispatcherFrame frame = new DispatcherFrame();
+
+            dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                (SendOrPostCallback)delegate(object arg)
+                {
+                    DispatcherFrame fr = arg as DispatcherFrame;
+                    fr.Continue = true;
+                },
+                frame);
+
+            Dispatcher.PushFrame(frame);
+        }
 
 		public static void InvokeBackground(Delegate method)
 		{
