@@ -391,11 +391,11 @@ namespace AppManager.Commands
                 return;
             }
 
-            var disp = Dispatcher.FromThread(_ActivationThread);
-            disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)DestroyActivationPanel);
-            disp.Invoke(DispatcherPriority.Normal, (SimpleMethod)DestroyActivationPanelWatcher);
-            disp.InvokeShutdown();
+            _ActivationDispatcher.Invoke(DispatcherPriority.Normal, (SimpleMethod)DestroyActivationPanel);
+            _ActivationDispatcher.Invoke(DispatcherPriority.Normal, (SimpleMethod)DestroyActivationPanelWatcher);
+            _ActivationDispatcher.InvokeShutdown();
             _ActivationThread = null;
+            _ActivationDispatcher = null;
         }
 
 		protected void CreateActivationPanel()
