@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <VersionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<VersionNumberString>1.0.25.35</VersionNumberString>
+	<VersionNumberString>1.3.6.1</VersionNumberString>
 	<VersionItems>
 		<VersionItem>
 			<Location>http://dimanick.ru/MySoft/AppManager/UpdateBeta/AppManager.exe.gzip</Location>
