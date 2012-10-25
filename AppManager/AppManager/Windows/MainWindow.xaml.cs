@@ -162,15 +162,15 @@ namespace AppManager
 			if (groupContent.IsSetUp)
 				return;
 
-			groupContent.DragHelper.DragHandlers.Add(_FileDrop);
-			groupContent.DragHelper.DragHandlers.Add(_AppTypeDrop);
+            //groupContent.DragHelper.DragHandlers.Add(_FileDrop);
+            //groupContent.DragHelper.DragHandlers.Add(_AppTypeDrop);
 
-			groupContent.DragHelper.DragStart += (s, e) => OnDragStarted();
-			groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
-			groupContent.DragHelper.PrepareItem += (s, e) => e.Value = new AppInfoView {
-               Source = _Controller.PrepareItem(e.Value as AppInfo),
-               ShowTitle = _Controller.WorkItem.Settings.ShowAppTitles,
-            };
+            //groupContent.DragHelper.DragStart += (s, e) => OnDragStarted();
+            //groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
+            //groupContent.DragHelper.PrepareItem += (s, e) => e.Value = new AppInfoView {
+            //   Source = _Controller.PrepareItem(e.Value as AppInfo),
+            //   ShowTitle = _Controller.WorkItem.Settings.ShowAppTitles,
+            //};
 
 			groupContent.ButtonClicked += (s, e) => 
 				_Controller.WorkItem.Commands.RunApp.Execute(
@@ -381,27 +381,32 @@ namespace AppManager
 			if (target == null)
 				return;
 
+            var input = (target as ItemsControl).InputHitTest(e.DropPoint) as FrameworkElement;
+            AppInfo appInfo = null;
+            if (input != null)
+            {
+                var appInfoView = input.DataContext as AppInfoView;
+                if (appInfoView != null)
+                {
+                    appInfo = appInfoView.Source;
+                }
+            }
+
 			//File dropped on app, so start it with such argument
 			if ((e.KeyState & DragDropKeyStates.AltKey) == DragDropKeyStates.AltKey)
 			{
-				var input = (target as ItemsControl).InputHitTest(e.DropPoint) as FrameworkElement;
-				if (input != null)
-				{
-					var appInfo = input.DataContext as AppInfoView;
-					if (appInfo != null)
-						_Controller.WorkItem.Commands.RunApp.Execute(
-							new AppStartParams(appInfo.Source) { Args = "\"" + e.Files[0] + "\"" }
-							);
-				}
+				if (appInfo != null)
+					_Controller.WorkItem.Commands.RunApp.Execute(
+						new AppStartParams(appInfo) { Args = "\"" + e.Files[0] + "\"" }
+						);
 			}
 			else // add new application
-			{
-			
+			{			
 				var appType = target.DataContext as AppTypeView;
 				if (appType == null)
 					return;
 
-				_Controller.AddFiles(appType.Source, e.Files);
+                _Controller.AddFiles(appType.Source, appInfo, e.Files);
 			}
 		}
 
