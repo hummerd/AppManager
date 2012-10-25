@@ -71,6 +71,28 @@ namespace AppManager.EntityCollection
 				Add(item);
 		}
 
+        public void AddRangeBefore(IEnumerable<TEntity> items, TEntity before)
+        {
+            TryIncreaseCapacity(items);
+
+            int ix = -1;
+            if (before != null)
+            {
+                ix = IndexOf(before);
+            }
+
+            if (ix < 0)
+            {
+                foreach (var item in items)
+                    Add(item);
+            }
+            else
+            {
+                foreach (var item in items)
+                    InsertItem(ix++, item);                
+            }
+        }
+
 		public TEntity FindBySource(TEntity search)
 		{
 			foreach (var item in this)

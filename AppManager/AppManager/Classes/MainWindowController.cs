@@ -149,12 +149,12 @@ namespace AppManager
 			appInfo.OpenFolder();
 		}
 		
-		public void AddFiles(AppType appType, string[] files)
+		public void AddFiles(AppType appType, AppInfo before, string[] files)
 		{
 			if (appType == null)
 				return;
 
-			appType.AppInfos.AddRange(FindApps(files));
+            appType.AppInfos.AddRangeBefore(FindApps(files), before);
 			_WorkItem.Commands.Save.Execute(null);
 		}
 
