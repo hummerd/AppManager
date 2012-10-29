@@ -124,7 +124,7 @@ namespace AppManager
 					ResetLastMove();
 					_LastMoved = ib;
 					_LastRect = new Rect(ib.TranslatePoint(new Point(0, 0), this), ib.RenderSize);
-					System.Diagnostics.Debug.WriteLine("rect set " + _LastRect);
+					//System.Diagnostics.Debug.WriteLine("rect set " + _LastRect);
 					new MoveAnimation(ib);
                     _HoverTimer.Start();
 				}
