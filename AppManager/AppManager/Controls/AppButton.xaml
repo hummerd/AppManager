@@ -50,6 +50,7 @@
 			Stretch="None"
             DockPanel.Dock="Top"
             HorizontalAlignment="Center"
+            IsHitTestVisible="False"
 			>
         </Image>
     </DockPanel>

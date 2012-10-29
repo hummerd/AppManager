@@ -162,15 +162,16 @@ namespace AppManager
 			if (groupContent.IsSetUp)
 				return;
 
-            //groupContent.DragHelper.DragHandlers.Add(_FileDrop);
-            //groupContent.DragHelper.DragHandlers.Add(_AppTypeDrop);
+            groupContent.DragHelper.DragHandlers.Add(_FileDrop);
+            groupContent.DragHelper.DragHandlers.Add(_AppTypeDrop);
 
-            //groupContent.DragHelper.DragStart += (s, e) => OnDragStarted();
-            //groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
-            //groupContent.DragHelper.PrepareItem += (s, e) => e.Value = new AppInfoView {
-            //   Source = _Controller.PrepareItem(e.Value as AppInfo),
-            //   ShowTitle = _Controller.WorkItem.Settings.ShowAppTitles,
-            //};
+            groupContent.DragHelper.DragStart += (s, e) => OnDragStarted();
+            groupContent.DragHelper.DragEnd += (s, e) => OnDragEnded();
+            groupContent.DragHelper.PrepareItem += (s, e) => e.Value = new AppInfoView
+            {
+                Source = _Controller.PrepareItem(e.Value as AppInfo),
+                ShowTitle = _Controller.WorkItem.Settings.ShowAppTitles,
+            };
 
 			groupContent.ButtonClicked += (s, e) => 
 				_Controller.WorkItem.Commands.RunApp.Execute(
