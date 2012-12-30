@@ -460,6 +460,9 @@ namespace AppManager.Commands
             {
                 if (_WndActivation != null)
                 {
+                    if (_WndActivation.WindowState == WindowState.Minimized)
+                        _WndActivation.WindowState = WindowState.Normal;
+
                     _WndActivation.Show();
                     _WndActivation.Topmost = false;
                     _WndActivation.Topmost = true;
