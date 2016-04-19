@@ -1,3 +1,5 @@
+# Application launcher for windows
+
 WPF tool to help you launch your programs easily.
 
 It uses .net 3.0, but is recommended to install .net 4.0(client profile) from here:
